@@ -2,9 +2,10 @@ using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class CharacterSpawner : MonoBehaviour
+public class Spawner : NetworkBehaviour
 {
     [System.Serializable]
     public class SpawnNode
@@ -79,11 +80,30 @@ public class CharacterSpawner : MonoBehaviour
     //몬스터 소환
     IEnumerator SpawnMonsterCoroutine()
     {
-        Monster go = Instantiate(monsterPrefab, playerMonsterMoveList[0].position,Quaternion.identity);
-        go.SetMoveTarget(playerMonsterMoveList);
-        GameManager.instance.AddMonster(go);
         yield return new WaitForSeconds(spawnTime);
+
+        if (IsClient)
+        {
+            MonsterSpawnServerRpc();
+        }else if(IsHost)
+        {
+            MonsterSpawn();
+        }
+
         StartCoroutine(SpawnMonsterCoroutine());
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void MonsterSpawnServerRpc()
+    {
+        MonsterSpawn();
+    }
+
+    private void MonsterSpawn()
+    {
+        Monster go = Instantiate(monsterPrefab, playerMonsterMoveList[0].position, Quaternion.identity);
+        //go.SetMoveTarget(playerMonsterMoveList);
+        GameManager.instance.AddMonster(go);
     }
 
 
