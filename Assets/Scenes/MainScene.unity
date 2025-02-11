@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff0a678a1f75f514e81fca494997b908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gamePlaySceneName: GamePlayScene
   startMatchingButton: {fileID: 1908723115}
   connectCodeButton: {fileID: 1231560878}
   joinCodeText: {fileID: 2093961024}
@@ -567,7 +568,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB79C\uB364 \uB9E4\uCE6D\n"
+  m_Text: "\uB79C\uB364 \uB9E4\uCE6D"
 --- !u!222 &933360048
 CanvasRenderer:
   m_ObjectHideFlags: 0

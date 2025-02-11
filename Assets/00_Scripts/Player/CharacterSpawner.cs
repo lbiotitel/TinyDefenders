@@ -25,7 +25,9 @@ public class CharacterSpawner : MonoBehaviour
     [SerializeField] private GameObject knightPrefab;
     [SerializeField] private Monster monsterPrefab;
 
-    public List<Transform> monsterSpawnPositionList = new List<Transform>();
+    public List<Transform> playerMonsterMoveList = new List<Transform>();
+    public List<Transform> friendMonsterMoveList = new List<Transform>();
+
     List<SpawnNode> spawnList = new List<SpawnNode>();
 
     private void Start()
@@ -39,7 +41,7 @@ public class CharacterSpawner : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            monsterSpawnPositionList.Add(transform.GetChild(i).transform);
+            playerMonsterMoveList.Add(transform.GetChild(i).transform);
         }
     }
 
@@ -67,8 +69,8 @@ public class CharacterSpawner : MonoBehaviour
     //몬스터 소환
     IEnumerator SpawnMonsterCoroutine()
     {
-        Monster go = Instantiate(monsterPrefab, monsterSpawnPositionList[0].position,Quaternion.identity);
-        go.SetMoveTarget(monsterSpawnPositionList);
+        Monster go = Instantiate(monsterPrefab, playerMonsterMoveList[0].position,Quaternion.identity);
+        go.SetMoveTarget(playerMonsterMoveList);
         GameManager.instance.AddMonster(go);
         yield return new WaitForSeconds(spawnTime);
         StartCoroutine(SpawnMonsterCoroutine());
