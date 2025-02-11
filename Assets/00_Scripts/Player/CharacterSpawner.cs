@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class CharacterSpawner : MonoBehaviour
 {
-    class SpawnNode
+    [System.Serializable]
+    public class SpawnNode
     {
         public Vector2 spawnPos;
         public bool isSpawned;
@@ -25,34 +26,43 @@ public class CharacterSpawner : MonoBehaviour
     [SerializeField] private GameObject knightPrefab;
     [SerializeField] private Monster monsterPrefab;
 
+
+    //둘다 나중에 private 으로
     public List<Transform> playerMonsterMoveList = new List<Transform>();
     public List<Transform> friendMonsterMoveList = new List<Transform>();
 
-    List<SpawnNode> spawnList = new List<SpawnNode>();
+    public List<SpawnNode> playerSpawnList = new List<SpawnNode>();
+    public List<SpawnNode> friendSpawnList = new List<SpawnNode>();
 
     private void Start()
     {
-        DrawGrid();
+        DrawGrid(transform.GetChild(1),ref playerSpawnList);
+        DrawGrid(transform.GetChild(0),ref friendSpawnList);
         InitMonsterSpawnPosition();
         StartCoroutine(SpawnMonsterCoroutine());
     }
 
     private void InitMonsterSpawnPosition()
     {
-        for (int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < transform.GetChild(1).childCount; i++)
         {
-            playerMonsterMoveList.Add(transform.GetChild(i).transform);
+            playerMonsterMoveList.Add(transform.GetChild(0).GetChild(i).transform);
+        }
+
+        for (int i = 0; i < transform.GetChild(0).childCount; i++)
+        {
+            friendMonsterMoveList.Add(transform.GetChild(1).GetChild(i).transform);
         }
     }
 
-    private void DrawGrid()
+    private void DrawGrid(Transform targetTransform,ref List<SpawnNode> spawnList)
     { 
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = targetTransform.GetComponent<SpriteRenderer>();
         float width = spriteRenderer.bounds.size.x;
         float height = spriteRenderer.bounds.size.y;
 
-        float xCount = transform.localScale.x / gridWidth;
-        float yCount = transform.localScale.y / gridHeight;
+        float xCount = targetTransform.localScale.x / gridWidth;
+        float yCount = targetTransform.localScale.y / gridHeight;
 
         for (int row = 0; row < gridHeight; row++)
         { 
@@ -61,7 +71,7 @@ public class CharacterSpawner : MonoBehaviour
                 float xPos = (-width / 2) + (col * xCount) + (xCount / 2);
                 float yPos = (height / 2) - (row * yCount) + (yCount / 2);
 
-                spawnList.Add(new SpawnNode(new Vector2(xPos, yPos + transform.localPosition.y - yCount),false));
+                spawnList.Add(new SpawnNode(new Vector2(xPos, yPos + targetTransform.localPosition.y - yCount),false));
             }
         }
     }
@@ -91,16 +101,17 @@ public class CharacterSpawner : MonoBehaviour
         int positionIndex = -1;
         GameObject go = Instantiate(knightPrefab);
 
-        for (int i = 0; i < spawnList.Count; i++)
+        for (int i = 0; i < playerSpawnList.Count; i++)
         {
-            if (spawnList[i].isSpawned == false)
+            if (playerSpawnList[i].isSpawned == false)
             {
                 positionIndex = i;
                 break;
             }
         }
 
-        go.transform.position = spawnList[positionIndex].spawnPos + new Vector2(0,0.1f);
-        spawnList[positionIndex].isSpawned = true;
+        go.transform.position = playerSpawnList[positionIndex].spawnPos + new Vector2(0,0.1f);
+        playerSpawnList[positionIndex].isSpawned = true;
+        Debug.Log(positionIndex);
     }
 }
