@@ -40,6 +40,8 @@ public class Monster : Entity
         if (hp <= 0)
         {
             isDead = true;
+            GameManager.instance.RemoveMonster(this);
+            GameManager.instance.GetGold(1);
             gameObject.layer = LayerMask.NameToLayer("Default");
             StartCoroutine(DeadCoroutine());
             AnimatorChange("DEAD",true);

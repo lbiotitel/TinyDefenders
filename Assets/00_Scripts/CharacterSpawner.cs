@@ -69,6 +69,7 @@ public class CharacterSpawner : MonoBehaviour
     {
         Monster go = Instantiate(monsterPrefab, monsterSpawnPositionList[0].position,Quaternion.identity);
         go.SetMoveTarget(monsterSpawnPositionList);
+        GameManager.instance.AddMonster(go);
         yield return new WaitForSeconds(spawnTime);
         StartCoroutine(SpawnMonsterCoroutine());
     }
@@ -77,6 +78,14 @@ public class CharacterSpawner : MonoBehaviour
     //캐릭터 소환
     public void Summon()
     {
+        if (GameManager.instance.gold < GameManager.instance.summonGold)
+        {
+            return;
+        }
+
+        GameManager.instance.gold -= GameManager.instance.summonGold;
+        GameManager.instance.summonGold += GameManager.instance.summonGoldInc;
+
         int positionIndex = -1;
         GameObject go = Instantiate(knightPrefab);
 
