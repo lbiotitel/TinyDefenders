@@ -2,6 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
@@ -19,6 +20,9 @@ public class NetManager : MonoBehaviour
     private Lobby currentLobby;
 
     [SerializeField] private Button startMatchingButton;
+    [SerializeField] private Button connectCodeButton;
+    [SerializeField] private Text joinCodeText;
+    [SerializeField] private InputField codeInputField;
 
 
     private async void Start()
@@ -29,6 +33,34 @@ public class NetManager : MonoBehaviour
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
         startMatchingButton.onClick.AddListener(() => StartMatching());
+        connectCodeButton.onClick.AddListener(() => JoinGameWithCode(codeInputField.text));
+    }
+
+    public async void JoinGameWithCode(string joinCode)
+    {
+        if (string.IsNullOrEmpty(joinCode))
+        {
+            Debug.Log("유효하지않은 코드입니다.");
+            return;
+        }
+
+        try {
+            JoinAllocation allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(
+                    allocation.RelayServer.IpV4,
+                    (ushort)allocation.RelayServer.Port,
+                    allocation.AllocationIdBytes,
+                    allocation.Key,
+                    allocation.HostConnectionData
+                );
+
+            StartClient();
+            Debug.Log("현재 코드의 방에 접속 완료");
+
+        } catch (LobbyServiceException e)
+        { 
+            Debug.Log("현재 코드의 방에 접속할 수 없습니다." + e);
+        }
     }
 
     public async void StartMatching()
@@ -100,6 +132,7 @@ public class NetManager : MonoBehaviour
         {
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(lobby.MaxPlayers);
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            joinCodeText.text = joinCode;
             Debug.Log("Relay 서버 할당 Join Code : " + joinCode);
         }
         catch (LobbyServiceException e)
