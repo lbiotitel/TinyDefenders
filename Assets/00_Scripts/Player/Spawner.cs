@@ -84,26 +84,46 @@ public class Spawner : NetworkBehaviour
 
         if (IsClient)
         {
-            MonsterSpawnServerRpc();
-        }else if(IsHost)
+            MonsterSpawnServerRpc(NetworkManager.Singleton.LocalClientId);
+        }else if(IsServer)
         {
-            MonsterSpawn();
+            MonsterSpawn(NetworkManager.Singleton.LocalClientId);
         }
 
         StartCoroutine(SpawnMonsterCoroutine());
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void MonsterSpawnServerRpc()
+    private void MonsterSpawnServerRpc(ulong clientId)
     {
-        MonsterSpawn();
+        MonsterSpawn(clientId);
     }
 
-    private void MonsterSpawn()
+    private void MonsterSpawn(ulong clientId)
     {
-        Monster go = Instantiate(monsterPrefab, playerMonsterMoveList[0].position, Quaternion.identity);
-        //go.SetMoveTarget(playerMonsterMoveList);
-        GameManager.instance.AddMonster(go);
+        Monster go = Instantiate(monsterPrefab);
+        NetworkObject networkObject = go.GetComponent<NetworkObject>();
+        networkObject.Spawn();
+        MonsterSpawnClientRpc(networkObject.NetworkObjectId,clientId);
+    }
+
+    [ClientRpc]
+    private void MonsterSpawnClientRpc(ulong networkObjectId,ulong clientId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.
+            TryGetValue(networkObjectId, out NetworkObject monsterNetworkObject))
+        {
+            if (clientId == NetworkManager.Singleton.LocalClientId)
+            {
+                monsterNetworkObject.transform.position = playerMonsterMoveList[0].position;
+                monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(playerMonsterMoveList);
+            }
+            else
+            {
+                monsterNetworkObject.transform.position = friendMonsterMoveList[0].position;
+                monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(friendMonsterMoveList);
+            }
+        }
     }
 
 
@@ -132,6 +152,5 @@ public class Spawner : NetworkBehaviour
 
         go.transform.position = playerSpawnList[positionIndex].spawnPos + new Vector2(0,0.1f);
         playerSpawnList[positionIndex].isSpawned = true;
-        Debug.Log(positionIndex);
     }
 }
