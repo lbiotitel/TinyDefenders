@@ -24,7 +24,7 @@ public class Spawner : NetworkBehaviour
     [SerializeField] private int gridHeight;
     [SerializeField] private float spawnTime;
 
-    [SerializeField] private GameObject knightPrefab;
+    [SerializeField] private Hero knightPrefab;
     [SerializeField] private Monster monsterPrefab;
 
 
@@ -77,6 +77,8 @@ public class Spawner : NetworkBehaviour
         }
     }
 
+
+    #region MonsterSpawn
     //몬스터 소환
     IEnumerator SpawnMonsterCoroutine()
     {
@@ -84,10 +86,10 @@ public class Spawner : NetworkBehaviour
 
         if (IsClient)
         {
-            MonsterSpawnServerRpc(NetworkManager.Singleton.LocalClientId);
+            MonsterSpawnServerRpc(GetLocalId());
         }else if(IsServer)
         {
-            MonsterSpawn(NetworkManager.Singleton.LocalClientId);
+            MonsterSpawn(GetLocalId());
         }
 
         StartCoroutine(SpawnMonsterCoroutine());
@@ -113,7 +115,7 @@ public class Spawner : NetworkBehaviour
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.
             TryGetValue(networkObjectId, out NetworkObject monsterNetworkObject))
         {
-            if (clientId == NetworkManager.Singleton.LocalClientId)
+            if (clientId == GetLocalId())
             {
                 monsterNetworkObject.transform.position = playerMonsterMoveList[0].position;
                 monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(playerMonsterMoveList);
@@ -125,32 +127,79 @@ public class Spawner : NetworkBehaviour
             }
         }
     }
+    #endregion
 
+
+    #region Hero spawn
+    private void HeroSpawn(ulong clientId)
+    {
+        Hero go = Instantiate(knightPrefab);
+        NetworkObject networkObject = go.GetComponent<NetworkObject>();
+        networkObject.Spawn();
+
+        if (clientId == GetLocalId())
+        {
+            int positionIndex = -1;
+
+            for (int i = 0; i < playerSpawnList.Count; i++)
+            {
+                if (playerSpawnList[i].isSpawned == false)
+                {
+                    positionIndex = i;
+                    break;
+                }
+            }
+
+            go.transform.position = playerSpawnList[positionIndex].spawnPos;
+        }
+        else {
+            int positionIndex = -1;
+
+            for (int i = 0; i < friendSpawnList.Count; i++)
+            {
+                if (friendSpawnList[i].isSpawned == false)
+                {
+                    positionIndex = i;
+                    break;
+                }
+            }
+
+            go.transform.position = friendSpawnList[positionIndex].spawnPos;
+        }    
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void HeroSpawnServerRpc(ulong cleintId)
+    {
+        HeroSpawn(cleintId);
+    }
 
     //캐릭터 소환
     public void Summon()
     {
-        if (GameManager.instance.gold < GameManager.instance.summonGold)
+        /*if (GameManager.instance.gold < GameManager.instance.summonGold)
         {
             return;
         }
 
         GameManager.instance.gold -= GameManager.instance.summonGold;
-        GameManager.instance.summonGold += GameManager.instance.summonGoldInc;
+        GameManager.instance.summonGold += GameManager.instance.summonGoldInc;*/
 
-        int positionIndex = -1;
-        GameObject go = Instantiate(knightPrefab);
-
-        for (int i = 0; i < playerSpawnList.Count; i++)
+        if (IsClient)
         {
-            if (playerSpawnList[i].isSpawned == false)
-            {
-                positionIndex = i;
-                break;
-            }
+            HeroSpawnServerRpc(GetLocalId());
         }
-
-        go.transform.position = playerSpawnList[positionIndex].spawnPos + new Vector2(0,0.1f);
-        playerSpawnList[positionIndex].isSpawned = true;
+        else if (IsServer)
+        {
+            HeroSpawn(GetLocalId());
+        }
     }
+
+    #endregion
+
+    private ulong GetLocalId()
+    {
+        return NetworkManager.Singleton.LocalClientId;
+    }
+
 }
