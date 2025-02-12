@@ -140,22 +140,30 @@ public class Spawner : NetworkBehaviour
         NetworkObject networkObject = go.GetComponent<NetworkObject>();
         networkObject.Spawn();
 
-        UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId);
+        HeroScriptable[] heroDatas = Resources.LoadAll<HeroScriptable>("HeroDatas");
+
+        HeroScriptable data = heroDatas[UnityEngine.Random.Range(0, heroDatas.Length)];
+
+        go.GetComponent<Hero>().InitHeroData(data.GetHeroData());
+
+        UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId,data.GetHeroData());
     }
 
 
     [ClientRpc]
-    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId,ulong clientId)
+    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId,ulong clientId,HeroData heroData)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject networkObject))
         {
             if (clientId == GetLocalId())
             {
                 SetHeroPosition(networkObject, ref playerSpawnList);
+                networkObject.GetComponent<Hero>().InitHeroData(heroData);
             }
             else
             {
                 SetHeroPosition(networkObject,ref friendSpawnList);
+                networkObject.GetComponent<Hero>().InitHeroData(heroData);
             }
         }
     }

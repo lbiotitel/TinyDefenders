@@ -1,17 +1,50 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class Hero : Entity
 {
+    [SerializeField] private Transform leftHand;
+    [SerializeField] private Transform rightHand;
+
+    [field: SerializeField] public int atk { get; set; }
     [field:SerializeField] public float attackRange { get; set; } = 1f;
     [field: SerializeField] public float attackSpeed { get; private set; } = 1.0f;
     [field: SerializeField] public LayerMask monsterLayer { get; private set; }
     public NetworkObject target { get; set; } = null;
+    [SerializeField] private HeroScriptable heroData;
 
-    public override void Start()
+
+    public override void Awake()
     {
-        base.Start();
+        base.Awake();
+    }
+
+    public void InitHeroData(HeroData data)
+    {
+        atk = data.heroAtk;
+        attackRange = data.heroAtkRange;
+        attackSpeed = data.heroAtkSpeed;
+        GetInitEntity(data.heroName);
+        InitEquipment(data.leftEquipmentName,data.rightEquipmentName);
+    }
+
+    private void InitEquipment(string leftEuipmentName, string rightEquipmentName)
+    {
+        if (leftEuipmentName != string.Empty)
+        { 
+            GameObject leftEquipment = Instantiate(Resources.Load<GameObject>("HeroEquipments/" + leftEuipmentName));
+            leftEquipment.transform.SetParent(leftHand);
+            leftEquipment.transform.localPosition = Vector3.zero;
+        }
+
+        if (rightEquipmentName != string.Empty)
+        {
+            GameObject rightEquipment = Instantiate(Resources.Load<GameObject>("HeroEquipments/" + rightEquipmentName));
+            rightEquipment.transform.SetParent(rightHand);
+            rightEquipment.transform.localPosition = Vector3.zero;
+        }
     }
 
 
@@ -47,8 +80,7 @@ public class Hero : Entity
             Monster monster = networkObject.GetComponent<Monster>();
             if (monster != null)
             {
-                if (monster.IsDead()) return;
-                monster.GetDamage(10);
+                monster.GetDamage(atk);
             }
         }
     }

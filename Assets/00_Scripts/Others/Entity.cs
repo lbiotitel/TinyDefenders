@@ -6,10 +6,15 @@ public class Entity : NetworkBehaviour
     protected Animator animator;
     protected SpriteRenderer spriteRenderer;
 
-    public virtual void Start()
+    public virtual void Awake()
     {
         animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
+
+    public void GetInitEntity(string controller)
+    {
+        animator.runtimeAnimatorController = Resources.Load<HeroScriptable>("HeroDatas/" + controller).runtimeAnimatorController;
     }
 
     protected void AnimatorChange(string name, bool trigger)

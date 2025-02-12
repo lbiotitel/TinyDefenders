@@ -19,10 +19,10 @@ public class Monster : Entity
     List<Transform> targetLists;
     private bool isDead = false;
 
-    public override void Start()
+    public override void Awake()
     {
         hp = maxHp;
-        base.Start();
+        base.Awake();
     }
 
     public void SetMoveTarget(List<Transform> targetLists)
