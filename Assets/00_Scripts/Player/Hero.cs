@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 public class Hero : Entity
@@ -6,7 +7,7 @@ public class Hero : Entity
     [field:SerializeField] public float attackRange { get; set; } = 1f;
     [field: SerializeField] public float attackSpeed { get; private set; } = 1.0f;
     [field: SerializeField] public LayerMask monsterLayer { get; private set; }
-    public Monster target { get; set; } = null;
+    public NetworkObject target { get; set; } = null;
 
     public override void Start()
     {
@@ -26,24 +27,29 @@ public class Hero : Entity
 
         if (enemiesInRange.Length > 0)
         {
-            target = enemiesInRange[0].transform.GetComponent<Monster>();
-            if(target.IsDead())return;
+            target = enemiesInRange[0].transform.GetComponent<NetworkObject>();
             if (attackSpeed >= 1.0f)
             {
                 attackSpeed = 0.0f;
-                AttackEnemy(target);
+                AnimatorChange("ATTACK", true);
+                AttackMonsterServerRpc(target.NetworkObjectId);
             }
         }
         else
             target = null;
     }
 
-
-    private void AttackEnemy(Monster enemy)
+    [ServerRpc(RequireOwnership = false)]
+    private void AttackMonsterServerRpc(ulong monsterId)
     {
-        if (enemy == null) return;
-        AnimatorChange("ATTACK",true);
-        enemy.GetDamage(10);
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(monsterId,out NetworkObject networkObject))
+        {
+            Monster monster = networkObject.GetComponent<Monster>();
+            if (monster != null)
+            {
+                monster.GetDamage(10);
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()

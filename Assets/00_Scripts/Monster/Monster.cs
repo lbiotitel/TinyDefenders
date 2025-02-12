@@ -34,19 +34,34 @@ public class Monster : Entity
     {
         if (isDead) return;
 
+        if (IsServer)
+        {
+            MonsterGetDamage(damage);
+        }
+        else if(IsClient)
+        {
+            UpdateClientRpc(damage);
+        }
+    }
+
+    private void MonsterGetDamage(int damage)
+    {
         hp -= damage;
         hpImage.fillAmount = ((float)hp / (float)maxHp);
         Instantiate(damageText, transform.position, Quaternion.identity).InitDamageText(damage);
-
         if (hp <= 0)
         {
             isDead = true;
-            GameManager.instance.RemoveMonster(this);
-            GameManager.instance.GetGold(1);
             gameObject.layer = LayerMask.NameToLayer("Default");
             StartCoroutine(DeadCoroutine());
-            AnimatorChange("DEAD",true);
+            AnimatorChange("DEAD", true);
         }
+    }
+
+    [ClientRpc]
+    private void UpdateClientRpc(int damage)
+    {
+        MonsterGetDamage(damage);
     }
 
     private void Update()
@@ -72,18 +87,6 @@ public class Monster : Entity
             yield return null;  
         }
 
-        if (IsServer)
-        { 
-            Destroy(this);
-        }
-        else{
-            DestroyServerRpc();
-        }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void DestroyServerRpc()
-    {
         Destroy(this);
     }
 
