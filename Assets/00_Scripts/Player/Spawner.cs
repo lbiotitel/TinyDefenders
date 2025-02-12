@@ -107,6 +107,8 @@ public class Spawner : NetworkBehaviour
         Monster go = Instantiate(monsterPrefab);
         NetworkObject networkObject = go.GetComponent<NetworkObject>();
         networkObject.Spawn();
+        GameManager.instance.AddMonster(go);
+
         MonsterSpawnClientRpc(networkObject.NetworkObjectId,clientId);
     }
 

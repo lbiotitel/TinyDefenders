@@ -28,7 +28,7 @@ public class MainUI : MonoBehaviour
     private void DrawMainUI()
     {
         monsterCountText.text = 
-            GameManager.instance.GetMonsterCount().ToString() + "/" + GameManager.instance.maxMonsterCount.ToString();
+            GameManager.instance.currentMonsterCount.ToString() + "/" + GameManager.instance.maxMonsterCount.ToString();
         summonGoldText.text = GameManager.instance.summonGold.ToString();
         currentGoldText.text = GameManager.instance.gold.ToString();
         summonGoldText.color = GameManager.instance.gold >= GameManager.instance.summonGold ? Color.white : Color.red;

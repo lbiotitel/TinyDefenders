@@ -47,6 +47,7 @@ public class Hero : Entity
             Monster monster = networkObject.GetComponent<Monster>();
             if (monster != null)
             {
+                if (monster.IsDead()) return;
                 monster.GetDamage(10);
             }
         }
