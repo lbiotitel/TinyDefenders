@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class Entity : MonoBehaviour
+public class Entity : NetworkBehaviour
 {
     protected Animator animator;
     protected SpriteRenderer spriteRenderer;

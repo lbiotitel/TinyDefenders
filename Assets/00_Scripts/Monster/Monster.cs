@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -71,8 +72,22 @@ public class Monster : Entity
             yield return null;  
         }
 
-        Destroy(gameObject);
+        if (IsServer)
+        { 
+            Destroy(this);
+        }
+        else{
+            DestroyServerRpc();
+        }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void DestroyServerRpc()
+    {
+        Destroy(this);
+    }
+
+    public bool IsDead() { return isDead; }
 
     private void MoveLogic()
     {

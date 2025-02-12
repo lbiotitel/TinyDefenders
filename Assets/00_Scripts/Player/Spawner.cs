@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Spawner : NetworkBehaviour
@@ -37,8 +38,8 @@ public class Spawner : NetworkBehaviour
 
     private void Start()
     {
-        DrawGrid(transform.GetChild(1),ref playerSpawnList);
-        DrawGrid(transform.GetChild(0),ref friendSpawnList);
+        DrawGrid(transform.GetChild(1),ref playerSpawnList,true);
+        DrawGrid(transform.GetChild(0),ref friendSpawnList,false);
         InitMonsterSpawnPosition();
         StartCoroutine(SpawnMonsterCoroutine());
     }
@@ -56,7 +57,7 @@ public class Spawner : NetworkBehaviour
         }
     }
 
-    private void DrawGrid(Transform targetTransform,ref List<SpawnNode> spawnList)
+    private void DrawGrid(Transform targetTransform,ref List<SpawnNode> spawnList,bool player)
     { 
         SpriteRenderer spriteRenderer = targetTransform.GetComponent<SpriteRenderer>();
         float width = spriteRenderer.bounds.size.x;
@@ -70,9 +71,9 @@ public class Spawner : NetworkBehaviour
             for(int col = 0; col < gridWidth; col++)
             {
                 float xPos = (-width / 2) + (col * xCount) + (xCount / 2);
-                float yPos = (height / 2) - (row * yCount) + (yCount / 2);
+                float yPos = ((player ? height : -height) / 2) + ((player ? -1 : 1) * (row * yCount)) + (yCount / 2);
 
-                spawnList.Add(new SpawnNode(new Vector2(xPos, yPos + targetTransform.localPosition.y - yCount),false));
+                spawnList.Add(new SpawnNode(new Vector2(xPos, yPos + targetTransform.localPosition.y - (player ? yCount : 0)),false));
             }
         }
     }
@@ -137,35 +138,41 @@ public class Spawner : NetworkBehaviour
         NetworkObject networkObject = go.GetComponent<NetworkObject>();
         networkObject.Spawn();
 
-        if (clientId == GetLocalId())
+        UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId);
+    }
+
+
+    [ClientRpc]
+    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId,ulong clientId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject networkObject))
         {
-            int positionIndex = -1;
-
-            for (int i = 0; i < playerSpawnList.Count; i++)
+            if (clientId == GetLocalId())
             {
-                if (playerSpawnList[i].isSpawned == false)
-                {
-                    positionIndex = i;
-                    break;
-                }
+                SetHeroPosition(networkObject, ref playerSpawnList);
             }
-
-            go.transform.position = playerSpawnList[positionIndex].spawnPos;
+            else
+            {
+                SetHeroPosition(networkObject,ref friendSpawnList);
+            }
         }
-        else {
-            int positionIndex = -1;
+    }
 
-            for (int i = 0; i < friendSpawnList.Count; i++)
+    private void SetHeroPosition(NetworkObject networkObject,ref List<SpawnNode> spawnPositionList)
+    {
+        int positionIndex = -1;
+
+        for (int i = 0; i < spawnPositionList.Count; i++)
+        {
+            if (spawnPositionList[i].isSpawned == false)
             {
-                if (friendSpawnList[i].isSpawned == false)
-                {
-                    positionIndex = i;
-                    break;
-                }
+                positionIndex = i;
+                spawnPositionList[i].isSpawned = true;
+                break;
             }
+        }
 
-            go.transform.position = friendSpawnList[positionIndex].spawnPos;
-        }    
+        networkObject.transform.position = spawnPositionList[positionIndex].spawnPos;
     }
 
     [ServerRpc(RequireOwnership = false)]

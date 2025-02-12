@@ -27,6 +27,7 @@ public class Hero : Entity
         if (enemiesInRange.Length > 0)
         {
             target = enemiesInRange[0].transform.GetComponent<Monster>();
+            if(target.IsDead())return;
             if (attackSpeed >= 1.0f)
             {
                 attackSpeed = 0.0f;
