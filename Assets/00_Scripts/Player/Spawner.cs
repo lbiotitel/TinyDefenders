@@ -72,23 +72,23 @@ public class Spawner : NetworkBehaviour
         yValue = yCount;
 
         Vector2 startPos = new Vector2(targetTransform.position.x - width / 2f,
-                                       targetTransform.position.y - height / 2f);
+                                       targetTransform.position.y + height / 2f);
 
         for (int row = 0; row < gridHeight; row++)
         {
             for (int col = 0; col < gridWidth; col++)
             {
-                float xPos = startPos.x + (col * xCount) + (xCount / 2f);
-                float yPos;
+                float xPos;
+                float yPos = startPos.y - (row * yCount) - (yCount / 2f);
 
                 if (player)
                 {
-                    yPos = targetTransform.position.y + height / 2f - (row * yCount) - (yCount / 2f);
+                    xPos = targetTransform.position.x + width / 2f - (col * xCount) - (xCount / 2f);
                     playerSpawnList.Add(new SpawnNode(new Vector2(xPos, yPos), false));
                 }
                 else
                 {
-                    yPos = targetTransform.position.y - height / 2f + (row * yCount) + (yCount / 2f);
+                    xPos = targetTransform.position.x - width / 2f + (col * xCount) + (xCount / 2f);
                     friendSpawnList.Add(new SpawnNode(new Vector2(xPos, yPos), false));
                 }
             }
