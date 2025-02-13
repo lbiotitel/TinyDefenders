@@ -9,28 +9,33 @@ public class HeroHolder : NetworkBehaviour
 {
     [SerializeField] private Hero heroPrefab;
     [SerializeField] private Transform heroRange;
+    [SerializeField] private Transform heroSquare;
+    [SerializeField] private Transform heroCircle;
 
     public string holderName;
     public List<Hero> heroList = new List<Hero>();
+    public int index;
     private HeroData heroData;
 
     private readonly Vector2[] oneHeroOffset = { Vector2.zero };
-    private readonly Vector2[] twoHeroOffset = 
+    private readonly Vector2[] twoHeroOffset =
     {
-        new Vector2(-0.08f,0.015f),
-        new Vector2(0.1f,-0.161f)
+        new Vector2(-0.084f,0.057f),
+        new Vector2(0.135f,-0.192f)
     };
     private readonly Vector2[] threeHeroOffset =
     {
-        new Vector2(0.05f,0.003f),
-        new Vector2(0.104f,-0.195f),
-        new Vector2(-0.082f,-0.133f)
+        new Vector2(-0.004f,0.113f),
+        new Vector2(0.182f,-0.086f),
+        new Vector2(-0.074f,-0.15f)
     };
 
     private void Start()
     {
         InitCollider();
         HideRange();
+        HideCircle();
+        HideSquare();
     }
 
     private void InitCollider()
@@ -38,7 +43,15 @@ public class HeroHolder : NetworkBehaviour
         BoxCollider2D collider = gameObject.AddComponent<BoxCollider2D>();
         collider.isTrigger = true;
         collider.size = new Vector2(Spawner.xValue, Spawner.yValue);
+        heroSquare.GetComponent<SpriteRenderer>().size = collider.size;
     }
+
+
+    public void ShowCircle() { heroCircle.gameObject.SetActive(true); }
+    public void ShowSquare() { heroSquare.gameObject.SetActive(true); } 
+    public void HideCircle() { heroCircle.gameObject.SetActive(false); }
+    public void HideSquare() { heroSquare.gameObject.SetActive(false); }
+
 
     public void ShowRange()
     {
@@ -64,6 +77,16 @@ public class HeroHolder : NetworkBehaviour
         if (IsServer)
         {
             HeroSpawn(GetLocalId(), heroData);
+        }
+    }
+
+    public void SwapPosition(HeroHolder newHeroHolder)
+    {
+        Vector2[] pos = GetHeroOffset();
+
+        for (int i = 0; i < heroList.Count; i++)
+        {
+            heroList[i].SwapPosition(newHeroHolder,pos,i);
         }
     }
 

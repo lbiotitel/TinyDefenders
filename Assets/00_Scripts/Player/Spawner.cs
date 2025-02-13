@@ -25,13 +25,13 @@ public class Spawner : NetworkBehaviour
 
     [SerializeField] private HeroHolder heroHolderPrefab;
     [SerializeField] private Monster monsterPrefab;
-
+    [SerializeField] private GameObject test;
 
     private List<Transform> playerMonsterMoveList = new List<Transform>();
     private List<Transform> friendMonsterMoveList = new List<Transform>();
 
-    private List<SpawnNode> playerSpawnList = new List<SpawnNode>();
-    private List<SpawnNode> friendSpawnList = new List<SpawnNode>();
+    private static List<SpawnNode> playerSpawnList = new List<SpawnNode>();
+    private static List<SpawnNode> friendSpawnList = new List<SpawnNode>();
 
     private Dictionary<string, HeroHolder> heroHolders = new Dictionary<string, HeroHolder>();
 
@@ -39,11 +39,12 @@ public class Spawner : NetworkBehaviour
 
     private void Start()
     {
-        DrawGrid(transform.GetChild(1), ref playerSpawnList, true);
-        DrawGrid(transform.GetChild(0), ref friendSpawnList, false);
+        DrawGrid(transform.GetChild(1), true);
+        DrawGrid(transform.GetChild(0), false);
         InitMonsterSpawnPosition();
         StartCoroutine(SpawnMonsterCoroutine());
     }
+
 
     private void InitMonsterSpawnPosition()
     {
@@ -58,29 +59,54 @@ public class Spawner : NetworkBehaviour
         }
     }
 
-    private void DrawGrid(Transform targetTransform, ref List<SpawnNode> spawnList, bool player)
+    private void DrawGrid(Transform targetTransform, bool player)
     {
         SpriteRenderer spriteRenderer = targetTransform.GetComponent<SpriteRenderer>();
         float width = spriteRenderer.bounds.size.x;
         float height = spriteRenderer.bounds.size.y;
 
-        float xCount = targetTransform.localScale.x / gridWidth;
-        float yCount = targetTransform.localScale.y / gridHeight;
+        float xCount = width / gridWidth;
+        float yCount = height / gridHeight;
 
         xValue = xCount;
         yValue = yCount;
+
+        Vector2 startPos = new Vector2(targetTransform.position.x - width / 2f,
+                                       targetTransform.position.y - height / 2f);
 
         for (int row = 0; row < gridHeight; row++)
         {
             for (int col = 0; col < gridWidth; col++)
             {
-                float xPos = (-width / 2) + (col * xCount) + (xCount / 2);
-                float yPos = ((player ? height : -height) / 2) + ((player ? -1 : 1) * (row * yCount)) + (yCount / 2);
+                float xPos = startPos.x + (col * xCount) + (xCount / 2f);
+                float yPos;
 
-                spawnList.Add(new SpawnNode(new Vector2(xPos, yPos + targetTransform.localPosition.y - (player ? yCount : 0)), false));
+                if (player)
+                {
+                    yPos = targetTransform.position.y + height / 2f - (row * yCount) - (yCount / 2f);
+                    playerSpawnList.Add(new SpawnNode(new Vector2(xPos, yPos), false));
+                }
+                else
+                {
+                    yPos = targetTransform.position.y - height / 2f + (row * yCount) + (yCount / 2f);
+                    friendSpawnList.Add(new SpawnNode(new Vector2(xPos, yPos), false));
+                }
             }
         }
     }
+
+    public static void HeroHolderSwap(HeroHolder heroHolder1, HeroHolder heroHolder2)
+    {
+        heroHolder1.SwapPosition(heroHolder2);
+        heroHolder2.SwapPosition(heroHolder1);
+
+        List<Hero> heroList1 = new List<Hero>(heroHolder1.heroList);
+        List<Hero> heroList2 = new List<Hero>(heroHolder2.heroList);
+
+        heroHolder1.heroList = new List<Hero>(heroList2);
+        heroHolder2.heroList = new List<Hero>(heroList1);
+    }
+
 
 
     #region MonsterSpawn
@@ -206,7 +232,9 @@ public class Spawner : NetworkBehaviour
             }
         }
 
-        networkObject.transform.position = spawnPositionList[positionIndex].spawnPos;
+        HeroHolder heroHolder = networkObject.GetComponent<HeroHolder>();
+        heroHolder.transform.position = spawnPositionList[positionIndex].spawnPos;
+        heroHolder.index = positionIndex;
     }
 
     [ServerRpc(RequireOwnership = false)]

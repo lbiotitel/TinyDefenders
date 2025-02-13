@@ -8,13 +8,14 @@ public class Hero : Entity
     [SerializeField] private Transform leftHand;
     [SerializeField] private Transform rightHand;
     [SerializeField] private HeroScriptable heroData;
+    private HeroHolder heroHolder;
+    private bool isMove = false;
 
     [field: SerializeField] public int atk { get; set; }
     [field:SerializeField] public float attackRange { get; set; } = 1f;
     [field: SerializeField] public float attackSpeed { get; private set; } = 1.0f;
     [field: SerializeField] public LayerMask monsterLayer { get; private set; }
     public NetworkObject target { get; set; } = null;
-    private HeroHolder heroHolder;
 
     public override void Awake()
     {
@@ -51,7 +52,53 @@ public class Hero : Entity
 
     private void Update()
     {
+        if (isMove) return;
         CheckForEnemies();
+    }
+
+    public void SwapPosition(HeroHolder target, Vector2[] targetPos,int index)
+    {
+        isMove = true;
+        AnimatorChange("MOVE",false);
+
+        heroHolder = target;
+        transform.SetParent(target.transform);
+
+        int sign = (int)Mathf.Sign(targetPos[index].x - transform.localPosition.x);
+
+        switch (sign)
+        {
+            case -1:
+                transform.Rotate(0,180,0);
+                break;
+            case 1:
+                transform.Rotate(0,-180,0);
+                break;
+        }
+
+        StartCoroutine(SwapCoroutine(targetPos[index]));
+    }
+
+    private IEnumerator SwapCoroutine(Vector2 target)
+    {
+        float current = 0.0f;
+        float percent = 0.0f;
+        Vector2 startPos = transform.localPosition;
+        Vector2 endPos = target;
+
+        while (percent < 1.0f)
+        {
+            current += Time.deltaTime;
+            percent = current / 0.5f;
+
+            Vector2 lerpPos = Vector2.Lerp(startPos,endPos,percent);
+            transform.localPosition = lerpPos;
+            yield return null;
+        }
+
+        isMove = false;
+        transform.Rotate(0, 180, 0);
+        AnimatorChange("IDLE", false);
     }
 
     private void CheckForEnemies()

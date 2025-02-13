@@ -27,9 +27,11 @@ public class Entity : NetworkBehaviour
         if (trigger)
         {
             animator.SetTrigger(name);
+            return;
         }
-        else{
-            animator.SetBool(name,true);
-        }
+
+        animator.SetBool("IDLE", false);
+        animator.SetBool("MOVE", false);
+        animator.SetBool(name, true);
     }
 }
