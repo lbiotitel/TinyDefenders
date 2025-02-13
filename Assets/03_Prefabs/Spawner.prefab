@@ -138,12 +138,9 @@ MonoBehaviour:
   gridWidth: 6
   gridHeight: 3
   spawnTime: 1
+  heroHolderPrefab: {fileID: 7155780433603239829, guid: e9cc0bda5bfa4264e8a35258cbae11ef, type: 3}
   knightPrefab: {fileID: 860972043160866581, guid: 510e3d43739a4c4419eba2d1caaaddf9, type: 3}
   monsterPrefab: {fileID: 78768045178406000, guid: 31e34304ed3d4994fb94a450dc7cf39f, type: 3}
-  playerMonsterMoveList: []
-  friendMonsterMoveList: []
-  playerSpawnList: []
-  friendSpawnList: []
 --- !u!1 &4700033814892124418
 GameObject:
   m_ObjectHideFlags: 0

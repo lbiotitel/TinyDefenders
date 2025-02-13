@@ -1,9 +1,7 @@
-using NUnit.Framework;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Spawner : NetworkBehaviour
@@ -15,7 +13,7 @@ public class Spawner : NetworkBehaviour
         public bool isSpawned;
 
         public SpawnNode(Vector2 spawnPos, bool isSpawned)
-        { 
+        {
             this.spawnPos = spawnPos;
             this.isSpawned = isSpawned;
         }
@@ -25,21 +23,24 @@ public class Spawner : NetworkBehaviour
     [SerializeField] private int gridHeight;
     [SerializeField] private float spawnTime;
 
-    [SerializeField] private Hero knightPrefab;
+    [SerializeField] private HeroHolder heroHolderPrefab;
     [SerializeField] private Monster monsterPrefab;
 
 
-    //둘다 나중에 private 으로
-    public List<Transform> playerMonsterMoveList = new List<Transform>();
-    public List<Transform> friendMonsterMoveList = new List<Transform>();
+    private List<Transform> playerMonsterMoveList = new List<Transform>();
+    private List<Transform> friendMonsterMoveList = new List<Transform>();
 
-    public List<SpawnNode> playerSpawnList = new List<SpawnNode>();
-    public List<SpawnNode> friendSpawnList = new List<SpawnNode>();
+    private List<SpawnNode> playerSpawnList = new List<SpawnNode>();
+    private List<SpawnNode> friendSpawnList = new List<SpawnNode>();
+
+    private Dictionary<string, HeroHolder> heroHolders = new Dictionary<string, HeroHolder>();
+
+    public static float xValue, yValue;
 
     private void Start()
     {
-        DrawGrid(transform.GetChild(1),ref playerSpawnList,true);
-        DrawGrid(transform.GetChild(0),ref friendSpawnList,false);
+        DrawGrid(transform.GetChild(1), ref playerSpawnList, true);
+        DrawGrid(transform.GetChild(0), ref friendSpawnList, false);
         InitMonsterSpawnPosition();
         StartCoroutine(SpawnMonsterCoroutine());
     }
@@ -57,8 +58,8 @@ public class Spawner : NetworkBehaviour
         }
     }
 
-    private void DrawGrid(Transform targetTransform,ref List<SpawnNode> spawnList,bool player)
-    { 
+    private void DrawGrid(Transform targetTransform, ref List<SpawnNode> spawnList, bool player)
+    {
         SpriteRenderer spriteRenderer = targetTransform.GetComponent<SpriteRenderer>();
         float width = spriteRenderer.bounds.size.x;
         float height = spriteRenderer.bounds.size.y;
@@ -66,14 +67,17 @@ public class Spawner : NetworkBehaviour
         float xCount = targetTransform.localScale.x / gridWidth;
         float yCount = targetTransform.localScale.y / gridHeight;
 
+        xValue = xCount;
+        yValue = yCount;
+
         for (int row = 0; row < gridHeight; row++)
-        { 
-            for(int col = 0; col < gridWidth; col++)
+        {
+            for (int col = 0; col < gridWidth; col++)
             {
                 float xPos = (-width / 2) + (col * xCount) + (xCount / 2);
                 float yPos = ((player ? height : -height) / 2) + ((player ? -1 : 1) * (row * yCount)) + (yCount / 2);
 
-                spawnList.Add(new SpawnNode(new Vector2(xPos, yPos + targetTransform.localPosition.y - (player ? yCount : 0)),false));
+                spawnList.Add(new SpawnNode(new Vector2(xPos, yPos + targetTransform.localPosition.y - (player ? yCount : 0)), false));
             }
         }
     }
@@ -88,7 +92,8 @@ public class Spawner : NetworkBehaviour
         if (IsClient)
         {
             MonsterSpawnServerRpc(GetLocalId());
-        }else if(IsServer)
+        }
+        else if (IsServer)
         {
             MonsterSpawn(GetLocalId());
         }
@@ -109,11 +114,11 @@ public class Spawner : NetworkBehaviour
         networkObject.Spawn();
         GameManager.instance.AddMonster(go);
 
-        MonsterSpawnClientRpc(networkObject.NetworkObjectId,clientId);
+        MonsterSpawnClientRpc(networkObject.NetworkObjectId, clientId);
     }
 
     [ClientRpc]
-    private void MonsterSpawnClientRpc(ulong networkObjectId,ulong clientId)
+    private void MonsterSpawnClientRpc(ulong networkObjectId, ulong clientId)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.
             TryGetValue(networkObjectId, out NetworkObject monsterNetworkObject))
@@ -136,39 +141,57 @@ public class Spawner : NetworkBehaviour
     #region Hero spawn
     private void HeroSpawn(ulong clientId)
     {
-        Hero go = Instantiate(knightPrefab);
-        NetworkObject networkObject = go.GetComponent<NetworkObject>();
-        networkObject.Spawn();
-
         HeroScriptable[] heroDatas = Resources.LoadAll<HeroScriptable>("HeroDatas");
 
         HeroScriptable data = heroDatas[UnityEngine.Random.Range(0, heroDatas.Length)];
 
-        go.GetComponent<Hero>().InitHeroData(data.GetHeroData());
+        bool getHero = false;
+       
 
-        UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId,data.GetHeroData());
+        foreach (var dd in heroHolders)
+        {
+            if (dd.Key.Contains(IsServer ? "HOST": "CLIENT"))
+            {
+                if (dd.Value.heroList.Count < 3 && dd.Value.holderName == data.heroName)
+                {
+                    dd.Value.SpawnHero(data.GetHeroData());
+                    getHero = true;
+                    break;
+                }
+            }
+        }
+
+        if (!getHero)
+        {
+            HeroHolder heroHolder = Instantiate(heroHolderPrefab);
+            NetworkObject networkObject = heroHolder.GetComponent<NetworkObject>();
+            networkObject.Spawn();
+            string temp = IsServer ? "HOST" : "CLIENT";
+            heroHolders.Add(temp + heroHolders.Count.ToString(), heroHolder);
+
+            UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId, data.GetHeroData());
+        }
     }
 
 
     [ClientRpc]
-    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId,ulong clientId,HeroData heroData)
+    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId, ulong clientId, HeroData heroData)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject networkObject))
         {
             if (clientId == GetLocalId())
             {
                 SetHeroPosition(networkObject, ref playerSpawnList);
-                networkObject.GetComponent<Hero>().InitHeroData(heroData);
             }
             else
             {
-                SetHeroPosition(networkObject,ref friendSpawnList);
-                networkObject.GetComponent<Hero>().InitHeroData(heroData);
+                SetHeroPosition(networkObject, ref friendSpawnList);
             }
+            networkObject.GetComponent<HeroHolder>().SpawnHero(heroData);
         }
     }
 
-    private void SetHeroPosition(NetworkObject networkObject,ref List<SpawnNode> spawnPositionList)
+    private void SetHeroPosition(NetworkObject networkObject, ref List<SpawnNode> spawnPositionList)
     {
         int positionIndex = -1;
 
