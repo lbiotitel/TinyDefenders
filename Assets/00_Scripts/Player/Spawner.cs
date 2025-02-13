@@ -146,11 +146,12 @@ public class Spawner : NetworkBehaviour
         HeroScriptable data = heroDatas[UnityEngine.Random.Range(0, heroDatas.Length)];
 
         bool getHero = false;
-       
+
+        string temp = clientId == 0 ? "HOST" : "CLIENT";
 
         foreach (var dd in heroHolders)
         {
-            if (dd.Key.Contains(IsServer ? "HOST": "CLIENT"))
+            if (dd.Key.Contains(temp))
             {
                 if (dd.Value.heroList.Count < 3 && dd.Value.holderName == data.heroName)
                 {
@@ -166,7 +167,7 @@ public class Spawner : NetworkBehaviour
             HeroHolder heroHolder = Instantiate(heroHolderPrefab);
             NetworkObject networkObject = heroHolder.GetComponent<NetworkObject>();
             networkObject.Spawn();
-            string temp = IsServer ? "HOST" : "CLIENT";
+       
             heroHolders.Add(temp + heroHolders.Count.ToString(), heroHolder);
 
             UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId, data.GetHeroData());

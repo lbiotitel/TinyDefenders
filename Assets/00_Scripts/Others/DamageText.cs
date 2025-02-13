@@ -8,6 +8,7 @@ public class DamageText : MonoBehaviour
     [SerializeField] private float riseDuration = 1.0f;
     [SerializeField] private float fadeDuration = 1.0f;
     [SerializeField] private Vector3 offset = new Vector3(0, 2, 0);
+    [SerializeField] private float randX;
     [SerializeField] private TextMeshPro damageText;
     private Color textColor;
 
@@ -22,6 +23,7 @@ public class DamageText : MonoBehaviour
 
     IEnumerator ShowAndFade()
     {
+        offset.x = UnityEngine.Random.Range(-randX,randX);
         Vector3 startPosition = transform.position;
         Vector3 endPosition = startPosition + offset;
 
