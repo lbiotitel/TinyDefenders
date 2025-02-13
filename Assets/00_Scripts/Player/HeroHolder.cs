@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -7,10 +8,11 @@ using UnityEngine.Rendering;
 public class HeroHolder : NetworkBehaviour
 {
     [SerializeField] private Hero heroPrefab;
-
+    [SerializeField] private Transform heroRange;
 
     public string holderName;
     public List<Hero> heroList = new List<Hero>();
+    private HeroData heroData;
 
     private readonly Vector2[] oneHeroOffset = { Vector2.zero };
     private readonly Vector2[] twoHeroOffset = 
@@ -28,6 +30,7 @@ public class HeroHolder : NetworkBehaviour
     private void Start()
     {
         InitCollider();
+        HideRange();
     }
 
     private void InitCollider()
@@ -37,12 +40,26 @@ public class HeroHolder : NetworkBehaviour
         collider.size = new Vector2(Spawner.xValue, Spawner.yValue);
     }
 
+    public void ShowRange()
+    {
+        float range = heroData.heroAtkRange;
+        heroRange.localScale = Vector2.one * range * 2;
+
+        heroRange.gameObject.SetActive(true);
+    }
+
+    public void HideRange()
+    {
+        heroRange.gameObject.SetActive(false);
+        heroRange.localScale = Vector2.zero;
+    }
 
     public void SpawnHero(HeroData heroData)
     {
         if (heroList.Count == 0)
         {
             holderName = heroData.heroName;
+            this.heroData = heroData;
         }
         if (IsServer)
         {
@@ -86,8 +103,9 @@ public class HeroHolder : NetworkBehaviour
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject networkObject))
         {
             Hero hero = networkObject.GetComponent<Hero>();
+
             heroList.Add(hero);
-            networkObject.GetComponent<Hero>().InitHeroData(heroData);
+            networkObject.GetComponent<Hero>().InitHeroData(heroData,this);
             ClientSetPosition();
         }
     }

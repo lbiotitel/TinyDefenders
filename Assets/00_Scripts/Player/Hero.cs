@@ -7,25 +7,26 @@ public class Hero : Entity
 {
     [SerializeField] private Transform leftHand;
     [SerializeField] private Transform rightHand;
+    [SerializeField] private HeroScriptable heroData;
 
     [field: SerializeField] public int atk { get; set; }
     [field:SerializeField] public float attackRange { get; set; } = 1f;
     [field: SerializeField] public float attackSpeed { get; private set; } = 1.0f;
     [field: SerializeField] public LayerMask monsterLayer { get; private set; }
     public NetworkObject target { get; set; } = null;
-    [SerializeField] private HeroScriptable heroData;
-
+    private HeroHolder heroHolder;
 
     public override void Awake()
     {
         base.Awake();
     }
 
-    public void InitHeroData(HeroData data)
+    public void InitHeroData(HeroData data,HeroHolder heroHolder)
     {
         atk = data.heroAtk;
         attackRange = data.heroAtkRange;
         attackSpeed = data.heroAtkSpeed;
+        this.heroHolder = heroHolder;
         GetInitEntity(data.heroName);
         InitEquipment(data.leftEquipmentName,data.rightEquipmentName);
     }
@@ -55,7 +56,9 @@ public class Hero : Entity
 
     private void CheckForEnemies()
     {
-        Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(transform.position,attackRange, monsterLayer);
+        Collider2D[] enemiesInRange =
+            Physics2D.OverlapCircleAll(heroHolder.transform.position,attackRange, monsterLayer);
+
         attackSpeed += Time.deltaTime;
 
         if (enemiesInRange.Length > 0)
@@ -83,11 +86,5 @@ public class Hero : Entity
                 monster.GetDamage(atk);
             }
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
