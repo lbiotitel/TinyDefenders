@@ -17,6 +17,11 @@ public class Entity : NetworkBehaviour
         animator.runtimeAnimatorController = Resources.Load<HeroScriptable>("HeroDatas/" + controller).runtimeAnimatorController;
     }
 
+    public void SortingOrderChange(int value)
+    {
+        spriteRenderer.sortingOrder = value;
+    }
+       
     protected void AnimatorChange(string name, bool trigger)
     {
         if (trigger)
