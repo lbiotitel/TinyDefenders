@@ -62,9 +62,11 @@ public class Hero : Entity
         AnimatorChange("MOVE",false);
 
         heroHolder = target;
-        transform.SetParent(target.transform);
 
-        int sign = (int)Mathf.Sign(targetPos[index].x - transform.localPosition.x);
+        if (IsServer)
+            transform.parent = target.transform;
+
+        int sign = (int)Mathf.Sign(targetPos[index].x - transform.position.x);
 
         switch (sign)
         {
@@ -83,7 +85,7 @@ public class Hero : Entity
     {
         float current = 0.0f;
         float percent = 0.0f;
-        Vector2 startPos = transform.localPosition;
+        Vector2 startPos = transform.position;
         Vector2 endPos = target;
 
         while (percent < 1.0f)
@@ -92,7 +94,7 @@ public class Hero : Entity
             percent = current / 0.5f;
 
             Vector2 lerpPos = Vector2.Lerp(startPos,endPos,percent);
-            transform.localPosition = lerpPos;
+            transform.position = lerpPos;
             yield return null;
         }
 

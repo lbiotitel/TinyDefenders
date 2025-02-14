@@ -13,9 +13,9 @@ public class HeroHolder : NetworkBehaviour
     [SerializeField] private Transform heroCircle;
 
     public string holderName;
+    public string holderId;
     public List<Hero> heroList = new List<Hero>();
-    public int index;
-    private HeroData heroData;
+    public HeroData heroData;
 
     private readonly Vector2[] oneHeroOffset = { Vector2.zero };
     private readonly Vector2[] twoHeroOffset =
@@ -42,7 +42,7 @@ public class HeroHolder : NetworkBehaviour
     {
         BoxCollider2D collider = gameObject.AddComponent<BoxCollider2D>();
         collider.isTrigger = true;
-        collider.size = new Vector2(Spawner.xValue, Spawner.yValue);
+        collider.size = new Vector2(Spawner.instance.xValue, Spawner.instance.yValue);
         heroSquare.GetComponent<SpriteRenderer>().size = collider.size;
     }
 
@@ -82,7 +82,15 @@ public class HeroHolder : NetworkBehaviour
 
     public void SwapPosition(HeroHolder newHeroHolder)
     {
-        Vector2[] pos = GetHeroOffset();
+        Vector2[] offset = GetHeroOffset();
+
+        Vector2[] pos = new Vector2[offset.Length];
+
+        for (int i = 0; i < pos.Length; i++)
+        {
+            Vector2 worldPosition = newHeroHolder.transform.TransformPoint(offset[i]);
+            pos[i] = worldPosition;
+        }
 
         for (int i = 0; i < heroList.Count; i++)
         {
@@ -96,7 +104,7 @@ public class HeroHolder : NetworkBehaviour
         NetworkObject networkObject = hero.GetComponent<NetworkObject>();
         networkObject.Spawn();
 
-        hero.transform.SetParent(transform);
+        hero.transform.parent = this.transform;
 
         UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId,clientId, data);
     }

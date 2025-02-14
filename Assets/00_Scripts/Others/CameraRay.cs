@@ -89,7 +89,7 @@ public class CameraRay : MonoBehaviour
         else
         {
             moveHolder.HideSquare();
-            Spawner.HeroHolderSwap(heroHolder,moveHolder);
+            Spawner.instance.HeroHolderSwap(heroHolder.holderId,moveHolder.holderId);
         }
 
         if (heroHolder != null)
