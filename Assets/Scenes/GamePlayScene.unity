@@ -812,6 +812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1d999f23a8f4947b80d3ef1e978201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &590148352
 GameObject:
   m_ObjectHideFlags: 0
@@ -1877,10 +1878,6 @@ PrefabInstance:
     - target: {fileID: 6758941569214711903, guid: e9d5c1d6be3390344a9f143792a22efa, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3028626546
-      objectReference: {fileID: 0}
-    - target: {fileID: 6758941569214711903, guid: e9d5c1d6be3390344a9f143792a22efa, type: 3}
-      propertyPath: InScenePlacedSourceGlobalObjectIdHash
-      value: 1757330749
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

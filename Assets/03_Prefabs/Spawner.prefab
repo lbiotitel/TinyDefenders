@@ -109,8 +109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3566201777
-  InScenePlacedSourceGlobalObjectIdHash: 1575660397
+  GlobalObjectIdHash: 3028626546
+  InScenePlacedSourceGlobalObjectIdHash: 1757330749
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -141,6 +141,8 @@ MonoBehaviour:
   heroHolderPrefab: {fileID: 7155780433603239829, guid: e9cc0bda5bfa4264e8a35258cbae11ef, type: 3}
   monsterPrefab: {fileID: 78768045178406000, guid: 31e34304ed3d4994fb94a450dc7cf39f, type: 3}
   test: {fileID: 1391737816519479287, guid: 16c0d2e199739aa43b50daf6553d25e0, type: 3}
+  xValue: 0
+  yValue: 0
 --- !u!1 &2818964637150591047
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,7 +293,7 @@ Transform:
   m_GameObject: {fileID: 7046750816589910558}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.3, y: 0, z: 0.0055103186}
+  m_LocalPosition: {x: -2.3, y: 0, z: 0.0055103186}
   m_LocalScale: {x: 4, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -382,7 +384,7 @@ Transform:
   m_GameObject: {fileID: 7109560841869261201}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.3, y: 0, z: 0.0055103186}
+  m_LocalPosition: {x: 2.3, y: 0, z: 0.0055103186}
   m_LocalScale: {x: 4, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

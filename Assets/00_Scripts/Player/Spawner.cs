@@ -111,7 +111,7 @@ public class Spawner : NetworkBehaviour
     {
         if (IsServer)
         {
-            HeroHolderSwapLogicClientRpc(strHeroHolder1, strHeroHolder2);
+            HeroHolderSwapClient(strHeroHolder1, strHeroHolder2);
         }
         else if (IsClient)
         {
