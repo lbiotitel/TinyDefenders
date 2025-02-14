@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class CameraRay : MonoBehaviour
+public class CameraRay : NetworkBehaviour
 {
     private Camera cam;
     HeroHolder heroHolder = null;
@@ -48,6 +49,14 @@ public class CameraRay : MonoBehaviour
         if (hit.collider != null)
         {
             heroHolder = hit.collider.GetComponent<HeroHolder>();
+
+            bool isOwn = false;
+
+            ulong value = NetworkManager.Singleton.LocalClientId;
+            if(value == 0) isOwn = heroHolder.holderId.Contains("HOST");
+            else if(value == 1) isOwn = heroHolder.holderId.Contains("CLIENT");
+
+            if (!isOwn) heroHolder = null;
         }
     }
 
@@ -73,6 +82,7 @@ public class CameraRay : MonoBehaviour
 
     private void MouseButtonUp()
     {
+        if (heroHolder == null) return;
         if (moveHolder == null)
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);

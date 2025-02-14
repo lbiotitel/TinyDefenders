@@ -61,10 +61,10 @@ public class Hero : Entity
         isMove = true;
         AnimatorChange("MOVE",false);
 
-        heroHolder = target;
-
         if (IsServer)
             transform.parent = target.transform;
+
+        heroHolder = target;
 
         int sign = (int)Mathf.Sign(targetPos[index].x - transform.position.x);
 
@@ -81,12 +81,12 @@ public class Hero : Entity
         StartCoroutine(SwapCoroutine(targetPos[index]));
     }
 
-    private IEnumerator SwapCoroutine(Vector2 target)
+    private IEnumerator SwapCoroutine(Vector2 targetPos)
     {
         float current = 0.0f;
         float percent = 0.0f;
         Vector2 startPos = transform.position;
-        Vector2 endPos = target;
+        Vector2 endPos = targetPos;
 
         while (percent < 1.0f)
         {
