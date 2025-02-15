@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class Spawner : NetworkBehaviour
 {
@@ -109,14 +106,10 @@ public class Spawner : NetworkBehaviour
 
     public void HeroHolderSwap(string strHeroHolder1, string strHeroHolder2)
     {
-        if (IsServer)
-        {
-            HeroHolderSwapClient(strHeroHolder1, strHeroHolder2);
-        }
-        else if (IsClient)
-        {
-            HeroHolderSwapServerRpc(strHeroHolder1, strHeroHolder2);
-        }
+        NetUtils.HostAndClientMethod(
+            () => HeroHolderSwapServerRpc(strHeroHolder1, strHeroHolder2),
+            () => HeroHolderSwapClient(strHeroHolder1, strHeroHolder2)
+            );
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -127,29 +120,21 @@ public class Spawner : NetworkBehaviour
 
     private void HeroHolderSwapClient(string strHeroHolder1, string strHeroHolder2)
     {
-        HeroHolderSwapLogicClientRpc(strHeroHolder1,strHeroHolder2);
+        HeroHolderSwapLogicClientRpc(strHeroHolder1, strHeroHolder2);
     }
 
     [ClientRpc]
     private void HeroHolderSwapLogicClientRpc(string strHeroHolder1, string strHeroHolder2)
     {
         HeroHolder heroHolder1 = heroHolders[strHeroHolder1];
-        HeroHolder heroHolder2 = heroHolders[strHeroHolder2];   
+        HeroHolder heroHolder2 = heroHolders[strHeroHolder2];
 
         heroHolder1.SwapPosition(heroHolder2);
         heroHolder2.SwapPosition(heroHolder1);
 
-        List<Hero> heroList1 = new List<Hero>(heroHolder1.heroList);
-        List<Hero> heroList2 = new List<Hero>(heroHolder2.heroList);
-
-        heroHolder1.heroList = new List<Hero>(heroList2);
-        heroHolder2.heroList = new List<Hero>(heroList1);
-
-        HeroData heroData1 = heroHolder1.heroData;
-        HeroData heroData2 = heroHolder2.heroData;
-
-        heroHolder1.heroData = heroData2;
-        heroHolder2.heroData = heroData1;
+        (heroHolder1.holderName, heroHolder2.holderName) = (heroHolder2.holderName,heroHolder1.holderName);
+        (heroHolder1.heroList, heroHolder2.heroList) = 
+            (new List<Hero>(heroHolder2.heroList),new List<Hero>(heroHolder1.heroList));
     }
 
 
@@ -161,14 +146,10 @@ public class Spawner : NetworkBehaviour
     {
         yield return new WaitForSeconds(spawnTime);
 
-        if (IsClient)
-        {
-            MonsterSpawnServerRpc(GetLocalId());
-        }
-        else if (IsServer)
-        {
-            MonsterSpawn(GetLocalId());
-        }
+        NetUtils.HostAndClientMethod(
+           () => MonsterSpawnServerRpc(NetUtils.GetLocalD()),
+           () => MonsterSpawn(NetUtils.GetLocalD())
+        );
 
         StartCoroutine(SpawnMonsterCoroutine());
     }
@@ -192,26 +173,18 @@ public class Spawner : NetworkBehaviour
     [ClientRpc]
     private void MonsterSpawnClientRpc(ulong networkObjectId, ulong clientId)
     {
-        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.
-            TryGetValue(networkObjectId, out NetworkObject monsterNetworkObject))
+        if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject monsterNetworkObject))
         {
-            if (clientId == GetLocalId())
-            {
-                monsterNetworkObject.transform.position = playerMonsterMoveList[0].position;
-                monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(playerMonsterMoveList);
-            }
-            else
-            {
-                monsterNetworkObject.transform.position = friendMonsterMoveList[0].position;
-                monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(friendMonsterMoveList);
-            }
+            List<Transform> moveList = clientId == NetUtils.GetLocalD() ? playerMonsterMoveList : friendMonsterMoveList;
+            monsterNetworkObject.transform.position = moveList[0].position;
+            monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(moveList);
         }
     }
     #endregion
 
 
     #region Hero spawn
-    private void HeroSpawn(ulong clientId,string rarity)
+    private void HeroSpawn(ulong clientId, string rarity)
     {
         HeroScriptable[] heroDatas = Resources.LoadAll<HeroScriptable>("HeroDatas/" + rarity);
 
@@ -223,17 +196,12 @@ public class Spawner : NetworkBehaviour
         int value = clientId == 0 ? 0 : 1;
         string heroHolderId = temp + heroHolderValue[value].ToString();
 
-        foreach (var dd in heroHolders)
+        HeroHolder findHeroHolder = GetHeroHolder(temp, data.heroName);
+
+        if (findHeroHolder != null)
         {
-            if (dd.Key.Contains(temp))
-            {
-                if (dd.Value.heroList.Count < 3 && dd.Value.holderName == data.heroName)
-                {
-                    dd.Value.SpawnHero(data.GetHeroData(),rarity);
-                    getHero = true;
-                    break;
-                }
-            }
+            findHeroHolder.SpawnHero(data.GetHeroData(), rarity);
+            return;
         }
 
         if (!getHero)
@@ -242,37 +210,44 @@ public class Spawner : NetworkBehaviour
             NetworkObject networkObject = heroHolder.GetComponent<NetworkObject>();
             networkObject.Spawn();
 
-            UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId, data.GetHeroData(),heroHolderId,value,rarity);
+            UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId, data.GetHeroData(), heroHolderId, value, rarity);
         }
+    }
+
+    private HeroHolder GetHeroHolder(string client, string heroName)
+    {
+        foreach (var holder in heroHolders)
+        {
+            if (holder.Key.Contains(client) && holder.Value.heroList.Count < 3
+                && holder.Value.holderName == heroName)
+            {
+                return holder.Value;
+            }
+        }
+
+        return null;
     }
 
 
     [ClientRpc]
-    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId, ulong clientId, HeroData heroData,string heroHolderId,int value,
+    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId, ulong clientId, HeroData heroData, string heroHolderId, int value,
         string rarity)
     {
-        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject networkObject))
+        if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject networkObject))
         {
-            if (clientId == GetLocalId())
-            {
-                SetHeroPosition(networkObject, ref playerSpawnList);
-            }
-            else
-            {
-                SetHeroPosition(networkObject, ref friendSpawnList);
-            }
+            List<SpawnNode> spawnList = NetUtils.GetLocalD() == clientId ? playerSpawnList : friendSpawnList;
+            SetHeroPosition(networkObject, spawnList);
 
             HeroHolder heroHolder = networkObject.GetComponent<HeroHolder>();
 
             heroHolders.Add(heroHolderId, heroHolder);
             heroHolderValue[value]++;
             heroHolder.holderId = heroHolderId;
-
-            heroHolder.SpawnHero(heroData,rarity);
+            heroHolder.SpawnHero(heroData, rarity);
         }
     }
 
-    private void SetHeroPosition(NetworkObject networkObject, ref List<SpawnNode> spawnPositionList)
+    private void SetHeroPosition(NetworkObject networkObject, List<SpawnNode> spawnPositionList)
     {
         int positionIndex = -1;
 
@@ -282,19 +257,19 @@ public class Spawner : NetworkBehaviour
             {
                 positionIndex = i;
                 spawnPositionList[i].isSpawned = true;
+                networkObject.transform.position = spawnPositionList[positionIndex].spawnPos;
                 break;
             }
         }
 
         HeroHolder heroHolder = networkObject.GetComponent<HeroHolder>();
-        heroHolder.transform.position = spawnPositionList[positionIndex].spawnPos;
         heroHolder.holderIndex = positionIndex;
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void HeroSpawnServerRpc(ulong cleintId,string rarity)
+    private void HeroSpawnServerRpc(ulong cleintId, string rarity)
     {
-        HeroSpawn(cleintId,rarity);
+        HeroSpawn(cleintId, rarity);
     }
 
     //캐릭터 소환
@@ -308,21 +283,11 @@ public class Spawner : NetworkBehaviour
         GameManager.instance.gold -= GameManager.instance.summonGold;
         GameManager.instance.summonGold += GameManager.instance.summonGoldInc;*/
 
-        if (IsClient)
-        {
-            HeroSpawnServerRpc(GetLocalId(),rarity);
-        }
-        else if (IsServer)
-        {
-            HeroSpawn(GetLocalId(), rarity);
-        }
+        NetUtils.HostAndClientMethod(
+            () => HeroSpawnServerRpc(NetUtils.GetLocalD(), rarity),
+            () => HeroSpawn(NetUtils.GetLocalD(), rarity)
+            );
     }
 
     #endregion
-
-    private ulong GetLocalId()
-    {
-        return NetworkManager.Singleton.LocalClientId;
-    }
-
 }
