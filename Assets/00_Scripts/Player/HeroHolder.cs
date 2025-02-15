@@ -80,6 +80,18 @@ public class HeroHolder : NetworkBehaviour
         }
     }
 
+    public void Sell()
+    {
+        Hero hero = heroList[heroList.Count - 1];
+        heroList.Remove(hero);
+        Destroy(hero.gameObject);
+    }
+
+    public void Composition()
+    { 
+        
+    }
+
     public void SwapPosition(HeroHolder newHeroHolder)
     {
         Vector2[] offset = GetHeroOffset();

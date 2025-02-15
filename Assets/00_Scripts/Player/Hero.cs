@@ -61,8 +61,8 @@ public class Hero : Entity
         isMove = true;
         AnimatorChange("MOVE",false);
 
-        if (IsServer)
-            transform.parent = target.transform;
+        /*if (IsServer)
+            transform.parent = target.transform;*/
 
         heroHolder = target;
 
