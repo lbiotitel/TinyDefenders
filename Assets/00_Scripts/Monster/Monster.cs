@@ -48,6 +48,7 @@ public class Monster : Entity
         {
             isDead = true;
             gameObject.layer = LayerMask.NameToLayer("Default");
+            GameManager.instance.GetGold(1);
             StartCoroutine(DeadCoroutine());
             AnimatorChange("DEAD", true);
         }

@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Threading;
 using Unity.Netcode;
 using UnityEngine;
 
 
 public delegate void OnGoldGetEventHandler();
+public delegate void OnTimerUpEventHandler();
 public class GameManager : NetworkBehaviour
 {
     public static GameManager instance = null;
@@ -23,13 +25,45 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public int gold { get; set; }
     [field: SerializeField] public int summonGold { get; set; }
     [field: SerializeField] public int summonGoldInc { get; set; }
+    [SerializeField] private float waveTime = 60f;
+    public float timer = 0;
+    public int wave = 1;
     public int currentMonsterCount = 0;
 
     //event
     public event OnGoldGetEventHandler onGoldGet;
+    public event OnTimerUpEventHandler onTimerUp;   
 
     private List<Monster> monsterList = new List<Monster>();
 
+
+    private void Start()
+    {
+        timer = waveTime;
+    }
+
+    private void Update()
+    {
+        TimeUpdate();
+    }
+
+    private void TimeUpdate()
+    {
+        if (IsServer)
+        {
+            if (timer > 0)
+            {
+                timer -= Time.deltaTime;
+                timer = Mathf.Max(timer, 0);
+            
+            }
+            else {
+                wave++;
+                timer = waveTime;
+            }
+            NotifyTimerClientRpc(timer,wave);
+        }
+    }
 
     public void AddMonster(Monster monster)
     {
@@ -43,15 +77,32 @@ public class GameManager : NetworkBehaviour
         currentMonsterCount--;
         UpdateClientMonsterCount();
     }
-    public void GetGold(int gold)
+    public void GetGold(int gold,HostType hostType = HostType.ALL)
     {
-        onGoldGet?.Invoke();
-        this.gold += gold;
+        if (hostType == HostType.ALL)
+        {
+            GiveGoldToAllPlayersClientRpc(gold);
+        }
     }
 
     private void UpdateClientMonsterCount()
     {
         NotifyClientMonsterCountClientRpc(currentMonsterCount);
+    }
+
+    [ClientRpc]
+    private void GiveGoldToAllPlayersClientRpc(int gold)
+    {
+        this.gold += gold;
+        onGoldGet?.Invoke();
+    }
+
+    [ClientRpc]
+    private void NotifyTimerClientRpc(float time,int wave)
+    {
+        this.timer = time;
+        this.wave = wave;
+        onTimerUp?.Invoke();
     }
 
     [ClientRpc]

@@ -275,13 +275,13 @@ public class Spawner : NetworkBehaviour
     //캐릭터 소환
     public void Summon(string rarity)
     {
-        /*if (GameManager.instance.gold < GameManager.instance.summonGold)
+        if (GameManager.instance.gold < GameManager.instance.summonGold)
         {
             return;
         }
 
         GameManager.instance.gold -= GameManager.instance.summonGold;
-        GameManager.instance.summonGold += GameManager.instance.summonGoldInc;*/
+        GameManager.instance.summonGold += GameManager.instance.summonGoldInc;
 
         NetUtils.HostAndClientMethod(
             () => HeroSpawnServerRpc(NetUtils.GetLocalD(), rarity),
