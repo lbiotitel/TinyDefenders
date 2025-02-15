@@ -112,7 +112,6 @@ public partial class NetManager : MonoBehaviour
         {
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(lobby.MaxPlayers);
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
-            joinCodeText.text = joinCode;
             Debug.Log("Relay 서버 할당 Join Code : " + joinCode);
         }
         catch (LobbyServiceException e)

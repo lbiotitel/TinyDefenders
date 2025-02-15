@@ -14,10 +14,6 @@ public partial class NetManager : MonoBehaviour
     private const int maxPlayers = 2;
     [SerializeField] private string gamePlaySceneName = "GamePlayScene";
     [SerializeField] private Button startMatchingButton;
-    [SerializeField] private Button connectCodeButton;
-    [SerializeField] private Text joinCodeText;
-    [SerializeField] private InputField codeInputField;
-
 
     private async void Start()
     {
@@ -27,7 +23,6 @@ public partial class NetManager : MonoBehaviour
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
         startMatchingButton.onClick.AddListener(() => StartMatching());
-        connectCodeButton.onClick.AddListener(() => JoinGameWithCode(codeInputField.text));
     }
 
 }
