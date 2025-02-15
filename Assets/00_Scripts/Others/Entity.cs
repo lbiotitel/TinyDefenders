@@ -12,9 +12,9 @@ public class Entity : NetworkBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
-    public void GetInitEntity(string controller)
+    public void GetInitEntity(string controller,string rarity)
     {
-        animator.runtimeAnimatorController = Resources.Load<HeroScriptable>("HeroDatas/" + controller).runtimeAnimatorController;
+        animator.runtimeAnimatorController = Resources.Load<HeroScriptable>("HeroDatas/" + rarity + "/" + controller).runtimeAnimatorController;
     }
 
     public void SortingOrderChange(int value)

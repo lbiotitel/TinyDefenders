@@ -214,6 +214,8 @@ MonoBehaviour:
   heroRange: {fileID: 5397061593036701197}
   heroSquare: {fileID: 9054449501357161578}
   heroCircle: {fileID: 8285482146142203731}
+  sellButton: {fileID: 9082707313043550993}
+  compositionButton: {fileID: 1163397872631721133}
   holderName: 
   holderId: 
   heroList: []
@@ -235,7 +237,7 @@ GameObject:
   - component: {fileID: 1341246363112994537}
   - component: {fileID: 269296065054449749}
   - component: {fileID: 5917619532995537416}
-  - component: {fileID: 4726976536690137495}
+  - component: {fileID: 1163397872631721133}
   m_Layer: 0
   m_Name: Composition Button
   m_TagString: Untagged
@@ -301,7 +303,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4726976536690137495
+--- !u!114 &1163397872631721133
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -344,19 +346,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5917619532995537416}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7155780433603239829}
-        m_TargetAssemblyTypeName: HeroHolder, Assembly-CSharp
-        m_MethodName: Composition
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1949562625934747069
 GameObject:
   m_ObjectHideFlags: 0
@@ -787,19 +777,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1921941362960016820}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7155780433603239829}
-        m_TargetAssemblyTypeName: HeroHolder, Assembly-CSharp
-        m_MethodName: Sell
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &7294984788876019758
 GameObject:
   m_ObjectHideFlags: 0

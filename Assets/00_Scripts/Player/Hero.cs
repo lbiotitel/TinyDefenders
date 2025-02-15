@@ -22,13 +22,13 @@ public class Hero : Entity
         base.Awake();
     }
 
-    public void InitHeroData(HeroData data,HeroHolder heroHolder)
+    public void InitHeroData(HeroData data,HeroHolder heroHolder,string rarity)
     {
         atk = data.heroAtk;
         attackRange = data.heroAtkRange;
         attackSpeed = data.heroAtkSpeed;
         this.heroHolder = heroHolder;
-        GetInitEntity(data.heroName);
+        GetInitEntity(data.heroName,rarity);
         InitEquipment(data.leftEquipmentName,data.rightEquipmentName);
     }
 
@@ -61,8 +61,8 @@ public class Hero : Entity
         isMove = true;
         AnimatorChange("MOVE",false);
 
-        /*if (IsServer)
-            transform.parent = target.transform;*/
+        if (IsServer)
+            transform.parent = target.transform;
 
         heroHolder = target;
 

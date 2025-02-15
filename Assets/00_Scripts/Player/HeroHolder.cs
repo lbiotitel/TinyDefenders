@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class HeroHolder : NetworkBehaviour
 {
@@ -12,10 +14,15 @@ public class HeroHolder : NetworkBehaviour
     [SerializeField] private Transform heroSquare;
     [SerializeField] private Transform heroCircle;
 
+    [SerializeField] private Button sellButton;
+    [SerializeField] private Button compositionButton;
+
     public string holderName;
     public string holderId;
     public List<Hero> heroList = new List<Hero>();
     public HeroData heroData;
+    public int holderIndex;
+
 
     private readonly Vector2[] oneHeroOffset = { Vector2.zero };
     private readonly Vector2[] twoHeroOffset =
@@ -33,9 +40,16 @@ public class HeroHolder : NetworkBehaviour
     private void Start()
     {
         InitCollider();
+        InitButtons();
         HideRange();
         HideCircle();
         HideSquare();
+    }
+
+    private void InitButtons()
+    {
+        sellButton.onClick.AddListener(() => { Sell(); });
+        compositionButton.onClick.AddListener(() => { Composition(); });
     }
 
     private void InitCollider()
@@ -67,7 +81,7 @@ public class HeroHolder : NetworkBehaviour
         heroRange.localScale = Vector2.zero;
     }
 
-    public void SpawnHero(HeroData heroData)
+    public void SpawnHero(HeroData heroData,string rarity)
     {
         if (heroList.Count == 0)
         {
@@ -76,20 +90,123 @@ public class HeroHolder : NetworkBehaviour
         }
         if (IsServer)
         {
-            HeroSpawn(GetLocalId(), heroData);
+            HeroSpawn(GetLocalId(), heroData, rarity);
         }
     }
 
-    public void Sell()
+
+    private void Sell()
     {
-        Hero hero = heroList[heroList.Count - 1];
-        heroList.Remove(hero);
-        Destroy(hero.gameObject);
+        if (IsClient)
+        {
+            SellServerRpc(GetLocalId());
+        }
+        else if (IsServer)
+        {
+            SellHero(GetLocalId());
+        }
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    private void SellServerRpc(ulong clientId)
+    {
+        SellHero(clientId);
+    }
+
+    private void SellHero(ulong clientId)
+    {
+        Hero hero = heroList[heroList.Count - 1];
+        ulong heroId = hero.NetworkObjectId;
+        NetworkObject obj = NetworkManager.SpawnManager.SpawnedObjects[heroId];
+        SellClientRpc(heroId,clientId);
+        obj.Despawn();
+    }
+
+    [ClientRpc]
+    private void SellClientRpc(ulong heroKey,ulong clientId)
+    {
+        NetworkObject obj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[heroKey];
+        heroList.Remove(obj.GetComponent<Hero>());
+        if (heroList.Count == 0)
+        {
+            DespawnHolderServerRpc(clientId);
+        }   
+        ClientSetPosition();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void DespawnHolderServerRpc(ulong clientId)
+    {
+        DespawnHolderClientRpc(clientId);
+        NetworkObject holder = NetworkManager.Singleton.SpawnManager.SpawnedObjects[NetworkObjectId];
+        holder.Despawn();
+    }
+
+    [ClientRpc]
+    private void DespawnHolderClientRpc(ulong clientId)
+    {
+        Spawner.instance.heroHolders.Remove(this.holderId);
+        if (GetLocalId() == clientId)
+        {
+            Spawner.instance.playerSpawnList[holderIndex].isSpawned = false;
+        }
+        else
+        {
+            Spawner.instance.friendSpawnList[holderIndex].isSpawned = false;
+        }
+    }
+    
     public void Composition()
-    { 
+    {
+        List<HeroHolder> holders = new List<HeroHolder>();
+
+        holders.Add(this);
+
+        foreach(var holder in Spawner.instance.heroHolders)
+        {
+            if (holder.Value.holderName == holderName && holder.Value != this)
+            {
+                string compare = GetLocalId() == (ulong)0 ? "HOST" : "CLIENT";
+                if (holder.Value.holderId.Contains(compare))
+                {
+                    holders.Add(holder.Value);
+                }
+            }
+        }
+
+        int cnt = 0;
+        string[] compositionHero = new string[2];
+        bool full = false;
+        for (int i = 0; i < holders.Count; i++)
+        {
+            for (int j = 0; j < holders[i].heroList.Count; j++)
+            {
+                if (holders[i].heroList.Count > 0)
+                {
+                    compositionHero[cnt] = holders[i].holderId;
+                    cnt++;
+                    if (cnt >= 2)
+                    {
+                        full = true;
+                        break;
+                    }
+                }
+            }
+            if (full) break;
+        }
+
+        for (int i = 0; i < compositionHero.Length; i++)
+        {
+            if (compositionHero[i] == "" || compositionHero[i] == null)
+            {
+                return;
+            }
+        }
+
+        for (int i = 0; i < compositionHero.Length; i++) 
+            Spawner.instance.heroHolders[compositionHero[i]].Sell();
         
+        Spawner.instance.Summon("Uncommon");
     }
 
     public void SwapPosition(HeroHolder newHeroHolder)
@@ -110,7 +227,7 @@ public class HeroHolder : NetworkBehaviour
         }
     }
 
-    private void HeroSpawn(ulong clientId,HeroData data)
+    private void HeroSpawn(ulong clientId,HeroData data,string rarity)
     {
         Hero hero = Instantiate(heroPrefab);
         NetworkObject networkObject = hero.GetComponent<NetworkObject>();
@@ -118,7 +235,7 @@ public class HeroHolder : NetworkBehaviour
 
         hero.transform.parent = this.transform;
 
-        UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId,clientId, data);
+        UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId,clientId, data,rarity);
     }
 
     private void ClientSetPosition()
@@ -141,14 +258,14 @@ public class HeroHolder : NetworkBehaviour
    
 
     [ClientRpc]
-    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId, ulong clientId, HeroData heroData)
+    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId, ulong clientId, HeroData heroData,string rarity)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject networkObject))
         {
             Hero hero = networkObject.GetComponent<Hero>();
 
             heroList.Add(hero);
-            networkObject.GetComponent<Hero>().InitHeroData(heroData,this);
+            networkObject.GetComponent<Hero>().InitHeroData(heroData,this,rarity);
             ClientSetPosition();
         }
     }
