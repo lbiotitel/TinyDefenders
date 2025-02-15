@@ -26,9 +26,10 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public int summonGold { get; set; }
     [field: SerializeField] public int summonGoldInc { get; set; }
     [SerializeField] private float waveTime = 60f;
-    public float timer = 0;
     public int wave = 1;
+    public float timer = 0;
     public int currentMonsterCount = 0;
+    public int heroCount = 0;
 
     //event
     public event OnGoldGetEventHandler onGoldGet;
