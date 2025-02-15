@@ -47,6 +47,8 @@ public partial class NetManager : MonoBehaviour
             return;
         }
 
+        matchingObject.SetActive(true);
+
         currentLobby = await FindAvailableLobby();
 
         if (currentLobby == null)
@@ -77,6 +79,27 @@ public partial class NetManager : MonoBehaviour
         return null;
     }
 
+    private async void DestroyLobby(string lobbyId)
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(lobbyId))
+            { 
+                await LobbyService.Instance.DeleteLobbyAsync(lobbyId);
+                Debug.Log(lobbyId + "·Îºñ ÆÄ±«");
+            }
+            if (NetworkManager.Singleton.IsHost)
+            {
+                NetworkManager.Singleton.Shutdown();
+                matchingObject.SetActive(false);
+            }
+        }
+        catch (LobbyServiceException e)
+        { 
+            Debug.Log("·Îºñ ÆÄ±« ½ÇÆÐ" + e);
+        }
+    }
+
     private async Task CreateNewLobby()
     {
         try
@@ -84,6 +107,10 @@ public partial class NetManager : MonoBehaviour
             currentLobby = await LobbyService.Instance.CreateLobbyAsync("·£´ý ¸ÅÄª¹æ", maxPlayers);
             Debug.Log("·Îºñ »ý¼º" + currentLobby.Id);
             await AllocateRelayServerAndJoin(currentLobby);
+            cancleButton.onClick.AddListener(() =>
+            {
+                DestroyLobby(currentLobby.Id);
+            });
             StartHost();
         }
         catch (LobbyServiceException e)

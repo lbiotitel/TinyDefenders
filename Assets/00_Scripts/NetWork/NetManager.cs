@@ -14,6 +14,8 @@ public partial class NetManager : MonoBehaviour
     private const int maxPlayers = 2;
     [SerializeField] private string gamePlaySceneName = "GamePlayScene";
     [SerializeField] private Button startMatchingButton;
+    [SerializeField] private GameObject matchingObject;
+    [SerializeField] private Button cancleButton;
 
     private async void Start()
     {
