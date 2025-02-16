@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -45,7 +47,7 @@ public class HeroHolder : NetworkBehaviour
 
     private void InitButtons()
     {
-        sellButton.onClick.AddListener(() => { Sell(); });
+        sellButton.onClick.AddListener(() => { Sell(true); });
         compositionButton.onClick.AddListener(() => { Composition(); });
     }
 
@@ -94,8 +96,15 @@ public class HeroHolder : NetworkBehaviour
     }
 
 
-    private void Sell()
+    private void Sell(bool alarmText)
     {
+        if (alarmText)
+        {
+            MainUI.instance.ShowAlarmText(string.Format("영웅을 판매하였습니다. {0}{1}",
+            NetUtils.GetRarityColor((Rarity)Enum.Parse(typeof(Rarity), heroData.rarity)),
+            heroData.heroName));
+        }
+
         NetUtils.HostAndClientMethod(
             () => SellServerRpc(NetUtils.GetLocalD()),
             () => SellHero(NetUtils.GetLocalD())
@@ -199,10 +208,13 @@ public class HeroHolder : NetworkBehaviour
         }
 
         for (int i = 0; i < compositionHero.Length; i++)
-            Spawner.instance.heroHolders[compositionHero[i]].Sell();
+        {
+            Spawner.instance.heroHolders[compositionHero[i]].Sell(false);
+        }
 
-        Spawner.instance.Summon("Uncommon");
+        Spawner.instance.Summon("Uncommon", true);
     }
+
 
     public void SwapPosition(HeroHolder newHeroHolder)
     {

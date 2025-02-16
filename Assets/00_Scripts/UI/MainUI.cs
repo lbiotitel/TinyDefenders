@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,9 +25,12 @@ public class MainUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI heroCountText;
 
     [SerializeField] private Transform alarmBar;
-    [SerializeField] private TextMeshProUGUI alarmTextPrefab; 
+    [SerializeField] private TextMeshProUGUI alarmTextPrefab;
+    private List<TextMeshProUGUI> alarmTextList = new List<TextMeshProUGUI>();
 
     [SerializeField] private Animator assetAnimator;
+
+    [SerializeField] private Button summonButton;
 
 
     private void Start()
@@ -37,6 +42,7 @@ public class MainUI : MonoBehaviour
     {
         GameManager.instance.onGoldGet += GoldAnimation;
         GameManager.instance.onTimerUp += DrawWaveAndTime;
+        summonButton.onClick.AddListener(() => Spawner.instance.Summon("Normal",false));
     }
 
     private void Update()
@@ -44,11 +50,19 @@ public class MainUI : MonoBehaviour
         DrawMainUI();
     }
 
-    private void ShowAlarmText(string text)
+    public void ShowAlarmText(string text)
     {
+        if (alarmTextList.Count > 7)
+        {
+            Destroy(alarmTextList[0]);
+            alarmTextList.RemoveAt(0);
+        }   
         TextMeshProUGUI alarmObj = Instantiate(alarmTextPrefab);
         alarmObj.text = text;
-        alarmBar.SetParent(alarmObj.transform);
+        alarmObj.transform.SetParent(alarmBar);
+        alarmObj.transform.SetAsFirstSibling();
+        alarmTextList.Add(alarmObj);
+        Destroy(alarmObj,1.5f);
     }
 
     private void DrawMainUI()

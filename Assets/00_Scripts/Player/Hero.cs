@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -7,7 +8,6 @@ public class Hero : Entity
 {
     [SerializeField] private Transform leftHand;
     [SerializeField] private Transform rightHand;
-    [SerializeField] private HeroScriptable heroData;
     private HeroHolder heroHolder;
     private bool isMove = false;
 
@@ -15,6 +15,8 @@ public class Hero : Entity
     [field:SerializeField] public float attackRange { get; set; } = 1f;
     [field: SerializeField] public float attackSpeed { get; private set; } = 1.0f;
     [field: SerializeField] public LayerMask monsterLayer { get; private set; }
+    public string heroName { get; set; }
+    public Rarity heroRarity;
     public NetworkObject target { get; set; } = null;
 
     public override void Awake()
@@ -24,6 +26,8 @@ public class Hero : Entity
 
     public void InitHeroData(HeroData data,HeroHolder heroHolder,string rarity)
     {
+        heroName = data.heroName;
+        heroRarity = (Rarity)Enum.Parse(typeof(Rarity), rarity);
         atk = data.heroAtk;
         attackRange = data.heroAtkRange;
         attackSpeed = data.heroAtkSpeed;

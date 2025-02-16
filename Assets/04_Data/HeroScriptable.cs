@@ -11,6 +11,7 @@ public struct HeroData : INetworkSerializable
     public float heroAtkRange;
     public string leftEquipmentName;
     public string rightEquipmentName;
+    public string rarity;
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
@@ -20,6 +21,7 @@ public struct HeroData : INetworkSerializable
         serializer.SerializeValue(ref heroAtkRange);
         serializer.SerializeValue(ref leftEquipmentName);
         serializer.SerializeValue(ref rightEquipmentName);
+        serializer.SerializeValue(ref rarity);
     }
 }
 
@@ -30,6 +32,7 @@ public class HeroScriptable : ScriptableObject
     public int atk;
     public float atkSpeed;
     public float atkRange;
+    public Rarity rarity;
 
     public string leftEquipmentName = string.Empty;
     public string rightEquipmentName = string.Empty;
@@ -46,6 +49,7 @@ public class HeroScriptable : ScriptableObject
             heroAtkRange = atkRange,
             leftEquipmentName = leftEquipmentName,
             rightEquipmentName = rightEquipmentName,
+            rarity = rarity.ToString(),
         };
     }
 }

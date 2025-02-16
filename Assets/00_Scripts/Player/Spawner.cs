@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Spawner : NetworkBehaviour
@@ -135,6 +137,7 @@ public class Spawner : NetworkBehaviour
         (heroHolder1.holderName, heroHolder2.holderName) = (heroHolder2.holderName,heroHolder1.holderName);
         (heroHolder1.heroList, heroHolder2.heroList) = 
             (new List<Hero>(heroHolder2.heroList),new List<Hero>(heroHolder1.heroList));
+        (heroHolder1.heroData, heroHolder2.heroData) = (heroHolder2.heroData, heroHolder1.heroData);
     }
 
 
@@ -198,6 +201,8 @@ public class Spawner : NetworkBehaviour
 
         HeroHolder findHeroHolder = GetHeroHolder(temp, data.heroName);
 
+        AlarmClientRpc(clientId,data.heroName,data.rarity.ToString());
+
         if (findHeroHolder != null)
         {
             findHeroHolder.SpawnHero(data.GetHeroData(), rarity);
@@ -247,6 +252,18 @@ public class Spawner : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    private void AlarmClientRpc(ulong clientId,string heroName,string rarity)
+    {
+        if (clientId == NetUtils.GetLocalD())
+        {
+            MainUI.instance.ShowAlarmText(string.Format("¿µ¿õÀ» È¹µæÇÏ¿´½À´Ï´Ù. {0}{1}",
+                NetUtils.GetRarityColor((Rarity)Enum.Parse(typeof(Rarity), rarity)),
+                heroName));
+        }
+
+    }
+
     private void SetHeroPosition(NetworkObject networkObject, List<SpawnNode> spawnPositionList)
     {
         int positionIndex = -1;
@@ -273,14 +290,17 @@ public class Spawner : NetworkBehaviour
     }
 
     //Ä³¸¯ÅÍ ¼ÒÈ¯
-    public void Summon(string rarity)
+    public void Summon(string rarity,bool composition = false)
     {
-        if (GameManager.instance.gold < GameManager.instance.summonGold) return;
-        if (GameManager.instance.heroCount >= GameManager.instance.maxHeroCount) return;
+        if (!composition)
+        {
+            if (GameManager.instance.gold < GameManager.instance.summonGold) return;
+            if (GameManager.instance.heroCount >= GameManager.instance.maxHeroCount) return;
 
-        GameManager.instance.gold -= GameManager.instance.summonGold;
-        GameManager.instance.summonGold += GameManager.instance.summonGoldInc;
-        GameManager.instance.heroCount++;
+            GameManager.instance.gold -= GameManager.instance.summonGold;
+            GameManager.instance.summonGold += GameManager.instance.summonGoldInc;
+            GameManager.instance.heroCount++;
+        }
 
         NetUtils.HostAndClientMethod(
             () => HeroSpawnServerRpc(NetUtils.GetLocalD(), rarity),
