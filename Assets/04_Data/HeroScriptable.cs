@@ -38,6 +38,7 @@ public class HeroScriptable : ScriptableObject
     public string rightEquipmentName = string.Empty;
 
     public RuntimeAnimatorController runtimeAnimatorController;
+    public Projectile projectile = null;
 
     public HeroData GetHeroData()
     {

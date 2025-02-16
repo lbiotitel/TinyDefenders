@@ -9,6 +9,7 @@ public class Hero : Entity
     [SerializeField] private Transform leftHand;
     [SerializeField] private Transform rightHand;
     [SerializeField] private GameObject spawnParticle;
+    HeroScriptable heroData;
     private HeroHolder heroHolder;
     private bool isMove = false;
 
@@ -27,6 +28,7 @@ public class Hero : Entity
 
     public void InitHeroData(HeroData data,HeroHolder heroHolder,string rarity)
     {
+        heroData = Resources.Load<HeroScriptable>("HeroDatas/" + rarity + "/" + data.heroName);
 
         heroName = data.heroName;
         heroRarity = (Rarity)Enum.Parse(typeof(Rarity), rarity);
@@ -127,11 +129,19 @@ public class Hero : Entity
             {
                 attackSpeed = 0.0f;
                 AnimatorChange("ATTACK", true);
-                AttackMonsterServerRpc(target.NetworkObjectId);
+                LoadBullet();
+                //AttackMonsterServerRpc(target.NetworkObjectId);
             }
         }
         else
             target = null;
+    }
+
+    public void LoadBullet()
+    {
+        if (heroData.projectile == null) return;
+        Projectile go = Instantiate(heroData.projectile,transform.position,Quaternion.identity);
+        go.Init(target.transform,atk);
     }
 
     [ServerRpc(RequireOwnership = false)]

@@ -54,6 +54,13 @@ public class MainUI : MonoBehaviour
 
     private void ClickSummon()
     {
+        if (GameManager.instance.gold < GameManager.instance.summonGold) return;
+        if (GameManager.instance.heroCount >= GameManager.instance.maxHeroCount) return;
+
+        GameManager.instance.gold -= GameManager.instance.summonGold;
+        GameManager.instance.summonGold += GameManager.instance.summonGoldInc;
+        GameManager.instance.heroCount++;
+
         StartCoroutine(SummonCoroutine());
     }
 
@@ -88,7 +95,7 @@ public class MainUI : MonoBehaviour
         }
         
         Destroy(effect);
-        Spawner.instance.Summon("Normal", false, heroData);
+        Spawner.instance.Summon("Normal", heroData);
     }
 
     private Vector3 GenerateBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)

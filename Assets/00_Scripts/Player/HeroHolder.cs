@@ -212,7 +212,7 @@ public class HeroHolder : NetworkBehaviour
             Spawner.instance.heroHolders[compositionHero[i]].Sell(false);
         }
 
-        Spawner.instance.Summon("Uncommon", true);
+        Spawner.instance.Summon("Uncommon");
     }
 
 

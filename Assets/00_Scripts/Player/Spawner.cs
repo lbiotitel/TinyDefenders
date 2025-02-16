@@ -370,18 +370,8 @@ public class Spawner : NetworkBehaviour
     }
 
     //캐릭터 소환
-    public void Summon(string rarity, bool composition = false,HeroScriptable heroScriptableData = null)
+    public void Summon(string rarity,HeroScriptable heroScriptableData = null)
     {
-        if (!composition)
-        {
-            if (GameManager.instance.gold < GameManager.instance.summonGold) return;
-            if (GameManager.instance.heroCount >= GameManager.instance.maxHeroCount) return;
-
-            GameManager.instance.gold -= GameManager.instance.summonGold;
-            GameManager.instance.summonGold += GameManager.instance.summonGoldInc;
-            GameManager.instance.heroCount++;
-        }
-
         heroData = heroScriptableData;
         if (heroScriptableData == null)
             heroData = LoadData(rarity);
