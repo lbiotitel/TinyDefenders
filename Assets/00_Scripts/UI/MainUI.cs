@@ -4,6 +4,13 @@ using UnityEngine.UI;
 
 public class MainUI : MonoBehaviour
 {
+    public static MainUI instance = null;
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+    }
+
     [SerializeField] private TextMeshProUGUI monsterCountText;
     [SerializeField] private TextMeshProUGUI summonGoldText;
     [SerializeField] private TextMeshProUGUI currentGoldText;
@@ -14,6 +21,9 @@ public class MainUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
 
     [SerializeField] private TextMeshProUGUI heroCountText;
+
+    [SerializeField] private Transform alarmBar;
+    [SerializeField] private TextMeshProUGUI alarmTextPrefab; 
 
     [SerializeField] private Animator assetAnimator;
 
@@ -32,6 +42,13 @@ public class MainUI : MonoBehaviour
     private void Update()
     {
         DrawMainUI();
+    }
+
+    private void ShowAlarmText(string text)
+    {
+        TextMeshProUGUI alarmObj = Instantiate(alarmTextPrefab);
+        alarmObj.text = text;
+        alarmBar.SetParent(alarmObj.transform);
     }
 
     private void DrawMainUI()
