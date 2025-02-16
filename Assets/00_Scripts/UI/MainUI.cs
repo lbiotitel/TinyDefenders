@@ -29,6 +29,7 @@ public class MainUI : MonoBehaviour
     private List<TextMeshProUGUI> alarmTextList = new List<TextMeshProUGUI>();
 
     [SerializeField] private Animator assetAnimator;
+    [SerializeField] private Animator profileAnimator;
 
     [SerializeField] private Button summonButton;
 
@@ -43,6 +44,13 @@ public class MainUI : MonoBehaviour
         GameManager.instance.onGoldGet += GoldAnimation;
         GameManager.instance.onTimerUp += DrawWaveAndTime;
         summonButton.onClick.AddListener(() => Spawner.instance.Summon("Normal",false));
+    }
+
+    public void StartGame()
+    {
+        Time.timeScale = 1f;
+        profileAnimator.gameObject.SetActive(false);
+        Spawner.instance.StartMonsterSpawn();
     }
 
     private void Update()

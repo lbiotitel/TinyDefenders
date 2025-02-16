@@ -41,6 +41,7 @@ public class GameManager : NetworkBehaviour
 
     private void Start()
     {
+        Time.timeScale = 0f;
         timer = waveTime;
     }
 

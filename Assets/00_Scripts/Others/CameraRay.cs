@@ -51,6 +51,12 @@ public class CameraRay : NetworkBehaviour
         {
             heroHolder = hit.collider.GetComponent<HeroHolder>();
 
+            if (heroHolder.heroList.Count <= 0)
+            {
+                heroHolder = null;
+                return;
+            }
+
             bool isOwn = false;
 
             ulong value = NetworkManager.Singleton.LocalClientId;

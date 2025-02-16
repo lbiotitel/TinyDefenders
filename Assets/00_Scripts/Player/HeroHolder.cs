@@ -219,7 +219,7 @@ public class HeroHolder : NetworkBehaviour
     public void SwapPosition(HeroHolder newHeroHolder)
     {
         Vector2[] offset = GetHeroOffset();
-
+        if (offset == null) return;
         Vector2[] pos = new Vector2[offset.Length];
 
         for (int i = 0; i < pos.Length; i++)
