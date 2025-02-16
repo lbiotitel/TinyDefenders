@@ -22,6 +22,7 @@ public class GameManager : NetworkBehaviour
 
     //config
     [field: SerializeField] public int maxMonsterCount { get; private set; }
+    [field: SerializeField] public int maxHeroCount { get; private set; }
     [field: SerializeField] public int gold { get; set; }
     [field: SerializeField] public int summonGold { get; set; }
     [field: SerializeField] public int summonGoldInc { get; set; }

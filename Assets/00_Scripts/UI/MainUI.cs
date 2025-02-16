@@ -13,6 +13,8 @@ public class MainUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI waveText;
     [SerializeField] private TextMeshProUGUI timerText;
 
+    [SerializeField] private TextMeshProUGUI heroCountText;
+
     [SerializeField] private Animator assetAnimator;
 
 
@@ -40,6 +42,7 @@ public class MainUI : MonoBehaviour
         summonGoldText.text = GameManager.instance.summonGold.ToString();
         currentGoldText.text = GameManager.instance.gold.ToString();
         summonGoldText.color = GameManager.instance.gold >= GameManager.instance.summonGold ? Color.white : Color.red;
+        heroCountText.text = string.Format("{0:D2}/{1:D2}",GameManager.instance.heroCount,GameManager.instance.maxHeroCount);
     }
 
     private void DrawWaveAndTime()
