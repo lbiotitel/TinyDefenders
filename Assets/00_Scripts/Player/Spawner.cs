@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Android.Gradle.Manifest;
 using Unity.Netcode;
-using UnityEditor.XR;
+using UnityEditor.PackageManager;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class Spawner : NetworkBehaviour
 {
@@ -36,7 +36,6 @@ public class Spawner : NetworkBehaviour
 
     [SerializeField] private HeroHolder heroHolderPrefab;
     [SerializeField] private Monster monsterPrefab;
-    [SerializeField] private GameObject test;
 
     private List<Transform> playerMonsterMoveList = new List<Transform>();
     private List<Transform> friendMonsterMoveList = new List<Transform>();
@@ -46,6 +45,7 @@ public class Spawner : NetworkBehaviour
 
     public Dictionary<string, HeroHolder> heroHolders = new Dictionary<string, HeroHolder>();
     private int[] heroHolderValue = new int[2];
+    HeroScriptable heroData;
 
     public float xValue, yValue;
 
@@ -276,29 +276,52 @@ public class Spawner : NetworkBehaviour
 
 
     #region Hero spawn
-    private void HeroSpawn(ulong clientId, string rarity)
+
+    public HeroScriptable LoadData(string rarity)
     {
         HeroScriptable[] heroDatas = Resources.LoadAll<HeroScriptable>("HeroDatas/" + rarity);
 
         HeroScriptable data = heroDatas[UnityEngine.Random.Range(0, heroDatas.Length)];
 
+        return data;
+    }
+
+    private void HeroSpawn(ulong clientId, string rarity)
+    {
+    
         string temp = clientId == 0 ? "HOST" : "CLIENT";
         int value = clientId == 0 ? 0 : 1;
         string heroHolderId = temp + heroHolderValue[value].ToString();
 
-        HeroHolder findHeroHolder = GetRemainHeroHolder(temp, data.heroName);
+        HeroHolder findHeroHolder = GetRemainHeroHolder(temp, this.heroData.heroName);
 
-        AlarmClientRpc(clientId, data.heroName, data.rarity.ToString());
+        AlarmClientRpc(clientId, this.heroData.heroName, heroData.rarity.ToString());
 
         if (findHeroHolder != null)
         {
-            findHeroHolder.SpawnHero(data.GetHeroData(), rarity);
+            findHeroHolder.SpawnHero(this.heroData.GetHeroData(), rarity);
             return;
         }
 
         NetworkObject networkObject = heroHolders[heroHolderId].GetComponent<NetworkObject>();
 
-        HeroSpawnClientRpc(networkObject.NetworkObjectId, data.GetHeroData(), rarity,value);
+        HeroSpawnClientRpc(networkObject.NetworkObjectId, this.heroData.GetHeroData(), rarity, value);
+    }
+
+    public Vector3 GetHolderPosition(HeroScriptable heroData)
+    {
+        string temp = NetUtils.GetLocalD() == 0 ? "HOST" : "CLIENT";
+        int value = NetUtils.GetLocalD() == 0 ? 0 : 1;
+        string heroHolderId = temp + heroHolderValue[value].ToString();
+
+        HeroHolder findHeroHolder = GetRemainHeroHolder(temp, heroData.heroName);
+
+        if (findHeroHolder != null)
+        {
+            return findHeroHolder.transform.position;
+        }
+
+        return heroHolders[heroHolderId].transform.position;
     }
 
     private HeroHolder GetRemainHeroHolder(string client, string heroName)
@@ -315,10 +338,10 @@ public class Spawner : NetworkBehaviour
         return null;
     }
 
- 
+
 
     [ClientRpc]
-    private void HeroSpawnClientRpc(ulong networkObjectId, HeroData heroData,string rarity,int value)
+    private void HeroSpawnClientRpc(ulong networkObjectId, HeroData heroData, string rarity, int value)
     {
         if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject networkObject))
         {
@@ -347,7 +370,7 @@ public class Spawner : NetworkBehaviour
     }
 
     //캐릭터 소환
-    public void Summon(string rarity, bool composition = false)
+    public void Summon(string rarity, bool composition = false,HeroScriptable heroScriptableData = null)
     {
         if (!composition)
         {
@@ -359,6 +382,11 @@ public class Spawner : NetworkBehaviour
             GameManager.instance.heroCount++;
         }
 
+        heroData = heroScriptableData;
+        if (heroScriptableData == null)
+            heroData = LoadData(rarity);
+
+        Debug.Log(heroData.heroName);
         NetUtils.HostAndClientMethod(
             () => HeroSpawnServerRpc(NetUtils.GetLocalD(), rarity),
             () => HeroSpawn(NetUtils.GetLocalD(), rarity)

@@ -8,6 +8,7 @@ public class Hero : Entity
 {
     [SerializeField] private Transform leftHand;
     [SerializeField] private Transform rightHand;
+    [SerializeField] private GameObject spawnParticle;
     private HeroHolder heroHolder;
     private bool isMove = false;
 
@@ -26,14 +27,19 @@ public class Hero : Entity
 
     public void InitHeroData(HeroData data,HeroHolder heroHolder,string rarity)
     {
+
         heroName = data.heroName;
         heroRarity = (Rarity)Enum.Parse(typeof(Rarity), rarity);
         atk = data.heroAtk;
         attackRange = data.heroAtkRange;
         attackSpeed = data.heroAtkSpeed;
         this.heroHolder = heroHolder;
+
         GetInitEntity(data.heroName,rarity);
+        
         InitEquipment(data.leftEquipmentName,data.rightEquipmentName);
+
+        Instantiate(spawnParticle, heroHolder.transform.position,Quaternion.identity);
     }
 
     private void InitEquipment(string leftEuipmentName, string rightEquipmentName)

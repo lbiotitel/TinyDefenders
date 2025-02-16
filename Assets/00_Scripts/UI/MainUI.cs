@@ -1,5 +1,7 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,18 +34,77 @@ public class MainUI : MonoBehaviour
     [SerializeField] private Animator profileAnimator;
 
     [SerializeField] private Button summonButton;
+    [SerializeField] private GameObject summonEffect;
+    [SerializeField] private float effectSpeed;
 
 
     private void Start()
     {
         InitEvent();
+        if(profileAnimator.gameObject.activeSelf == false)
+            profileAnimator.gameObject.SetActive(true);
     }
 
     private void InitEvent()
     {
         GameManager.instance.onGoldGet += GoldAnimation;
         GameManager.instance.onTimerUp += DrawWaveAndTime;
-        summonButton.onClick.AddListener(() => Spawner.instance.Summon("Normal",false));
+        summonButton.onClick.AddListener(() => ClickSummon());
+    }
+
+    private void ClickSummon()
+    {
+        StartCoroutine(SummonCoroutine());
+    }
+
+    private IEnumerator SummonCoroutine()
+    {
+        HeroScriptable heroData = Spawner.instance.LoadData("Normal");
+
+        Vector3 targetPos =  Spawner.instance.GetHolderPosition(heroData);
+
+        Vector3 buttonWorldPosition = Camera.main.ScreenToWorldPoint(summonButton.transform.position);
+        GameObject effect = Instantiate(summonEffect);
+
+        effect.transform.position = buttonWorldPosition;
+
+        Vector3 startPoint = buttonWorldPosition;
+        Vector3 endPoint = targetPos;
+
+        Vector3 randomPoint = GenerateRandomPoint(startPoint,endPoint);
+
+        float elapsedTime = 0.0f;
+        while (elapsedTime < effectSpeed)
+        {
+            float t= elapsedTime / effectSpeed;
+
+            Vector3 curvePoint = GenerateBezierPoint(t,startPoint,
+                randomPoint,endPoint);
+
+            effect.transform.position = new Vector3(curvePoint.x,curvePoint.y,0);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        
+        Destroy(effect);
+        Spawner.instance.Summon("Normal", false, heroData);
+    }
+
+    private Vector3 GenerateBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
+    {
+        return Mathf.Pow(1-t,2) * p0 + 2 * (1-t) * t * p1 + (t*t) * p2;
+    }
+
+    private Vector3 GenerateRandomPoint(Vector3 start, Vector3 end)
+    {
+        Vector3 midPoint = (start + end) / 2f;
+        float randomHeight = Random.Range(1.0f,3.0f);
+        midPoint += Vector3.up * randomHeight;
+
+        midPoint += new Vector3(Random.Range(-1.0f,1.0f), 0.0f);
+
+        return midPoint;
     }
 
     public void StartGame()
