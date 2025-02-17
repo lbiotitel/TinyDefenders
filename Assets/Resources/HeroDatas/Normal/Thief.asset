@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: Thief
+  m_EditorClassIdentifier: 
+  heroName: Thief
+  atk: 5
+  atkSpeed: 1
+  atkRange: 1.5
+  rarity: 0
+  leftEquipmentName: Thief-Weapon
+  rightEquipmentName: 
+  runtimeAnimatorController: {fileID: 9100000, guid: 2bdf7758d07f28b40a7557122ba6df1b, type: 2}
+  projectile: {fileID: 2189299698304443517, guid: 1c7e4b9a4822164478d92ecad19cea84, type: 3}
