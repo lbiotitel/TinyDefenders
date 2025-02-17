@@ -130,7 +130,6 @@ public class Hero : Entity
                 attackSpeed = 0.0f;
                 AnimatorChange("ATTACK", true);
                 LoadBullet();
-                //AttackMonsterServerRpc(target.NetworkObjectId);
             }
         }
         else
@@ -141,7 +140,13 @@ public class Hero : Entity
     {
         if (heroData.projectile == null) return;
         Projectile go = Instantiate(heroData.projectile,transform.position,Quaternion.identity);
-        go.Init(target.transform,atk);
+        go.Init(target.transform,this);
+    }
+
+    public void AttackMonster()
+    {
+        if (target != null)
+            AttackMonsterServerRpc(target.NetworkObjectId);
     }
 
     [ServerRpc(RequireOwnership = false)]

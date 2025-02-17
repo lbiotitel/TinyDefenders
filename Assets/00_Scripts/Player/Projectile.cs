@@ -5,20 +5,38 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private GameObject destroyParticle;
-
+    [SerializeField] private ProjectileType projectileType = ProjectileType.NORMAL;
+    private Hero referenceHero;
     private Transform target;
-    private int damage;
 
-    public void Init(Transform target,int damage)
+    public void Init(Transform target,Hero referenceHero)
     {
+        this.referenceHero = referenceHero;
         this.target = target;
-        this.damage = damage;
     }
 
     private void Update()
     {
         ChasingTarget();
-        RotateToForwardDirection();
+        ProjectileTypeLogic();
+    }
+
+    private void ProjectileTypeLogic()
+    {
+        switch (projectileType)
+        { 
+            case ProjectileType.NORMAL:
+                RotateToForwardDirection();
+                break;
+            case ProjectileType.ROTATE:
+                SpinningProjectile();
+                break;
+        }
+    }
+
+    private void SpinningProjectile()
+    {
+        transform.Rotate(0,0,speed);
     }
 
     private void RotateToForwardDirection()
@@ -39,7 +57,7 @@ public class Projectile : MonoBehaviour
         else
         {
             Instantiate(destroyParticle,transform.position,Quaternion.identity);
-            //target.GetComponent<Monster>().GetDamage(damage);
+            referenceHero.AttackMonster();
             Destroy(this.gameObject);
         }
     }

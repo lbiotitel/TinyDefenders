@@ -286,8 +286,10 @@ public class Spawner : NetworkBehaviour
         return data;
     }
 
-    private void HeroSpawn(ulong clientId, string rarity)
+    private void HeroSpawn(ulong clientId, string rarity,string dataName)
     {
+
+        heroData = Resources.Load<HeroScriptable>("HeroDatas/" + rarity + "/" + dataName);
     
         string temp = clientId == 0 ? "HOST" : "CLIENT";
         int value = clientId == 0 ? 0 : 1;
@@ -364,9 +366,9 @@ public class Spawner : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void HeroSpawnServerRpc(ulong cleintId, string rarity)
+    private void HeroSpawnServerRpc(ulong cleintId, string rarity,string dataName)
     {
-        HeroSpawn(cleintId, rarity);
+        HeroSpawn(cleintId, rarity,dataName);
     }
 
     //캐릭터 소환
@@ -376,10 +378,9 @@ public class Spawner : NetworkBehaviour
         if (heroScriptableData == null)
             heroData = LoadData(rarity);
 
-        Debug.Log(heroData.heroName);
         NetUtils.HostAndClientMethod(
-            () => HeroSpawnServerRpc(NetUtils.GetLocalD(), rarity),
-            () => HeroSpawn(NetUtils.GetLocalD(), rarity)
+            () => HeroSpawnServerRpc(NetUtils.GetLocalD(), rarity,heroData.name),
+            () => HeroSpawn(NetUtils.GetLocalD(), rarity,heroData.name)
             );
     }
 

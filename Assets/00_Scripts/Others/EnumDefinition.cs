@@ -7,6 +7,10 @@ public enum HostType {
     ALL
 }
 
+public enum ProjectileType { 
+    NORMAL,
+    ROTATE,
+}
 public enum Rarity { 
     Normal,
     Uncommon,
