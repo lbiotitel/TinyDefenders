@@ -31,6 +31,7 @@ public class GameManager : NetworkBehaviour
     public float timer = 0;
     public int currentMonsterCount = 0;
     public int heroCount = 0;
+    public int[] upgarde = new int[4];
 
     //event
     public event OnGoldGetEventHandler onGoldGet;

@@ -33,11 +33,17 @@ public class MainUI : MonoBehaviour
     [SerializeField] private Animator assetAnimator;
     [SerializeField] private Animator profileAnimator;
 
+    [Header("Summon Button")]
     [SerializeField] private Button summonButton;
     [SerializeField] private GameObject summonEffect;
     [SerializeField] private float effectSpeed;
 
 
+    [Header("Upgarde UI")]
+    [SerializeField] private TextMeshProUGUI[] upgradeLevelText;
+    [SerializeField] private Button normalButton;
+
+   
     private void Start()
     {
         InitEvent();
@@ -150,6 +156,11 @@ public class MainUI : MonoBehaviour
         currentGoldText.text = GameManager.instance.gold.ToString();
         summonGoldText.color = GameManager.instance.gold >= GameManager.instance.summonGold ? Color.white : Color.red;
         heroCountText.text = string.Format("{0:D2}/{1:D2}",GameManager.instance.heroCount,GameManager.instance.maxHeroCount);
+
+        for (int i = 0; i < upgradeLevelText.Length; i++)
+        {
+            upgradeLevelText[i].text = "Lv." + (GameManager.instance.upgarde[i] + 1).ToString(); 
+        }
     }
 
     private void DrawWaveAndTime()
