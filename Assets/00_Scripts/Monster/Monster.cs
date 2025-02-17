@@ -9,7 +9,7 @@ public class Monster : Entity
 {
     [SerializeField] private float speed;
     [SerializeField] private int maxHp = 0; 
-    private int hp = 0;
+    private double hp = 0;
     [SerializeField] private DamageText damageText;
     [SerializeField] private Image hpImage;
     [SerializeField] private Image hpImageEffect;
@@ -30,7 +30,7 @@ public class Monster : Entity
         this.targetLists = targetLists;
     }
 
-    public void GetDamage(int damage)
+    public void GetDamage(double damage)
     {
         if (!IsServer) return;
         if (isDead) return;
@@ -39,9 +39,9 @@ public class Monster : Entity
         UpdateClientRpc(this.hp,damage);
     }
 
-    private void MonsterGetDamage(int damage)
+    private void MonsterGetDamage(double damage)
     {
-        hp -= damage;
+        hp -= (int)damage;
         //hpImage.fillAmount = ((float)hp / (float)maxHp);
         //Instantiate(damageText, transform.position, Quaternion.identity).InitDamageText(damage);
         if (hp <= 0)
@@ -55,7 +55,7 @@ public class Monster : Entity
     }
 
     [ClientRpc]
-    private void UpdateClientRpc(int remainHp,int damage)
+    private void UpdateClientRpc(double remainHp, double damage)
     {
         hp = remainHp;
         hpImage.fillAmount = ((float)hp / (float)maxHp);

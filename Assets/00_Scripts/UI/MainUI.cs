@@ -41,6 +41,7 @@ public class MainUI : MonoBehaviour
 
     [Header("Upgarde UI")]
     [SerializeField] private TextMeshProUGUI[] upgradeLevelText;
+    [SerializeField] private TextMeshProUGUI[] upgradeCostText;
     [SerializeField] private Button normalButton;
 
    
@@ -68,6 +69,15 @@ public class MainUI : MonoBehaviour
         GameManager.instance.heroCount++;
 
         StartCoroutine(SummonCoroutine());
+    }
+
+    public void ClickUpgrade(int value) 
+    {
+        if (GameManager.instance.gold < 30 + GameManager.instance.upgarde[value])
+            return;
+
+        GameManager.instance.gold -= GameManager.instance.upgarde[value];
+        GameManager.instance.upgarde[value]++;
     }
 
     private IEnumerator SummonCoroutine()
@@ -159,7 +169,8 @@ public class MainUI : MonoBehaviour
 
         for (int i = 0; i < upgradeLevelText.Length; i++)
         {
-            upgradeLevelText[i].text = "Lv." + (GameManager.instance.upgarde[i] + 1).ToString(); 
+            upgradeLevelText[i].text = "Lv." + (GameManager.instance.upgarde[i] + 1).ToString();
+            upgradeCostText[i].text = (30 + GameManager.instance.upgarde[i]).ToString();
         }
     }
 

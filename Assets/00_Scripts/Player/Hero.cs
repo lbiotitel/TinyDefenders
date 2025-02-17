@@ -13,7 +13,17 @@ public class Hero : Entity
     private HeroHolder heroHolder;
     private bool isMove = false;
 
-    [field: SerializeField] public int atk { get; set; }
+    private double baseAtk;
+    public double atk 
+    {
+        get {
+            float uggradeBonus = GameManager.instance.upgarde[0] != 0 ?
+                GameManager.instance.upgarde[0] * 0.1f : 0;
+            return baseAtk * (1 + uggradeBonus);
+        }
+        set { 
+        }
+    }
     [field:SerializeField] public float attackRange { get; set; } = 1f;
     [field: SerializeField] public float attackSpeed { get; private set; } = 1.0f;
     [field: SerializeField] public LayerMask monsterLayer { get; private set; }
@@ -32,7 +42,7 @@ public class Hero : Entity
 
         heroName = data.heroName;
         heroRarity = (Rarity)Enum.Parse(typeof(Rarity), rarity);
-        atk = data.heroAtk;
+        baseAtk = data.heroAtk;
         attackRange = data.heroAtkRange;
         attackSpeed = data.heroAtkSpeed;
         this.heroHolder = heroHolder;
