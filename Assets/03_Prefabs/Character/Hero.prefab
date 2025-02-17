@@ -337,10 +337,16 @@ MonoBehaviour:
   leftHand: {fileID: 6966628995551437246}
   rightHand: {fileID: 1752757894357761139}
   spawnParticle: {fileID: 5626245795935178412, guid: fd1add2b7de660f498cb90d16f9f8561, type: 3}
-  <atk>k__BackingField: 0
   <attackRange>k__BackingField: 1
   <attackSpeed>k__BackingField: 1
   <monsterLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
   heroRarity: 0
+  circleColors:
+  - {r: 0, g: 0, b: 0, a: 0.7058824}
+  - {r: 0, g: 0.30203533, b: 1, a: 0.7058824}
+  - {r: 1, g: 0, b: 0.9561806, a: 0.7058824}
+  - {r: 1, g: 0.47996545, b: 0, a: 0.7058824}
+  - {r: 0, g: 1, b: 0.16677094, a: 0.7058824}
+  circleSpriteRenderer: {fileID: 5414285598704483547}

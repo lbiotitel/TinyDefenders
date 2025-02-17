@@ -141,22 +141,19 @@ public class HeroHolder : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void DespawnHolderServerRpc(ulong clientId)
     {
-        DespawnHolderClientRpc(clientId);
-        NetworkObject holder = NetworkManager.Singleton.SpawnManager.SpawnedObjects[NetworkObjectId];
-        holder.Despawn();
+        DespawnHolderClientRpc(clientId,NetworkObjectId);
+        holderName = string.Empty;
+        heroList.Clear();
     }
 
     [ClientRpc]
-    private void DespawnHolderClientRpc(ulong clientId)
+    private void DespawnHolderClientRpc(ulong clientId,ulong networkObjectId)
     {
-        Spawner.instance.heroHolders.Remove(this.holderId);
-        if (NetUtils.CheckId(clientId))
+        if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject heroHolder))
         {
-            Spawner.instance.playerSpawnList[holderIndex].isSpawned = false;
-        }
-        else
-        {
-            Spawner.instance.friendSpawnList[holderIndex].isSpawned = false;
+            HeroHolder holder = heroHolder.GetComponent<HeroHolder>();
+            holder.holderName = string.Empty;
+            holder.heroList.Clear();
         }
     }
 
@@ -211,6 +208,10 @@ public class HeroHolder : NetworkBehaviour
         {
             Spawner.instance.heroHolders[compositionHero[i]].Sell(false);
         }
+
+        HideRange();
+        HideCircle();
+        HideSquare();
 
         Spawner.instance.Summon("Uncommon");
     }

@@ -17,8 +17,9 @@ public class Hero : Entity
     public double atk 
     {
         get {
-            float uggradeBonus = GameManager.instance.upgarde[0] != 0 ?
-                GameManager.instance.upgarde[0] * 0.1f : 0;
+            float uggradeBonus = 
+                GameManager.instance.upgarde[GetUpgradeIndex()] != 0 ?
+                GameManager.instance.upgarde[GetUpgradeIndex()] * 0.1f : 0;
             return baseAtk * (1 + uggradeBonus);
         }
         set { 
@@ -30,6 +31,9 @@ public class Hero : Entity
     public string heroName { get; set; }
     public Rarity heroRarity;
     public NetworkObject target { get; set; } = null;
+
+    [SerializeField] private Color[] circleColors;
+    [SerializeField] private SpriteRenderer circleSpriteRenderer;
 
     public override void Awake()
     {
@@ -47,11 +51,31 @@ public class Hero : Entity
         attackSpeed = data.heroAtkSpeed;
         this.heroHolder = heroHolder;
 
+        circleSpriteRenderer.color = circleColors[(int)heroRarity];
+
         GetInitEntity(data.heroName,rarity);
         
         InitEquipment(data.leftEquipmentName,data.rightEquipmentName);
 
         Instantiate(spawnParticle, heroHolder.transform.position,Quaternion.identity);
+    }
+
+    private int GetUpgradeIndex()
+    {
+        switch (heroRarity)
+        {
+            case Rarity.Normal:
+            case Rarity.Uncommon:
+                return 0;
+
+            case Rarity.Unique:
+                return 1;
+
+            case Rarity.Legend:
+                return 2;
+        }
+
+        return -1;
     }
 
     private void InitEquipment(string leftEuipmentName, string rightEquipmentName)

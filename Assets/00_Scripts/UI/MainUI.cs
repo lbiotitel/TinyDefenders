@@ -42,9 +42,11 @@ public class MainUI : MonoBehaviour
     [Header("Upgarde UI")]
     [SerializeField] private TextMeshProUGUI[] upgradeLevelText;
     [SerializeField] private TextMeshProUGUI[] upgradeCostText;
-    [SerializeField] private Button normalButton;
 
-   
+    [Header("Wave UI")]
+    [SerializeField] private GameObject waveUI;
+    [SerializeField] private TextMeshProUGUI waveUIText;    
+    
     private void Start()
     {
         InitEvent();
@@ -57,6 +59,12 @@ public class MainUI : MonoBehaviour
         GameManager.instance.onGoldGet += GoldAnimation;
         GameManager.instance.onTimerUp += DrawWaveAndTime;
         summonButton.onClick.AddListener(() => ClickSummon());
+    }
+
+    public void ShowWaveUI()
+    { 
+        waveUI.gameObject.SetActive(true);
+        waveUIText.text = string.Format("Wave {0}", GameManager.instance.wave.ToString());
     }
 
     private void ClickSummon()

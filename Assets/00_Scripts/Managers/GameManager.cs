@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 public delegate void OnGoldGetEventHandler();
@@ -55,6 +56,7 @@ public class GameManager : NetworkBehaviour
     {
         if (IsServer)
         {
+            bool waveUI = false;
             if (timer > 0)
             {
                 timer -= Time.deltaTime;
@@ -63,11 +65,13 @@ public class GameManager : NetworkBehaviour
             }
             else {
                 wave++;
+                waveUI = true;
                 timer = waveTime;
             }
-            NotifyTimerClientRpc(timer,wave);
+            NotifyTimerClientRpc(timer,wave,waveUI);
         }
     }
+
 
     public void AddMonster(Monster monster)
     {
@@ -102,10 +106,12 @@ public class GameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void NotifyTimerClientRpc(float time,int wave)
+    private void NotifyTimerClientRpc(float time,int wave,bool waveUI)
     {
         this.timer = time;
         this.wave = wave;
+        if(waveUI)
+            MainUI.instance.ShowWaveUI();
         onTimerUp?.Invoke();
     }
 
