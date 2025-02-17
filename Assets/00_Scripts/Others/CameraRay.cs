@@ -7,10 +7,12 @@ public class CameraRay : NetworkBehaviour
     private Camera cam;
     HeroHolder heroHolder = null;
     HeroHolder moveHolder = null;
+    string hostOrClient;
 
     private void Start()
     {
         cam = Camera.main;
+        hostOrClient = NetUtils.GetLocalD() == 0 ? "HOST" : "CLIENT";
     }
     //ray cast
     private void Update()
@@ -51,7 +53,7 @@ public class CameraRay : NetworkBehaviour
         {
             heroHolder = hit.collider.GetComponent<HeroHolder>();
 
-            if (heroHolder.heroList.Count <= 0)
+            if (heroHolder.holderName == "" || heroHolder.holderName == null)
             {
                 heroHolder = null;
                 return;
@@ -77,6 +79,11 @@ public class CameraRay : NetworkBehaviour
 
             if (hit.collider != null && hit.collider.transform != heroHolder.transform)
             {
+                if (hit.collider.GetComponent<HeroHolder>() == null) return;
+                if (hit.collider.GetComponent<HeroHolder>().holderId.Contains(hostOrClient) == false)
+                {
+                    return;
+                }
                 if (moveHolder != null)
                 {
                     moveHolder.HideSquare();
