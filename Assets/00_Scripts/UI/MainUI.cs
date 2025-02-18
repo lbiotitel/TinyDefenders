@@ -102,14 +102,14 @@ public class MainUI : MonoBehaviour
         Vector3 startPoint = buttonWorldPosition;
         Vector3 endPoint = targetPos;
 
-        Vector3 randomPoint = GenerateRandomPoint(startPoint,endPoint);
+        Vector3 randomPoint = MathUtils.GenerateRandomPoint(startPoint,endPoint);
 
         float elapsedTime = 0.0f;
         while (elapsedTime < effectSpeed)
         {
             float t= elapsedTime / effectSpeed;
 
-            Vector3 curvePoint = GenerateBezierPoint(t,startPoint,
+            Vector3 curvePoint = MathUtils.GenerateBezierPoint(t,startPoint,
                 randomPoint,endPoint);
 
             effect.transform.position = new Vector3(curvePoint.x,curvePoint.y,0);
@@ -122,21 +122,7 @@ public class MainUI : MonoBehaviour
         Spawner.instance.Summon("Normal", heroData);
     }
 
-    private Vector3 GenerateBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
-    {
-        return Mathf.Pow(1-t,2) * p0 + 2 * (1-t) * t * p1 + (t*t) * p2;
-    }
-
-    private Vector3 GenerateRandomPoint(Vector3 start, Vector3 end)
-    {
-        Vector3 midPoint = (start + end) / 2f;
-        float randomHeight = Random.Range(1.0f,3.0f);
-        midPoint += Vector3.up * randomHeight;
-
-        midPoint += new Vector3(Random.Range(-1.0f,1.0f), 0.0f);
-
-        return midPoint;
-    }
+    
 
     public void StartGame()
     {
