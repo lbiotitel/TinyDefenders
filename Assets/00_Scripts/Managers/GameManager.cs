@@ -27,8 +27,8 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public int gold { get; set; }
     [field: SerializeField] public int summonGold { get; set; }
     [field: SerializeField] public int summonGoldInc { get; set; }
-    [SerializeField] private float waveTime = 60f;
-    public int wave = 1;
+
+    public int wave = -1;
     public float timer = 0;
     public int currentMonsterCount = 0;
     public int heroCount = 0;
@@ -40,11 +40,22 @@ public class GameManager : NetworkBehaviour
 
     private List<Monster> monsterList = new List<Monster>();
 
+    private WaveScriptable[] waveData;
+
 
     private void Start()
     {
+        InitGameManager();
+    }
+
+    private void InitGameManager()
+    {
         Time.timeScale = 0f;
-        timer = waveTime;
+        if (IsServer)
+        {
+            waveData = Resources.LoadAll<WaveScriptable>("WaveDatas");
+            InitWave();
+        }
     }
 
     private void Update()
@@ -64,12 +75,21 @@ public class GameManager : NetworkBehaviour
             
             }
             else {
-                wave++;
                 waveUI = true;
-                timer = waveTime;
+                InitWave();
             }
-            NotifyTimerClientRpc(timer,wave,waveUI);
+            NotifyTimerClientRpc(timer, waveData[wave].wave, waveUI);
         }
+    }
+
+    private void InitWave()
+    {
+        wave++;
+        timer = waveData[wave].waveTime;
+        Spawner.instance.StartMonsterSpawn(
+            waveData[wave].spawnMonsterData.monsterName,
+            waveData[wave].spawnInterval,
+            waveData[wave].waveMonsterCount);
     }
 
 
@@ -120,4 +140,5 @@ public class GameManager : NetworkBehaviour
     {
         currentMonsterCount = count;
     }
+
 }

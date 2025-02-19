@@ -128,7 +128,6 @@ public class MainUI : MonoBehaviour
     {
         Time.timeScale = 1f;
         profileAnimator.gameObject.SetActive(false);
-        Spawner.instance.StartMonsterSpawn();
     }
 
     private void Update()

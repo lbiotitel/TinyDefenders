@@ -230,45 +230,46 @@ public class Spawner : NetworkBehaviour
     #region MonsterSpawn
     //몬스터 소환
 
-    public void StartMonsterSpawn()
+    public void StartMonsterSpawn(string monsterName,float spawnInterval,int spawnCount)
     {
-        StartCoroutine(SpawnMonsterCoroutine());
+        StartCoroutine(SpawnMonsterCoroutine(monsterName,spawnInterval,spawnCount));
     }
-    private IEnumerator SpawnMonsterCoroutine()
+    private IEnumerator SpawnMonsterCoroutine(string monsterName, float spawnInterval, int spawnCount)
     {
-        yield return new WaitForSeconds(spawnTime);
-
-        NetUtils.HostAndClientMethod(
-           () => MonsterSpawnServerRpc(NetUtils.GetLocalD()),
-           () => MonsterSpawn(NetUtils.GetLocalD())
-        );
-
-        StartCoroutine(SpawnMonsterCoroutine());
+        for (int i = 0; i < spawnCount; i++)
+        {
+            yield return new WaitForSeconds(spawnInterval);
+            NetUtils.HostAndClientMethod(
+               () => MonsterSpawnServerRpc(NetUtils.GetLocalD(), monsterName),
+               () => MonsterSpawn(NetUtils.GetLocalD(), monsterName)
+            );
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void MonsterSpawnServerRpc(ulong clientId)
+    private void MonsterSpawnServerRpc(ulong clientId,string monsterName)
     {
-        MonsterSpawn(clientId);
+        MonsterSpawn(clientId, monsterName);
     }
 
-    private void MonsterSpawn(ulong clientId)
+    private void MonsterSpawn(ulong clientId,string monsterName)
     {
         Monster go = Instantiate(monsterPrefab);
         NetworkObject networkObject = go.GetComponent<NetworkObject>();
         networkObject.Spawn();
         GameManager.instance.AddMonster(go);
 
-        MonsterSpawnClientRpc(networkObject.NetworkObjectId, clientId);
+        MonsterSpawnClientRpc(networkObject.NetworkObjectId, clientId, monsterName);
     }
 
     [ClientRpc]
-    private void MonsterSpawnClientRpc(ulong networkObjectId, ulong clientId)
+    private void MonsterSpawnClientRpc(ulong networkObjectId, ulong clientId,string monsterName)
     {
         if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject monsterNetworkObject))
         {
             List<Transform> moveList = clientId == NetUtils.GetLocalD() ? playerMonsterMoveList : friendMonsterMoveList;
             monsterNetworkObject.transform.position = moveList[0].position;
+
             monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(moveList);
         }
     }
