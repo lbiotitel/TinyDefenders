@@ -267,10 +267,13 @@ public class Spawner : NetworkBehaviour
     {
         if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject monsterNetworkObject))
         {
+            MonsterScriptable monsterData = Resources.Load<MonsterScriptable>("MonsterDatas/" + monsterName);
+
             List<Transform> moveList = clientId == NetUtils.GetLocalD() ? playerMonsterMoveList : friendMonsterMoveList;
             monsterNetworkObject.transform.position = moveList[0].position;
-
+            
             monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(moveList);
+            monsterNetworkObject.GetComponent<Monster>().InitData(monsterData);
         }
     }
     #endregion

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Unity.Netcode;
 using UnityEngine;
@@ -28,8 +29,8 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public int summonGold { get; set; }
     [field: SerializeField] public int summonGoldInc { get; set; }
 
-    public int wave = -1;
-    public float timer = 0;
+    public int currentWave = -1;
+    public float timer = 100000;
     public int currentMonsterCount = 0;
     public int heroCount = 0;
     public int[] upgarde = new int[4];
@@ -46,15 +47,16 @@ public class GameManager : NetworkBehaviour
     private void Start()
     {
         InitGameManager();
+        Time.timeScale = 0f;
     }
 
     private void InitGameManager()
     {
-        Time.timeScale = 0f;
         if (IsServer)
         {
             waveData = Resources.LoadAll<WaveScriptable>("WaveDatas");
-            InitWave();
+            waveData = waveData.OrderBy(wave => int.Parse(wave.name)).ToArray();
+            StartWave();
         }
     }
 
@@ -76,20 +78,20 @@ public class GameManager : NetworkBehaviour
             }
             else {
                 waveUI = true;
-                InitWave();
+                StartWave();
             }
-            NotifyTimerClientRpc(timer, waveData[wave].wave, waveUI);
+           NotifyTimerClientRpc(timer, waveData[currentWave].wave, waveUI);
         }
     }
 
-    private void InitWave()
+    private void StartWave()
     {
-        wave++;
-        timer = waveData[wave].waveTime;
+        currentWave = Mathf.Min(++currentWave,waveData.Length - 1);
+        timer = waveData[currentWave].waveTime;
         Spawner.instance.StartMonsterSpawn(
-            waveData[wave].spawnMonsterData.monsterName,
-            waveData[wave].spawnInterval,
-            waveData[wave].waveMonsterCount);
+            waveData[currentWave].spawnMonsterData.monsterName,
+            waveData[currentWave].spawnInterval,
+            waveData[currentWave].waveMonsterCount);
     }
 
 
@@ -129,7 +131,7 @@ public class GameManager : NetworkBehaviour
     private void NotifyTimerClientRpc(float time,int wave,bool waveUI)
     {
         this.timer = time;
-        this.wave = wave;
+        this.currentWave = wave;
         if(waveUI)
             MainUI.instance.ShowWaveUI();
         onTimerUp?.Invoke();

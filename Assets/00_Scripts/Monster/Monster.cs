@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Monster : Entity
 {
     [SerializeField] private float speed;
-    [SerializeField] private int maxHp = 0; 
+    [SerializeField] private double maxHp = 0; 
     private double hp = 0;
     [SerializeField] private DamageText damageText;
     [SerializeField] private Image hpImage;
@@ -26,9 +26,15 @@ public class Monster : Entity
 
     private void Start()
     {
-        hp = CalcMonsterHp(GameManager.instance.wave);
+        hp = CalcMonsterHp(GameManager.instance.currentWave);
     }
 
+    public void InitData(MonsterScriptable data)
+    {
+        hp = maxHp = data.monsterHp;
+        speed = data.monsterSpeed;
+        animator.runtimeAnimatorController = data.animatorController;
+    }
 
     public void SetMoveTarget(List<Transform> targetLists)
     {

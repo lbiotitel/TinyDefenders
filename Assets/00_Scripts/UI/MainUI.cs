@@ -64,7 +64,7 @@ public class MainUI : MonoBehaviour
     public void ShowWaveUI()
     { 
         waveUI.gameObject.SetActive(true);
-        waveUIText.text = string.Format("Wave {0}", GameManager.instance.wave.ToString());
+        waveUIText.text = string.Format("Wave {0}", GameManager.instance.currentWave.ToString());
     }
 
     private void ClickSummon()
@@ -170,7 +170,7 @@ public class MainUI : MonoBehaviour
     private void DrawWaveAndTime()
     {
         timerText.text = GetTimeString();
-        waveText.text = "WAVE\n" + GameManager.instance.wave.ToString();
+        waveText.text = "WAVE\n" + GameManager.instance.currentWave.ToString();
     }
 
     private string GetTimeString()
