@@ -29,7 +29,7 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public int summonGold { get; set; }
     [field: SerializeField] public int summonGoldInc { get; set; }
 
-    public int currentWave = -1;
+    public int currentWave = 0;
     public float timer = 100000;
     public int currentMonsterCount = 0;
     public int heroCount = 0;
@@ -56,16 +56,17 @@ public class GameManager : NetworkBehaviour
         {
             waveData = Resources.LoadAll<WaveScriptable>("WaveDatas");
             waveData = waveData.OrderBy(wave => int.Parse(wave.name)).ToArray();
+
             StartWave();
         }
     }
 
     private void Update()
     {
-        TimeUpdate();
+        UpdateTime();
     }
 
-    private void TimeUpdate()
+    private void UpdateTime()
     {
         if (IsServer)
         {
@@ -74,24 +75,24 @@ public class GameManager : NetworkBehaviour
             {
                 timer -= Time.deltaTime;
                 timer = Mathf.Max(timer, 0);
-            
             }
-            else {
+            else
+            {
                 waveUI = true;
                 StartWave();
             }
-           NotifyTimerClientRpc(timer, waveData[currentWave].wave, waveUI);
+           NotifyTimerClientRpc(timer, currentWave, waveUI);
         }
     }
 
     private void StartWave()
     {
-        currentWave = Mathf.Min(++currentWave,waveData.Length - 1);
-        timer = waveData[currentWave].waveTime;
+        currentWave = Mathf.Min(++currentWave,waveData.Length);
+        timer = waveData[currentWave - 1].waveTime;
         Spawner.instance.StartMonsterSpawn(
-            waveData[currentWave].spawnMonsterData.monsterName,
-            waveData[currentWave].spawnInterval,
-            waveData[currentWave].waveMonsterCount);
+            waveData[currentWave - 1].spawnMonsterData.monsterName,
+            waveData[currentWave - 1].spawnInterval,
+            waveData[currentWave - 1].waveMonsterCount);
     }
 
 
