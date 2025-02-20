@@ -19,6 +19,7 @@ public partial class Monster : Entity
     int currentMoveTarget = 1;
     List<Transform> targetLists;
     private bool isDead = false;
+    private MonsterType monsterType = MonsterType.NORMAL;
 
     public override void Awake()
     {
@@ -30,6 +31,7 @@ public partial class Monster : Entity
         hp = maxHp = data.monsterHp;
         speed = originalSpeed = data.monsterSpeed;
         animator.runtimeAnimatorController = data.animatorController;
+        monsterType = data.monsterType;
     }
 
     public void SetMoveTarget(List<Transform> targetLists)
@@ -103,6 +105,8 @@ public partial class Monster : Entity
 
         if (IsServer)
         {
+            if (monsterType == MonsterType.BOSS)
+                GameManager.instance.BossMonsterDead();
             this.gameObject.SetActive(false);
             GameManager.instance.RemoveMonster(this);
             NetworkBehaviour.Destroy(this);

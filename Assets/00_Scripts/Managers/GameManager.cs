@@ -8,7 +8,6 @@ using UnityEngine.Rendering;
 
 public delegate void OnGoldGetEventHandler();
 public delegate void OnTimerUpEventHandler(string monsterName);
-public delegate void OnBossMonsterDeadHandler();
 public class GameManager : NetworkBehaviour
 {
     public static GameManager instance = null;
@@ -39,7 +38,6 @@ public class GameManager : NetworkBehaviour
     //event
     public event OnGoldGetEventHandler onGoldGet;
     public event OnTimerUpEventHandler onTimerUp;
-    public event OnBossMonsterDeadHandler onBossMonsterDead;
 
     private List<Monster> monsterList = new List<Monster>();
 
@@ -96,9 +94,6 @@ public class GameManager : NetworkBehaviour
     {
         currentWave = Mathf.Min(++currentWave, waveData.Length);
 
-        if (waveData[currentWave - 1].bossWave)
-            onBossMonsterDead += StartWave;
-
         timer = waveData[currentWave - 1].waveTime;
         Spawner.instance.StartMonsterSpawn(
             waveData[currentWave - 1].spawnMonsterData.monsterName,
@@ -130,6 +125,17 @@ public class GameManager : NetworkBehaviour
     private void UpdateClientMonsterCount()
     {
         NotifyClientMonsterCountClientRpc(currentMonsterCount);
+    }
+
+    public void BossMonsterDead()
+    {
+        StartWave();
+        NotifyTimerClientRpc(
+             timer,
+             currentWave,
+             true,
+             waveData[currentWave - 1].bossWave,
+             waveData[currentWave - 1].spawnMonsterData.monsterName);
     }
 
     [ClientRpc]

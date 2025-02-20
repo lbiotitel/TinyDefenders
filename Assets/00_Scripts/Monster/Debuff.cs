@@ -52,6 +52,7 @@ public partial class Monster : Entity
     {
         if (coroutine != null)
         {
+            if (isDead) return;
             StopCoroutine(slowCoroutine);
         }
     }
@@ -103,8 +104,9 @@ public partial class Monster : Entity
         secondAction?.Invoke();
     }
 
-    private void OnDisable()
+    public override void OnDestroy()
     {
+        base.OnDestroy();
         StopAllCoroutines();
     }
 }

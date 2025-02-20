@@ -1,5 +1,7 @@
+using NUnit.Framework;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
@@ -12,13 +14,7 @@ public class Hero : Entity
     HeroScriptable heroData;
     private HeroHolder heroHolder;
     private bool isMove = false;
-
     private double baseAtk;
-
-    public float stunChance = 0.5f;
-    public float slowChance = 0.5f;
-    public float slowAmount = 0.5f;
-    public float slowDuration = 2f;
 
     public double atk 
     {
@@ -188,19 +184,27 @@ public class Hero : Entity
         if (target != null)
         {
             AttackMonsterServerRpc(target.NetworkObjectId);
-            
-            if (UnityEngine.Random.value <= slowChance)
+            DebuffEffect();
+        }
+    }
+
+    private void DebuffEffect()
+    {
+        for (int i = 0; i < heroData.debuffEffects.Count; i++)
+        {
+            DebuffEffect debuffEffect = heroData.debuffEffects[i];
+            DebuffType debuffType = debuffEffect.debuffType;
+            float chance = debuffEffect.values[0];
+
+            List<float> values = new List<float>(debuffEffect.values);
+            values.RemoveAt(0);
+
+            float[] sendValues = values.ToArray();
+
+            if (UnityEngine.Random.value <= chance)
             {
-                float[] values = { 1, slowAmount, slowDuration };
                 target.GetComponent<Monster>().DebuffServerRpc(
-                    (int)DebuffType.SLOW, values
-                    );
-            }
-            else if (UnityEngine.Random.value <= stunChance)
-            {
-                float[] values = { 3f };
-                target.GetComponent<Monster>().DebuffServerRpc(
-                    (int)DebuffType.STUN, values
+                    (int)debuffType, sendValues
                     );
             }
         }

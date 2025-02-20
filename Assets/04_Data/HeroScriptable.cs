@@ -1,6 +1,12 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+[System.Serializable]
+public class DebuffEffect { 
+    public DebuffType debuffType;
+    public float[] values;
+}
 
 [System.Serializable]
 public struct HeroData : INetworkSerializable
@@ -12,6 +18,7 @@ public struct HeroData : INetworkSerializable
     public string leftEquipmentName;
     public string rightEquipmentName;
     public string rarity;
+
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
@@ -28,17 +35,21 @@ public struct HeroData : INetworkSerializable
 [CreateAssetMenu(fileName = "HeroScriptable", menuName = "Scriptable Objects/HeroScriptable")]
 public class HeroScriptable : ScriptableObject
 {
+    [Header("Stat")]
     public string heroName;
     public int atk;
     public float atkSpeed;
     public float atkRange;
     public Rarity rarity;
 
+    [Header("Extra")]
     public string leftEquipmentName = string.Empty;
     public string rightEquipmentName = string.Empty;
-
     public RuntimeAnimatorController runtimeAnimatorController;
     public Projectile projectile = null;
+
+    [Header("Debuff")]
+    public List<DebuffEffect> debuffEffects;
 
     public HeroData GetHeroData()
     {

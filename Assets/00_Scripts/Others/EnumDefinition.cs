@@ -6,6 +6,12 @@ public enum DebuffType {
     STUN
 }
 
+
+public enum MonsterType { 
+    NORMAL,
+    BOSS
+}
+
 public enum HostType { 
     HOST,
     CLIENT,
