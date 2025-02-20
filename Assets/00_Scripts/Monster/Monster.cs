@@ -81,9 +81,9 @@ public partial class Monster : Entity
     private void Update()
     {
         if (isDead) return;    
+        HpSlideAnimation();
         if (isStun) return;
         MoveLogic();
-        HpSlideAnimation();
     }
 
     private void HpSlideAnimation()
