@@ -47,6 +47,7 @@ public class MainUI : MonoBehaviour
     [Header("Wave UI")]
     [SerializeField] private GameObject waveUI;
     [SerializeField] private TextMeshProUGUI waveUIText;
+    [SerializeField] private TextMeshProUGUI bossNameText;
 
     private void Start()
     {
@@ -66,6 +67,14 @@ public class MainUI : MonoBehaviour
     {
         waveUI.gameObject.SetActive(true);
         waveUIText.text = string.Format("Wave {0}", GameManager.instance.currentWave.ToString());
+    }
+
+    public void ShowBossWaveUI(string bossName)
+    { 
+        waveUI.gameObject.SetActive(true);
+        waveUI.GetComponent<Animator>().SetTrigger("BOSS");
+        waveUIText.text = string.Format("Wave {0}", GameManager.instance.currentWave.ToString());
+        bossNameText.text = bossName;
     }
 
     private void ClickSummon()

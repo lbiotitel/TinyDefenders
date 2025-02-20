@@ -84,7 +84,8 @@ public class GameManager : NetworkBehaviour
            NotifyTimerClientRpc(
                timer,
                currentWave, 
-               waveUI, 
+               waveUI,
+               waveData[currentWave - 1].bossWave,
                waveData[currentWave - 1].spawnMonsterData.monsterName);
         }
     }
@@ -133,12 +134,17 @@ public class GameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void NotifyTimerClientRpc(float time,int wave,bool waveUI,string monsterName)
+    private void NotifyTimerClientRpc(float time,int wave,bool waveUI,bool isBoss,string monsterName)
     {
         this.timer = time;
         this.currentWave = wave;
-        if(waveUI)
-            MainUI.instance.ShowWaveUI();
+        if (waveUI)
+        {
+            if (!isBoss)
+                MainUI.instance.ShowWaveUI();
+            else
+                MainUI.instance.ShowBossWaveUI(monsterName);
+        }
         onTimerUp?.Invoke(monsterName);
     }
 
