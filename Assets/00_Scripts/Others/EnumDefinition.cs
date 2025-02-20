@@ -1,6 +1,11 @@
 using UnityEngine;
 
 
+public enum DebuffType { 
+    SLOW,
+    STUN
+}
+
 public enum HostType { 
     HOST,
     CLIENT,

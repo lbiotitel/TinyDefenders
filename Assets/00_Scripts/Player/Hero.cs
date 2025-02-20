@@ -15,6 +15,7 @@ public class Hero : Entity
 
     private double baseAtk;
 
+    public float stunChance = 0.5f;
     public float slowChance = 0.5f;
     public float slowAmount = 0.5f;
     public float slowDuration = 2f;
@@ -187,8 +188,21 @@ public class Hero : Entity
         if (target != null)
         {
             AttackMonsterServerRpc(target.NetworkObjectId);
-            if(UnityEngine.Random.value <= slowChance)
-                target.GetComponent<Monster>().SlowDebuff(slowAmount,slowDuration);
+            
+            if (UnityEngine.Random.value <= slowChance)
+            {
+                float[] values = { 1, slowAmount, slowDuration };
+                target.GetComponent<Monster>().DebuffServerRpc(
+                    (int)DebuffType.SLOW, values
+                    );
+            }
+            else if (UnityEngine.Random.value <= stunChance)
+            {
+                float[] values = { 3f };
+                target.GetComponent<Monster>().DebuffServerRpc(
+                    (int)DebuffType.STUN, values
+                    );
+            }
         }
     }
 

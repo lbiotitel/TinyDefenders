@@ -6052,6 +6052,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  slowColor: {r: 0, g: 0, b: 0, a: 0}
   speed: 1
   maxHp: 30
   damageText: {fileID: 613767842028869875, guid: 60a8e892def7dc540b6f058e9ea90b22, type: 3}
@@ -6137,6 +6138,9 @@ MonoBehaviour:
   leftHand: {fileID: 6966628996729807784}
   rightHand: {fileID: 1752757895586856549}
   spawnParticle: {fileID: 0}
+  slowChance: 0.5
+  slowAmount: 0.5
+  slowDuration: 2
   <attackRange>k__BackingField: 1
   <attackSpeed>k__BackingField: 1
   <monsterLayer>k__BackingField:

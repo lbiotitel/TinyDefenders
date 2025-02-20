@@ -2,12 +2,13 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 public partial class Monster : Entity
 {
-    [SerializeField] private float speed;
+    [SerializeField] private float speed = 0f;
     [SerializeField] private double maxHp = 0; 
     private double hp = 0;
     [SerializeField] private DamageText damageText;
@@ -27,7 +28,7 @@ public partial class Monster : Entity
     public void InitData(MonsterScriptable data)
     {
         hp = maxHp = data.monsterHp;
-        speed = data.monsterSpeed;
+        speed = originalSpeed = data.monsterSpeed;
         animator.runtimeAnimatorController = data.animatorController;
     }
 
@@ -77,6 +78,8 @@ public partial class Monster : Entity
 
     private void Update()
     {
+        if (isDead) return;    
+        if (isStun) return;
         MoveLogic();
         HpSlideAnimation();
     }
