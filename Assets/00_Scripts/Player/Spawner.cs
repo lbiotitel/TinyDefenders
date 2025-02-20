@@ -37,8 +37,7 @@ public class Spawner : NetworkBehaviour
     [SerializeField] private HeroHolder heroHolderPrefab;
     [SerializeField] private Monster monsterPrefab;
 
-    private List<Transform> playerMonsterMoveList = new List<Transform>();
-    private List<Transform> friendMonsterMoveList = new List<Transform>();
+    private List<Transform> monsterMovePosition = new List<Transform>();
 
     public List<SpawnNode> playerSpawnList = new List<SpawnNode>();
     public List<SpawnNode> friendSpawnList = new List<SpawnNode>();
@@ -61,14 +60,9 @@ public class Spawner : NetworkBehaviour
     //몬스터 스폰과 이동경로 설정
     private void InitMonsterSpawnPosition()
     {
-        for (int i = 0; i < transform.GetChild(1).childCount; i++)
+        for (int i = 0; i < transform.GetChild(2).childCount; i++)
         {
-            playerMonsterMoveList.Add(transform.GetChild(0).GetChild(i).transform);
-        }
-
-        for (int i = 0; i < transform.GetChild(0).childCount; i++)
-        {
-            friendMonsterMoveList.Add(transform.GetChild(1).GetChild(i).transform);
+            monsterMovePosition.Add(transform.GetChild(2).GetChild(i).transform);
         }
     }
 
@@ -269,10 +263,9 @@ public class Spawner : NetworkBehaviour
         {
             MonsterScriptable monsterData = Resources.Load<MonsterScriptable>("MonsterDatas/" + monsterName);
 
-            List<Transform> moveList = clientId == NetUtils.GetLocalD() ? playerMonsterMoveList : friendMonsterMoveList;
-            monsterNetworkObject.transform.position = moveList[0].position;
+            monsterNetworkObject.transform.position = monsterMovePosition[0].position;
             
-            monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(moveList);
+            monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(monsterMovePosition);
             monsterNetworkObject.GetComponent<Monster>().InitData(monsterData);
         }
     }
