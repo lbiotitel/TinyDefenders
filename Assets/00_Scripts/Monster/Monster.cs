@@ -24,11 +24,6 @@ public class Monster : Entity
         base.Awake();
     }
 
-    private void Start()
-    {
-        hp = CalcMonsterHp(GameManager.instance.currentWave);
-    }
-
     public void InitData(MonsterScriptable data)
     {
         hp = maxHp = data.monsterHp;
@@ -39,20 +34,6 @@ public class Monster : Entity
     public void SetMoveTarget(List<Transform> targetLists)
     {
         this.targetLists = targetLists;
-    }
-
-    private double CalcMonsterHp(int waveLevel)
-    {
-        double baseHp = maxHp;
-
-        double hpMultiplier = Mathf.Pow(1.1f,waveLevel);
-
-        if (waveLevel % 10 == 0)
-        {
-            hpMultiplier += 0.05f * (waveLevel / 10);
-        }
-
-        return baseHp * hpMultiplier;
     }
 
     public void GetDamage(double damage)

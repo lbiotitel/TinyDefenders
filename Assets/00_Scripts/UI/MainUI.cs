@@ -171,7 +171,7 @@ public class MainUI : MonoBehaviour
     private void DrawWaveAndTime(string monsterName)
     {
         timerText.text = GetTimeString();
-        waveText.text = "WAVE\n" + GameManager.instance.currentWave.ToString();
+        waveText.text = "WAVE " + GameManager.instance.currentWave.ToString();
         monsterNameText.text = monsterName;
     }
 
