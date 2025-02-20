@@ -35,6 +35,8 @@ public class GameManager : NetworkBehaviour
     public int heroCount = 0;
     public int[] upgarde = new int[4];
 
+    private bool isGameStart = false;
+
     //event
     public event OnGoldGetEventHandler onGoldGet;
     public event OnTimerUpEventHandler onTimerUp;
@@ -43,12 +45,6 @@ public class GameManager : NetworkBehaviour
 
     private WaveScriptable[] waveData;
 
-
-    private void Start()
-    {
-        InitGameManager();
-        Time.timeScale = 0f;
-    }
 
     private void InitGameManager()
     {
@@ -68,6 +64,7 @@ public class GameManager : NetworkBehaviour
 
     private void UpdateTime()
     {
+        if (!isGameStart) return;
         if (IsServer)
         {
             bool waveUI = false;
@@ -164,5 +161,11 @@ public class GameManager : NetworkBehaviour
     private void NotifyClientMonsterCountClientRpc(int count)
     {
         currentMonsterCount = count;
+    }
+
+    public void StartGame()
+    { 
+        isGameStart = true;
+        InitGameManager();
     }
 }

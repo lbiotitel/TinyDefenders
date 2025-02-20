@@ -1,7 +1,34 @@
 fileFormatVersion: 2
-guid: b77e96249bab11a47a19f7f5dd45b4c7
+guid: 80c916a721e8983478e7b8a184aaa394
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -3553078978757505593
+    second: PlayerSpearMan_0
+  - first:
+      213: 3963415710611468409
+    second: PlayerSpearMan_1
+  - first:
+      213: 903440499074041488
+    second: PlayerSpearMan_2
+  - first:
+      213: -6032127986103983253
+    second: PlayerSpearMan_3
+  - first:
+      213: -2618710685398317348
+    second: PlayerSpearMan_4
+  - first:
+      213: -1612103170796220725
+    second: PlayerSpearMan_5
+  - first:
+      213: 2987231776454734020
+    second: PlayerSpearMan_6
+  - first:
+      213: -3370032660195312789
+    second: PlayerSpearMan_7
+  - first:
+      213: -2766521766529562305
+    second: PlayerSpearMan_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -34,7 +61,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -48,7 +75,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 14
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,19 +99,6 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -94,7 +108,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Server
+    buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -123,265 +137,199 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerBerserker_0
+      name: PlayerSpearMan_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1
-        width: 23
-        height: 24
+        x: 2
+        y: 3
+        width: 19
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 1ced53421616a3b43b76312ec53c72f8
-      internalID: -1021118561
+      spriteID: 7cd404c6e7de0bec0800000000000000
+      internalID: -3553078978757505593
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerBerserker_1
+      name: PlayerSpearMan_1
       rect:
         serializedVersion: 2
-        x: 23
-        y: 1
-        width: 23
-        height: 24
+        x: 25
+        y: 3
+        width: 19
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 16506ddca240198449ffd2d8aaf511c0
-      internalID: 275689577
+      spriteID: 970f238f691e00730800000000000000
+      internalID: 3963415710611468409
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerBerserker_2
+      name: PlayerSpearMan_2
       rect:
         serializedVersion: 2
-        x: 46
-        y: 1
-        width: 23
-        height: 24
+        x: 48
+        y: 4
+        width: 19
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: be0f7798a2711dc4bb269c2fb1712b70
-      internalID: -1019752599
+      spriteID: 0968207e85aa98c00800000000000000
+      internalID: 903440499074041488
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerBerserker_3
+      name: PlayerSpearMan_3
       rect:
         serializedVersion: 2
-        x: 69
-        y: 1
-        width: 23
-        height: 24
+        x: 71
+        y: 5
+        width: 19
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: ada9bdd1a612d424aa97f05dfb18931b
-      internalID: 1354018741
+      spriteID: b6364946e83994ca0800000000000000
+      internalID: -6032127986103983253
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerBerserker_4
+      name: PlayerSpearMan_4
       rect:
         serializedVersion: 2
-        x: 92
-        y: 1
-        width: 23
-        height: 24
+        x: 94
+        y: 4
+        width: 19
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: c34ac690a44764143b825a581f821b86
-      internalID: 1197012840
+      spriteID: cd64053918878abd0800000000000000
+      internalID: -2618710685398317348
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerBerserker_5
+      name: PlayerSpearMan_5
       rect:
         serializedVersion: 2
-        x: 115
-        y: 1
-        width: 23
-        height: 24
+        x: 117
+        y: 5
+        width: 19
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 57820dd30b982174cb5cd723803b8ade
-      internalID: -1162328907
+      spriteID: bce096b15b8a0a9e0800000000000000
+      internalID: -1612103170796220725
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerBerserker_6
+      name: PlayerSpearMan_6
       rect:
         serializedVersion: 2
-        x: 138
-        y: 1
-        width: 23
-        height: 24
+        x: 140
+        y: 4
+        width: 19
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 029f48b623c32c84283f09db0333e67f
-      internalID: -66321928
+      spriteID: 4c0f7514977c47920800000000000000
+      internalID: 2987231776454734020
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerBerserker_7
+      name: PlayerSpearMan_7
       rect:
         serializedVersion: 2
-        x: 161
-        y: 1
-        width: 23
-        height: 24
+        x: 163
+        y: 4
+        width: 19
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 69ab5973c80afae4898e912270815717
-      internalID: 1999505869
+      spriteID: b6bf797962d3b31d0800000000000000
+      internalID: -3370032660195312789
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerBerserker_8
+      name: PlayerSpearMan_8
       rect:
         serializedVersion: 2
-        x: 184
-        y: 1
-        width: 23
-        height: 24
+        x: 186
+        y: 4
+        width: 19
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 26e38c160624b254caeadaf5429a3d3d
-      internalID: -1309380798
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerBerserker_9
-      rect:
-        serializedVersion: 2
-        x: 207
-        y: 1
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3f3f39dd11c69284e86bc4ca5be8b42b
-      internalID: 286239797
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerBerserker_10
-      rect:
-        serializedVersion: 2
-        x: 230
-        y: 1
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 55bba38ba56a9384094f980edb62d43a
-      internalID: -684284498
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerBerserker_11
-      rect:
-        serializedVersion: 2
-        x: 253
-        y: 1
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 937cb37747e21c94e86664d6ea1558dc
-      internalID: 230861209
+      spriteID: f398e9a6c175b99d0800000000000000
+      internalID: -2766521766529562305
       vertices: []
       indices: 
       edges: []
@@ -390,7 +338,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -399,19 +347,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      PlayerBerserker_0: -1021118561
-      PlayerBerserker_1: 275689577
-      PlayerBerserker_10: -684284498
-      PlayerBerserker_11: 230861209
-      PlayerBerserker_2: -1019752599
-      PlayerBerserker_3: 1354018741
-      PlayerBerserker_4: 1197012840
-      PlayerBerserker_5: -1162328907
-      PlayerBerserker_6: -66321928
-      PlayerBerserker_7: 1999505869
-      PlayerBerserker_8: -1309380798
-      PlayerBerserker_9: 286239797
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

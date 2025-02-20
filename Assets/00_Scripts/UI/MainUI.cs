@@ -136,8 +136,8 @@ public class MainUI : MonoBehaviour
 
     public void StartGame()
     {
-        Time.timeScale = 1f;
         profileAnimator.gameObject.SetActive(false);
+        GameManager.instance.StartGame();
     }
 
     private void Update()
