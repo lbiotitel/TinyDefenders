@@ -66,9 +66,8 @@ public class Projectile : MonoBehaviour
     private IEnumerator ChasingTargetBazier()
     { 
         Vector3 startPos = transform.position;
-        Vector3 endPos = target.position;
 
-        Vector3 midPoint = (startPos + endPos) / 2f;
+        Vector3 midPoint = (startPos + target.position) / 2f;
         midPoint.y += 1f;
 
 
@@ -77,9 +76,9 @@ public class Projectile : MonoBehaviour
         while (elapsedTime < divSpeed)
         {
             float t = elapsedTime / divSpeed;
-
+         
             Vector3 curvePoint = MathUtils.GenerateBezierPoint(t, startPos,
-                midPoint, endPos);
+                midPoint, target.position);
 
             transform.position = new Vector3(curvePoint.x, curvePoint.y, 0);
 
