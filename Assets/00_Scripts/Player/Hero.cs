@@ -14,6 +14,11 @@ public class Hero : Entity
     private bool isMove = false;
 
     private double baseAtk;
+
+    public float slowChance = 0.5f;
+    public float slowAmount = 0.5f;
+    public float slowDuration = 2f;
+
     public double atk 
     {
         get {
@@ -180,7 +185,11 @@ public class Hero : Entity
     public void AttackMonster()
     {
         if (target != null)
+        {
             AttackMonsterServerRpc(target.NetworkObjectId);
+            if(UnityEngine.Random.value <= slowChance)
+                target.GetComponent<Monster>().SlowDebuff(slowAmount,slowDuration);
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]

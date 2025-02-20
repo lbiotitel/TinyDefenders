@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Monster : Entity
+public partial class Monster : Entity
 {
     [SerializeField] private float speed;
     [SerializeField] private double maxHp = 0; 
@@ -15,7 +15,7 @@ public class Monster : Entity
     [SerializeField] private Image hpImageEffect;
     [SerializeField] private float hpAnimeSpeed = 2f;
 
-    int currentTarget = 1;
+    int currentMoveTarget = 1;
     List<Transform> targetLists;
     private bool isDead = false;
 
@@ -48,8 +48,8 @@ public class Monster : Entity
     private void MonsterGetDamage(double damage)
     {
         hp -= (int)damage;
-        //hpImage.fillAmount = ((float)hp / (float)maxHp);
-        //Instantiate(damageText, transform.position, Quaternion.identity).InitDamageText(damage);
+        hpImage.fillAmount = ((float)hp / (float)maxHp);
+        Instantiate(damageText, transform.position, Quaternion.identity).InitDamageText(damage);
         if (hp <= 0)
         {
             isDead = true;
@@ -114,12 +114,12 @@ public class Monster : Entity
     private void MoveLogic()
     {
         if (isDead) return;
-        if (Vector2.Distance(transform.position, targetLists[currentTarget].position) <= 0.0f)
+        if (Vector2.Distance(transform.position, targetLists[currentMoveTarget].position) <= 0.0f)
         {
-            spriteRenderer.flipX = currentTarget >= 2 ? true : false;
-            currentTarget = (currentTarget + 1) % targetLists.Count;
+            spriteRenderer.flipX = currentMoveTarget >= 2 ? true : false;
+            currentMoveTarget = (currentMoveTarget + 1) % targetLists.Count;
         }
 
-        transform.position = Vector2.MoveTowards(transform.position, targetLists[currentTarget].position, Time.deltaTime * speed);
+        transform.position = Vector2.MoveTowards(transform.position, targetLists[currentMoveTarget].position, Time.deltaTime * speed);
     }
 }
