@@ -1,3 +1,6 @@
+using Newtonsoft.Json.Serialization;
+using System.Collections;
+using System.Net;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -6,10 +9,11 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private GameObject destroyParticle;
     [SerializeField] private ProjectileType projectileType = ProjectileType.NORMAL;
+    [SerializeField] private bool isBezier = false;
     private Hero referenceHero;
     private Transform target;
 
-    public void Init(Transform target,Hero referenceHero)
+    public void Init(Transform target, Hero referenceHero)
     {
         this.referenceHero = referenceHero;
         this.target = target;
@@ -17,14 +21,26 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        ChasingTarget();
+        if (target == null || referenceHero == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if (!isBezier)
+        {
+            ChasingTarget();
+        }
+        else {
+            StartCoroutine(ChasingTargetBazier());
+        }
         ProjectileTypeLogic();
     }
 
     private void ProjectileTypeLogic()
     {
         switch (projectileType)
-        { 
+        {
             case ProjectileType.NORMAL:
                 RotateToForwardDirection();
                 break;
@@ -36,15 +52,45 @@ public class Projectile : MonoBehaviour
 
     private void SpinningProjectile()
     {
-        transform.Rotate(0,0,speed);
+        transform.Rotate(0, 0, speed);
     }
 
     private void RotateToForwardDirection()
     {
         Vector2 direction = target.position - transform.position;
-        float angle = Mathf.Atan2(direction.y,direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0,0,angle);
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
+
+
+    private IEnumerator ChasingTargetBazier()
+    { 
+        Vector3 startPos = transform.position;
+        Vector3 endPos = target.position;
+
+        Vector3 midPoint = (startPos + endPos) / 2f;
+        midPoint.y += 1f;
+
+
+        float elapsedTime = 0.0f;
+        float divSpeed = speed / 20f;
+        while (elapsedTime < divSpeed)
+        {
+            float t = elapsedTime / divSpeed;
+
+            Vector3 curvePoint = MathUtils.GenerateBezierPoint(t, startPos,
+                midPoint, endPos);
+
+            transform.position = new Vector3(curvePoint.x, curvePoint.y, 0);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        Instantiate(destroyParticle, transform.position, Quaternion.identity);
+        referenceHero.AttackMonster();
+        Destroy(this.gameObject);
+    } 
 
     private void ChasingTarget()
     {

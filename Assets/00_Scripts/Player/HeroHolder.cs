@@ -154,6 +154,9 @@ public class HeroHolder : NetworkBehaviour
             HeroHolder holder = heroHolder.GetComponent<HeroHolder>();
             holder.holderName = string.Empty;
             holder.heroList.Clear();
+            HideCircle();
+            HideRange();
+            HideSquare();
         }
     }
 

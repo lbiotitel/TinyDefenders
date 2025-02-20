@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 
 public delegate void OnGoldGetEventHandler();
-public delegate void OnTimerUpEventHandler();
+public delegate void OnTimerUpEventHandler(string monsterName);
 public class GameManager : NetworkBehaviour
 {
     public static GameManager instance = null;
@@ -81,7 +81,11 @@ public class GameManager : NetworkBehaviour
                 waveUI = true;
                 StartWave();
             }
-           NotifyTimerClientRpc(timer, currentWave, waveUI);
+           NotifyTimerClientRpc(
+               timer,
+               currentWave, 
+               waveUI, 
+               waveData[currentWave - 1].spawnMonsterData.monsterName);
         }
     }
 
@@ -129,13 +133,13 @@ public class GameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void NotifyTimerClientRpc(float time,int wave,bool waveUI)
+    private void NotifyTimerClientRpc(float time,int wave,bool waveUI,string monsterName)
     {
         this.timer = time;
         this.currentWave = wave;
         if(waveUI)
             MainUI.instance.ShowWaveUI();
-        onTimerUp?.Invoke();
+        onTimerUp?.Invoke(monsterName);
     }
 
     [ClientRpc]
@@ -143,5 +147,4 @@ public class GameManager : NetworkBehaviour
     {
         currentMonsterCount = count;
     }
-
 }

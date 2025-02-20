@@ -23,6 +23,7 @@ public class MainUI : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI waveText;
     [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI monsterNameText;
 
     [SerializeField] private TextMeshProUGUI heroCountText;
 
@@ -45,12 +46,12 @@ public class MainUI : MonoBehaviour
 
     [Header("Wave UI")]
     [SerializeField] private GameObject waveUI;
-    [SerializeField] private TextMeshProUGUI waveUIText;    
-    
+    [SerializeField] private TextMeshProUGUI waveUIText;
+
     private void Start()
     {
         InitEvent();
-        if(profileAnimator.gameObject.activeSelf == false)
+        if (profileAnimator.gameObject.activeSelf == false)
             profileAnimator.gameObject.SetActive(true);
     }
 
@@ -62,7 +63,7 @@ public class MainUI : MonoBehaviour
     }
 
     public void ShowWaveUI()
-    { 
+    {
         waveUI.gameObject.SetActive(true);
         waveUIText.text = string.Format("Wave {0}", GameManager.instance.currentWave.ToString());
     }
@@ -79,7 +80,7 @@ public class MainUI : MonoBehaviour
         StartCoroutine(SummonCoroutine());
     }
 
-    public void ClickUpgrade(int value) 
+    public void ClickUpgrade(int value)
     {
         if (GameManager.instance.gold < 30 + GameManager.instance.upgarde[value])
             return;
@@ -92,7 +93,7 @@ public class MainUI : MonoBehaviour
     {
         HeroScriptable heroData = Spawner.instance.LoadData("Normal");
 
-        Vector3 targetPos =  Spawner.instance.GetHolderPosition(heroData);
+        Vector3 targetPos = Spawner.instance.GetHolderPosition(heroData);
 
         Vector3 buttonWorldPosition = Camera.main.ScreenToWorldPoint(summonButton.transform.position);
         GameObject effect = Instantiate(summonEffect);
@@ -102,27 +103,27 @@ public class MainUI : MonoBehaviour
         Vector3 startPoint = buttonWorldPosition;
         Vector3 endPoint = targetPos;
 
-        Vector3 randomPoint = MathUtils.GenerateRandomPoint(startPoint,endPoint);
+        Vector3 randomPoint = MathUtils.GenerateRandomPoint(startPoint, endPoint);
 
         float elapsedTime = 0.0f;
         while (elapsedTime < effectSpeed)
         {
-            float t= elapsedTime / effectSpeed;
+            float t = elapsedTime / effectSpeed;
 
-            Vector3 curvePoint = MathUtils.GenerateBezierPoint(t,startPoint,
-                randomPoint,endPoint);
+            Vector3 curvePoint = MathUtils.GenerateBezierPoint(t, startPoint,
+                randomPoint, endPoint);
 
-            effect.transform.position = new Vector3(curvePoint.x,curvePoint.y,0);
+            effect.transform.position = new Vector3(curvePoint.x, curvePoint.y, 0);
 
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        
+
         Destroy(effect);
         Spawner.instance.Summon("Normal", heroData);
     }
 
-    
+
 
     public void StartGame()
     {
@@ -141,24 +142,24 @@ public class MainUI : MonoBehaviour
         {
             Destroy(alarmTextList[0]);
             alarmTextList.RemoveAt(0);
-        }   
+        }
         TextMeshProUGUI alarmObj = Instantiate(alarmTextPrefab);
         alarmObj.text = text;
         alarmObj.transform.SetParent(alarmBar);
         alarmObj.transform.SetAsFirstSibling();
         alarmTextList.Add(alarmObj);
-        Destroy(alarmObj,1.5f);
+        Destroy(alarmObj, 1.5f);
     }
 
     private void DrawMainUI()
     {
-        monsterCountText.text = 
+        monsterCountText.text =
             GameManager.instance.currentMonsterCount.ToString() + "/" + GameManager.instance.maxMonsterCount.ToString();
         monsterCountSliderImage.fillAmount = GameManager.instance.currentMonsterCount / 100f;
         summonGoldText.text = GameManager.instance.summonGold.ToString();
         currentGoldText.text = GameManager.instance.gold.ToString();
         summonGoldText.color = GameManager.instance.gold >= GameManager.instance.summonGold ? Color.white : Color.red;
-        heroCountText.text = string.Format("{0:D2}/{1:D2}",GameManager.instance.heroCount,GameManager.instance.maxHeroCount);
+        heroCountText.text = string.Format("{0:D2}/{1:D2}", GameManager.instance.heroCount, GameManager.instance.maxHeroCount);
 
         for (int i = 0; i < upgradeLevelText.Length; i++)
         {
@@ -167,10 +168,11 @@ public class MainUI : MonoBehaviour
         }
     }
 
-    private void DrawWaveAndTime()
+    private void DrawWaveAndTime(string monsterName)
     {
         timerText.text = GetTimeString();
         waveText.text = "WAVE\n" + GameManager.instance.currentWave.ToString();
+        monsterNameText.text = monsterName;
     }
 
     private string GetTimeString()
