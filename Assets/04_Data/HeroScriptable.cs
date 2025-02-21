@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 [System.Serializable]
@@ -64,6 +65,11 @@ public class HeroScriptable : ScriptableObject
 
     [Header("Skill")]
     public SkillData skillData;
+
+    private void OnEnable()
+    {
+        heroName = this.name;
+    }
 
     public HeroData GetHeroData()
     {
