@@ -2,6 +2,14 @@ using UnityEngine;
 
 public class MathUtils : MonoBehaviour
 {
+
+    public static bool Distance(Vector2 startPos, Vector2 targetPos, float distance)
+    {
+        if (Vector2.Distance(startPos, targetPos) <= distance)
+            return true;
+        return false;
+    }
+
     public static Vector3 GenerateBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
     {
         return Mathf.Pow(1 - t, 2) * p0 + 2 * (1 - t) * t * p1 + (t * t) * p2;

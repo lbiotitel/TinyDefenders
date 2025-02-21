@@ -8,6 +8,17 @@ public class DebuffEffect {
     public float[] values;
 }
 
+
+[System.Serializable]
+public class SkillData {
+    public SKILL skill;
+    public SkillType skillType = SkillType.ACTIVE;
+    public float coolTime;
+    public float skillDamage;
+    public GameObject projectilePrefab;
+}
+
+
 [System.Serializable]
 public struct HeroData : INetworkSerializable
 {
@@ -50,6 +61,9 @@ public class HeroScriptable : ScriptableObject
 
     [Header("Debuff")]
     public List<DebuffEffect> debuffEffects;
+
+    [Header("Skill")]
+    public SkillData skillData;
 
     public HeroData GetHeroData()
     {

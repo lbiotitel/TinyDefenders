@@ -1,10 +1,8 @@
-using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 public class Hero : Entity
 {
@@ -16,18 +14,20 @@ public class Hero : Entity
     private bool isMove = false;
     private double baseAtk;
 
-    public double atk 
+    public double atk
     {
-        get {
-            float uggradeBonus = 
+        get
+        {
+            float uggradeBonus =
                 GameManager.instance.upgarde[GetUpgradeIndex()] != 0 ?
                 GameManager.instance.upgarde[GetUpgradeIndex()] * 0.1f : 0;
             return baseAtk * (1 + uggradeBonus);
         }
-        set { 
+        set
+        {
         }
     }
-    [field:SerializeField] public float attackRange { get; set; } = 1f;
+    [field: SerializeField] public float attackRange { get; set; } = 1f;
     [field: SerializeField] public float attackSpeed { get; private set; } = 1.0f;
     [field: SerializeField] public LayerMask monsterLayer { get; private set; }
     public string heroName { get; set; }
@@ -42,7 +42,7 @@ public class Hero : Entity
         base.Awake();
     }
 
-    public void InitHeroData(HeroData data,HeroHolder heroHolder,string rarity)
+    public void InitHeroData(HeroData data, HeroHolder heroHolder, string rarity)
     {
         heroData = Resources.Load<HeroScriptable>("HeroDatas/" + rarity + "/" + data.heroName);
 
@@ -55,11 +55,11 @@ public class Hero : Entity
 
         circleSpriteRenderer.color = circleColors[(int)heroRarity];
 
-        GetInitEntity(data.heroName,rarity);
-        
-        InitEquipment(data.leftEquipmentName,data.rightEquipmentName);
+        GetInitEntity(data.heroName, rarity);
 
-        Instantiate(spawnParticle, heroHolder.transform.position,Quaternion.identity);
+        InitEquipment(data.leftEquipmentName, data.rightEquipmentName);
+
+        Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
     }
 
     private int GetUpgradeIndex()
@@ -83,7 +83,7 @@ public class Hero : Entity
     private void InitEquipment(string leftEuipmentName, string rightEquipmentName)
     {
         if (leftEuipmentName != string.Empty)
-        { 
+        {
             GameObject leftEquipment = Instantiate(Resources.Load<GameObject>("HeroEquipments/" + leftEuipmentName));
             leftEquipment.transform.SetParent(leftHand);
             leftEquipment.transform.localPosition = Vector3.zero;
@@ -104,10 +104,10 @@ public class Hero : Entity
         CheckForEnemies();
     }
 
-    public void SwapPosition(HeroHolder target, Vector2[] targetPos,int index)
+    public void SwapPosition(HeroHolder target, Vector2[] targetPos, int index)
     {
         isMove = true;
-        AnimatorChange("MOVE",false);
+        AnimatorChange("MOVE", false);
 
         if (IsServer)
             transform.parent = target.transform;
@@ -119,10 +119,10 @@ public class Hero : Entity
         switch (sign)
         {
             case -1:
-                transform.Rotate(0,180,0);
+                transform.Rotate(0, 180, 0);
                 break;
             case 1:
-                transform.Rotate(0,-180,0);
+                transform.Rotate(0, -180, 0);
                 break;
         }
 
@@ -141,7 +141,7 @@ public class Hero : Entity
             current += Time.deltaTime;
             percent = current / 0.5f;
 
-            Vector2 lerpPos = Vector2.Lerp(startPos,endPos,percent);
+            Vector2 lerpPos = Vector2.Lerp(startPos, endPos, percent);
             transform.position = lerpPos;
             yield return null;
         }
@@ -153,30 +153,50 @@ public class Hero : Entity
 
     private void CheckForEnemies()
     {
-        Collider2D[] enemiesInRange =
-            Physics2D.OverlapCircleAll(heroHolder.transform.position,attackRange, monsterLayer);
-
-        attackSpeed += Time.deltaTime;
-
-        if (enemiesInRange.Length > 0)
+        if (IsServer)
         {
-            target = enemiesInRange[0].transform.GetComponent<NetworkObject>();
-            if (attackSpeed >= 1.0f)
+            Collider2D[] enemiesInRange =
+                Physics2D.OverlapCircleAll(heroHolder.transform.position, attackRange, monsterLayer);
+
+            attackSpeed += Time.deltaTime;
+
+            if (enemiesInRange.Length > 0)
             {
-                attackSpeed = 0.0f;
-                AnimatorChange("ATTACK", true);
-                LoadBullet();
+                for (int i = 0; i < enemiesInRange.Length; i++)
+                {
+                    if (enemiesInRange[i].GetComponent<Monster>().IsDead())
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        target = enemiesInRange[i].transform.GetComponent<NetworkObject>();
+                        break;
+                    }
+                }
+
+                if (attackSpeed >= 1.0f)
+                {
+                    attackSpeed = 0.0f;
+                    if (heroData.projectile == null) return;
+                    LoadBulletClientRpc(target.NetworkObjectId);
+                }
             }
+            else
+                target = null;
         }
-        else
-            target = null;
     }
 
-    public void LoadBullet()
+    [ClientRpc]
+    private void LoadBulletClientRpc(ulong networkObjectId)
     {
-        if (heroData.projectile == null) return;
-        Projectile go = Instantiate(heroData.projectile,transform.position,Quaternion.identity);
-        go.Init(target.transform,this);
+        if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject targetObject))
+        {
+            AnimatorChange("ATTACK", true);
+            Projectile go = Instantiate(heroData.projectile, transform.position, Quaternion.identity);
+            go.Init(targetObject.transform, this);
+            target = targetObject;
+        }
     }
 
     public void AttackMonster()
@@ -213,7 +233,7 @@ public class Hero : Entity
     [ServerRpc(RequireOwnership = false)]
     private void AttackMonsterServerRpc(ulong monsterId)
     {
-        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(monsterId,out NetworkObject networkObject))
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(monsterId, out NetworkObject networkObject))
         {
             Monster monster = networkObject.GetComponent<Monster>();
             if (monster != null)
@@ -222,4 +242,6 @@ public class Hero : Entity
             }
         }
     }
+
+    public HeroScriptable GetHeroData() { return heroData; }
 }

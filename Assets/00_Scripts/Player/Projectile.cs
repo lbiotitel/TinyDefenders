@@ -21,7 +21,7 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        if (target == null || referenceHero == null)
+        if (target.GetComponent<Monster>().IsDead() || referenceHero == null)
         {
             Destroy(gameObject);
             return;
@@ -86,9 +86,7 @@ public class Projectile : MonoBehaviour
             yield return null;
         }
 
-        Instantiate(destroyParticle, transform.position, Quaternion.identity);
-        referenceHero.AttackMonster();
-        Destroy(this.gameObject);
+        HitMonster();
     } 
 
     private void ChasingTarget()
@@ -101,9 +99,15 @@ public class Projectile : MonoBehaviour
         }
         else
         {
-            Instantiate(destroyParticle,transform.position,Quaternion.identity);
-            referenceHero.AttackMonster();
-            Destroy(this.gameObject);
+            HitMonster();
         }
+    }
+
+    private void HitMonster()
+    {
+        Instantiate(destroyParticle, transform.position, Quaternion.identity);
+        if(NetUtils.IsServer())
+            referenceHero.AttackMonster();
+        Destroy(this.gameObject);
     }
 }

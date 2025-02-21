@@ -117,6 +117,10 @@ public class GameManager : NetworkBehaviour
         {
             GiveGoldToAllPlayersClientRpc(gold);
         }
+        else if(hostType == HostType.CLIENT) {
+            this.gold += gold;
+            onGoldGet?.Invoke();
+        }
     }
 
     private void UpdateClientMonsterCount()

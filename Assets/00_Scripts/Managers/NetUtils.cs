@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class NetUtils
 {
+    public static bool IsServer()
+    {
+        return NetworkManager.Singleton.IsServer;
+    }
     public static ulong GetLocalD()
     {
         return NetworkManager.Singleton.LocalClientId;

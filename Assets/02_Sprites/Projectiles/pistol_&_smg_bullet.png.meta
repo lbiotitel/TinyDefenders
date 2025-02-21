@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cfa34d67f4445a844aefa783ac7ac0d9
+guid: 2659f6de380909047b99fe54e7a09c70
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 12
+  spritePixelsToUnits: 10
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,13 +117,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: melee_attack_0
+      name: pistol_&_smg_bullet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,20 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c7c43a7ec7f01a741bdaf6d2acf4a4db
-      internalID: -320313209
+      spriteID: 98a59120cf0380946a9de0efb4367526
+      internalID: 167368060
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: melee_attack_1
+      name: pistol_&_smg_bullet_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 16
         y: 0
-        width: 32
-        height: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,8 +152,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 620e8a7a1c55c6c438339e7783997442
-      internalID: -402377256
+      spriteID: 1986a710c03bd1e43acc60e5bd526c69
+      internalID: 336292989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pistol_&_smg_bullet_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 651550fe27e183c4790a75cd9217e2ae
+      internalID: -1783216122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pistol_&_smg_bullet_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9893acdbf3da0eb439d9553e15dd343a
+      internalID: -1843351092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pistol_&_smg_bullet_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7091e577fc610044b9f0825f54cb78c4
+      internalID: -895903274
       vertices: []
       indices: 
       edges: []
@@ -169,8 +232,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      melee_attack_0: -320313209
-      melee_attack_1: -402377256
+      pistol_&_smg_bullet_1: 336292989
+      pistol_&_smg_bullet_0: 167368060
+      pistol_&_smg_bullet_3: -1843351092
+      pistol_&_smg_bullet_2: -1783216122
+      pistol_&_smg_bullet_4: -895903274
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

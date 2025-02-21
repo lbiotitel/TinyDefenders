@@ -20,4 +20,11 @@ MonoBehaviour:
   leftEquipmentName: 
   rightEquipmentName: 
   runtimeAnimatorController: {fileID: 9100000, guid: 4a7d24e88cafd1a48807e82fb1d340cf, type: 2}
-  projectile: {fileID: 2362890291891593728, guid: 8daf8f4650451384687b98f772f5fc10, type: 3}
+  projectile: {fileID: 2362890291891593728, guid: 4acb84127fa5f644a978b3b758dd56d5, type: 3}
+  debuffEffects: []
+  skillData:
+    skill: 2
+    skillType: 0
+    coolTime: 10
+    skillDamage: 150
+    projectilePrefab: {fileID: 5823402819948902480, guid: 8daf8f4650451384687b98f772f5fc10, type: 3}

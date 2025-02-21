@@ -115,6 +115,7 @@ public class HeroEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("rightEquipmentName"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("runtimeAnimatorController"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("projectile"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("skillData"));
         EditorGUILayout.Space(20f);
 
         debuffTypeList.DoLayoutList();

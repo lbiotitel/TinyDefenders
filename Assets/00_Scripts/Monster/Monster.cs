@@ -52,7 +52,6 @@ public partial class Monster : Entity
     {
         hp -= (int)damage;
         hpImage.fillAmount = ((float)hp / (float)maxHp);
-        Instantiate(damageText, transform.position, Quaternion.identity).InitDamageText(damage);
         if (hp <= 0)
         {
             isDead = true;

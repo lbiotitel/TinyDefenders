@@ -61,7 +61,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 14
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -99,7 +99,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -140,10 +140,10 @@ TextureImporter:
       name: LoberBunny_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 1
-        width: 14
-        height: 23
+        x: 0
+        y: 0
+        width: 23
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,10 +162,10 @@ TextureImporter:
       name: LoberBunny_1
       rect:
         serializedVersion: 2
-        x: 28
-        y: 1
-        width: 14
-        height: 21
+        x: 23
+        y: 0
+        width: 23
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,10 +184,10 @@ TextureImporter:
       name: LoberBunny_2
       rect:
         serializedVersion: 2
-        x: 52
-        y: 1
-        width: 14
-        height: 21
+        x: 46
+        y: 0
+        width: 23
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -206,10 +206,10 @@ TextureImporter:
       name: LoberBunny_3
       rect:
         serializedVersion: 2
-        x: 74
-        y: 1
-        width: 14
-        height: 21
+        x: 69
+        y: 0
+        width: 23
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -228,10 +228,10 @@ TextureImporter:
       name: LoberBunny_4
       rect:
         serializedVersion: 2
-        x: 97
-        y: 1
-        width: 14
-        height: 22
+        x: 92
+        y: 0
+        width: 23
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -250,10 +250,10 @@ TextureImporter:
       name: LoberBunny_5
       rect:
         serializedVersion: 2
-        x: 120
-        y: 2
-        width: 14
-        height: 21
+        x: 115
+        y: 0
+        width: 23
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -272,10 +272,10 @@ TextureImporter:
       name: LoberBunny_6
       rect:
         serializedVersion: 2
-        x: 143
-        y: 2
-        width: 14
-        height: 21
+        x: 138
+        y: 0
+        width: 23
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -294,10 +294,10 @@ TextureImporter:
       name: LoberBunny_7
       rect:
         serializedVersion: 2
-        x: 166
-        y: 1
-        width: 14
-        height: 22
+        x: 161
+        y: 0
+        width: 23
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -316,10 +316,10 @@ TextureImporter:
       name: LoberBunny_8
       rect:
         serializedVersion: 2
-        x: 189
-        y: 1
-        width: 14
-        height: 22
+        x: 184
+        y: 0
+        width: 23
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -338,7 +338,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5ea36ad89664e7647b175f3a4ea9b27c
     internalID: 0
     vertices: []
     indices: 
@@ -347,7 +347,16 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      LoberBunny_0: -8401148639148532006
+      LoberBunny_1: -7773436107328492002
+      LoberBunny_2: -5349792171787586794
+      LoberBunny_3: -8917046297549659272
+      LoberBunny_4: 2409514590751122199
+      LoberBunny_5: -5213548813894805323
+      LoberBunny_6: -3592592132553303396
+      LoberBunny_7: 3068557968852769623
+      LoberBunny_8: 2829716326894943029
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

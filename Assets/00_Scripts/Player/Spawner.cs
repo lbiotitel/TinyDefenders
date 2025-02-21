@@ -39,8 +39,8 @@ public class Spawner : NetworkBehaviour
 
     private List<Transform> monsterMovePosition = new List<Transform>();
 
-    public List<SpawnNode> playerSpawnList = new List<SpawnNode>();
-    public List<SpawnNode> friendSpawnList = new List<SpawnNode>();
+    public List<SpawnNode> hostSpawnList = new List<SpawnNode>();
+    public List<SpawnNode> clientSpawnList = new List<SpawnNode>();
 
     public Dictionary<string, HeroHolder> heroHolders = new Dictionary<string, HeroHolder>();
     private int[] heroHolderValue = new int[2];
@@ -50,8 +50,9 @@ public class Spawner : NetworkBehaviour
 
     private void Start()
     {
-        DrawGrid(transform.GetChild(1), true);
-        DrawGrid(transform.GetChild(0), false);
+        DrawGrid(transform.GetChild(0),ref hostSpawnList,"HOST",0);
+        DrawGrid(transform.GetChild(1),ref clientSpawnList,"CLIENT",1);
+
         InitMonsterSpawnPosition();
     }
 
@@ -68,8 +69,10 @@ public class Spawner : NetworkBehaviour
 
 
     //스프라이트의 크기에 맞게 스폰포인트 위치 계산
-    private void DrawGrid(Transform targetTransform, bool player)
+    private void DrawGrid(Transform targetTransform,ref List<SpawnNode> spawnList,
+        string id,int value)
     {
+        
         SpriteRenderer spriteRenderer = targetTransform.GetComponent<SpriteRenderer>();
         float width = spriteRenderer.bounds.size.x;
         float height = spriteRenderer.bounds.size.y;
@@ -90,45 +93,39 @@ public class Spawner : NetworkBehaviour
                 float xPos;
                 float yPos = startPos.y - (row * yCount) - (yCount / 2f);
 
-                if (player)
-                {
-                    xPos = targetTransform.position.x + width / 2f - (col * xCount) - (xCount / 2f);
-                    playerSpawnList.Add(new SpawnNode(new Vector2(xPos, yPos), false));
-                }
-                else
-                {
-                    xPos = targetTransform.position.x - width / 2f + (col * xCount) + (xCount / 2f);
-                    friendSpawnList.Add(new SpawnNode(new Vector2(xPos, yPos), false));
-                }
+                xPos = targetTransform.position.x - width / 2f + (col * xCount) + (xCount / 2f);
+                spawnList.Add(new SpawnNode(new Vector2(xPos, yPos), false));
             }
         }
 
         if (IsServer)
         {
+            StartCoroutine(WaitForClient());
             for (int i = 0; i < gridHeight; i++)
             {
                 for (int j = 0; j < gridWidth; j++)
                 {
-                    StartCoroutine(DelaySetHeroHolder(player));
+                    StartCoroutine(DelaySetHeroHolder(id,value));
                 }
             }
         }
 
-        heroHolderValue[0] = 0;
-        heroHolderValue[1] = 0;
+        heroHolderValue[value] = 0;
     }
 
+    private IEnumerator WaitForClient()
+    {
+        yield return new WaitForSeconds(2f);
+    }
 
     //히어로를 가지고있을 히어로 홀더들을 서버에서 생성
-    private IEnumerator DelaySetHeroHolder(bool player)
+    private IEnumerator DelaySetHeroHolder(string id,int value)
     {
         HeroHolder heroHolder = Instantiate(heroHolderPrefab);
         NetworkObject networkObject = heroHolder.GetComponent<NetworkObject>();
         networkObject.Spawn();
 
-        string temp = player == true ? "HOST" : "CLIENT";
-        int value = player == true ? 0 : 1;
-        string heroHolderId = temp + heroHolderValue[value].ToString();
+        string heroHolderId = id + heroHolderValue[value].ToString();
         heroHolderValue[value]++;
 
         yield return new WaitForSeconds(0.5f);
@@ -146,11 +143,11 @@ public class Spawner : NetworkBehaviour
             List<SpawnNode> spawnList = null;
             if (heroHolderId.Contains("HOST"))
             {
-                spawnList = NetUtils.GetLocalD() == 0 ? playerSpawnList : friendSpawnList;
+                spawnList = hostSpawnList;
             }
             else if (heroHolderId.Contains("CLIENT"))
             {
-                spawnList = NetUtils.GetLocalD() == 0 ? friendSpawnList : playerSpawnList;
+                spawnList = clientSpawnList;
             }
 
             HeroHolder heroHolder = networkObject.GetComponent<HeroHolder>();
