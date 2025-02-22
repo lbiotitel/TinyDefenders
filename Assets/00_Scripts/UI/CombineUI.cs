@@ -29,6 +29,7 @@ public class CombineUI : MonoBehaviour
         {
             heroSprites.Add(data.name, data);
         }
+
         SetAllCombineUI();
     }
 
@@ -59,6 +60,7 @@ public class CombineUI : MonoBehaviour
             mo.GetComponent<Image>().sprite = heroSprites[combineData.mainHeroData.heroName];
             nodeUI.AddHeroUI(mo);
             nodeUI.SetName(combineData.mainHeroData.heroName);
+            nodeUI.SetHeroData(combineData.mainHeroData,combineData.subHeroDatas);
         }
     }
 }
