@@ -23,6 +23,8 @@ public partial class NetManager : MonoBehaviour
         if (!AuthenticationService.Instance.IsSignedIn)
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            var loadData = await CloudManager.instance.LoadUserData();
+            CloudManager.instance.userData = loadData;
         }
         startMatchingButton.onClick.AddListener(() => StartMatching());
     }
