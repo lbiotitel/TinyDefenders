@@ -39,6 +39,9 @@ public class GameManager : NetworkBehaviour
 
     private bool isGameStart = false;
 
+    private double playerDps = 0f;
+    private double friendDps = 0f;
+
     //event
     public event OnGoldGetEventHandler onGoldGet;
     public event OnTimerUpEventHandler onTimerUp;
@@ -47,7 +50,7 @@ public class GameManager : NetworkBehaviour
 
     private List<Monster> monsterList = new List<Monster>();
 
-    private WaveScriptable[] waveData;
+    private WaveScriptable[] waveData = null;
 
     private List<Hero> heroLists = new List<Hero>();    
 
@@ -58,19 +61,31 @@ public class GameManager : NetworkBehaviour
         {
             waveData = Resources.LoadAll<WaveScriptable>("WaveDatas");
             waveData = waveData.OrderBy(wave => int.Parse(wave.name)).ToArray();
-
             StartWave();
         }
     }
 
     private void Update()
     {
+        CheckEndProfileAnimation();
         UpdateTime();
+    }
+
+    private void CheckEndProfileAnimation()
+    {
+        if (!isGameStart) return;
+        if (MainUI.instance.profileAnimationReady)
+        {
+            MainUI.instance.profileAnimationReady = false;
+            MainUI.instance.HideProfileAnimation();
+            if (IsServer) InitGameManager();
+        }
     }
 
     private void UpdateTime()
     {
         if (!isGameStart) return;
+        if (waveData == null) return;
         if (IsServer)
         {
             bool waveUI = false;
@@ -195,7 +210,6 @@ public class GameManager : NetworkBehaviour
     public void StartGame()
     { 
         isGameStart = true;
-        InitGameManager();
     }
 
     public void GameOver()

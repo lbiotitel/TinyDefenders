@@ -32,7 +32,10 @@ public class MainUI : MonoBehaviour
     private List<TextMeshProUGUI> alarmTextList = new List<TextMeshProUGUI>();
 
     [SerializeField] private Animator assetAnimator;
+
+    [Header("Game Start UI")]
     [SerializeField] private Animator profileAnimator;
+    public bool profileAnimationReady = false;
 
     [Header("Summon Button")]
     [SerializeField] private Button summonButton;
@@ -141,11 +144,9 @@ public class MainUI : MonoBehaviour
     }
 
 
-
-    public void StartGame()
+    public void HideProfileAnimation()
     {
         profileAnimator.gameObject.SetActive(false);
-        GameManager.instance.StartGame();
     }
 
     private void Update()

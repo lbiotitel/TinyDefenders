@@ -48,6 +48,8 @@ public class Spawner : NetworkBehaviour
 
     public float xValue, yValue;
 
+    private int serverClientHolderReadyValue = 0;
+
     private void Start()
     {
         DrawGrid(transform.GetChild(0),ref hostSpawnList,"HOST",0);
@@ -155,7 +157,7 @@ public class Spawner : NetworkBehaviour
             heroHolders.Add(heroHolderId, heroHolder);
             heroHolder.holderId = heroHolderId;
 
-            if (heroHolderId.Contains((gridHeight * gridWidth - 1).ToString()))
+            if (heroHolderId.Contains("CLIENT" + (gridHeight * gridWidth - 1).ToString()))
             {
                 FinishSpawnHeroHolderServerRpc();
             }
@@ -165,7 +167,17 @@ public class Spawner : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void FinishSpawnHeroHolderServerRpc()
     {
-        Debug.Log("모든 홀더 준비 완료");
+        serverClientHolderReadyValue++;
+        if (serverClientHolderReadyValue == 2)
+        {
+            NotifyStartGameClientRpc();
+        }
+    }
+
+    [ClientRpc]
+    private void NotifyStartGameClientRpc()
+    {
+        GameManager.instance.StartGame();
     }
 
     //히어로홀더 위치 조정
