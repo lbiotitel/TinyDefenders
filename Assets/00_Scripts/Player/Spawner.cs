@@ -154,7 +154,18 @@ public class Spawner : NetworkBehaviour
             SetHeroHolderPosition(networkObject, spawnList);
             heroHolders.Add(heroHolderId, heroHolder);
             heroHolder.holderId = heroHolderId;
+
+            if (heroHolderId.Contains((gridHeight * gridWidth - 1).ToString()))
+            {
+                FinishSpawnHeroHolderServerRpc();
+            }
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void FinishSpawnHeroHolderServerRpc()
+    {
+        Debug.Log("모든 홀더 준비 완료");
     }
 
     //히어로홀더 위치 조정
@@ -176,6 +187,7 @@ public class Spawner : NetworkBehaviour
         HeroHolder heroHolder = networkObject.GetComponent<HeroHolder>();
         heroHolder.holderIndex = positionIndex;
     }
+
     #endregion
 
 

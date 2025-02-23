@@ -34,7 +34,7 @@ public class GameManager : NetworkBehaviour
     public int currentWave = 0;
     public float timer = 100000;
     public int currentMonsterCount = 0;
-    public int heroCount = 0;
+    public int currentHeroCount = 0;
     public int[] upgarde = new int[4];
 
     private bool isGameStart = false;
@@ -174,12 +174,14 @@ public class GameManager : NetworkBehaviour
     public void AddHero(Hero hero)
     {
         heroLists.Add(hero);
+        currentHeroCount++;
         onSummonHero?.Invoke();
     }
 
     public void RemoveHero(Hero hero)
     { 
         heroLists.Remove(hero);
+        currentHeroCount--;
         onSummonHero?.Invoke();
     }   
 

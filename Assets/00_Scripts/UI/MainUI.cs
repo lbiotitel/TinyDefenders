@@ -84,11 +84,10 @@ public class MainUI : MonoBehaviour
     private void ClickSummon()
     {
         if (GameManager.instance.gold < GameManager.instance.summonGold) return;
-        if (GameManager.instance.heroCount >= GameManager.instance.maxHeroCount) return;
+        if (GameManager.instance.currentHeroCount >= GameManager.instance.maxHeroCount) return;
 
         GameManager.instance.gold -= GameManager.instance.summonGold;
         GameManager.instance.summonGold += GameManager.instance.summonGoldInc;
-        GameManager.instance.heroCount++;
 
         StartCoroutine(SummonCoroutine());
     }
@@ -177,7 +176,7 @@ public class MainUI : MonoBehaviour
         summonGoldText.text = GameManager.instance.summonGold.ToString();
         currentGoldText.text = GameManager.instance.gold.ToString();
         summonGoldText.color = GameManager.instance.gold >= GameManager.instance.summonGold ? Color.white : Color.red;
-        heroCountText.text = string.Format("{0:D2}/{1:D2}", GameManager.instance.heroCount, GameManager.instance.maxHeroCount);
+        heroCountText.text = string.Format("{0:D2}/{1:D2}", GameManager.instance.currentHeroCount, GameManager.instance.maxHeroCount);
 
         for (int i = 0; i < upgradeLevelText.Length; i++)
         {
