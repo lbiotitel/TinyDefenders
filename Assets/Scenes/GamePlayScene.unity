@@ -1983,8 +1983,9 @@ GameObject:
   - component: {fileID: 386435069}
   - component: {fileID: 386435071}
   - component: {fileID: 386435070}
+  - component: {fileID: 386435072}
   m_Layer: 5
-  m_Name: GameOver UI Background
+  m_Name: 'GameOver UI '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2048,6 +2049,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 386435068}
   m_CullTransparentMesh: 1
+--- !u!95 &386435072
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386435068}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5cf0cca5386529e4c93b5ac038cb7dac, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &396641367
 GameObject:
   m_ObjectHideFlags: 0
@@ -8566,8 +8589,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 102
-  m_fontSizeBase: 102
+  m_fontSize: 84.06
+  m_fontSizeBase: 84.06
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8963,7 +8986,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -125.42944, y: 0, z: -21.625854, w: 0}
+  m_margin: {x: -142.04663, y: 0, z: -21.625854, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -9962,7 +9985,7 @@ GameObject:
   - component: {fileID: 1805211841}
   - component: {fileID: 1805211840}
   m_Layer: 5
-  m_Name: Game Over UI
+  m_Name: Game Over UI Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

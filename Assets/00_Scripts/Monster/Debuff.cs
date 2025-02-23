@@ -53,7 +53,7 @@ public partial class Monster : Entity
         if (coroutine != null)
         {
             if (isDead) return;
-            StopCoroutine(slowCoroutine);
+            StopCoroutine(coroutine);
         }
     }
 
