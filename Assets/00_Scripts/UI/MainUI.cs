@@ -54,6 +54,9 @@ public class MainUI : MonoBehaviour
 
     [Header("Game Over UI")]
     [SerializeField] private GameObject gameOverUI;
+    [SerializeField] private TextMeshProUGUI bestWaveText;
+    [SerializeField] private TextMeshProUGUI playerDpsText;
+    [SerializeField] private TextMeshProUGUI friendDpsText;
 
     private void Start()
     {
@@ -98,6 +101,9 @@ public class MainUI : MonoBehaviour
     public void ShowGameOverUI()
     {
         gameOverUI.SetActive(true);
+        bestWaveText.text = GameManager.instance.currentWave.ToString();
+        playerDpsText.text = GameManager.instance.playerDps.ToString();
+        friendDpsText.text = GameManager.instance.friendDps.ToString(); 
     }
 
     public void ClickUpgrade(int value)

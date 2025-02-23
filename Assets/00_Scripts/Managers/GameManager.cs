@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -30,6 +31,7 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public int gold { get; set; }
     [field: SerializeField] public int summonGold { get; set; }
     [field: SerializeField] public int summonGoldInc { get; set; }
+    [SerializeField] private string mainSceneName;
 
     public int currentWave = 0;
     public float timer = 100000;
@@ -39,8 +41,8 @@ public class GameManager : NetworkBehaviour
 
     private bool isGameStart = false;
 
-    private double playerDps = 0f;
-    private double friendDps = 0f;
+    public double playerDps = 0f;
+    public double friendDps = 0f;
 
     //event
     public event OnGoldGetEventHandler onGoldGet;
@@ -216,5 +218,18 @@ public class GameManager : NetworkBehaviour
     {
         Time.timeScale = 0f;
         onGameOver?.Invoke();
+        StartCoroutine(ChangeToMainSceneForAllPlayers());
+    }
+
+    private IEnumerator ChangeToMainSceneForAllPlayers()
+    {
+        yield return new WaitForSecondsRealtime(4f);
+        if (NetworkManager.Singleton.IsHost)
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene(
+                mainSceneName,
+                UnityEngine.SceneManagement.LoadSceneMode.Single
+                );
+        }
     }
 }
