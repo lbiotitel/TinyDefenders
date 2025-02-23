@@ -55,6 +55,7 @@ public class HeroScriptable : ScriptableObject
     public Rarity rarity;
 
     [Header("Extra")]
+    public Sprite heroMainImage;
     public string leftEquipmentName = string.Empty;
     public string rightEquipmentName = string.Empty;
     public RuntimeAnimatorController runtimeAnimatorController;

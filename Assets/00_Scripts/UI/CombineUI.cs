@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class CombineUI : MonoBehaviour
 {
     private CombineSciptable[] combineDatas;
-    private Dictionary<string,Sprite> heroSprites = new Dictionary<string,Sprite>();
     private List<CombineNodeUI> combineNodeUIs = new List<CombineNodeUI>();
     [SerializeField] private Transform contentParent;
 
@@ -31,13 +30,6 @@ public class CombineUI : MonoBehaviour
     {
         combineDatas = Resources.LoadAll<CombineSciptable>("CombineHeroData");
 
-        Sprite[] sprites = Resources.LoadAll<Sprite>("Combine UI Images");
-
-        foreach (var data in sprites)
-        {
-            heroSprites.Add(data.name, data);
-        }
-
         SetAllCombineUI();
     }
 
@@ -51,7 +43,7 @@ public class CombineUI : MonoBehaviour
             for (int i = 0; i < combineData.subHeroDatas.Count; i++)
             {
                 GameObject go = Instantiate(heroImageObject);
-                go.GetComponent<Image>().sprite = heroSprites[combineData.subHeroDatas[i].heroName];
+                go.GetComponent<Image>().sprite = combineData.subHeroDatas[i].heroMainImage;
                 nodeUI.AddHeroUI(go);
 
                 if (i != combineData.subHeroDatas.Count - 1)
@@ -65,7 +57,7 @@ public class CombineUI : MonoBehaviour
             nodeUI.AddHeroUI(eo);
 
             GameObject mo = Instantiate(heroImageObject);
-            mo.GetComponent<Image>().sprite = heroSprites[combineData.mainHeroData.heroName];
+            mo.GetComponent<Image>().sprite = combineData.mainHeroData.heroMainImage;
             nodeUI.AddHeroUI(mo);
             nodeUI.SetName(combineData.mainHeroData.heroName);
             nodeUI.SetHeroData(combineData.mainHeroData,combineData.subHeroDatas);
