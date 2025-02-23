@@ -49,6 +49,9 @@ public class MainUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI waveUIText;
     [SerializeField] private TextMeshProUGUI bossNameText;
 
+    [Header("Game Over UI")]
+    [SerializeField] private GameObject gameOverUI;
+
     private void Start()
     {
         InitEvent();
@@ -60,6 +63,7 @@ public class MainUI : MonoBehaviour
     {
         GameManager.instance.onGoldGet += GoldAnimation;
         GameManager.instance.onTimerUp += DrawWaveAndTime;
+        GameManager.instance.onGameOver += ShowGameOverUI;
         summonButton.onClick.AddListener(() => ClickSummon());
     }
 
@@ -87,6 +91,11 @@ public class MainUI : MonoBehaviour
         GameManager.instance.heroCount++;
 
         StartCoroutine(SummonCoroutine());
+    }
+
+    public void ShowGameOverUI()
+    {
+        gameOverUI.SetActive(true);
     }
 
     public void ClickUpgrade(int value)

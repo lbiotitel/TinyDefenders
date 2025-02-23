@@ -8,6 +8,8 @@ using UnityEngine.Rendering;
 
 public delegate void OnGoldGetEventHandler();
 public delegate void OnTimerUpEventHandler(string monsterName);
+public delegate void OnSummonHeroEventHandler();
+public delegate void OnGameOver();
 public class GameManager : NetworkBehaviour
 {
     public static GameManager instance = null;
@@ -40,10 +42,14 @@ public class GameManager : NetworkBehaviour
     //event
     public event OnGoldGetEventHandler onGoldGet;
     public event OnTimerUpEventHandler onTimerUp;
+    public event OnSummonHeroEventHandler onSummonHero;
+    public event OnGameOver onGameOver;
 
     private List<Monster> monsterList = new List<Monster>();
 
     private WaveScriptable[] waveData;
+
+    private List<Hero> heroLists = new List<Hero>();    
 
 
     private void InitGameManager()
@@ -103,6 +109,10 @@ public class GameManager : NetworkBehaviour
     {
         monsterList.Add(monster);
         currentMonsterCount++;
+        if (currentMonsterCount >= maxMonsterCount)
+        {
+            GameOver();
+        }
         UpdateClientMonsterCount();
     }
     public void RemoveMonster(Monster monster)
@@ -161,6 +171,19 @@ public class GameManager : NetworkBehaviour
         onTimerUp?.Invoke(monsterName);
     }
 
+    public void AddHero(Hero hero)
+    {
+        heroLists.Add(hero);
+        onSummonHero?.Invoke();
+    }
+
+    public void RemoveHero(Hero hero)
+    { 
+        heroLists.Remove(hero);
+        onSummonHero?.Invoke();
+    }   
+
+
     [ClientRpc]
     private void NotifyClientMonsterCountClientRpc(int count)
     {
@@ -171,5 +194,11 @@ public class GameManager : NetworkBehaviour
     { 
         isGameStart = true;
         InitGameManager();
+    }
+
+    public void GameOver()
+    {
+        Time.timeScale = 0f;
+        onGameOver?.Invoke();
     }
 }

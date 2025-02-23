@@ -13,7 +13,7 @@ public class Hero : Entity
     private HeroHolder heroHolder;
     private bool isMove = false;
     private double baseAtk;
-
+    [SerializeField] private float attackDelay;
     public double atk
     {
         get
@@ -28,7 +28,7 @@ public class Hero : Entity
         }
     }
     [field: SerializeField] public float attackRange { get; set; } = 1f;
-    [field: SerializeField] public float attackSpeed { get; private set; } = 1.0f;
+    [field: SerializeField] public float attackSpeed;
     [field: SerializeField] public LayerMask monsterLayer { get; private set; }
     public string heroName { get; set; }
     public Rarity heroRarity;
@@ -55,9 +55,13 @@ public class Hero : Entity
 
         circleSpriteRenderer.color = circleColors[(int)heroRarity];
 
+        attackDelay = attackSpeed;
+
         GetInitEntity(data.heroName, rarity);
 
         InitEquipment(data.leftEquipmentName, data.rightEquipmentName);
+
+        GameManager.instance.AddHero(this);
 
         Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
     }
@@ -155,10 +159,14 @@ public class Hero : Entity
     {
         if (IsServer)
         {
+            if (attackDelay > 0)
+            {
+                attackDelay -= Time.deltaTime;
+                return;
+            }
+
             Collider2D[] enemiesInRange =
                 Physics2D.OverlapCircleAll(heroHolder.transform.position, attackRange, monsterLayer);
-
-            attackSpeed += Time.deltaTime;
 
             if (enemiesInRange.Length > 0)
             {
@@ -175,9 +183,9 @@ public class Hero : Entity
                     }
                 }
 
-                if (attackSpeed >= 1.0f)
+                if (target != null)
                 {
-                    attackSpeed = 0.0f;
+                    attackDelay = attackSpeed;
                     if (heroData.projectile == null) return;
                     LoadBulletClientRpc(target.NetworkObjectId);
                 }
@@ -186,6 +194,8 @@ public class Hero : Entity
                 target = null;
         }
     }
+
+
 
     [ClientRpc]
     private void LoadBulletClientRpc(ulong networkObjectId)
@@ -243,5 +253,10 @@ public class Hero : Entity
         }
     }
 
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        GameManager.instance.RemoveHero(this);
+    }
     public HeroScriptable GetHeroData() { return heroData; }
 }

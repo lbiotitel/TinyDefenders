@@ -21,12 +21,10 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        if (target.GetComponent<Monster>().IsDead() || referenceHero == null)
+        if (target == null)
         {
-            Destroy(gameObject);
-            return;
+            HitMonster();
         }
-
         if (!isBezier)
         {
             ChasingTarget();
@@ -106,8 +104,9 @@ public class Projectile : MonoBehaviour
     private void HitMonster()
     {
         Instantiate(destroyParticle, transform.position, Quaternion.identity);
-        if(NetUtils.IsServer())
-            referenceHero.AttackMonster();
         Destroy(this.gameObject);
+
+        if (NetUtils.IsServer() && target != null)
+            referenceHero.AttackMonster();
     }
 }

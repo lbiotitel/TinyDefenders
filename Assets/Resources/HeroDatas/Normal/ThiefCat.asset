@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: ThiefCat
   m_EditorClassIdentifier: 
-  heroName: Thief
+  heroName: ThiefCat
   atk: 5
   atkSpeed: 1
   atkRange: 1.5
@@ -21,3 +21,10 @@ MonoBehaviour:
   rightEquipmentName: 
   runtimeAnimatorController: {fileID: 9100000, guid: 2bdf7758d07f28b40a7557122ba6df1b, type: 2}
   projectile: {fileID: 2189299698304443517, guid: 1c7e4b9a4822164478d92ecad19cea84, type: 3}
+  debuffEffects: []
+  skillData:
+    skill: 0
+    skillType: 0
+    coolTime: 0
+    skillDamage: 0
+    projectilePrefab: {fileID: 0}

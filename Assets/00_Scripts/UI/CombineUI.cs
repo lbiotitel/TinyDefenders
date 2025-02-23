@@ -6,6 +6,7 @@ public class CombineUI : MonoBehaviour
 {
     private CombineSciptable[] combineDatas;
     private Dictionary<string,Sprite> heroSprites = new Dictionary<string,Sprite>();
+    private List<CombineNodeUI> combineNodeUIs = new List<CombineNodeUI>();
     [SerializeField] private Transform contentParent;
 
     [SerializeField] private CombineNodeUI combineNodeUI;
@@ -13,10 +14,17 @@ public class CombineUI : MonoBehaviour
     [SerializeField] private GameObject plusObject;
     [SerializeField] private GameObject equalObject;
 
-    private void Start()
+    private void Awake()
     {
         InitCombineUI();
-        
+    }
+
+    private void OnEnable()
+    {
+        foreach (var nodeUI in combineNodeUIs)
+        {
+            nodeUI.CanCombineHero();
+        }
     }
 
     private void InitCombineUI()
@@ -61,6 +69,8 @@ public class CombineUI : MonoBehaviour
             nodeUI.AddHeroUI(mo);
             nodeUI.SetName(combineData.mainHeroData.heroName);
             nodeUI.SetHeroData(combineData.mainHeroData,combineData.subHeroDatas);
+
+            combineNodeUIs.Add(nodeUI);
         }
     }
 }

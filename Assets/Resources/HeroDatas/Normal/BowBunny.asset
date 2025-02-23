@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: BowBunny
   m_EditorClassIdentifier: 
-  heroName: Archer
+  heroName: BowBunny
   atk: 5
-  atkSpeed: 1
+  atkSpeed: 0.5
   atkRange: 2
   rarity: 0
   leftEquipmentName: Elf-Bow
@@ -30,5 +30,7 @@ MonoBehaviour:
     - 3
   skillData:
     skill: 0
+    skillType: 0
     coolTime: 0
     skillDamage: 0
+    projectilePrefab: {fileID: 0}

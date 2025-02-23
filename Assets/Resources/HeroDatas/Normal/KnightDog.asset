@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: KnightDog
   m_EditorClassIdentifier: 
-  heroName: Knight
+  heroName: KnightDog
   atk: 10
   atkSpeed: 1
   atkRange: 1
@@ -26,3 +26,9 @@ MonoBehaviour:
     values:
     - 1
     - 5
+  skillData:
+    skill: 0
+    skillType: 0
+    coolTime: 0
+    skillDamage: 0
+    projectilePrefab: {fileID: 0}

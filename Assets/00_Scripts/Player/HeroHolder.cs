@@ -26,8 +26,8 @@ public class HeroHolder : NetworkBehaviour
     private readonly Vector2[] oneHeroOffset = { Vector2.zero };
     private readonly Vector2[] twoHeroOffset =
     {
-        new Vector2(-0.084f,0.057f),
-        new Vector2(0.135f,-0.192f)
+        new Vector2(-0.075f,0.075f),
+        new Vector2(0.075f,-0.075f)
     };
     private readonly Vector2[] threeHeroOffset =
     {
@@ -96,7 +96,7 @@ public class HeroHolder : NetworkBehaviour
     }
 
 
-    private void Sell(bool alarmText)
+    public void Sell(bool alarmText)
     {
         if (alarmText)
         {
@@ -119,6 +119,7 @@ public class HeroHolder : NetworkBehaviour
 
     private void SellHero(ulong clientId)
     {
+        if (heroList.Count == 0) return;
         Hero hero = heroList[heroList.Count - 1];
         ulong heroId = hero.NetworkObjectId;
         NetworkObject obj = NetworkManager.SpawnManager.SpawnedObjects[heroId];
