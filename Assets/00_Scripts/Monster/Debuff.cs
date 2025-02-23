@@ -106,7 +106,8 @@ public partial class Monster : Entity
 
     public override void OnDestroy()
     {
+        if (slowCoroutine != null) StopCoroutine(slowCoroutine);
+        if (stunCoroutine != null) StopCoroutine(stunCoroutine);
         base.OnDestroy();
-        StopAllCoroutines();
     }
 }

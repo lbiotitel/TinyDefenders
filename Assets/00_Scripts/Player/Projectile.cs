@@ -19,18 +19,23 @@ public class Projectile : MonoBehaviour
         this.target = target;
     }
 
+
+    private void Start()
+    {
+        if(isBezier) StartCoroutine(ChasingTargetBazier());
+    }
+
     private void Update()
     {
         if (target == null)
         {
+            StopAllCoroutines();
             HitMonster();
+            return;
         }
         if (!isBezier)
         {
             ChasingTarget();
-        }
-        else {
-            StartCoroutine(ChasingTargetBazier());
         }
         ProjectileTypeLogic();
     }
@@ -73,6 +78,8 @@ public class Projectile : MonoBehaviour
         float divSpeed = speed / 20f;
         while (elapsedTime < divSpeed)
         {
+            if (target == null) break;
+
             float t = elapsedTime / divSpeed;
          
             Vector3 curvePoint = MathUtils.GenerateBezierPoint(t, startPos,

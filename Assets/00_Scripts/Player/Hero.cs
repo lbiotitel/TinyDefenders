@@ -213,7 +213,7 @@ public class Hero : Entity
     {
         if (target != null)
         {
-            AttackMonsterServerRpc(target.NetworkObjectId);
+            AttackMonsterServerRpc(target.NetworkObjectId,heroHolder.holderId.Contains("CLIENT") ? false:true);
             DebuffEffect();
         }
     }
@@ -241,14 +241,14 @@ public class Hero : Entity
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void AttackMonsterServerRpc(ulong monsterId)
+    private void AttackMonsterServerRpc(ulong monsterId,bool isServer)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(monsterId, out NetworkObject networkObject))
         {
             Monster monster = networkObject.GetComponent<Monster>();
             if (monster != null)
             {
-                monster.GetDamage(atk);
+                monster.GetDamage(atk,isServer);
             }
         }
     }

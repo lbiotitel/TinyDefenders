@@ -1,15 +1,13 @@
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 public partial class Monster : Entity
 {
     [SerializeField] private float speed = 0f;
-    [SerializeField] private double maxHp = 0; 
+    [SerializeField] private double maxHp = 0;
     private double hp = 0;
     [SerializeField] private DamageText damageText;
     [SerializeField] private Image hpImage;
@@ -39,17 +37,26 @@ public partial class Monster : Entity
         this.targetLists = targetLists;
     }
 
-    public void GetDamage(double damage)
+    public void GetDamage(double damage, bool isServer)
     {
         if (!IsServer) return;
         if (isDead) return;
-        
-        MonsterGetDamage(damage);
-        UpdateClientRpc(this.hp,damage);
+
+        MonsterGetDamage(damage, isServer);
+        UpdateClientRpc(this.hp, damage);
     }
 
-    private void MonsterGetDamage(double damage)
+    private void MonsterGetDamage(double damage, bool isServer)
     {
+        if (isServer)
+        {
+            GameManager.instance.playerDps += damage;
+        }
+        else
+        {
+            GameManager.instance.friendDps += damage;
+        }
+
         hp -= (int)damage;
         hpImage.fillAmount = ((float)hp / (float)maxHp);
         if (hp <= 0)
@@ -79,7 +86,7 @@ public partial class Monster : Entity
 
     private void Update()
     {
-        if (isDead) return;    
+        if (isDead) return;
         HpSlideAnimation();
         if (isStun) return;
         MoveLogic();
@@ -87,7 +94,7 @@ public partial class Monster : Entity
 
     private void HpSlideAnimation()
     {
-        hpImageEffect.fillAmount = Mathf.Lerp(hpImageEffect.fillAmount, hpImage.fillAmount,Time.deltaTime * hpAnimeSpeed);
+        hpImageEffect.fillAmount = Mathf.Lerp(hpImageEffect.fillAmount, hpImage.fillAmount, Time.deltaTime * hpAnimeSpeed);
     }
 
     IEnumerator DeadCoroutine()
@@ -99,7 +106,7 @@ public partial class Monster : Entity
             alpha -= Time.deltaTime;
             spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b,
                 alpha);
-            yield return null;  
+            yield return null;
         }
 
         if (IsServer)
@@ -110,7 +117,8 @@ public partial class Monster : Entity
             GameManager.instance.RemoveMonster(this);
             NetworkBehaviour.Destroy(this);
         }
-        else { 
+        else
+        {
             this.gameObject.SetActive(false);
         }
     }

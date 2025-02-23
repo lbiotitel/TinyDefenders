@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -214,16 +215,45 @@ public class GameManager : NetworkBehaviour
         isGameStart = true;
     }
 
+
+    private void CleanNetworkObject()
+    {
+        if (IsServer)
+        {
+            foreach (var obj in FindObjectsByType<NetworkObject>(FindObjectsSortMode.None))
+            {
+                if (obj != null && obj.IsSpawned)
+                {
+                    obj.Despawn(true);
+                }
+            }
+        }
+    }
+
     public void GameOver()
+    {
+        GameOverClientRpc(playerDps,friendDps);
+        StartCoroutine(ChangeToMainSceneForAllPlayers());
+    }
+
+    [ClientRpc]
+    private void GameOverClientRpc(double playerDps,double friendDps)
     {
         Time.timeScale = 0f;
         onGameOver?.Invoke();
-        StartCoroutine(ChangeToMainSceneForAllPlayers());
+
+        if (!IsServer)
+        {
+            this.playerDps = playerDps;
+            this.friendDps = friendDps;
+        }
     }
 
     private IEnumerator ChangeToMainSceneForAllPlayers()
     {
-        yield return new WaitForSecondsRealtime(4f);
+        yield return new WaitForSecondsRealtime(3f);
+        CleanNetworkObject();
+        Time.timeScale = 1f;
         if (NetworkManager.Singleton.IsHost)
         {
             NetworkManager.Singleton.SceneManager.LoadScene(

@@ -101,9 +101,15 @@ public class MainUI : MonoBehaviour
     public void ShowGameOverUI()
     {
         gameOverUI.SetActive(true);
+        StartCoroutine(ShowGameOverDelay());
+    }
+
+    private IEnumerator ShowGameOverDelay()
+    {
+        yield return new WaitForSecondsRealtime(0.3f);
         bestWaveText.text = GameManager.instance.currentWave.ToString();
         playerDpsText.text = GameManager.instance.playerDps.ToString();
-        friendDpsText.text = GameManager.instance.friendDps.ToString(); 
+        friendDpsText.text = GameManager.instance.friendDps.ToString();
     }
 
     public void ClickUpgrade(int value)
@@ -152,7 +158,7 @@ public class MainUI : MonoBehaviour
 
     public void HideProfileAnimation()
     {
-        profileAnimator.gameObject.SetActive(false);
+        profileAnimator.SetTrigger("HIDE");
     }
 
     private void Update()
