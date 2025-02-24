@@ -101,6 +101,7 @@ public class CloudManager : MonoBehaviour
             }
             else {
                 Debug.Log("저장된 플레이어가 존재하지 않음");
+                MainSceneUI.instance.ShowNickNameUI();
                 return this.userData = new UserData("",1);
             }
         }

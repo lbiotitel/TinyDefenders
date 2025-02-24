@@ -86,10 +86,10 @@ public class GameManager : NetworkBehaviour
     private void CheckEndProfileAnimation()
     {
         if (!isGameStart) return;
-        if (MainUI.instance.profileAnimationReady)
+        if (InGameUI.instance.profileAnimationReady)
         {
-            MainUI.instance.profileAnimationReady = false;
-            MainUI.instance.HideProfileAnimation();
+            InGameUI.instance.profileAnimationReady = false;
+            InGameUI.instance.HideProfileAnimation();
             if (IsServer) InitGameManager();
         }
     }
@@ -191,9 +191,9 @@ public class GameManager : NetworkBehaviour
         if (waveUI)
         {
             if (!isBoss)
-                MainUI.instance.ShowWaveUI();
+                InGameUI.instance.ShowWaveUI();
             else
-                MainUI.instance.ShowBossWaveUI(monsterName);
+                InGameUI.instance.ShowBossWaveUI(monsterName);
         }
         onTimerUp?.Invoke(monsterName);
     }
@@ -287,6 +287,6 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     private void SendUserNameClientRpc(string hostName, string clientName)
     {
-        MainUI.instance.InitAllUserName(hostName,clientName);
+        InGameUI.instance.InitAllUserName(hostName,clientName);
     }
 }

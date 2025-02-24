@@ -380,7 +380,7 @@ public class Spawner : NetworkBehaviour
     {
         if (clientId == NetUtils.GetLocalD())
         {
-            MainUI.instance.ShowAlarmText(string.Format("¿µ¿õÀ» È¹µæÇÏ¿´½À´Ï´Ù. {0}{1}",
+            InGameUI.instance.ShowAlarmText(string.Format("¿µ¿õÀ» È¹µæÇÏ¿´½À´Ï´Ù. {0}{1}",
                 NetUtils.GetRarityColor((Rarity)Enum.Parse(typeof(Rarity), rarity)),
                 heroName));
         }

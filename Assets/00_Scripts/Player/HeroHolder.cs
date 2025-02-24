@@ -100,7 +100,7 @@ public class HeroHolder : NetworkBehaviour
     {
         if (alarmText)
         {
-            MainUI.instance.ShowAlarmText(string.Format("영웅을 판매하였습니다. {0}{1}",
+            InGameUI.instance.ShowAlarmText(string.Format("영웅을 판매하였습니다. {0}{1}",
             NetUtils.GetRarityColor((Rarity)Enum.Parse(typeof(Rarity), heroData.rarity)),
             heroData.heroName));
         }

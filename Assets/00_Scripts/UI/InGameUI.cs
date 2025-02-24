@@ -6,9 +6,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainUI : MonoBehaviour
+public class InGameUI : MonoBehaviour
 {
-    public static MainUI instance = null;
+    public static InGameUI instance = null;
 
     private void Awake()
     {
