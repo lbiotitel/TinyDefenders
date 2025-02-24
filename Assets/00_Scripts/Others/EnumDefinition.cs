@@ -20,7 +20,8 @@ public enum SkillType {
 
 public enum MonsterType { 
     NORMAL,
-    BOSS
+    BOSS,
+    GOLD
 }
 
 public enum HostType { 

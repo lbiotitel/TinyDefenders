@@ -63,7 +63,7 @@ public partial class Monster : Entity
         {
             isDead = true;
             gameObject.layer = LayerMask.NameToLayer("Default");
-            GameManager.instance.GetGold(1);
+            GetReward();
             StartCoroutine(DeadCoroutine());
             AnimatorChange("DEAD", true);
         }
@@ -81,6 +81,19 @@ public partial class Monster : Entity
             gameObject.layer = LayerMask.NameToLayer("Default");
             StartCoroutine(DeadCoroutine());
             AnimatorChange("DEAD", true);
+        }
+    }
+
+    private void GetReward()
+    {
+        if (monsterType == MonsterType.NORMAL)
+        {
+            GameManager.instance.GetGold(1);
+        }
+        else if (monsterType == MonsterType.GOLD)
+        {
+            int rewardGold = GameManager.instance.goldGoblinLevel * GameManager.instance.goldGoblinRewardGold;
+            GameManager.instance.GetGold(rewardGold);
         }
     }
 

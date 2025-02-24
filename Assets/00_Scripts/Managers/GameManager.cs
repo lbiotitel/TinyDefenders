@@ -39,6 +39,10 @@ public class GameManager : NetworkBehaviour
     public int currentMonsterCount = 0;
     public int currentHeroCount = 0;
     public int[] upgarde = new int[4];
+    public int goldGoblinLevel = 1;
+    public int goldGoblinRewardGold = 100;
+    public float goldGoblinDelayTime = 0f;
+    private bool goldGoblinDelay = false;
 
     private bool isGameStart = false;
 
@@ -248,6 +252,8 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     private void GameOverClientRpc(double playerDps,double friendDps)
     {
+        CloudManager.instance.userData.bestWave = currentWave;
+        CloudManager.instance.SaveUserData();
         Time.timeScale = 0f;
         onGameOver?.Invoke();
 
@@ -270,6 +276,32 @@ public class GameManager : NetworkBehaviour
                 UnityEngine.SceneManagement.LoadSceneMode.Single
                 );
         }
+    }
+
+    public void SummonGoldGoblin()
+    {
+        if (!goldGoblinDelay)
+        {
+            goldGoblinDelay = true;
+            goldGoblinLevel++;
+            StartCoroutine(GoldGolbinDelayCoroutine());
+            Spawner.instance.StartMonsterSpawn("GoldGoblin", 0, 1);
+        }
+    }
+
+    private IEnumerator GoldGolbinDelayCoroutine()
+    {
+        float currentTime = 0f;
+
+        while (currentTime <= goldGoblinDelayTime)
+        {
+            currentTime += Time.deltaTime;
+
+            InGameUI.instance.summonGoldGoblinImage.fillAmount = currentTime / goldGoblinDelayTime;
+
+            yield return null;
+        }
+        goldGoblinDelay = false;
     }
 
 

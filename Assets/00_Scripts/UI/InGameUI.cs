@@ -64,9 +64,15 @@ public class InGameUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerDpsText;
     [SerializeField] private TextMeshProUGUI friendDpsText;
 
+    [Header("Summon Goblin UI")]
+    [SerializeField] private Button summonGoldGoblinButton;
+    [SerializeField] private TextMeshProUGUI goldGoblinLevelText;
+    public Image summonGoldGoblinImage;
+
     private void Start()
     {
         InitEvent();
+        summonGoldGoblinButton.onClick.AddListener(() => GameManager.instance.SummonGoldGoblin());
         if (profileAnimator.gameObject.activeSelf == false)
             profileAnimator.gameObject.SetActive(true);
     }
@@ -207,6 +213,7 @@ public class InGameUI : MonoBehaviour
         currentGoldText.text = GameManager.instance.gold.ToString();
         summonGoldText.color = GameManager.instance.gold >= GameManager.instance.summonGold ? Color.white : Color.red;
         heroCountText.text = string.Format("{0:D2}/{1:D2}", GameManager.instance.currentHeroCount, GameManager.instance.maxHeroCount);
+        goldGoblinLevelText.text = string.Format("Lv.{0}",GameManager.instance.goldGoblinLevel.ToString());
 
         for (int i = 0; i < upgradeLevelText.Length; i++)
         {
