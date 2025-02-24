@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Android.Gradle.Manifest;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Spawner : NetworkBehaviour
@@ -52,11 +50,12 @@ public class Spawner : NetworkBehaviour
 
     private void Start()
     {
-        DrawGrid(transform.GetChild(0),ref hostSpawnList,"HOST",0);
-        DrawGrid(transform.GetChild(1),ref clientSpawnList,"CLIENT",1);
+        DrawGrid(transform.GetChild(0), ref hostSpawnList, "HOST", 0);
+        DrawGrid(transform.GetChild(1), ref clientSpawnList, "CLIENT", 1);
 
         InitMonsterSpawnPosition();
     }
+
 
     #region Initialize
 
@@ -71,10 +70,10 @@ public class Spawner : NetworkBehaviour
 
 
     //스프라이트의 크기에 맞게 스폰포인트 위치 계산
-    private void DrawGrid(Transform targetTransform,ref List<SpawnNode> spawnList,
-        string id,int value)
+    private void DrawGrid(Transform targetTransform, ref List<SpawnNode> spawnList,
+        string id, int value)
     {
-        
+
         SpriteRenderer spriteRenderer = targetTransform.GetComponent<SpriteRenderer>();
         float width = spriteRenderer.bounds.size.x;
         float height = spriteRenderer.bounds.size.y;
@@ -107,7 +106,7 @@ public class Spawner : NetworkBehaviour
             {
                 for (int j = 0; j < gridWidth; j++)
                 {
-                    StartCoroutine(DelaySetHeroHolder(id,value));
+                    StartCoroutine(DelaySetHeroHolder(id, value));
                 }
             }
         }
@@ -121,7 +120,7 @@ public class Spawner : NetworkBehaviour
     }
 
     //히어로를 가지고있을 히어로 홀더들을 서버에서 생성
-    private IEnumerator DelaySetHeroHolder(string id,int value)
+    private IEnumerator DelaySetHeroHolder(string id, int value)
     {
         HeroHolder heroHolder = Instantiate(heroHolderPrefab);
         NetworkObject networkObject = heroHolder.GetComponent<NetworkObject>();
@@ -196,6 +195,11 @@ public class Spawner : NetworkBehaviour
             }
         }
 
+        if (positionIndex == gridHeight * gridWidth - 1)
+        {
+            FinishSpawnHeroHolderServerRpc();
+        }
+
         HeroHolder heroHolder = networkObject.GetComponent<HeroHolder>();
         heroHolder.holderIndex = positionIndex;
     }
@@ -245,9 +249,9 @@ public class Spawner : NetworkBehaviour
     #region MonsterSpawn
     //몬스터 소환
 
-    public void StartMonsterSpawn(string monsterName,float spawnInterval,int spawnCount)
+    public void StartMonsterSpawn(string monsterName, float spawnInterval, int spawnCount)
     {
-        StartCoroutine(SpawnMonsterCoroutine(monsterName,spawnInterval,spawnCount));
+        StartCoroutine(SpawnMonsterCoroutine(monsterName, spawnInterval, spawnCount));
     }
     private IEnumerator SpawnMonsterCoroutine(string monsterName, float spawnInterval, int spawnCount)
     {
@@ -262,12 +266,12 @@ public class Spawner : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void MonsterSpawnServerRpc(ulong clientId,string monsterName)
+    private void MonsterSpawnServerRpc(ulong clientId, string monsterName)
     {
         MonsterSpawn(clientId, monsterName);
     }
 
-    private void MonsterSpawn(ulong clientId,string monsterName)
+    private void MonsterSpawn(ulong clientId, string monsterName)
     {
         Monster go = Instantiate(monsterPrefab);
         NetworkObject networkObject = go.GetComponent<NetworkObject>();
@@ -278,14 +282,14 @@ public class Spawner : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void MonsterSpawnClientRpc(ulong networkObjectId, ulong clientId,string monsterName)
+    private void MonsterSpawnClientRpc(ulong networkObjectId, ulong clientId, string monsterName)
     {
         if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject monsterNetworkObject))
         {
             MonsterScriptable monsterData = Resources.Load<MonsterScriptable>("MonsterDatas/" + monsterName);
 
             monsterNetworkObject.transform.position = monsterMovePosition[0].position;
-            
+
             monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(monsterMovePosition);
             monsterNetworkObject.GetComponent<Monster>().InitData(monsterData);
         }
@@ -304,11 +308,11 @@ public class Spawner : NetworkBehaviour
         return data;
     }
 
-    private void HeroSpawn(ulong clientId, string rarity,string dataName)
+    private void HeroSpawn(ulong clientId, string rarity, string dataName)
     {
 
         heroData = Resources.Load<HeroScriptable>("HeroDatas/" + rarity + "/" + dataName);
-    
+
         string temp = clientId == 0 ? "HOST" : "CLIENT";
         int value = clientId == 0 ? 0 : 1;
         string heroHolderId = temp + heroHolderValue[value].ToString();
@@ -384,21 +388,21 @@ public class Spawner : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void HeroSpawnServerRpc(ulong cleintId, string rarity,string dataName)
+    private void HeroSpawnServerRpc(ulong cleintId, string rarity, string dataName)
     {
-        HeroSpawn(cleintId, rarity,dataName);
+        HeroSpawn(cleintId, rarity, dataName);
     }
 
     //캐릭터 소환
-    public void Summon(string rarity,HeroScriptable heroScriptableData = null)
+    public void Summon(string rarity, HeroScriptable heroScriptableData = null)
     {
         heroData = heroScriptableData;
         if (heroScriptableData == null)
             heroData = LoadData(rarity);
 
         NetUtils.HostAndClientMethod(
-            () => HeroSpawnServerRpc(NetUtils.GetLocalD(), rarity,heroData.name),
-            () => HeroSpawn(NetUtils.GetLocalD(), rarity,heroData.name)
+            () => HeroSpawnServerRpc(NetUtils.GetLocalD(), rarity, heroData.name),
+            () => HeroSpawn(NetUtils.GetLocalD(), rarity, heroData.name)
             );
     }
 

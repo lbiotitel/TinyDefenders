@@ -35,6 +35,10 @@ public class MainUI : MonoBehaviour
 
     [Header("Game Start UI")]
     [SerializeField] private Animator profileAnimator;
+    [SerializeField] private TextMeshProUGUI playerProfileNameText;
+    [SerializeField] private TextMeshProUGUI friendProfileNameText;
+    [SerializeField] private TextMeshProUGUI playerProfileAnimNameText;
+    [SerializeField] private TextMeshProUGUI friendProfileAnimNameText;
     public bool profileAnimationReady = false;
 
     [Header("Summon Button")]
@@ -55,6 +59,8 @@ public class MainUI : MonoBehaviour
     [Header("Game Over UI")]
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private TextMeshProUGUI bestWaveText;
+    [SerializeField] private TextMeshProUGUI playerGameOverNameText;
+    [SerializeField] private TextMeshProUGUI friendGameOverNameText;
     [SerializeField] private TextMeshProUGUI playerDpsText;
     [SerializeField] private TextMeshProUGUI friendDpsText;
 
@@ -63,6 +69,17 @@ public class MainUI : MonoBehaviour
         InitEvent();
         if (profileAnimator.gameObject.activeSelf == false)
             profileAnimator.gameObject.SetActive(true);
+    }
+
+
+    public void InitAllUserName(string hostName, string clientName)
+    { 
+        playerProfileNameText.text = hostName;
+        playerGameOverNameText.text = hostName;
+        playerProfileAnimNameText.text = hostName;
+        friendProfileNameText.text = clientName;
+        friendGameOverNameText.text = clientName;
+        friendProfileAnimNameText.text = clientName;
     }
 
     private void InitEvent()

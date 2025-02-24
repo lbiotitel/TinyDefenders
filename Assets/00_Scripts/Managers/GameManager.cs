@@ -55,8 +55,16 @@ public class GameManager : NetworkBehaviour
 
     private WaveScriptable[] waveData = null;
 
-    private List<Hero> heroLists = new List<Hero>();    
+    private List<Hero> heroLists = new List<Hero>();
 
+
+    private void Start()
+    {
+        if (IsClient)
+        {
+            SendUserNameServerRpc(CloudManager.instance.userData.userName);
+        }
+    }
 
     private void InitGameManager()
     {
@@ -67,6 +75,7 @@ public class GameManager : NetworkBehaviour
             StartWave();
         }
     }
+
 
     private void Update()
     {
@@ -261,5 +270,23 @@ public class GameManager : NetworkBehaviour
                 UnityEngine.SceneManagement.LoadSceneMode.Single
                 );
         }
+    }
+
+
+    //send users name
+    [ServerRpc(RequireOwnership = false)]
+    private void SendUserNameServerRpc(string userName)
+    {
+        if (IsServer)
+        {
+            Debug.Log("»£√‚");
+            SendUserNameClientRpc(CloudManager.instance.userData.userName,userName);
+        }
+    }
+
+    [ClientRpc]
+    private void SendUserNameClientRpc(string hostName, string clientName)
+    {
+        MainUI.instance.InitAllUserName(hostName,clientName);
     }
 }
