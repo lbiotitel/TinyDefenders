@@ -70,7 +70,13 @@ public class CloudManager : MonoBehaviour
         action?.Invoke();   
     }
 
-    public async Task SaveUserData(UserData userData)
+
+    public async void SaveUserData()
+    {
+        await SaveUserData(userData);
+    }
+
+    private async Task SaveUserData(UserData userData)
     {
         try
         {

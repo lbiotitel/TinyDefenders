@@ -37,8 +37,12 @@ public class MainSceneUI : MonoBehaviour
         string nickName = nickNameText.text;
 
         if (string.IsNullOrEmpty(nickName)) return;
-        if (nickName.Length < 3 || nickName.Length >= 8) return;
+        if (nickName.Length < 1 || nickName.Length >= 8) return;
 
         CloudManager.instance.userData.userName = nickName;
+
+        CloudManager.instance.SaveUserData();
+        nickNameUI.SetActive(false);
     }
+        
 }
