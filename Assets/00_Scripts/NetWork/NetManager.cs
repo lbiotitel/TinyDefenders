@@ -25,6 +25,8 @@ public partial class NetManager : MonoBehaviour
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
             var loadData = await CloudManager.instance.LoadUserData();
             CloudManager.instance.userData = loadData;
+
+            MainSceneUI.instance.InitMainScene();
         }
         startMatchingButton.onClick.AddListener(() => StartMatching());
     }

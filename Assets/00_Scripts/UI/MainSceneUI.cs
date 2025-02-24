@@ -19,13 +19,44 @@ public class MainSceneUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nickNameText;
     [SerializeField] private Button nickNameSetButton;
 
+    [Header("Mene Button")]
+    [SerializeField] private Button battleButton; 
+    [SerializeField] private Button heroButton; 
+    [SerializeField] private Button guildButton; 
+    [SerializeField] private Button shopButton;
+
+    [Header("Menu UI")]
+    [SerializeField] private GameObject battleUI;
+
+    [Header("Battle UI")]
+    [SerializeField] private TextMeshProUGUI bestWaveText;
+
+
     private void Start()
     {
         nickNameSetButton.onClick.AddListener(() => SetNickName());
+        InitButtoons();
     }
 
+    public void InitMainScene()
+    {
+        bestWaveText.text = CloudManager.instance.userData.bestWave.ToString();
+    }
+
+    private void InitButtoons()
+    {
+        battleButton.onClick.AddListener(() => { 
+            HideAllMenu(); 
+            battleUI.SetActive(true); 
+        });
 
 
+    }
+
+    private void HideAllMenu()
+    {
+        battleUI.SetActive(false);
+    }
 
     public void ShowNickNameUI()
     { 

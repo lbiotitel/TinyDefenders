@@ -12,11 +12,13 @@ public class UserData
 {
     public string userName;
     public int userLevel;
+    public int bestWave = 1;
 
-    public UserData(string userName, int userLevel)
+    public UserData(string userName, int userLevel, int bestWave)
     {
         this.userName = userName;
         this.userLevel = userLevel;
+        this.bestWave = bestWave;
     }
 }
 
@@ -108,7 +110,7 @@ public class CloudManager : MonoBehaviour
             else {
                 Debug.Log("저장된 플레이어가 존재하지 않음");
                 MainSceneUI.instance.ShowNickNameUI();
-                return this.userData = new UserData("",1);
+                return this.userData = new UserData("",1,1);
             }
         }
         catch (System.Exception e)
