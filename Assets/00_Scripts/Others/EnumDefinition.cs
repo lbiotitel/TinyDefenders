@@ -6,16 +6,10 @@ public enum DebuffType {
     STUN
 }
 
-public enum SKILL { 
-    NONE,
-    FIRE_MAGICTION_CAT_SKILL,
-    TANK_BUNNY_SKILL,
-    LOBBER_BUNNY_SKILL
-}
-
-public enum SkillType { 
-    ACTIVE,
-    PASSIVE
+public enum AlarmType { 
+    NORMAL,
+    GOOD,
+    BAD
 }
 
 public enum MonsterType { 

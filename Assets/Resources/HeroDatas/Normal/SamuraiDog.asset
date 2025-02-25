@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: SamuraiDog
+  m_EditorClassIdentifier: 
+  heroName: SamuraiDog
+  atk: 10
+  atkSpeed: 0.1
+  atkRange: 2
+  rarity: 0
+  heroMainImage: {fileID: 0}
+  leftEquipmentPrefab: {fileID: 5210971029306382477, guid: 1cb05260f29559e4091a23f7d9c16523, type: 3}
+  rightEquipmentPrefab: {fileID: 8327943022958489173, guid: 9938131cee48b374db07e114c86d0c8c, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 875ebcfaffcef834b876afa869953d17, type: 2}
+  projectile: {fileID: -5815481536883960586, guid: adb034a9e99affa4196d097e7ffe7312, type: 3}
+  debuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    buffTime: 0
+    buffAmount: 0

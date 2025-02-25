@@ -182,9 +182,9 @@ public class InGameUI : MonoBehaviour
     }
 
 
-    public void ShowAlarm(string alarmText, float duration)
+    public void ShowAlarm(string alarmText, float duration,AlarmType alarmType = AlarmType.NORMAL)
     {
-        alarmUI.AddAlarm(alarmText,duration);
+        alarmUI.AddAlarm(alarmText,duration,alarmType);
     }
 
     public void HideProfileAnimation()

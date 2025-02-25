@@ -1,34 +1,34 @@
 fileFormatVersion: 2
-guid: 9e6919ef8671e004ba411a8cc54f7a74
+guid: f15a1a9a01ec28f44b3692f30d493b47
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3627262401400648924
-    second: PlayerMage_0
+      213: -8744537644298057
+    second: SamuraiDog_0
   - first:
-      213: -5083513905287160308
-    second: PlayerMage_1
+      213: -8386327450108268841
+    second: SamuraiDog_1
   - first:
-      213: 7863955274015397142
-    second: PlayerMage_2
+      213: -5374588746823299291
+    second: SamuraiDog_2
   - first:
-      213: -5105349860884587758
-    second: PlayerMage_3
+      213: -3125712449621969381
+    second: SamuraiDog_3
   - first:
-      213: -3314242859227373581
-    second: PlayerMage_4
+      213: -2283514631346000598
+    second: SamuraiDog_4
   - first:
-      213: 4694748017062700523
-    second: PlayerMage_5
+      213: 3231955393416564552
+    second: SamuraiDog_5
   - first:
-      213: 7846422508011555202
-    second: PlayerMage_6
+      213: 218148980173516378
+    second: SamuraiDog_6
   - first:
-      213: 1615713939311355883
-    second: PlayerMage_7
+      213: 5971255198340203404
+    second: SamuraiDog_7
   - first:
-      213: 2033791742039463581
-    second: PlayerMage_8
+      213: 3311255324620201351
+    second: SamuraiDog_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -61,7 +61,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 14
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -99,7 +99,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -137,12 +137,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerMage_0
+      name: SamuraiDog_0
       rect:
         serializedVersion: 2
-        x: 3
+        x: 0
         y: 1
-        width: 17
+        width: 23
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -152,85 +152,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cd4bd9e9fef965230800000000000000
-      internalID: 3627262401400648924
+      spriteID: 7b09cfba3eee0eff0800000000000000
+      internalID: -8744537644298057
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerMage_1
+      name: SamuraiDog_1
       rect:
         serializedVersion: 2
-        x: 26
+        x: 23
         y: 1
-        width: 17
-        height: 23
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c0e9998690bb379b0800000000000000
-      internalID: -5083513905287160308
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerMage_2
-      rect:
-        serializedVersion: 2
-        x: 50
-        y: 1
-        width: 17
-        height: 23
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6155f3d18a1622d60800000000000000
-      internalID: 7863955274015397142
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerMage_3
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 1
-        width: 17
-        height: 23
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 21b52efc9572629b0800000000000000
-      internalID: -5105349860884587758
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerMage_4
-      rect:
-        serializedVersion: 2
-        x: 95
-        y: 1
-        width: 17
+        width: 23
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -240,63 +174,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3ff906cdda17102d0800000000000000
-      internalID: -3314242859227373581
+      spriteID: 7de6036ed97cd9b80800000000000000
+      internalID: -8386327450108268841
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerMage_5
+      name: SamuraiDog_2
       rect:
         serializedVersion: 2
-        x: 118
-        y: 2
-        width: 17
-        height: 23
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: be5edfa9278172140800000000000000
-      internalID: 4694748017062700523
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerMage_6
-      rect:
-        serializedVersion: 2
-        x: 141
-        y: 2
-        width: 17
-        height: 23
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 28988abe2b714ec60800000000000000
-      internalID: 7846422508011555202
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerMage_7
-      rect:
-        serializedVersion: 2
-        x: 164
+        x: 46
         y: 1
-        width: 17
+        width: 23
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -306,19 +196,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: be7ec43744b2c6610800000000000000
-      internalID: 1615713939311355883
+      spriteID: 52f09c3b200a965b0800000000000000
+      internalID: -5374588746823299291
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerMage_8
+      name: SamuraiDog_3
       rect:
         serializedVersion: 2
-        x: 187
+        x: 69
         y: 1
-        width: 17
+        width: 23
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -328,8 +218,118 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d96926b50da793c10800000000000000
-      internalID: 2033791742039463581
+      spriteID: b16344a761d3f94d0800000000000000
+      internalID: -3125712449621969381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SamuraiDog_4
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 1
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2de6379a835f40e0800000000000000
+      internalID: -2283514631346000598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SamuraiDog_5
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 1
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84f80828e463adc20800000000000000
+      internalID: 3231955393416564552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SamuraiDog_6
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 1
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5e2b577755070300800000000000000
+      internalID: 218148980173516378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SamuraiDog_7
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 1
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c83c54047f82ed250800000000000000
+      internalID: 5971255198340203404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SamuraiDog_8
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 1
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78d9b988c21f3fd20800000000000000
+      internalID: 3311255324620201351
       vertices: []
       indices: 
       edges: []
@@ -338,7 +338,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 2dc30e04347c633419db9e52f822cdfd
     internalID: 0
     vertices: []
     indices: 
@@ -347,7 +347,16 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SamuraiDog_0: -8744537644298057
+      SamuraiDog_1: -8386327450108268841
+      SamuraiDog_2: -5374588746823299291
+      SamuraiDog_3: -3125712449621969381
+      SamuraiDog_4: -2283514631346000598
+      SamuraiDog_5: 3231955393416564552
+      SamuraiDog_6: 218148980173516378
+      SamuraiDog_7: 5971255198340203404
+      SamuraiDog_8: 3311255324620201351
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

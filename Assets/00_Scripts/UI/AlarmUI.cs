@@ -11,11 +11,13 @@ public class AlarmUI : MonoBehaviour
     {
         public string alarmText;
         public float alarmDuration;
+        public AlarmType alarmType = AlarmType.NORMAL;
 
-        public AlarmData(string alarmText, float alarmDuration)
+        public AlarmData(string alarmText, float alarmDuration, AlarmType alarmType)
         { 
             this.alarmText = alarmText;
             this.alarmDuration = alarmDuration;
+            this.alarmType = alarmType;
         }
     }
 
@@ -27,7 +29,6 @@ public class AlarmUI : MonoBehaviour
     public void FinishAlarm()
     {
         canShowAlarm = true;
-        gameObject.SetActive(false);
     }
 
     private void Start()
@@ -39,24 +40,40 @@ public class AlarmUI : MonoBehaviour
     {
         if (canShowAlarm)
         {
-            canShowAlarm = false;
             ShowAlarm();
+            Debug.Log("¼î ¾Ë¶÷");
         }
     }
 
-    public void AddAlarm(string alarmText, float duration)
+    public void AddAlarm(string alarmText, float duration,AlarmType alarmType = AlarmType.NORMAL)
     {
-        alarmDatas.Enqueue(new AlarmData(alarmText, duration));
+        alarmDatas.Enqueue(new AlarmData(alarmText, duration, alarmType));
     }
 
     private void ShowAlarm()
     {
         if (alarmDatas.Count <= 0) return;
-        animator.SetTrigger("SHOW");
         AlarmData alarmData = alarmDatas.Dequeue();
+        animator.SetTrigger("SHOW");
         alarmText.text = alarmData.alarmText;
+        canShowAlarm = false;
+        PlayAlarmSound(alarmData.alarmType);
         StartCoroutine(HideAlarm(alarmData.alarmDuration));
-        gameObject.SetActive(true);
+    }
+
+    private void PlayAlarmSound(AlarmType alarmType)
+    {
+        switch (alarmType)
+        {
+            case AlarmType.NORMAL:
+
+                break;
+            case AlarmType.GOOD:
+                SoundManager.instance.PlaySfxSound("GoodAlarmSFX");
+                break;
+            case AlarmType.BAD:
+                break;
+        }
     }
 
     private IEnumerator HideAlarm(float duration)
