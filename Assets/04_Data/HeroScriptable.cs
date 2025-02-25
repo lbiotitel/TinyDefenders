@@ -12,11 +12,17 @@ public class DebuffEffect {
 
 [System.Serializable]
 public class SkillData {
-    public SKILL skill;
-    public SkillType skillType = SkillType.ACTIVE;
     public float coolTime;
+    public GameObject skillPrefab;
+
+    [Header("Attack Skill")]
     public float skillDamage;
-    public GameObject projectilePrefab;
+
+    [Header("Buff Skill")]
+    public float buffTime;
+    public float buffAmount;
+
+    
 }
 
 
@@ -27,8 +33,6 @@ public struct HeroData : INetworkSerializable
     public int heroAtk;
     public float heroAtkSpeed;
     public float heroAtkRange;
-    public string leftEquipmentName;
-    public string rightEquipmentName;
     public string rarity;
 
 
@@ -38,8 +42,6 @@ public struct HeroData : INetworkSerializable
         serializer.SerializeValue(ref heroAtk);
         serializer.SerializeValue(ref heroAtkSpeed);
         serializer.SerializeValue(ref heroAtkRange);
-        serializer.SerializeValue(ref leftEquipmentName);
-        serializer.SerializeValue(ref rightEquipmentName);
         serializer.SerializeValue(ref rarity);
     }
 }
@@ -56,8 +58,8 @@ public class HeroScriptable : ScriptableObject
 
     [Header("Extra")]
     public Sprite heroMainImage;
-    public string leftEquipmentName = string.Empty;
-    public string rightEquipmentName = string.Empty;
+    public GameObject leftEquipmentPrefab = null;
+    public GameObject rightEquipmentPrefab = null;
     public RuntimeAnimatorController runtimeAnimatorController;
     public Projectile projectile = null;
 
@@ -80,8 +82,6 @@ public class HeroScriptable : ScriptableObject
             heroAtk = atk,
             heroAtkSpeed = atkSpeed,
             heroAtkRange = atkRange,
-            leftEquipmentName = leftEquipmentName,
-            rightEquipmentName = rightEquipmentName,
             rarity = rarity.ToString(),
         };
     }

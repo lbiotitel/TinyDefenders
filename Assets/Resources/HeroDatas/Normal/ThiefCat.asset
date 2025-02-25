@@ -17,14 +17,15 @@ MonoBehaviour:
   atkSpeed: 1
   atkRange: 1.5
   rarity: 0
-  leftEquipmentName: Thief-Weapon
-  rightEquipmentName: 
+  heroMainImage: {fileID: 0}
+  leftEquipmentPrefab: {fileID: 703904335925265922, guid: 826e97f19de203349a2f4ab46ab74472, type: 3}
+  rightEquipmentPrefab: {fileID: 0}
   runtimeAnimatorController: {fileID: 9100000, guid: 2bdf7758d07f28b40a7557122ba6df1b, type: 2}
   projectile: {fileID: 2189299698304443517, guid: 1c7e4b9a4822164478d92ecad19cea84, type: 3}
   debuffEffects: []
   skillData:
-    skill: 0
-    skillType: 0
     coolTime: 0
+    skillPrefab: {fileID: 0}
     skillDamage: 0
-    projectilePrefab: {fileID: 0}
+    buffTime: 0
+    buffAmount: 0

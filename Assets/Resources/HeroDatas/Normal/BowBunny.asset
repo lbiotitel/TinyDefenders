@@ -17,8 +17,9 @@ MonoBehaviour:
   atkSpeed: 0.5
   atkRange: 2
   rarity: 0
-  leftEquipmentName: Elf-Bow
-  rightEquipmentName: 
+  heroMainImage: {fileID: 0}
+  leftEquipmentPrefab: {fileID: 5679383256044058012, guid: f930235fe23e8b8439bfcc039b6d3ba0, type: 3}
+  rightEquipmentPrefab: {fileID: 0}
   runtimeAnimatorController: {fileID: 9100000, guid: af259fb8004c4a942a8b93781191e29c, type: 2}
   projectile: {fileID: -3107036954305976178, guid: dcda7eaba4e49fa4cba2891964fe6b99, type: 3}
   debuffEffects:
@@ -29,8 +30,8 @@ MonoBehaviour:
     - 0.4
     - 3
   skillData:
-    skill: 0
-    skillType: 0
     coolTime: 0
+    skillPrefab: {fileID: 0}
     skillDamage: 0
-    projectilePrefab: {fileID: 0}
+    buffTime: 0
+    buffAmount: 0

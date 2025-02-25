@@ -18,8 +18,8 @@ MonoBehaviour:
   atkRange: 1
   rarity: 0
   heroMainImage: {fileID: 0}
-  leftEquipmentName: Knight-Sword
-  rightEquipmentName: 
+  leftEquipmentPrefab: {fileID: 4543349530397778586, guid: 0184ce95a3e2cf34a914bc7d69c6fd37, type: 3}
+  rightEquipmentPrefab: {fileID: 0}
   runtimeAnimatorController: {fileID: 9100000, guid: 7fde60e625baf3c4193e7589f581d62e, type: 2}
   projectile: {fileID: -5815481536883960586, guid: 6ba4ab71536c9234994d44a8562cc6e6, type: 3}
   debuffEffects:
@@ -28,8 +28,8 @@ MonoBehaviour:
     - 1
     - 5
   skillData:
-    skill: 0
-    skillType: 0
     coolTime: 0
+    skillPrefab: {fileID: 0}
     skillDamage: 0
-    projectilePrefab: {fileID: 0}
+    buffTime: 0
+    buffAmount: 0

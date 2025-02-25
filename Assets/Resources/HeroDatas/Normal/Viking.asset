@@ -17,14 +17,15 @@ MonoBehaviour:
   atkSpeed: 0.5
   atkRange: 1
   rarity: 0
-  leftEquipmentName: Viking-Weapon-Left
-  rightEquipmentName: Viking-Weapon-Right
+  heroMainImage: {fileID: 0}
+  leftEquipmentPrefab: {fileID: 1767926793365475297, guid: 04b5092ae5d7d4241a7fb21c6e7b3d32, type: 3}
+  rightEquipmentPrefab: {fileID: 7552254137579733187, guid: 17936f38b06198642827fa1326686308, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 26de758c0708d354aa2c50744952bede, type: 2}
   projectile: {fileID: -4392328290619117219, guid: ce460059e354c5b47b7696e4bf085671, type: 3}
   debuffEffects: []
   skillData:
-    skill: 0
-    skillType: 0
     coolTime: 0
+    skillPrefab: {fileID: 0}
     skillDamage: 0
-    projectilePrefab: {fileID: 0}
+    buffTime: 0
+    buffAmount: 0

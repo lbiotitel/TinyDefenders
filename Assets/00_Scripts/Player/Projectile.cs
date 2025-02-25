@@ -71,7 +71,7 @@ public class Projectile : MonoBehaviour
         Vector3 startPos = transform.position;
 
         Vector3 midPoint = (startPos + target.position) / 2f;
-        midPoint.y += 1f;
+        midPoint.y += Random.Range(-1f,1f);
 
 
         float elapsedTime = 0.0f;

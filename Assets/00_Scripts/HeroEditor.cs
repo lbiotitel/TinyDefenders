@@ -111,8 +111,8 @@ public class HeroEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("atkSpeed"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("atkRange"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("rarity"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("leftEquipmentName"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("rightEquipmentName"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("leftEquipmentPrefab"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("rightEquipmentPrefab"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("runtimeAnimatorController"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("projectile"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("skillData"));

@@ -16,6 +16,16 @@ MonoBehaviour:
   atk: 5
   atkSpeed: 1
   atkRange: 1
-  leftEquipmentName: Uga-Weapon
-  rightEquipmentName: 
+  rarity: 0
+  heroMainImage: {fileID: 0}
+  leftEquipmentPrefab: {fileID: 8972489495651083974, guid: e29d4fcae7ad58b408ec0ae4d783ac10, type: 3}
+  rightEquipmentPrefab: {fileID: 0}
   runtimeAnimatorController: {fileID: 9100000, guid: 4ac1f2fdf4be48b4782832df27c8bbf2, type: 2}
+  projectile: {fileID: 0}
+  debuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    buffTime: 0
+    buffAmount: 0

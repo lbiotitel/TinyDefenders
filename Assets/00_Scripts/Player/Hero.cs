@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Hero : Entity
@@ -57,9 +59,15 @@ public class Hero : Entity
 
         attackDelay = attackSpeed;
 
+        Type classType = Type.GetType(heroName + "Skill");
+        Debug.Log(classType);
+        if (classType != null)
+            gameObject.AddComponent(classType);
+
+
         GetInitEntity(data.heroName, rarity);
 
-        InitEquipment(data.leftEquipmentName, data.rightEquipmentName);
+        InitEquipment();
 
         GameManager.instance.AddHero(this);
 
@@ -84,18 +92,18 @@ public class Hero : Entity
         return -1;
     }
 
-    private void InitEquipment(string leftEuipmentName, string rightEquipmentName)
+    private void InitEquipment()
     {
-        if (leftEuipmentName != string.Empty)
+        if (heroData.leftEquipmentPrefab != null)
         {
-            GameObject leftEquipment = Instantiate(Resources.Load<GameObject>("HeroEquipments/" + leftEuipmentName));
+            GameObject leftEquipment = Instantiate(heroData.leftEquipmentPrefab);
             leftEquipment.transform.SetParent(leftHand);
             leftEquipment.transform.localPosition = Vector3.zero;
         }
 
-        if (rightEquipmentName != string.Empty)
+        if (heroData.rightEquipmentPrefab != null)
         {
-            GameObject rightEquipment = Instantiate(Resources.Load<GameObject>("HeroEquipments/" + rightEquipmentName));
+            GameObject rightEquipment = Instantiate(heroData.rightEquipmentPrefab);
             rightEquipment.transform.SetParent(rightHand);
             rightEquipment.transform.localPosition = Vector3.zero;
         }
