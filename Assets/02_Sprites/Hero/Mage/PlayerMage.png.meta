@@ -1,7 +1,34 @@
 fileFormatVersion: 2
-guid: 065939fe682bd59459c48687d1446148
+guid: 9e6919ef8671e004ba411a8cc54f7a74
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 3627262401400648924
+    second: PlayerMage_0
+  - first:
+      213: -5083513905287160308
+    second: PlayerMage_1
+  - first:
+      213: 7863955274015397142
+    second: PlayerMage_2
+  - first:
+      213: -5105349860884587758
+    second: PlayerMage_3
+  - first:
+      213: -3314242859227373581
+    second: PlayerMage_4
+  - first:
+      213: 4694748017062700523
+    second: PlayerMage_5
+  - first:
+      213: 7846422508011555202
+    second: PlayerMage_6
+  - first:
+      213: 1615713939311355883
+    second: PlayerMage_7
+  - first:
+      213: 2033791742039463581
+    second: PlayerMage_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -34,7 +61,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -48,7 +75,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 14
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,19 +99,6 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -94,7 +108,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Server
+    buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -126,9 +140,9 @@ TextureImporter:
       name: PlayerMage_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 23
+        x: 3
+        y: 1
+        width: 17
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -136,10 +150,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: d546b18eb05db7344bc82a27199ee99b
-      internalID: -1483651145
+      spriteID: cd4bd9e9fef965230800000000000000
+      internalID: 3627262401400648924
       vertices: []
       indices: 
       edges: []
@@ -148,20 +162,20 @@ TextureImporter:
       name: PlayerMage_1
       rect:
         serializedVersion: 2
-        x: 23
-        y: 0
-        width: 23
-        height: 24
+        x: 26
+        y: 1
+        width: 17
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 740ce265283760b429e20156632aa8cd
-      internalID: 1511659357
+      spriteID: c0e9998690bb379b0800000000000000
+      internalID: -5083513905287160308
       vertices: []
       indices: 
       edges: []
@@ -170,20 +184,20 @@ TextureImporter:
       name: PlayerMage_2
       rect:
         serializedVersion: 2
-        x: 46
-        y: 0
-        width: 23
-        height: 24
+        x: 50
+        y: 1
+        width: 17
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: b5561843981c5f64a86c1bedf147f1c1
-      internalID: 488504347
+      spriteID: 6155f3d18a1622d60800000000000000
+      internalID: 7863955274015397142
       vertices: []
       indices: 
       edges: []
@@ -192,20 +206,20 @@ TextureImporter:
       name: PlayerMage_3
       rect:
         serializedVersion: 2
-        x: 69
-        y: 0
-        width: 23
-        height: 24
+        x: 72
+        y: 1
+        width: 17
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: fabda0c240f939c4997ad908ef775ebb
-      internalID: 168739908
+      spriteID: 21b52efc9572629b0800000000000000
+      internalID: -5105349860884587758
       vertices: []
       indices: 
       edges: []
@@ -214,9 +228,9 @@ TextureImporter:
       name: PlayerMage_4
       rect:
         serializedVersion: 2
-        x: 92
-        y: 0
-        width: 23
+        x: 95
+        y: 1
+        width: 17
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -224,10 +238,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: af6645fdeda4ec449b9142962ea51ec6
-      internalID: -502268317
+      spriteID: 3ff906cdda17102d0800000000000000
+      internalID: -3314242859227373581
       vertices: []
       indices: 
       edges: []
@@ -236,20 +250,20 @@ TextureImporter:
       name: PlayerMage_5
       rect:
         serializedVersion: 2
-        x: 115
-        y: 0
-        width: 23
-        height: 24
+        x: 118
+        y: 2
+        width: 17
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 88151edd21ca1624d842bc78c400268d
-      internalID: 756275199
+      spriteID: be5edfa9278172140800000000000000
+      internalID: 4694748017062700523
       vertices: []
       indices: 
       edges: []
@@ -258,20 +272,20 @@ TextureImporter:
       name: PlayerMage_6
       rect:
         serializedVersion: 2
-        x: 138
-        y: 0
-        width: 23
-        height: 24
+        x: 141
+        y: 2
+        width: 17
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 11e73ed697b4fad419d0630751c41d8f
-      internalID: 253900308
+      spriteID: 28988abe2b714ec60800000000000000
+      internalID: 7846422508011555202
       vertices: []
       indices: 
       edges: []
@@ -280,9 +294,9 @@ TextureImporter:
       name: PlayerMage_7
       rect:
         serializedVersion: 2
-        x: 161
-        y: 0
-        width: 23
+        x: 164
+        y: 1
+        width: 17
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -290,10 +304,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: ccbc5bc7829fc5b49b2a566e25a9db6f
-      internalID: 1389197675
+      spriteID: be7ec43744b2c6610800000000000000
+      internalID: 1615713939311355883
       vertices: []
       indices: 
       edges: []
@@ -302,9 +316,9 @@ TextureImporter:
       name: PlayerMage_8
       rect:
         serializedVersion: 2
-        x: 184
-        y: 0
-        width: 23
+        x: 187
+        y: 1
+        width: 17
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -312,76 +326,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: d4df1ede55952124bbc09d81a7ca5339
-      internalID: 1484967345
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerMage_9
-      rect:
-        serializedVersion: 2
-        x: 207
-        y: 0
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 90fc560e2ec4e8942ab68da7c2299d13
-      internalID: -1250823207
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerMage_10
-      rect:
-        serializedVersion: 2
-        x: 230
-        y: 0
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d06fd7de751274547b501c162c05fe2f
-      internalID: -1552824353
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerMage_11
-      rect:
-        serializedVersion: 2
-        x: 253
-        y: 0
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 502b762e2b0f78b4f8c9622103ae74f3
-      internalID: -1660215352
+      spriteID: d96926b50da793c10800000000000000
+      internalID: 2033791742039463581
       vertices: []
       indices: 
       edges: []
@@ -390,7 +338,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -399,19 +347,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      PlayerMage_0: -1483651145
-      PlayerMage_1: 1511659357
-      PlayerMage_10: -1552824353
-      PlayerMage_11: -1660215352
-      PlayerMage_2: 488504347
-      PlayerMage_3: 168739908
-      PlayerMage_4: -502268317
-      PlayerMage_5: 756275199
-      PlayerMage_6: 253900308
-      PlayerMage_7: 1389197675
-      PlayerMage_8: 1484967345
-      PlayerMage_9: -1250823207
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

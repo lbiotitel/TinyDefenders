@@ -226,6 +226,7 @@ public class GameManager : NetworkBehaviour
     public void StartGame()
     { 
         isGameStart = true;
+        SoundManager.instance.PlaySound("InGameBgm",true);
     }
 
 

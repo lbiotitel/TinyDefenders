@@ -60,7 +60,6 @@ public class Hero : Entity
         attackDelay = attackSpeed;
 
         Type classType = Type.GetType(heroName + "Skill");
-        Debug.Log(classType);
         if (classType != null)
             gameObject.AddComponent(classType);
 

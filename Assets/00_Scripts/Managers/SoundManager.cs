@@ -33,7 +33,12 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private List<Sound> soundList = new List<Sound>();
 
 
-    public void PlaySound(string soundName)
+    public void StopAllSound()
+    {
+        audioSource.Stop();
+    }
+
+    public void PlaySound(string soundName,bool loop = false)
     {
         for (int i = 0; i < soundList.Count; i++)
         {
@@ -41,6 +46,7 @@ public class SoundManager : MonoBehaviour
             {
                 audioSource.Stop();
                 audioSource.resource = soundList[i].audioClip;
+                audioSource.loop = loop;
                 audioSource.Play(); 
             }
         }
