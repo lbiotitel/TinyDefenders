@@ -226,7 +226,7 @@ public class GameManager : NetworkBehaviour
     public void StartGame()
     { 
         isGameStart = true;
-        SoundManager.instance.PlaySound("InGameBgm",true);
+        SoundManager.instance.PlayMusicSound("InGameBgm",true);
     }
 
 
@@ -287,6 +287,7 @@ public class GameManager : NetworkBehaviour
             goldGoblinLevel++;
             StartCoroutine(GoldGolbinDelayCoroutine());
             Spawner.instance.StartMonsterSpawn("GoldGoblin", 0, 1);
+            InGameUI.instance.ShowAlarm("황금 고블린 소환!",3f);
         }
     }
 

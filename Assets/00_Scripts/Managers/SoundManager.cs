@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 
 [System.Serializable]
@@ -29,25 +30,62 @@ public class SoundManager : MonoBehaviour
     }
 
 
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private List<Sound> soundList = new List<Sound>();
+    [SerializeField] private AudioSource musicAudioSource;
+    [SerializeField] private AudioSource[] sfxAudioSource;
+    [SerializeField] private List<Sound> musicSoundList = new List<Sound>();
+    [SerializeField] private List<Sound> sfxSoundList = new List<Sound>();
 
 
-    public void StopAllSound()
+    public void StopAllMusicSound()
     {
-        audioSource.Stop();
+        musicAudioSource.Stop();
+        musicAudioSource.resource = null;
+        musicAudioSource.loop = false;
     }
 
-    public void PlaySound(string soundName,bool loop = false)
+    public void StopAllSfxSound()
     {
-        for (int i = 0; i < soundList.Count; i++)
+        for (int i = 0; i < sfxAudioSource.Length; i++)
         {
-            if (soundList[i].soundName == soundName)
+            if (sfxAudioSource[i].isPlaying)
             {
-                audioSource.Stop();
-                audioSource.resource = soundList[i].audioClip;
-                audioSource.loop = loop;
-                audioSource.Play(); 
+                sfxAudioSource[i].Stop();
+                sfxAudioSource[i].resource = null;
+                sfxAudioSource[i].loop = false;
+            }
+        }
+    }
+
+    public void PlaySfxSound(string sfxName, bool loop = false)
+    {
+        for (int i = 0; i < sfxSoundList.Count; i++)
+        {
+            if (sfxName == sfxSoundList[i].soundName)
+            {
+                for (int j = 0; j < sfxAudioSource.Length; j++)
+                {
+                    if (!sfxAudioSource[j].isPlaying)
+                    {
+                        sfxAudioSource[j].resource = sfxSoundList[i].audioClip;
+                        sfxAudioSource[j].loop = loop;
+                        sfxAudioSource[j].Play();
+                    }
+                }
+            }
+        }
+    }
+
+
+    public void PlayMusicSound(string soundName,bool loop = false)
+    {
+        for (int i = 0; i < musicSoundList.Count; i++)
+        {
+            if (musicSoundList[i].soundName == soundName)
+            {
+                musicAudioSource.Stop();
+                musicAudioSource.resource = musicSoundList[i].audioClip;
+                musicAudioSource.loop = loop;
+                musicAudioSource.Play(); 
             }
         }
     }

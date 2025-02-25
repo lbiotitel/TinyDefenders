@@ -69,6 +69,9 @@ public class InGameUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI goldGoblinLevelText;
     public Image summonGoldGoblinImage;
 
+    [Header("Alarm UI")]
+    [SerializeField] private AlarmUI alarmUI;
+
     private void Start()
     {
         InitEvent();
@@ -178,6 +181,11 @@ public class InGameUI : MonoBehaviour
         Spawner.instance.Summon("Normal", heroData);
     }
 
+
+    public void ShowAlarm(string alarmText, float duration)
+    {
+        alarmUI.AddAlarm(alarmText,duration);
+    }
 
     public void HideProfileAnimation()
     {
