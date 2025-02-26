@@ -13,7 +13,8 @@ public partial class Monster : Entity
     [SerializeField] private Image hpImage;
     [SerializeField] private Image hpImageEffect;
     [SerializeField] private float hpAnimeSpeed = 2f;
-
+    [SerializeField] private float standAngle;
+    
     int currentMoveTarget = 1;
     List<Transform> targetLists;
     private bool isDead = false;
@@ -30,6 +31,7 @@ public partial class Monster : Entity
         speed = originalSpeed = data.monsterSpeed;
         animator.runtimeAnimatorController = data.animatorController;
         monsterType = data.monsterType;
+        transform.Rotate(standAngle, 0, 0);
     }
 
     public void SetMoveTarget(List<Transform> targetLists)

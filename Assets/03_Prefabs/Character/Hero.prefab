@@ -341,7 +341,7 @@ Transform:
   m_GameObject: {fileID: 5249462860078115409}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.13, z: 0}
+  m_LocalPosition: {x: 0, y: 0.05, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -358,7 +358,7 @@ SpriteRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5249462860078115409}
   m_Enabled: 1
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -607,7 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3127176749
+  GlobalObjectIdHash: 4284652834
   InScenePlacedSourceGlobalObjectIdHash: 3127176749
   DeferredDespawnTick: 0
   Ownership: 1
@@ -636,7 +636,7 @@ MonoBehaviour:
   leftHand: {fileID: 6966628995551437246}
   rightHand: {fileID: 1752757894357761139}
   spawnParticle: {fileID: 5626245795935178412, guid: fd1add2b7de660f498cb90d16f9f8561, type: 3}
-  attackDelay: 0
+  standAngle: -60
   <attackRange>k__BackingField: 1
   attackSpeed: 0
   <monsterLayer>k__BackingField:

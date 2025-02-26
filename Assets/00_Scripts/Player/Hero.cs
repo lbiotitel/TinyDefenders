@@ -11,11 +11,12 @@ public class Hero : Entity
     [SerializeField] private Transform leftHand;
     [SerializeField] private Transform rightHand;
     [SerializeField] private GameObject spawnParticle;
+    [SerializeField] private float standAngle;
     HeroScriptable heroData;
     private HeroHolder heroHolder;
     private bool isMove = false;
     private double baseAtk;
-    [SerializeField] private float attackDelay;
+    private float attackDelay;
     public double atk
     {
         get
@@ -69,6 +70,8 @@ public class Hero : Entity
         InitEquipment();
 
         GameManager.instance.AddHero(this);
+
+        transform.Rotate(standAngle,0,0);
 
         Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
     }
