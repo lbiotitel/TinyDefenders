@@ -1,6 +1,8 @@
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+
 
 public class CameraRay : NetworkBehaviour
 {
@@ -11,7 +13,7 @@ public class CameraRay : NetworkBehaviour
 
     private void Start()
     {
-        cam = Camera.main;
+        cam = GetComponent<Camera>();
         hostOrClient = NetUtils.GetLocalD() == 0 ? "HOST" : "CLIENT";
     }
     //ray cast
@@ -38,10 +40,23 @@ public class CameraRay : NetworkBehaviour
         }
     }
 
+    private RaycastHit2D GetRayObject()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 10f;  // Ray가 나갈 고정 거리
+
+        // Orthographic 카메라 기준으로 월드 좌표 변환
+        Vector3 worldPos = cam.ScreenToWorldPoint(mousePos);
+
+        // 2D Raycast 실행 (FOV 영향 없음!)
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+
+        return hit;
+    }
+
     private void MouseButtonDown()
     {
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+        RaycastHit2D hit = GetRayObject();
 
         if (heroHolder != null)
         {
@@ -52,7 +67,7 @@ public class CameraRay : NetworkBehaviour
         if (hit.collider != null)
         {
             heroHolder = hit.collider.GetComponent<HeroHolder>();
-
+            Debug.Log(heroHolder.holderId);
             if (heroHolder.holderName == "" || heroHolder.holderName == null)
             {
                 heroHolder = null;
@@ -74,8 +89,7 @@ public class CameraRay : NetworkBehaviour
         if (heroHolder != null)
         {
             heroHolder.ShowCircle();
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+            RaycastHit2D hit = GetRayObject();
 
             if (hit.collider != null && hit.collider.transform != heroHolder.transform)
             {
@@ -99,8 +113,7 @@ public class CameraRay : NetworkBehaviour
         if (heroHolder == null) return;
         if (moveHolder == null)
         {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+            RaycastHit2D hit = GetRayObject();
 
             if (hit.collider != null)
             {
@@ -121,5 +134,6 @@ public class CameraRay : NetworkBehaviour
 
         moveHolder = null;
     }
+
 
 }

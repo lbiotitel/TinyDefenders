@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,7 +39,6 @@ public class HeroHolder : NetworkBehaviour
 
     private void Start()
     {
-        InitCollider();
         InitButtons();
         HideRange();
         HideCircle();
@@ -51,11 +51,11 @@ public class HeroHolder : NetworkBehaviour
         compositionButton.onClick.AddListener(() => { Composition(); });
     }
 
-    private void InitCollider()
+    public void InitCollider()
     {
-        BoxCollider2D collider = gameObject.AddComponent<BoxCollider2D>();
+        BoxCollider2D collider = transform.AddComponent<BoxCollider2D>();
         collider.isTrigger = true;
-        collider.size = new Vector2(Spawner.instance.xValue, Spawner.instance.yValue);
+        collider.size = new Vector3(Spawner.instance.xValue, Spawner.instance.yValue,2f);
         heroSquare.GetComponent<SpriteRenderer>().size = collider.size;
     }
 

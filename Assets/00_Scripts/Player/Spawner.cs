@@ -56,6 +56,8 @@ public class Spawner : NetworkBehaviour
         InitMonsterSpawnPosition();
     }
 
+    public int GetGridSize() { return gridHeight * gridWidth; }
+
 
     #region Initialize
 
@@ -202,6 +204,7 @@ public class Spawner : NetworkBehaviour
 
         HeroHolder heroHolder = networkObject.GetComponent<HeroHolder>();
         heroHolder.holderIndex = positionIndex;
+        heroHolder.InitCollider();
     }
 
     #endregion
