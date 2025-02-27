@@ -5,7 +5,6 @@ public class AttackSkillBase : Skill
 
     protected override void SkillLogic()
     {
-        if (hero.target == null) return;
         if (!skillDelay)
         {
             skillDelay = true;

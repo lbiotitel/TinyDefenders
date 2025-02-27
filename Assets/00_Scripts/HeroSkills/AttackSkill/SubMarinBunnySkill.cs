@@ -6,8 +6,21 @@ public class SubMarinBunnySkill : AttackSkillBase
 
     protected override void ActiveSkill()
     {
-        GameObject go = Instantiate(heroData.skillData.skillPrefab,
-            transform.position + new Vector3(0,6,0), Quaternion.identity);
-        go.GetComponent<Projectile>().Init(hero.target.transform, hero);
+
+        HeroHolder heroHolder = hero.GetHeroHolder();
+        Collider2D[] enemiesInRange =
+                Physics2D.OverlapCircleAll(heroHolder.transform.position, heroData.atkRange, hero.monsterLayer);
+
+        Debug.Log("È£Ãâ");
+        if (enemiesInRange.Length > 0)
+        {
+            Transform target = enemiesInRange[0].transform;
+            if (target != null)
+            {
+                GameObject go = Instantiate(heroData.skillData.skillPrefab,
+                    transform.position + new Vector3(0, 6, 0), Quaternion.identity);
+                go.GetComponent<Projectile>().Init(target.transform, hero);
+            }
+        }
     }
 }

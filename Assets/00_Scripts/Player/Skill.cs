@@ -11,9 +11,6 @@ public class Skill : MonoBehaviour
     [SerializeField] protected Image skillFillImage;
     [SerializeField] protected GameObject skillCanvas;
 
-    public float coolTime;
-    public float skillDamage;
-    public GameObject projectilePrefab;
 
 
     protected void Start()

@@ -220,6 +220,11 @@ public class HeroHolder : NetworkBehaviour
 
     private void ClientSetPosition()
     {
+        if (ownHero == null)
+        {
+            circleSpriteRenderer.color = circleColors[(int)Rarity.Normal];
+        return;
+        }
         ownHero.transform.localPosition = Vector2.zero;
         circleSpriteRenderer.color = circleColors[(int)ownHero.GetHeroData().rarity];
     }

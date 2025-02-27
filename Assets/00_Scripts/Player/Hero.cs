@@ -47,11 +47,11 @@ public class Hero : Entity
     {
         heroData = Resources.Load<HeroScriptable>("HeroDatas/" + rarity + "/" + data.heroName);
 
-        heroName = data.heroName;
+        heroName = heroData.heroName;
         heroRarity = (Rarity)Enum.Parse(typeof(Rarity), rarity);
-        baseAtk = data.heroAtk;
-        attackRange = data.heroAtkRange;
-        attackSpeed = data.heroAtkSpeed;
+        baseAtk = heroData.atk;
+        attackRange = heroData.atkRange;
+        attackSpeed = heroData.atkSpeed;
         this.heroHolder = heroHolder;
 
         attackDelay = attackSpeed;
@@ -163,6 +163,7 @@ public class Hero : Entity
 
     private void CheckForEnemies()
     {
+        if (heroData.projectile == null) return;
         if (IsServer)
         {
             if (attackDelay > 0)
@@ -192,7 +193,6 @@ public class Hero : Entity
                 if (target != null)
                 {
                     attackDelay = attackSpeed;
-                    if (heroData.projectile == null) return;
                     LoadBulletClientRpc(target.NetworkObjectId);
                 }
             }
