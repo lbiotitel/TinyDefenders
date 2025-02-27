@@ -17,6 +17,9 @@ public class HeroHolder : NetworkBehaviour
     [SerializeField] private Button sellButton;
     [SerializeField] private Button compositionButton;
 
+    [SerializeField] private Color[] circleColors;
+    [SerializeField] private SpriteRenderer circleSpriteRenderer;
+
     public string holderName;
     public string holderId;
     public List<Hero> heroList = new List<Hero>();
@@ -257,6 +260,7 @@ public class HeroHolder : NetworkBehaviour
             heroList[i].transform.localPosition = GetHeroOffset()[i];
             heroList[i].SortingOrderChange(i + 1);
         }
+        circleSpriteRenderer.color = circleColors[(int)heroList[0].GetHeroData().rarity];
     }
 
     private Vector2[] GetHeroOffset()

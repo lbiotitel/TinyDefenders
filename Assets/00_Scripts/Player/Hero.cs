@@ -37,8 +37,6 @@ public class Hero : Entity
     public Rarity heroRarity;
     public NetworkObject target { get; set; } = null;
 
-    [SerializeField] private Color[] circleColors;
-    [SerializeField] private SpriteRenderer circleSpriteRenderer;
 
     public override void Awake()
     {
@@ -55,8 +53,6 @@ public class Hero : Entity
         attackRange = data.heroAtkRange;
         attackSpeed = data.heroAtkSpeed;
         this.heroHolder = heroHolder;
-
-        circleSpriteRenderer.color = circleColors[(int)heroRarity];
 
         attackDelay = attackSpeed;
 
