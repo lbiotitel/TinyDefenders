@@ -59,17 +59,14 @@ public class CombineNodeUI : MonoBehaviour
         {
             if (heroHolder.Value.holderId.Contains(NetUtils.IsServer() ? "HOST" : "CLIENT"))
             {
-                if (heroHolder.Value.heroList.Count > 0)
+                if (heroHolder.Value.ownHero != null)
                 {
-                    for (int i = 0; i < heroHolder.Value.heroList.Count; i++)
+                    for (int j = 0; j < heroList.Count; j++)
                     {
-                        for (int j = 0; j < heroList.Count; j++)
+                        if (heroList[j].heroName == heroHolder.Value.ownHero.heroName)
                         {
-                            if (heroList[j].heroName == heroHolder.Value.heroList[i].heroName)
-                            {
-                                heroList.Remove(heroList[j]);
-                                heroHolders.Add(heroHolder.Value);
-                            }
+                            heroList.Remove(heroList[j]);
+                            heroHolders.Add(heroHolder.Value);
                         }
                     }
                 }

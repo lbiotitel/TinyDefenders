@@ -72,6 +72,9 @@ public class InGameUI : MonoBehaviour
     [Header("Alarm UI")]
     [SerializeField] private AlarmUI alarmUI;
 
+    [Header("Hero Info")]
+    [SerializeField] private HeroInfoUI heroInfoUI;
+
     private void Start()
     {
         InitEvent();
@@ -195,6 +198,16 @@ public class InGameUI : MonoBehaviour
     private void Update()
     {
         DrawMainUI();
+    }
+
+    public void ShowHeroInfoUI(HeroScriptable heroScriptable)
+    { 
+        heroInfoUI.ShowHeroInfoUI(heroScriptable);
+    }
+
+    public void HideHeroInfoUI()
+    {
+        heroInfoUI.HideHeroInfoUI();
     }
 
     public void ShowAlarmText(string text)

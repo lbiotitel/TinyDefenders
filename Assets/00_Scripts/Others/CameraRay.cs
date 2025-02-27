@@ -62,12 +62,18 @@ public class CameraRay : NetworkBehaviour
         {
             heroHolder.HideRange();
             heroHolder = null;
+            InGameUI.instance.HideHeroInfoUI();
         }
 
         if (hit.collider != null)
         {
+            if (hit.collider.GetComponent<HeroHolder>() == null)
+            {
+                heroHolder = null;
+                return;
+            }
+
             heroHolder = hit.collider.GetComponent<HeroHolder>();
-            Debug.Log(heroHolder.holderId);
             if (heroHolder.holderName == "" || heroHolder.holderName == null)
             {
                 heroHolder = null;
@@ -80,7 +86,12 @@ public class CameraRay : NetworkBehaviour
             if(value == 0) isOwn = heroHolder.holderId.Contains("HOST");
             else if(value == 1) isOwn = heroHolder.holderId.Contains("CLIENT");
 
-            if (!isOwn) heroHolder = null;
+            if (!isOwn)
+            {
+                heroHolder = null;
+                return;
+            }
+            InGameUI.instance.ShowHeroInfoUI(heroHolder.ownHero.GetHeroData());
         }
     }
 

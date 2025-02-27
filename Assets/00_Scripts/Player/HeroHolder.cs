@@ -22,23 +22,10 @@ public class HeroHolder : NetworkBehaviour
 
     public string holderName;
     public string holderId;
-    public List<Hero> heroList = new List<Hero>();
+    public Hero ownHero = null;
     public HeroData heroData;
     public int holderIndex;
 
-
-    private readonly Vector2[] oneHeroOffset = { Vector2.zero };
-    private readonly Vector2[] twoHeroOffset =
-    {
-        new Vector2(-0.075f,0.075f),
-        new Vector2(0.075f,-0.075f)
-    };
-    private readonly Vector2[] threeHeroOffset =
-    {
-        new Vector2(-0.004f,0.113f),
-        new Vector2(0.182f,-0.086f),
-        new Vector2(-0.074f,-0.15f)
-    };
 
     private void Start()
     {
@@ -87,11 +74,6 @@ public class HeroHolder : NetworkBehaviour
 
     public void SpawnHero(HeroData heroData, string rarity)
     {
-        if (heroList.Count == 0)
-        {
-            holderName = heroData.heroName;
-            this.heroData = heroData;
-        }
         if (IsServer)
         {
             HeroSpawn(NetUtils.GetLocalD(), heroData, rarity);
@@ -122,9 +104,8 @@ public class HeroHolder : NetworkBehaviour
 
     private void SellHero(ulong clientId)
     {
-        if (heroList.Count == 0) return;
-        Hero hero = heroList[heroList.Count - 1];
-        ulong heroId = hero.NetworkObjectId;
+        if (ownHero == null) return;
+        ulong heroId = ownHero.NetworkObjectId;
         NetworkObject obj = NetworkManager.SpawnManager.SpawnedObjects[heroId];
         SellClientRpc(heroId, clientId);
         obj.Despawn();
@@ -134,8 +115,8 @@ public class HeroHolder : NetworkBehaviour
     private void SellClientRpc(ulong heroKey, ulong clientId)
     {
         NetworkObject obj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[heroKey];
-        heroList.Remove(obj.GetComponent<Hero>());
-        if (heroList.Count == 0)
+        ownHero = null;
+        if (ownHero == null)
         {
             DespawnHolderServerRpc(clientId);
         }
@@ -147,7 +128,7 @@ public class HeroHolder : NetworkBehaviour
     {
         DespawnHolderClientRpc(clientId,NetworkObjectId);
         holderName = string.Empty;
-        heroList.Clear();
+        ownHero = null;
     }
 
     [ClientRpc]
@@ -157,7 +138,7 @@ public class HeroHolder : NetworkBehaviour
         {
             HeroHolder holder = heroHolder.GetComponent<HeroHolder>();
             holder.holderName = string.Empty;
-            holder.heroList.Clear();
+            ownHero = null;
             HideCircle();
             HideRange();
             HideSquare();
@@ -184,23 +165,18 @@ public class HeroHolder : NetworkBehaviour
 
         int cnt = 0;
         string[] compositionHero = new string[2];
-        bool full = false;
+
         for (int i = 0; i < holders.Count; i++)
         {
-            for (int j = 0; j < holders[i].heroList.Count; j++)
+            if (holders[i].ownHero != null)
             {
-                if (holders[i].heroList.Count > 0)
+                compositionHero[cnt] = holders[i].holderId;
+                cnt++;
+                if (cnt >= 2)
                 {
-                    compositionHero[cnt] = holders[i].holderId;
-                    cnt++;
-                    if (cnt >= 2)
-                    {
-                        full = true;
-                        break;
-                    }
+                    break;
                 }
             }
-            if (full) break;
         }
 
         for (int i = 0; i < compositionHero.Length; i++)
@@ -226,20 +202,9 @@ public class HeroHolder : NetworkBehaviour
 
     public void SwapPosition(HeroHolder newHeroHolder)
     {
-        Vector2[] offset = GetHeroOffset();
-        if (offset == null) return;
-        Vector2[] pos = new Vector2[offset.Length];
+        if (ownHero == null) return;
 
-        for (int i = 0; i < pos.Length; i++)
-        {
-            Vector2 worldPosition = newHeroHolder.transform.TransformPoint(offset[i]);
-            pos[i] = worldPosition;
-        }
-
-        for (int i = 0; i < heroList.Count; i++)
-        {
-            heroList[i].SwapPosition(newHeroHolder, pos, i);
-        }
+        ownHero.SwapPosition(newHeroHolder, newHeroHolder.transform.TransformPoint(Vector2.zero));
     }
 
     private void HeroSpawn(ulong clientId, HeroData data, string rarity)
@@ -255,21 +220,8 @@ public class HeroHolder : NetworkBehaviour
 
     private void ClientSetPosition()
     {
-        for (int i = 0; i < heroList.Count; i++)
-        {
-            heroList[i].transform.localPosition = GetHeroOffset()[i];
-            heroList[i].SortingOrderChange(i + 1);
-        }
-        circleSpriteRenderer.color = circleColors[(int)heroList[0].GetHeroData().rarity];
-    }
-
-    private Vector2[] GetHeroOffset()
-    {
-        if (heroList.Count == 1) return oneHeroOffset;
-        else if (heroList.Count == 2) return twoHeroOffset;
-        else if (heroList.Count == 3) return threeHeroOffset;
-
-        return null;
+        ownHero.transform.localPosition = Vector2.zero;
+        circleSpriteRenderer.color = circleColors[(int)ownHero.GetHeroData().rarity];
     }
 
 
@@ -280,8 +232,10 @@ public class HeroHolder : NetworkBehaviour
         {
             Hero hero = networkObject.GetComponent<Hero>();
 
-            heroList.Add(hero);
-            networkObject.GetComponent<Hero>().InitHeroData(heroData, this, rarity);
+            this.ownHero = hero;
+            this.holderName = heroData.heroName;
+            this.heroData = heroData;
+            hero.InitHeroData(heroData, this, rarity);
             ClientSetPosition();
         }
     }

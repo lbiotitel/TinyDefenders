@@ -114,7 +114,7 @@ public class Hero : Entity
         CheckForEnemies();
     }
 
-    public void SwapPosition(HeroHolder target, Vector2[] targetPos, int index)
+    public void SwapPosition(HeroHolder target, Vector2 targetPos)
     {
         isMove = true;
         AnimatorChange("MOVE", false);
@@ -124,7 +124,7 @@ public class Hero : Entity
 
         heroHolder = target;
 
-        int sign = (int)Mathf.Sign(targetPos[index].x - transform.position.x);
+        int sign = (int)Mathf.Sign(targetPos.x - transform.position.x);
 
         switch (sign)
         {
@@ -136,7 +136,7 @@ public class Hero : Entity
                 break;
         }
 
-        StartCoroutine(SwapCoroutine(targetPos[index]));
+        StartCoroutine(SwapCoroutine(targetPos));
     }
 
     private IEnumerator SwapCoroutine(Vector2 targetPos)

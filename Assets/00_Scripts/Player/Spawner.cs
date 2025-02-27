@@ -241,8 +241,8 @@ public class Spawner : NetworkBehaviour
         heroHolder2.SwapPosition(heroHolder1);
 
         (heroHolder1.holderName, heroHolder2.holderName) = (heroHolder2.holderName, heroHolder1.holderName);
-        (heroHolder1.heroList, heroHolder2.heroList) =
-            (new List<Hero>(heroHolder2.heroList), new List<Hero>(heroHolder1.heroList));
+        (heroHolder1.ownHero, heroHolder2.ownHero) =
+            (heroHolder2.ownHero, heroHolder1.ownHero);
         (heroHolder1.heroData, heroHolder2.heroData) = (heroHolder2.heroData, heroHolder1.heroData);
     }
     #endregion
@@ -355,8 +355,7 @@ public class Spawner : NetworkBehaviour
     {
         foreach (var holder in heroHolders)
         {
-            if (holder.Key.Contains(client) && holder.Value.heroList.Count < 3
-                && holder.Value.holderName == heroName)
+            if (holder.Key.Contains(client) && holder.Value.ownHero == null)
             {
                 return holder.Value;
             }

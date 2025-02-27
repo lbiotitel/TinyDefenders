@@ -41,7 +41,6 @@ public class AlarmUI : MonoBehaviour
         if (canShowAlarm)
         {
             ShowAlarm();
-            Debug.Log("¼î ¾Ë¶÷");
         }
     }
 
