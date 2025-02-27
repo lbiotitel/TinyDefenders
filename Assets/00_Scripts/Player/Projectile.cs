@@ -114,6 +114,6 @@ public class Projectile : MonoBehaviour
         Destroy(this.gameObject);
 
         if (NetUtils.IsServer() && target != null)
-            referenceHero.AttackMonster();
+            referenceHero.AttackMonster(target.GetComponent<Monster>());
     }
 }

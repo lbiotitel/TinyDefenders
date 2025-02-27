@@ -219,8 +219,13 @@ public class Hero : Entity
         }
     }
 
-    public void AttackMonster()
+    public void AttackMonster(Monster monster = null)
     {
+        if(monster != null)
+        {
+            AttackMonsterServerRpc(monster.NetworkObjectId, heroHolder.holderId.Contains("CLIENT") ? false : true);
+            DebuffEffect();
+        }
         if (target != null)
         {
             AttackMonsterServerRpc(target.NetworkObjectId,heroHolder.holderId.Contains("CLIENT") ? false:true);
@@ -255,6 +260,7 @@ public class Hero : Entity
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(monsterId, out NetworkObject networkObject))
         {
+            if (networkObject == null) return;
             Monster monster = networkObject.GetComponent<Monster>();
             if (monster != null)
             {
@@ -269,4 +275,5 @@ public class Hero : Entity
         GameManager.instance.RemoveHero(this);
     }
     public HeroScriptable GetHeroData() { return heroData; }
+    public HeroHolder GetHeroHolder() { return heroHolder; }
 }

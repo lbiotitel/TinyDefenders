@@ -5,7 +5,7 @@ public class AttackSkillBase : Skill
 
     protected override void SkillLogic()
     {
-        if (hero.target == null || hero.target.GetComponent<Monster>().IsDead()) return;
+        if (hero.target == null) return;
         if (!skillDelay)
         {
             skillDelay = true;

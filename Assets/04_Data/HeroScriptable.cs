@@ -17,11 +17,12 @@ public class SkillData {
 
     [Header("Attack Skill")]
     public float skillDamage;
+    public int targetCount;
 
     [Header("Buff Skill")]
     public float buffTime;
     public float buffAmount;
-
+    public float buffRange;
     
 }
 
