@@ -287,7 +287,16 @@ public class GameManager : NetworkBehaviour
             goldGoblinLevel++;
             StartCoroutine(GoldGolbinDelayCoroutine());
             Spawner.instance.StartMonsterSpawn("GoldGoblin", 0, 1);
-            InGameUI.instance.ShowAlarm("황금 고블린 소환!",3f,AlarmType.GOOD);
+
+
+            if (IsServer)
+            {
+                InGameUI.instance.ShowAlarmClientRpc("황금 고블린 소환!", 3f, AlarmType.GOOD.ToString());
+            }
+            if (IsClient)
+            {
+                InGameUI.instance.ShowAlarmServerRpc("황금 고블린 소환!", 3f, AlarmType.GOOD.ToString());
+            }
         }
     }
 

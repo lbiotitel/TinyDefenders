@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -81,6 +82,7 @@ public class InGameUI : MonoBehaviour
         summonGoldGoblinButton.onClick.AddListener(() => GameManager.instance.SummonGoldGoblin());
         if (profileAnimator.gameObject.activeSelf == false)
             profileAnimator.gameObject.SetActive(true);
+        heroInfoUI.HideHeroInfoUI();
     }
 
 
@@ -184,10 +186,18 @@ public class InGameUI : MonoBehaviour
         Spawner.instance.Summon("Normal", heroData);
     }
 
-
-    public void ShowAlarm(string alarmText, float duration,AlarmType alarmType = AlarmType.NORMAL)
+    [ServerRpc(RequireOwnership = false)]
+    public void ShowAlarmServerRpc(string alarmText, float duration, string strAlarmType)
     {
+        ShowAlarmClientRpc(alarmText,duration,strAlarmType);
+    }
+
+    [ClientRpc]
+    public void ShowAlarmClientRpc(string alarmText, float duration,string strAlarmType)
+    {
+        AlarmType alarmType = (AlarmType)System.Enum.Parse(typeof(AlarmType), strAlarmType);
         alarmUI.AddAlarm(alarmText,duration,alarmType);
+        Debug.Log("알람 호출 완료");
     }
 
     public void HideProfileAnimation()

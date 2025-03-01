@@ -11296,7 +11296,7 @@ GameObject:
   - component: {fileID: 1562081885}
   - component: {fileID: 1562081884}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: HeroIamge BackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14257,7 +14257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1930127716
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14295,7 +14295,7 @@ MonoBehaviour:
   heroRarity: {fileID: 1822475559}
   attackText: {fileID: 785151862}
   attackSpeedText: {fileID: 2105550189}
-  attackRangeText: {fileID: 0}
+  attackRangeText: {fileID: 2105550189}
   criticalRateText: {fileID: 1544481002}
   sellButton: {fileID: 1630077191}
   compositionButton: {fileID: 371220118}
