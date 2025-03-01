@@ -12,7 +12,6 @@ public class HeroHolder : NetworkBehaviour
     [SerializeField] private Transform heroRange;
     [SerializeField] private Transform heroSquare;
     [SerializeField] private Transform heroCircle;
-    [SerializeField] private GameObject heroCanvas;
 
     [SerializeField] private Color[] circleColors;
     [SerializeField] private SpriteRenderer circleSpriteRenderer;
@@ -52,13 +51,11 @@ public class HeroHolder : NetworkBehaviour
         heroRange.localScale = Vector2.one * range * 2;
 
         heroRange.gameObject.SetActive(true);
-        heroCanvas.gameObject.SetActive(true);
     }
 
     public void HideRange()
     {
         heroRange.gameObject.SetActive(false);
-        heroCanvas.gameObject.SetActive(false);
         heroRange.localScale = Vector2.zero;
     }
 
