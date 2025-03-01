@@ -14,9 +14,6 @@ public class HeroHolder : NetworkBehaviour
     [SerializeField] private Transform heroCircle;
     [SerializeField] private GameObject heroCanvas;
 
-    [SerializeField] private Button sellButton;
-    [SerializeField] private Button compositionButton;
-
     [SerializeField] private Color[] circleColors;
     [SerializeField] private SpriteRenderer circleSpriteRenderer;
 
@@ -29,16 +26,9 @@ public class HeroHolder : NetworkBehaviour
 
     private void Start()
     {
-        InitButtons();
         HideRange();
         HideCircle();
         HideSquare();
-    }
-
-    private void InitButtons()
-    {
-        sellButton.onClick.AddListener(() => { Sell(true); });
-        compositionButton.onClick.AddListener(() => { Composition(); });
     }
 
     public void InitCollider()

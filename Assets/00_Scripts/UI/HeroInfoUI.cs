@@ -12,19 +12,52 @@ public class HeroInfoUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI attackRangeText;
     [SerializeField] private TextMeshProUGUI criticalRateText;
 
-    public void ShowHeroInfoUI(HeroScriptable heroData)
+    [SerializeField] private Button sellButton;
+    [SerializeField] private Button compositionButton;
+
+    private Hero hero;
+
+    private void Start()
+    {
+        InitButtons();
+    }
+
+    private void InitButtons()
+    {
+        sellButton.onClick.AddListener(() =>
+        {
+            if (this.hero != null)
+            {
+                hero.GetHeroHolder().Sell(true);
+            }
+        });
+
+        compositionButton.onClick.AddListener(() => {
+            if (this.hero != null)
+            {
+                hero.GetHeroHolder().Composition();
+            }
+        });
+    }
+
+    
+
+    public void ShowHeroInfoUI(Hero hero)
     {
         gameObject.SetActive(true);
-        heroImage.sprite = heroData.heroMainImage;
-        heroNameText.text = heroData.heroName;
-        heroRarity.text = heroData.rarity.ToString();
-        attackText.text = heroData.atk.ToString();
-        attackSpeedText.text = heroData.atkSpeed.ToString();
-        attackRangeText.text = heroData.atkRange.ToString(); 
+        HeroScriptable heroData = hero.GetHeroData();
+        this.hero = hero;
+        this.heroImage.sprite = heroData.heroMainImage;
+        this.heroNameText.text = heroData.heroName;
+        this.heroRarity.text = heroData.rarity.ToString();
+        this.attackText.text = heroData.atk.ToString();
+        this.attackSpeedText.text = heroData.atkSpeed.ToString();
+        this.attackRangeText.text = heroData.atkRange.ToString(); 
     }
 
     public void HideHeroInfoUI()
     {
+        this.hero = null;
         gameObject.SetActive(false);
     }
 

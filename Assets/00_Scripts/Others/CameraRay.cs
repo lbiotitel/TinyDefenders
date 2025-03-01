@@ -91,7 +91,7 @@ public class CameraRay : NetworkBehaviour
                 heroHolder = null;
                 return;
             }
-            InGameUI.instance.ShowHeroInfoUI(heroHolder.ownHero.GetHeroData());
+            InGameUI.instance.ShowHeroInfoUI(heroHolder.ownHero);
         }
     }
 

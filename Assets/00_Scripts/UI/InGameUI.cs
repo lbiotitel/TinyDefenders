@@ -200,9 +200,9 @@ public class InGameUI : MonoBehaviour
         DrawMainUI();
     }
 
-    public void ShowHeroInfoUI(HeroScriptable heroScriptable)
+    public void ShowHeroInfoUI(Hero hero)
     { 
-        heroInfoUI.ShowHeroInfoUI(heroScriptable);
+        heroInfoUI.ShowHeroInfoUI(hero);
     }
 
     public void HideHeroInfoUI()
