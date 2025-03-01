@@ -7,7 +7,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InGameUI : MonoBehaviour
+public class InGameUI : NetworkBehaviour
 {
     public static InGameUI instance = null;
 
@@ -197,7 +197,6 @@ public class InGameUI : MonoBehaviour
     {
         AlarmType alarmType = (AlarmType)System.Enum.Parse(typeof(AlarmType), strAlarmType);
         alarmUI.AddAlarm(alarmText,duration,alarmType);
-        Debug.Log("알람 호출 완료");
     }
 
     public void HideProfileAnimation()
