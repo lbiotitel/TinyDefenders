@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: BubbleCat
+  m_EditorClassIdentifier: 
+  heroName: BubbleCat
+  atk: 3
+  atkSpeed: 0.2
+  atkRange: 3
+  rarity: 0
+  heroMainImage: {fileID: 0}
+  leftEquipmentPrefab: {fileID: 0}
+  rightEquipmentPrefab: {fileID: 1860204852242598488, guid: faa28730f8fd9c34bab8a13b88fd559a, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: c1512a147c633dc489e7cc72dc2007a2, type: 2}
+  projectile: {fileID: -5815481536883960586, guid: 9703fc288d1b9914abb096cb0199d5c0, type: 3}
+  debuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0
