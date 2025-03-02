@@ -17,6 +17,8 @@ public class Hero : Entity
     private bool isMove = false;
     private double baseAtk;
     private float attackDelay;
+    bool isServerHero;
+
     public double atk
     {
         get
@@ -70,6 +72,8 @@ public class Hero : Entity
         transform.Rotate(standAngle,0,0);
 
         Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
+
+        isServerHero = heroHolder.holderId.Contains("CLIENT") ? false : true;
     }
 
     private int GetUpgradeIndex()
@@ -217,19 +221,19 @@ public class Hero : Entity
 
     public void AttackMonster(Monster monster = null)
     {
-        if(monster != null)
+        if (monster != null)
         {
-            AttackMonsterServerRpc(monster.NetworkObjectId, heroHolder.holderId.Contains("CLIENT") ? false : true);
-            DebuffEffect();
+            AttackMonsterServerRpc(monster.NetworkObjectId, isServerHero);
+            DebuffEffect(isServerHero);
         }
         if (target != null)
         {
-            AttackMonsterServerRpc(target.NetworkObjectId,heroHolder.holderId.Contains("CLIENT") ? false:true);
-            DebuffEffect();
+            AttackMonsterServerRpc(target.NetworkObjectId, isServerHero);
+            DebuffEffect(isServerHero);
         }
     }
 
-    private void DebuffEffect()
+    private void DebuffEffect(bool isServer)
     {
         for (int i = 0; i < heroData.debuffEffects.Count; i++)
         {
@@ -244,8 +248,9 @@ public class Hero : Entity
 
             if (UnityEngine.Random.value <= chance)
             {
+                if (target == null) return;
                 target.GetComponent<Monster>().DebuffServerRpc(
-                    (int)debuffType, sendValues
+                    (int)debuffType, sendValues, isServer
                     );
             }
         }

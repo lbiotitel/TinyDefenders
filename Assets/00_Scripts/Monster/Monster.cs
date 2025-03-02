@@ -14,6 +14,7 @@ public partial class Monster : Entity
     [SerializeField] private Image hpImageEffect;
     [SerializeField] private float hpAnimeSpeed = 2f;
     [SerializeField] private float standAngle;
+    [SerializeField] private GameObject deadEffect;
     
     int currentMoveTarget = 1;
     List<Transform> targetLists;
@@ -61,14 +62,8 @@ public partial class Monster : Entity
 
         hp -= (int)damage;
         hpImage.fillAmount = ((float)hp / (float)maxHp);
-        if (hp <= 0)
-        {
-            isDead = true;
-            gameObject.layer = LayerMask.NameToLayer("Default");
-            GetReward();
-            StartCoroutine(DeadCoroutine());
-            AnimatorChange("DEAD", true);
-        }
+        Dead();
+        GetReward();
     }
 
     [ClientRpc]
@@ -77,12 +72,18 @@ public partial class Monster : Entity
         hp = remainHp;
         hpImage.fillAmount = ((float)hp / (float)maxHp);
         Instantiate(damageText, transform.position, Quaternion.identity).InitDamageText(damage);
+        Dead();
+    }
+
+    private void Dead()
+    {
         if (hp <= 0)
         {
             isDead = true;
             gameObject.layer = LayerMask.NameToLayer("Default");
             StartCoroutine(DeadCoroutine());
             AnimatorChange("DEAD", true);
+            Instantiate(deadEffect,transform.position,Quaternion.identity);
         }
     }
 

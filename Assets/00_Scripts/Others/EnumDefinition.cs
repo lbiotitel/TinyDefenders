@@ -3,7 +3,8 @@ using UnityEngine;
 
 public enum DebuffType { 
     SLOW,
-    STUN
+    STUN,
+    BLEED
 }
 
 public enum AlarmType { 

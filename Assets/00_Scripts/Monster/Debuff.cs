@@ -14,13 +14,18 @@ public partial class Monster : Entity
     private float originalSpeed;
 
     [Header("Stun Effect")]
-    private GameObject stunEffect;
+    [SerializeField]private GameObject stunEffect;
     private Coroutine stunCoroutine;
     private bool isStun = false;
 
+    [Header("Bleed Effect")]
+    [SerializeField] private GameObject bleedEffect;
+    private Coroutine bleedCoroutine;
+    private float bleedPercent;
+
 
     [ServerRpc(RequireOwnership = false)]
-    public void DebuffServerRpc(int debuffType, float[] values)
+    public void DebuffServerRpc(int debuffType, float[] values,bool isServer)
     {
         DebuffType debuff = (DebuffType)debuffType;
 
@@ -45,6 +50,14 @@ public partial class Monster : Entity
                     StunDebuffClientRpc(stunDuration);
                 }
                 break;
+            case DebuffType.BLEED:
+                {
+                    if (bleedCoroutine != null) return;
+                    float bleedDuration = (float)values[0];
+                    float bleedPercent = (float)values[1];
+                    BleedDebuffClientRpc(bleedPercent,bleedDuration,isServer);
+                }
+                break;
         }
     }
 
@@ -64,11 +77,49 @@ public partial class Monster : Entity
         stunCoroutine = StartCoroutine(DebuffCoroutine(stunDuration,
             () =>
             {
+                if (!stunEffect.activeSelf)
+                {
+                    stunEffect.gameObject.SetActive(true);
+                } 
                 isStun = true;
             }, () =>
             {
+                stunEffect.gameObject.SetActive(false);
                 isStun = false;
             }));
+    }
+
+    [ClientRpc]
+    private void BleedDebuffClientRpc(float bleedPercent, float bleedDuration,bool isServer)
+    {
+        CheckAndStopCoroutine(bleedCoroutine);
+        Coroutine bleedDamageCoroutine = null;
+        bleedCoroutine = StartCoroutine(
+          DebuffCoroutine(
+              bleedDuration,
+              () =>
+              {
+                  bleedEffect.gameObject.SetActive(true);
+                  bleedDamageCoroutine = StartCoroutine(BleedDamageCoroutine(isServer));
+              },
+              () =>
+              {
+                  bleedEffect.gameObject.SetActive(false);
+                  StopCoroutine(bleedDamageCoroutine);
+                  bleedCoroutine = null;
+              }
+          )
+      );
+    }
+
+    private IEnumerator BleedDamageCoroutine(bool isServer)
+    {
+        while (true)
+        {
+            float bleedHp = Mathf.Max((float)(hp/100f) * bleedPercent,1f);
+            GetDamage(bleedHp, isServer);
+            yield return new WaitForSeconds(1f);
+        }
     }
 
     [ClientRpc]
@@ -108,6 +159,7 @@ public partial class Monster : Entity
     {
         if (slowCoroutine != null) StopCoroutine(slowCoroutine);
         if (stunCoroutine != null) StopCoroutine(stunCoroutine);
+        if (bleedCoroutine != null) StopCoroutine(bleedCoroutine);
         base.OnDestroy();
     }
 }

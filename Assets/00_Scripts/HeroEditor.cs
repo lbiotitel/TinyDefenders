@@ -71,6 +71,20 @@ public class HeroEditor : Editor
 
                     DrawParameterField("Stun Duration", rect, parameterProp,1);
                     break;
+
+                case DebuffType.BLEED:
+                    parameterProp.arraySize = 3;
+
+                    DrawParameterField("Chance", rect, parameterProp, 0);
+                    rect.y += EditorGUIUtility.singleLineHeight + 4;
+
+                    DrawParameterField("Bleed Duration", rect, parameterProp, 1);
+
+                    rect.y += EditorGUIUtility.singleLineHeight + 4;
+
+                    DrawParameterField("Bleed Percent", rect, parameterProp, 2);
+
+                    break;
             }
         };
 
