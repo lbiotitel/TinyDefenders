@@ -152,6 +152,11 @@ public partial class Monster : Entity
 
     private void OnDisable()
     {
-        PoolingManager.instance.ReturnObject(gameObject);
+        if (IsServer)
+            PoolingManager.instance.ReturnObject(gameObject);
+        
+        
+        isDead = false;
+        currentMoveTarget = 1;
     }
 }

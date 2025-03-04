@@ -266,6 +266,8 @@ public class Spawner : NetworkBehaviour
     {
         Monster go = PoolingManager.instance.GetObject<Monster>("Monster", transform.position);
         NetworkObject networkObject = go.gameObject.GetComponent<NetworkObject>();
+        go.GetComponent<NetworkObject>().Spawn();
+        
         GameManager.instance.AddMonster(go);
 
         MonsterSpawnClientRpc(networkObject.NetworkObjectId, clientId, monsterName);

@@ -55,10 +55,7 @@ public class PoolingManager : NetworkBehaviour
 
             for (int i = 0; i < size; i++)
             {
-                if(poolData.poolType == PoolType.GAMEOBJECT)
-                    poolDictionary[poolData.poolTag].Enqueue(SpawnObject(poolData.poolTag, transform.position));
-                if (poolData.poolType == PoolType.NETWORKOBJECT)
-                    poolDictionary[poolData.poolTag].Enqueue(SpawnNetworkObject(poolData.poolTag, transform.position));
+                SpawnObject(poolData.poolTag, transform.position);
             }
         }
     }
@@ -121,8 +118,6 @@ public class PoolingManager : NetworkBehaviour
         go.transform.SetParent(transform);
         go.SetActive(false);
 
-        poolDictionary[tag].Enqueue(go);
-
         return go;
     }
 
@@ -139,31 +134,6 @@ public class PoolingManager : NetworkBehaviour
             Debug.LogError("오브젝트의 컴포넌트가 존재하지 않음");
             return null;
         }
-    }
-
-    private GameObject SpawnNetworkObject(string tag, Vector3 position)
-    {
-        return SpawnNetworkObject(tag, position, Quaternion.identity);
-    }
-
-    private GameObject SpawnNetworkObject(string tag, Vector3 position,Quaternion quaternion)
-    {
-        GameObject prefab = GetPrefabByTag(tag);
-
-        if (prefab == null)
-        {
-            Debug.LogError("존재하지 않는 태그");
-            return null;
-        }
-        GameObject go = Instantiate(prefab, position, quaternion);
-        go.GetComponent<NetworkObject>().Spawn();
-
-        go.transform.position = transform.position;
-        go.SetActive(false);
-
-        poolDictionary[tag].Enqueue(go);
-
-        return go;
     }
 
 
