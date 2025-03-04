@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Spawner : NetworkBehaviour
 {
@@ -35,6 +36,9 @@ public class Spawner : NetworkBehaviour
     [SerializeField] private HeroHolder heroHolderPrefab;
     [SerializeField] private Monster monsterPrefab;
 
+    [SerializeField] private Tilemap hostTileMap;
+    [SerializeField] private Tilemap clientTimeMap;
+
     private List<Transform> monsterMovePosition = new List<Transform>();
 
     public List<SpawnNode> hostSpawnList = new List<SpawnNode>();
@@ -50,13 +54,12 @@ public class Spawner : NetworkBehaviour
 
     private void Start()
     {
-        DrawGrid(transform.GetChild(0), ref hostSpawnList, "HOST", 0);
-        DrawGrid(transform.GetChild(1), ref clientSpawnList, "CLIENT", 1);
+        DrawGrid(hostTileMap, ref hostSpawnList, "HOST", 0);
+        DrawGrid(clientTimeMap, ref clientSpawnList, "CLIENT", 1);
 
         InitMonsterSpawnPosition();
     }
 
-    public int GetGridSize() { return gridHeight * gridWidth; }
 
 
     #region Initialize
@@ -64,40 +67,30 @@ public class Spawner : NetworkBehaviour
     //몬스터 스폰과 이동경로 설정
     private void InitMonsterSpawnPosition()
     {
-        for (int i = 0; i < transform.GetChild(2).childCount; i++)
+        for (int i = 0; i < transform.GetChild(0).childCount; i++)
         {
-            monsterMovePosition.Add(transform.GetChild(2).GetChild(i).transform);
+            monsterMovePosition.Add(transform.GetChild(0).GetChild(i).transform);
         }
     }
 
 
     //스프라이트의 크기에 맞게 스폰포인트 위치 계산
-    private void DrawGrid(Transform targetTransform, ref List<SpawnNode> spawnList,
+    private void DrawGrid(Tilemap tileMap, ref List<SpawnNode> spawnList,
         string id, int value)
     {
 
-        SpriteRenderer spriteRenderer = targetTransform.GetComponent<SpriteRenderer>();
-        float width = spriteRenderer.bounds.size.x;
-        float height = spriteRenderer.bounds.size.y;
+        BoundsInt bounds = tileMap.cellBounds;
 
-        float xCount = width / gridWidth;
-        float yCount = height / gridHeight;
-
-        xValue = xCount;
-        yValue = yCount;
-
-        Vector2 startPos = new Vector2(targetTransform.position.x - width / 2f,
-                                       targetTransform.position.y + height / 2f);
-
-        for (int row = 0; row < gridHeight; row++)
+        for (int row = bounds.yMax; row >= bounds.yMin; row--)
         {
-            for (int col = 0; col < gridWidth; col++)
+            for (int col = bounds.xMax; col >= bounds.xMin; col--)
             {
-                float xPos;
-                float yPos = startPos.y - (row * yCount) - (yCount / 2f);
+                Vector3Int tilePosition = new Vector3Int(col,row,0);
+                if (!tileMap.HasTile(tilePosition)) continue;  // 타일이 없으면 무시
 
-                xPos = targetTransform.position.x - width / 2f + (col * xCount) + (xCount / 2f);
-                spawnList.Add(new SpawnNode(new Vector2(xPos, yPos), false));
+                Vector3 worldPos = tileMap.CellToWorld(tilePosition);
+
+                spawnList.Add(new SpawnNode(worldPos + new Vector3(0,0.26f,0), false));
             }
         }
 
@@ -118,7 +111,7 @@ public class Spawner : NetworkBehaviour
 
     private IEnumerator WaitForClient()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
     }
 
     //히어로를 가지고있을 히어로 홀더들을 서버에서 생성
