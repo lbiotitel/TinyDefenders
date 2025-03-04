@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: ClawDog
+  m_EditorClassIdentifier: 
+  heroName: ClawDog
+  atk: 5
+  atkSpeed: 0.3
+  atkRange: 2
+  rarity: 0
+  heroMainImage: {fileID: 0}
+  leftEquipmentPrefab: {fileID: 221608098004731701, guid: d2f4aa5e7173d70419f4f6a0b04f0daf, type: 3}
+  rightEquipmentPrefab: {fileID: 5788333974728888060, guid: ba70a800c8304d649a70df7ec4d3517b, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 3185494d71644da4694d0b4168195b88, type: 2}
+  projectile: {fileID: -5815481536883960586, guid: 67de79ccdcb7b254680cbe2f566a1ff4, type: 3}
+  debuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0
