@@ -32,10 +32,10 @@ public class HeroHolder : NetworkBehaviour
 
     public void InitCollider()
     {
-        BoxCollider2D collider = transform.AddComponent<BoxCollider2D>();
+        CircleCollider2D collider = transform.AddComponent<CircleCollider2D>();
         collider.isTrigger = true;
-        collider.size = new Vector3(Spawner.instance.xValue, Spawner.instance.yValue,2f);
-        heroSquare.GetComponent<SpriteRenderer>().size = collider.size;
+        collider.radius = Spawner.instance.xValue;
+        heroSquare.GetComponent<SpriteRenderer>().size = new Vector2(Spawner.instance.xValue, Spawner.instance.yValue);
     }
 
 

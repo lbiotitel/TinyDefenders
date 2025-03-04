@@ -32,12 +32,12 @@ public class GameCamera : NetworkBehaviour
     {
         CheckTouchHero();
         CheckCameraRange();
+        CameraZoom();
     }
 
     private void FixedUpdate()
     {
         CameraMovement();
-        CameraZoom();
     }
 
 
@@ -62,13 +62,10 @@ public class GameCamera : NetworkBehaviour
     private void CameraZoom()
     {
         float zoomDir = Input.mouseScrollDelta.y;
-
-        if (zoomDir == 0) return;
-
         float destination = cam.orthographicSize + (zoomDir * zoomSpeed);
+        Debug.Log(destination);
         destination = Mathf.Clamp(destination,minZoomValue,maxZoomValue);
-
-        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, destination, 1f * Time.deltaTime);
+        cam.orthographicSize = destination;
     }
 
     private void CheckCameraRange()
@@ -101,15 +98,11 @@ public class GameCamera : NetworkBehaviour
 
     private RaycastHit2D GetRayObject()
     {
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = 10f;  // Ray가 나갈 고정 거리
 
-        // Orthographic 카메라 기준으로 월드 좌표 변환
-        Vector3 worldPos = cam.ScreenToWorldPoint(mousePos);
+        Vector3 worldPos = cam.ScreenToWorldPoint(Input.mousePosition);
 
-        // 2D Raycast 실행 (FOV 영향 없음!)
-        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, transform.forward,100,LayerMask.GetMask("HeroHolder"));
+        if(hit != null)Debug.Log(hit.collider);
         return hit;
     }
 
