@@ -102,7 +102,6 @@ public class GameCamera : NetworkBehaviour
         Vector3 worldPos = cam.ScreenToWorldPoint(Input.mousePosition);
 
         RaycastHit2D hit = Physics2D.Raycast(worldPos, transform.forward,100,LayerMask.GetMask("HeroHolder"));
-        if(hit != null)Debug.Log(hit.collider);
         return hit;
     }
 

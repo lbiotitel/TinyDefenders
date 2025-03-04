@@ -8818,6 +8818,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   slowColor: {r: 0, g: 0, b: 0, a: 0}
+  stunEffect: {fileID: 0}
+  bleedEffect: {fileID: 0}
   speed: 1
   maxHp: 30
   damageText: {fileID: 613767842028869875, guid: 60a8e892def7dc540b6f058e9ea90b22, type: 3}
@@ -8825,6 +8827,7 @@ MonoBehaviour:
   hpImageEffect: {fileID: 3240731415258102520}
   hpAnimeSpeed: 2
   standAngle: 0
+  deadEffect: {fileID: 0}
 --- !u!222 &253183228368874904
 CanvasRenderer:
   m_ObjectHideFlags: 0

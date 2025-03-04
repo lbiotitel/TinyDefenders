@@ -131,7 +131,6 @@ public partial class Monster : Entity
                 GameManager.instance.BossMonsterDead();
             this.gameObject.SetActive(false);
             GameManager.instance.RemoveMonster(this);
-            NetworkBehaviour.Destroy(this);
         }
         else
         {
@@ -151,5 +150,10 @@ public partial class Monster : Entity
         }
 
         transform.position = Vector2.MoveTowards(transform.position, targetLists[currentMoveTarget].position, Time.deltaTime * speed);
+    }
+
+    private void OnDisable()
+    {
+        PoolingManager.instance.ReturnObject(gameObject);
     }
 }
