@@ -16,11 +16,13 @@ public class HeroHolder : NetworkBehaviour
     [SerializeField] private Color[] circleColors;
     [SerializeField] private SpriteRenderer circleSpriteRenderer;
 
-    public string holderName;
-    public string holderId;
-    public Hero ownHero = null;
-    public HeroData heroData;
-    public int holderIndex;
+    [SerializeField] private float circleRadius;    
+
+    [HideInInspector]public string holderName;
+    [HideInInspector] public string holderId;
+    [HideInInspector] public Hero ownHero = null;
+    [HideInInspector] public HeroData heroData;
+    [HideInInspector] public int holderIndex;
 
 
     private void Start()
@@ -34,8 +36,8 @@ public class HeroHolder : NetworkBehaviour
     {
         CircleCollider2D collider = transform.AddComponent<CircleCollider2D>();
         collider.isTrigger = true;
-        collider.radius = Spawner.instance.xValue;
-        heroSquare.GetComponent<SpriteRenderer>().size = new Vector2(Spawner.instance.xValue, Spawner.instance.yValue);
+        collider.radius = circleRadius;
+        heroSquare.GetComponent<SpriteRenderer>().size = new Vector2(circleRadius, circleRadius);
     }
 
 

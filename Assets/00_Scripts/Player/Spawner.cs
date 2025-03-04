@@ -48,8 +48,6 @@ public class Spawner : NetworkBehaviour
     private int[] heroHolderValue = new int[2];
     HeroScriptable heroData;
 
-    public float xValue, yValue = 0.25f;
-
     private int serverClientHolderReadyValue = 0;
 
     private void Start()
