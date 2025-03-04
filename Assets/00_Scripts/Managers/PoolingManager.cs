@@ -57,7 +57,7 @@ public class PoolingManager : NetworkBehaviour
             {
                 if(poolData.poolType == PoolType.GAMEOBJECT)
                     poolDictionary[poolData.poolTag].Enqueue(SpawnObject(poolData.poolTag, transform.position));
-                else
+                if (poolData.poolType == PoolType.NETWORKOBJECT)
                     poolDictionary[poolData.poolTag].Enqueue(SpawnNetworkObject(poolData.poolTag, transform.position));
             }
         }
@@ -82,7 +82,7 @@ public class PoolingManager : NetworkBehaviour
             GameObject go = poolDictionary[tag].Dequeue();
             TurnOn(go);
             T goComponent = null;
-            if (TryGetComponent<T>(out goComponent))
+            if (go.TryGetComponent<T>(out goComponent))
             {
                 return goComponent;
             }
@@ -131,7 +131,7 @@ public class PoolingManager : NetworkBehaviour
         GameObject go = SpawnObject(tag,position,quaternion);
 
         T component = null;
-        if (TryGetComponent<T>(out component))
+        if (go.TryGetComponent<T>(out component))
         {
             return component;
         }
@@ -182,7 +182,6 @@ public class PoolingManager : NetworkBehaviour
 
     private GameObject TurnOn(GameObject gameObject)
     {
-        gameObject.transform.SetParent(null);
         gameObject.SetActive(true);
 
         return gameObject;

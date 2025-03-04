@@ -252,10 +252,7 @@ public class Spawner : NetworkBehaviour
         for (int i = 0; i < spawnCount; i++)
         {
             yield return new WaitForSeconds(spawnInterval);
-            NetUtils.HostAndClientMethod(
-               () => MonsterSpawnServerRpc(NetUtils.GetLocalD(), monsterName),
-               () => MonsterSpawn(NetUtils.GetLocalD(), monsterName)
-            );
+            MonsterSpawn(NetUtils.GetLocalD(), monsterName);
         }
     }
 
@@ -268,7 +265,6 @@ public class Spawner : NetworkBehaviour
     private void MonsterSpawn(ulong clientId, string monsterName)
     {
         Monster go = PoolingManager.instance.GetObject<Monster>("Monster", transform.position);
-        Debug.Log(go.gameObject);
         NetworkObject networkObject = go.gameObject.GetComponent<NetworkObject>();
         GameManager.instance.AddMonster(go);
 
