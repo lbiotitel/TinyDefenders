@@ -70,7 +70,6 @@ public partial class Monster : Entity
         hp = remainHp;
         hpImage.fillAmount = ((float)hp / (float)maxHp);
         DamageText damageText = PoolingManager.instance.GetObject<DamageText>("DamageText", transform.position);
-        Debug.Log(damageText.gameObject.activeSelf);
         damageText.InitDamageText(damage);
         Dead();
     }
@@ -130,6 +129,7 @@ public partial class Monster : Entity
             if (monsterType == MonsterType.BOSS)
                 GameManager.instance.BossMonsterDead();
             this.gameObject.SetActive(false);
+            GetComponent<NetworkObject>().Despawn();
             GameManager.instance.RemoveMonster(this);
         }
         else
