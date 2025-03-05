@@ -88,7 +88,7 @@ public class Spawner : NetworkBehaviour
 
                 Vector3 worldPos = tileMap.CellToWorld(tilePosition);
 
-                spawnList.Add(new SpawnNode(worldPos + new Vector3(0,0.26f,0), false));
+                spawnList.Add(new SpawnNode(worldPos + new Vector3(0,0.30f,0), false));
             }
         }
 
