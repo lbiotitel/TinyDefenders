@@ -320,7 +320,6 @@ public class GameManager : NetworkBehaviour
     {
         if (IsServer)
         {
-            Debug.Log("»£√‚");
             SendUserNameClientRpc(CloudManager.instance.userData.userName,userName);
         }
     }

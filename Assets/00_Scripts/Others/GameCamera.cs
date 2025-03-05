@@ -63,7 +63,6 @@ public class GameCamera : NetworkBehaviour
     {
         float zoomDir = Input.mouseScrollDelta.y;
         float destination = cam.orthographicSize + (zoomDir * zoomSpeed);
-        Debug.Log(destination);
         destination = Mathf.Clamp(destination,minZoomValue,maxZoomValue);
         cam.orthographicSize = destination;
     }

@@ -27,10 +27,12 @@ public class MainSceneUI : MonoBehaviour
 
     [Header("Menu UI")]
     [SerializeField] private GameObject battleUI;
+    [SerializeField] private GameObject heroCollectionUI;
 
     [Header("Battle UI")]
     [SerializeField] private TextMeshProUGUI bestWaveText;
 
+    
 
     private void Start()
     {
@@ -50,12 +52,20 @@ public class MainSceneUI : MonoBehaviour
             battleUI.SetActive(true); 
         });
 
+        heroButton.onClick.AddListener(() =>
+        {
+            HideAllMenu();
+            heroCollectionUI.SetActive(true);
+        });
 
+        HideAllMenu();
+        battleUI.SetActive(true);
     }
 
     private void HideAllMenu()
     {
         battleUI.SetActive(false);
+        heroCollectionUI.SetActive(false);
     }
 
     public void ShowNickNameUI()

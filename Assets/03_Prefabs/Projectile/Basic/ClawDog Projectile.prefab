@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2966922236189026401}
   - component: {fileID: 7645945218443990995}
-  - component: {fileID: -5815481536883960586}
+  - component: {fileID: 739876684231080475}
   m_Layer: 0
   m_Name: ClawDog Projectile
   m_TagString: Untagged
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-5815481536883960586
+--- !u!114 &739876684231080475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,10 +97,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4271580066589615925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be29457b017a69242b71a28ffeec6fe6, type: 3}
+  m_Script: {fileID: 11500000, guid: 55899e51aacb02b4abe47f261cff8f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 15
   destroyParticle: {fileID: 2109998142212410232, guid: 065d7ba11547f494d8683323d4483e14, type: 3}
   projectileType: 0
-  isBezier: 0

@@ -1,15 +1,17 @@
 using NUnit.Framework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Localization.SmartFormat.Utilities;
 
 public enum PoolType { 
     GAMEOBJECT,
     NETWORKOBJECT
 }
 
-public class PoolingManager : NetworkBehaviour
+public class PoolingManager : MonoBehaviour
 {
     public static PoolingManager instance;
 
@@ -29,12 +31,16 @@ public class PoolingManager : NetworkBehaviour
         if (instance == null)
         {
             instance = this;
-            Init();
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        Init();
     }
 
     private void Init()
@@ -49,7 +55,7 @@ public class PoolingManager : NetworkBehaviour
 
             for (int i = 0; i < size; i++)
             {
-                SpawnObject(poolData.poolTag, transform.position);
+                queue.Enqueue(SpawnObject(poolData.poolTag, transform.position));
             }
         }
     }
@@ -59,19 +65,22 @@ public class PoolingManager : NetworkBehaviour
         if (poolDictionary[tag].Count > 0)
         {
             GameObject go = poolDictionary[tag].Dequeue();
-            TurnOn(go);
+            TurnOn(ref go);
             return go;
         }
 
-        return TurnOn(SpawnObject(tag, position));
+        GameObject g = SpawnObject(tag, position);
+        return TurnOn(ref g);
     }
 
-    public T GetObject<T>(string tag,Vector3 position) where T : Component{
-
+    public T GetObject<T>(string tag,Vector3 position) where T : Component
+    {
+     
         if (poolDictionary[tag].Count > 0)
         {
             GameObject go = poolDictionary[tag].Dequeue();
-            TurnOn(go);
+            TurnOn(ref go);
+            go.transform.position = position;
             T goComponent = null;
             if (go.TryGetComponent<T>(out goComponent))
             {
@@ -112,6 +121,8 @@ public class PoolingManager : NetworkBehaviour
         go.transform.SetParent(transform);
         go.SetActive(false);
 
+        poolDictionary[tag].Enqueue(go);
+
         return go;
     }
 
@@ -144,10 +155,10 @@ public class PoolingManager : NetworkBehaviour
         return null;
     }
 
-    private GameObject TurnOn(GameObject gameObject)
+    private GameObject TurnOn(ref GameObject gameObject)
     {
         gameObject.SetActive(true);
-
+        gameObject.transform.SetParent(null);
         return gameObject;
     }
 
@@ -155,7 +166,17 @@ public class PoolingManager : NetworkBehaviour
     {
         string tag = gameObject.tag;
 
-        poolDictionary[tag].Enqueue(gameObject);
+        if (!poolDictionary.ContainsKey(tag))
+        {
+            Debug.LogError("존재하지 않는 태그");
+            return;
+        }
+
+        gameObject.transform.SetParent(transform);
         gameObject.transform.position = transform.position;
+        if (gameObject.activeSelf) gameObject.SetActive(false);
+
+        poolDictionary[tag].Enqueue(gameObject);
     }
+
 }

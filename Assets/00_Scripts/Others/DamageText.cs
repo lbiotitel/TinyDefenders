@@ -45,11 +45,7 @@ public class DamageText : MonoBehaviour
             yield return null;
         }
 
-        gameObject.SetActive(false);
-    }
-
-    private void OnDisable()
-    {
         PoolingManager.instance.ReturnObject(gameObject);
     }
+
 }

@@ -69,7 +69,9 @@ public partial class Monster : Entity
     {
         hp = remainHp;
         hpImage.fillAmount = ((float)hp / (float)maxHp);
-        PoolingManager.instance.GetObject<DamageText>("DamageText",transform.position).InitDamageText(damage);
+        DamageText damageText = PoolingManager.instance.GetObject<DamageText>("DamageText", transform.position);
+        Debug.Log(damageText.gameObject.activeSelf);
+        damageText.InitDamageText(damage);
         Dead();
     }
 
@@ -150,13 +152,4 @@ public partial class Monster : Entity
         transform.position = Vector2.MoveTowards(transform.position, targetLists[currentMoveTarget].position, Time.deltaTime * speed);
     }
 
-    private void OnDisable()
-    {
-        if (IsServer)
-            PoolingManager.instance.ReturnObject(gameObject);
-        
-        
-        isDead = false;
-        currentMoveTarget = 1;
-    }
 }
