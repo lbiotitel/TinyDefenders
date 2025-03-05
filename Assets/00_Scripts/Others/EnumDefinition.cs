@@ -1,6 +1,12 @@
 using UnityEngine;
 
 
+
+public struct LayerName {
+    public static string Monster = "Monster";
+    public static string Hero = "Hero";
+}
+
 public enum DebuffType { 
     SLOW,
     STUN,

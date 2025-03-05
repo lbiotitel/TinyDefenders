@@ -69,7 +69,7 @@ public partial class Monster : Entity
     {
         hp = remainHp;
         hpImage.fillAmount = ((float)hp / (float)maxHp);
-        Instantiate(damageText, transform.position, Quaternion.identity).InitDamageText(damage);
+        PoolingManager.instance.GetObject<DamageText>("DamageText",transform.position).InitDamageText(damage);
         Dead();
     }
 

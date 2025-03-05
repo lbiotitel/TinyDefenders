@@ -15,7 +15,7 @@ public class FireMageCatSkill : AttackSkillBase
         {
             GameObject go = Instantiate(heroData.skillData.skillPrefab,
             collider.transform.position + new Vector3(0, 8, 0), Quaternion.identity);
-            go.GetComponent<Projectile>().Init(collider.transform, hero);
+            go.GetComponent<BaseProjectile>().Init(collider.transform, hero);
             count++;
             if (count == heroData.skillData.targetCount) break;
         }

@@ -14,7 +14,7 @@ public class RocketBunnySkill : AttackSkillBase
         {
             GameObject go = Instantiate(heroData.skillData.skillPrefab,
             transform.position, Quaternion.identity);
-            go.GetComponent<Projectile>().Init(hero.target.transform, hero);
+            go.GetComponent<BaseProjectile>().Init(hero.target.transform, hero);
             yield return new WaitForSeconds(0.2f);
         }
     }

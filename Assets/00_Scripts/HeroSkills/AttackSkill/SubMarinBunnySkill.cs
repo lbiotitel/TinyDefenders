@@ -19,7 +19,7 @@ public class SubMarinBunnySkill : AttackSkillBase
             {
                 GameObject go = Instantiate(heroData.skillData.skillPrefab,
                     transform.position + new Vector3(0, 6, 0), Quaternion.identity);
-                go.GetComponent<Projectile>().Init(target.transform, hero);
+                go.GetComponent<BaseProjectile>().Init(target.transform, hero);
             }
         }
     }

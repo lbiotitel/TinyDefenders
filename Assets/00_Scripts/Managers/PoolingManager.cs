@@ -22,23 +22,17 @@ public class PoolingManager : NetworkBehaviour
     }
 
     [SerializeField] private PoolObject[] poolObjects;
-    private List<GameObject> spawnedObjects;
     private Dictionary<string, Queue<GameObject>> poolDictionary;
+
     private void Awake()
     {
-        if (NetUtils.IsServer())
+        if (instance == null)
         {
-            if (instance == null)
-            {
-                instance = this;
-                Init();
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            instance = this;
+            Init();
         }
-        else {
+        else
+        {
             Destroy(gameObject);
         }
     }
@@ -135,7 +129,6 @@ public class PoolingManager : NetworkBehaviour
             return null;
         }
     }
-
 
 
     private GameObject GetPrefabByTag(string tag) 

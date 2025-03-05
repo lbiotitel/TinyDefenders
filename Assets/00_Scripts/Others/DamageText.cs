@@ -12,14 +12,13 @@ public class DamageText : MonoBehaviour
     [SerializeField] private TextMeshPro damageText;
     private Color textColor;
 
-
-
     public void InitDamageText(double damage)
     {
         damageText.text = string.Format("{0:0}", damage);
         textColor = damageText.color;
         StartCoroutine(ShowAndFade());
     }
+
 
     IEnumerator ShowAndFade()
     {
@@ -46,6 +45,11 @@ public class DamageText : MonoBehaviour
             yield return null;
         }
 
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        PoolingManager.instance.ReturnObject(gameObject);
     }
 }

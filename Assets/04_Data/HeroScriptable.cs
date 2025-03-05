@@ -62,7 +62,9 @@ public class HeroScriptable : ScriptableObject
     public GameObject leftEquipmentPrefab = null;
     public GameObject rightEquipmentPrefab = null;
     public RuntimeAnimatorController runtimeAnimatorController;
-    public Projectile projectile = null;
+
+    [Header("Projectile")]
+    public BaseProjectile projectile = null;
 
     [Header("Debuff")]
     public List<DebuffEffect> debuffEffects;

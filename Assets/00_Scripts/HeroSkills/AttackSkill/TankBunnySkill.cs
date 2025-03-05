@@ -6,6 +6,6 @@ public class TankBunnySkill : AttackSkillBase
     {
         GameObject go = Instantiate(heroData.skillData.skillPrefab,
         transform.position, Quaternion.identity);
-        go.GetComponent<Projectile>().Init(hero.target.transform, hero);
+        go.GetComponent<BaseProjectile>().Init(hero.target.transform, hero);
     }
 }
