@@ -90,6 +90,8 @@ public class PoolingManager : MonoBehaviour
         }
 
         T component = SpawnObject<T>(tag, position);
+        GameObject g = component.gameObject;
+        TurnOn(ref g);
         
         return component;
     }
