@@ -80,7 +80,7 @@ public class BaseProjectile : MonoBehaviour
     {
         Instantiate(destroyParticle, transform.position, Quaternion.identity);
 
-        if (NetUtils.IsServer() && target != null)
+        if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
             referenceHero.AttackMonster(target.GetComponent<Monster>());
 
         Destroy(this.gameObject);

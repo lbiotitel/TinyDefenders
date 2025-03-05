@@ -174,6 +174,8 @@ public class Hero : Entity
                 return;
             }
 
+            target = null;
+
             Collider2D[] enemiesInRange =
                 Physics2D.OverlapCircleAll(heroHolder.transform.position, attackRange, monsterLayer);
 
@@ -224,11 +226,6 @@ public class Hero : Entity
             AttackMonsterServerRpc(monster.NetworkObjectId, isServerHero);
             DebuffEffect(isServerHero);
         }
-        if (target != null)
-        {
-            AttackMonsterServerRpc(target.NetworkObjectId, isServerHero);
-            DebuffEffect(isServerHero);
-        }
     }
 
     private void DebuffEffect(bool isServer)
@@ -266,6 +263,12 @@ public class Hero : Entity
                 monster.GetDamage(atk,isServer);
             }
         }
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position,attackRange);
     }
 
     public override void OnDestroy()

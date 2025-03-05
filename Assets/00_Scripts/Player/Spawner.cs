@@ -39,6 +39,8 @@ public class Spawner : NetworkBehaviour
     [SerializeField] private Tilemap hostTileMap;
     [SerializeField] private Tilemap clientTimeMap;
 
+    [SerializeField] private Transform monsterSpawnPos;
+
     private List<Transform> monsterMovePosition = new List<Transform>();
 
     public List<SpawnNode> hostSpawnList = new List<SpawnNode>();
@@ -270,7 +272,7 @@ public class Spawner : NetworkBehaviour
 
     private void MonsterSpawn(ulong clientId, string monsterName)
     {
-        Monster go = Instantiate(monsterPrefab, transform.position, Quaternion.identity);
+        Monster go = Instantiate(monsterPrefab, monsterSpawnPos.position, Quaternion.identity);
         NetworkObject networkObject = go.gameObject.GetComponent<NetworkObject>();
         go.GetComponent<NetworkObject>().Spawn();
 
