@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: DragonDog
   m_EditorClassIdentifier: 
   heroName: DragonDog
-  atk: 1
-  atkSpeed: 1
+  atk: 10
+  atkSpeed: 0.2
   atkRange: 2
   rarity: 0
   heroMainImage: {fileID: 0}
   leftEquipmentPrefab: {fileID: 0}
   rightEquipmentPrefab: {fileID: 0}
   runtimeAnimatorController: {fileID: 9100000, guid: 87ed43cbdfa44e3428b65b13a9466810, type: 2}
-  projectile: {fileID: 403375251256691882, guid: 3576560e7bc02634aa304823049f219d, type: 3}
+  projectile: {fileID: 6170028381908909986, guid: 50361d5a7a0ee9544a143101620c99f1, type: 3}
   debuffEffects: []
   skillData:
     coolTime: 0

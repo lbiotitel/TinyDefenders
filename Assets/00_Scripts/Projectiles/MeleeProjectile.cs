@@ -9,6 +9,7 @@ public class MeleeProjectile : BaseProjectile
         base.Init(target, referenceHero);
         transform.position = currentTransformParticle ?  transform.position:
             target.transform.position;
+        transform.Rotate(0, 90, 0);
         HitMonster();
     }
 
