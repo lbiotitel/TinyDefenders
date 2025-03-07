@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: MuscleBunny
+  m_EditorClassIdentifier: 
+  heroName: MuscleBunny
+  atk: 10
+  atkSpeed: 0.5
+  atkRange: 1
+  rarity: 0
+  heroMainImage: {fileID: 0}
+  leftEquipmentPrefab: {fileID: 6466129784615362963, guid: 8a37dbdc874533443aad1a9eb028e018, type: 3}
+  rightEquipmentPrefab: {fileID: 7218681150639072861, guid: 2f44a2e34a047214988ba2319647dafe, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: f4665b2b9a83df746beef48a5caf8447, type: 2}
+  projectile: {fileID: 623885602602922962, guid: 169fbfdd50145fd4d9a5bcfb3b035bed, type: 3}
+  debuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0

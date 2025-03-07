@@ -41,7 +41,8 @@ public class Spawner : NetworkBehaviour
 
     [SerializeField] private Transform monsterSpawnPos;
 
-    private List<Transform> monsterMovePosition = new List<Transform>();
+    private List<Transform> ServerMonsterMovePosition = new List<Transform>();
+    private List<Transform> ClientMonsterMovePosition = new List<Transform>();  
 
     public List<SpawnNode> hostSpawnList = new List<SpawnNode>();
     public List<SpawnNode> clientSpawnList = new List<SpawnNode>();
@@ -69,7 +70,12 @@ public class Spawner : NetworkBehaviour
     {
         for (int i = 0; i < transform.GetChild(0).childCount; i++)
         {
-            monsterMovePosition.Add(transform.GetChild(0).GetChild(i).transform);
+            ServerMonsterMovePosition.Add(transform.GetChild(0).GetChild(i).transform);
+        }
+
+        for (int i = 0; i < transform.GetChild(1).childCount; i++)
+        {
+            ClientMonsterMovePosition.Add(transform.GetChild(1).GetChild(i).transform);
         }
     }
 
@@ -249,28 +255,26 @@ public class Spawner : NetworkBehaviour
     {
         StartCoroutine(SpawnMonsterCoroutine(monsterName, spawnInterval, spawnCount));
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void StartMonsterSpawnServerRpc(string monsterName, float spawnInterval, int spawnCount)
+    {
+        StartMonsterSpawn(monsterName,spawnInterval,spawnCount);
+    }
+
+
     private IEnumerator SpawnMonsterCoroutine(string monsterName, float spawnInterval, int spawnCount)
     {
         for (int i = 0; i < spawnCount; i++)
         {
             yield return new WaitForSeconds(spawnInterval);
-            NetUtils.HostAndClientMethod(() =>
-            {
-                MonsterSpawnServerRpc(NetUtils.GetLocalD(), monsterName);
-            }, () =>
-            {
-                MonsterSpawn(NetUtils.GetLocalD(), monsterName);
-            });
+            MonsterSpawn(true, monsterName);
+            MonsterSpawn(false, monsterName);
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void MonsterSpawnServerRpc(ulong clientId, string monsterName)
-    {
-        MonsterSpawn(clientId, monsterName);
-    }
 
-    private void MonsterSpawn(ulong clientId, string monsterName)
+    private void MonsterSpawn(bool isServer, string monsterName)
     {
         Monster go = Instantiate(monsterPrefab, monsterSpawnPos.position, Quaternion.identity);
         NetworkObject networkObject = go.gameObject.GetComponent<NetworkObject>();
@@ -278,19 +282,21 @@ public class Spawner : NetworkBehaviour
 
         GameManager.instance.AddMonster(go);
 
-        MonsterSpawnClientRpc(networkObject.NetworkObjectId, clientId, monsterName);
+        MonsterSpawnClientRpc(networkObject.NetworkObjectId, isServer, monsterName);
     }
 
     [ClientRpc]
-    private void MonsterSpawnClientRpc(ulong networkObjectId, ulong clientId, string monsterName)
+    private void MonsterSpawnClientRpc(ulong networkObjectId, bool isServer, string monsterName)
     {
         if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject monsterNetworkObject))
         {
             MonsterScriptable monsterData = Resources.Load<MonsterScriptable>("MonsterDatas/" + monsterName);
 
-            monsterNetworkObject.transform.position = monsterMovePosition[0].position;
+            List<Transform> spawnPoints = isServer ? ServerMonsterMovePosition : ClientMonsterMovePosition;
 
-            monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(monsterMovePosition);
+            monsterNetworkObject.transform.position = spawnPoints[0].position;
+
+            monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(spawnPoints);
             monsterNetworkObject.GetComponent<Monster>().InitData(monsterData);
         }
     }
