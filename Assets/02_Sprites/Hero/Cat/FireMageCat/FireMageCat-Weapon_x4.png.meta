@@ -1,16 +1,13 @@
 fileFormatVersion: 2
-guid: 98ec893f95f344c439b2563ebb6e9e10
+guid: b8b33795d72b1c24386abbd18eede95b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7466253644126439080
-    second: FireMageCat_0
+      213: 1679423009391244531
+    second: FireMageCat-Weapon_x4_0
   - first:
-      213: -3948217622181512947
-    second: FireMageCat_1
-  - first:
-      213: 7092594758739552679
-    second: FireMageCat_2
+      213: -8527688489280808874
+    second: FireMageCat-Weapon_x4_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -57,7 +54,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 24
+  spritePixelsToUnits: 128
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -119,67 +116,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FireMageCat_0
+      name: FireMageCat-Weapon_x4_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 23
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 24
+        height: 48
+      alignment: 9
+      pivot: {x: 0.4790852, y: 0.18235292}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 3b3a4391cc676cf4699beab704b63827
-      internalID: -1653532363
+      spriteID: 3f4f16e34528e4710800000000000000
+      internalID: 1679423009391244531
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireMageCat_1
+      name: FireMageCat-Weapon_x4_1
       rect:
         serializedVersion: 2
-        x: 23
-        y: 0
-        width: 23
-        height: 25
+        x: 32
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: a76c4caca9fcf0242b37d057503f0067
-      internalID: -1886495753
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FireMageCat_2
-      rect:
-        serializedVersion: 2
-        x: 46
-        y: 0
-        width: 23
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a425305b9a8fc814d9782b455281842c
-      internalID: 996921071
+      spriteID: 658da39208097a980800000000000000
+      internalID: -8527688489280808874
       vertices: []
       indices: 
       edges: []
@@ -188,7 +163,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 870635af54839d34b9316a1db27cb0f2
+    spriteID: ed7f23a10cb6996479e5b24793d04ff8
     internalID: 0
     vertices: []
     indices: 
@@ -198,9 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      FireMageCat_0: -1653532363
-      FireMageCat_1: -1886495753
-      FireMageCat_2: 996921071
+      FireMageCat-Weapon_x4_0: 1679423009391244531
+      FireMageCat-Weapon_x4_1: -8527688489280808874
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

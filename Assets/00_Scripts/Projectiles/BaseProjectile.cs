@@ -10,8 +10,10 @@ public class BaseProjectile : MonoBehaviour
     [SerializeField] protected float speed;
     [SerializeField] protected GameObject destroyParticle;
     [SerializeField] protected ProjectileType projectileType = ProjectileType.NORMAL;
+    [SerializeField] protected float lifeTime = 0.3f;
     protected Hero referenceHero;
     protected Transform target;
+    protected bool isAttack = false;
 
     public virtual void Init(Transform target, Hero referenceHero)
     {
@@ -78,11 +80,16 @@ public class BaseProjectile : MonoBehaviour
 
     protected virtual void HitMonster()
     {
-        Instantiate(destroyParticle, transform.position, Quaternion.identity);
+        if (!isAttack)
+        {
+            isAttack = true;
 
-        if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
-            referenceHero.AttackMonster(target.GetComponent<Monster>());
+            Instantiate(destroyParticle, transform.position, Quaternion.identity);
 
-        Destroy(this.gameObject);
+            if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
+                referenceHero.AttackMonster(target.GetComponent<Monster>());
+
+            Destroy(this.gameObject, lifeTime);
+        }
     }
 }

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class LaserProjectile : BaseProjectile
 {
-    [Header("Laser Value")]
-    [SerializeField] private float lifeTime = 0.3f;
     private LineRenderer lineRenderer;
 
     public override void Init(Transform target, Hero referenceHero)
