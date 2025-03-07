@@ -1,34 +1,34 @@
 fileFormatVersion: 2
-guid: c90834dc0a43c834c950c5d368d1f977
+guid: 6534758a76d38144b96872b748c00b30
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 9197224755219678656
-    second: CowDog_0
+      213: -8786732877522184510
+    second: CowDog_x4_0
   - first:
-      213: -403644237401881311
-    second: CowDog_1
+      213: 5339584825443413229
+    second: CowDog_x4_1
   - first:
-      213: 5818927681112491673
-    second: CowDog_2
+      213: -1562800338595603028
+    second: CowDog_x4_2
   - first:
-      213: 7963080533308013760
-    second: CowDog_3
+      213: 8610190012784655927
+    second: CowDog_x4_3
   - first:
-      213: 9074126930313440491
-    second: CowDog_4
+      213: 3972482142305721768
+    second: CowDog_x4_4
   - first:
-      213: 2904792607355574376
-    second: CowDog_5
+      213: -452648825409047578
+    second: CowDog_x4_5
   - first:
-      213: -4916916098217484790
-    second: CowDog_6
+      213: -2966760964757497759
+    second: CowDog_x4_6
   - first:
-      213: 4500114319000954702
-    second: CowDog_7
+      213: -4113637779754248403
+    second: CowDog_x4_7
   - first:
-      213: 7730193684090334329
-    second: CowDog_8
+      213: -3766539310558099306
+    second: CowDog_x4_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +75,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 24
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -137,13 +137,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CowDog_0
+      name: CowDog_x4_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 1
-        width: 23
-        height: 24
+        y: 5
+        width: 92
+        height: 95
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,86 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0c54c469f2b13af70800000000000000
-      internalID: 9197224755219678656
+      spriteID: 2c65b0380014f0680800000000000000
+      internalID: -8786732877522184510
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CowDog_1
-      rect:
-        serializedVersion: 2
-        x: 23
-        y: 1
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 125070664b7f56af0800000000000000
-      internalID: -403644237401881311
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CowDog_2
-      rect:
-        serializedVersion: 2
-        x: 46
-        y: 1
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 996c56e55ebf0c050800000000000000
-      internalID: 5818927681112491673
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CowDog_3
-      rect:
-        serializedVersion: 2
-        x: 69
-        y: 1
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0ccf6a90e8b828e60800000000000000
-      internalID: 7963080533308013760
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CowDog_4
+      name: CowDog_x4_1
       rect:
         serializedVersion: 2
         x: 92
-        y: 1
-        width: 23
-        height: 24
+        y: 5
+        width: 92
+        height: 95
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -240,86 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bec6328cd56cded70800000000000000
-      internalID: 9074126930313440491
+      spriteID: decee90cb140a1a40800000000000000
+      internalID: 5339584825443413229
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CowDog_5
-      rect:
-        serializedVersion: 2
-        x: 115
-        y: 1
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8681c937c75ef4820800000000000000
-      internalID: 2904792607355574376
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CowDog_6
-      rect:
-        serializedVersion: 2
-        x: 138
-        y: 1
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a0ed85f0cda93cbb0800000000000000
-      internalID: -4916916098217484790
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CowDog_7
-      rect:
-        serializedVersion: 2
-        x: 161
-        y: 1
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e4763b8612e937e30800000000000000
-      internalID: 4500114319000954702
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CowDog_8
+      name: CowDog_x4_2
       rect:
         serializedVersion: 2
         x: 184
-        y: 1
-        width: 23
-        height: 24
+        y: 5
+        width: 92
+        height: 95
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -328,8 +196,140 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 97c2c29033a274b60800000000000000
-      internalID: 7730193684090334329
+      spriteID: cad16234f51df4ae0800000000000000
+      internalID: -1562800338595603028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CowDog_x4_3
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 5
+        width: 92
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73e35a8a23a8d7770800000000000000
+      internalID: 8610190012784655927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CowDog_x4_4
+      rect:
+        serializedVersion: 2
+        x: 368
+        y: 5
+        width: 92
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ad17b81677112730800000000000000
+      internalID: 3972482142305721768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CowDog_x4_5
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 5
+        width: 92
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e3fe71aa4ed7b9f0800000000000000
+      internalID: -452648825409047578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CowDog_x4_6
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 5
+        width: 92
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16852220f92f3d6d0800000000000000
+      internalID: -2966760964757497759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CowDog_x4_7
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 5
+        width: 92
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d271f1bfb3c69e6c0800000000000000
+      internalID: -4113637779754248403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CowDog_x4_8
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 5
+        width: 92
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 698c3a9f3709abbc0800000000000000
+      internalID: -3766539310558099306
       vertices: []
       indices: 
       edges: []
@@ -338,7 +338,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: dd18ef13240f5574692340270148a6e3
+    spriteID: 0ef77ed84b716634fa583af20425152b
     internalID: 0
     vertices: []
     indices: 
@@ -348,15 +348,15 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      CowDog_0: 9197224755219678656
-      CowDog_1: -403644237401881311
-      CowDog_2: 5818927681112491673
-      CowDog_3: 7963080533308013760
-      CowDog_4: 9074126930313440491
-      CowDog_5: 2904792607355574376
-      CowDog_6: -4916916098217484790
-      CowDog_7: 4500114319000954702
-      CowDog_8: 7730193684090334329
+      CowDog_x4_0: -8786732877522184510
+      CowDog_x4_1: 5339584825443413229
+      CowDog_x4_2: -1562800338595603028
+      CowDog_x4_3: 8610190012784655927
+      CowDog_x4_4: 3972482142305721768
+      CowDog_x4_5: -452648825409047578
+      CowDog_x4_6: -2966760964757497759
+      CowDog_x4_7: -4113637779754248403
+      CowDog_x4_8: -3766539310558099306
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
