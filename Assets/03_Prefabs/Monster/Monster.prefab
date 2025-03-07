@@ -188,7 +188,6 @@ MonoBehaviour:
   hpImage: {fileID: 8650127064340355761}
   hpImageEffect: {fileID: 3240731415993647524}
   hpAnimeSpeed: 2
-  deadEffect: {fileID: 5737305730674577762, guid: d4cc1225b3a2c9548909376bc6967a05, type: 3}
 --- !u!58 &8394448746075349729
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -637,7 +636,7 @@ Animator:
   m_GameObject: {fileID: 6678621904191995843}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bca247d08eb1cea47a4efbc58bce0b43, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3f8a511f62a391d49886f14420bf5184, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

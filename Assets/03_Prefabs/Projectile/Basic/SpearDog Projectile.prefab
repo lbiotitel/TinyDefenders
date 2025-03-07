@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2966922236189026401}
   - component: {fileID: 7645945218443990995}
-  - component: {fileID: -5815481536883960586}
+  - component: {fileID: 2867289554241294598}
   m_Layer: 0
   m_Name: SpearDog Projectile
   m_TagString: Untagged
@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.7213869, y: -0.019923925, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -77,18 +77,18 @@ SpriteRenderer:
   m_SortingLayerID: -1115819473
   m_SortingLayer: 6
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: eaca550625271e1488a5e6fc7148cad7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2a1caaa5f242d094181e08a59e42030d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.375, y: 4}
+  m_Size: {x: 1.59375, y: 0.34375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-5815481536883960586
+--- !u!114 &2867289554241294598
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,10 +97,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4271580066589615925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be29457b017a69242b71a28ffeec6fe6, type: 3}
+  m_Script: {fileID: 11500000, guid: 55899e51aacb02b4abe47f261cff8f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  destroyParticle: {fileID: 3211877774832872067, guid: cb743783234f8e74d9956031b0ceed0f, type: 3}
+  speed: 13
   projectileType: 0
-  isBezier: 0
+  lifeTime: 0

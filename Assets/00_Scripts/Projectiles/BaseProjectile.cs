@@ -8,9 +8,9 @@ public class BaseProjectile : MonoBehaviour
 {
     [Header("Base Projectile Value")]
     [SerializeField] protected float speed;
-    [SerializeField] protected GameObject destroyParticle;
     [SerializeField] protected ProjectileType projectileType = ProjectileType.NORMAL;
-    [SerializeField] protected float lifeTime = 0.3f;
+    [SerializeField] protected float lifeTime = 0f;
+    protected GameObject destroyParticle;
     protected Hero referenceHero;
     protected Transform target;
     protected bool isAttack = false;
@@ -84,12 +84,20 @@ public class BaseProjectile : MonoBehaviour
         {
             isAttack = true;
 
-            Instantiate(destroyParticle, transform.position, Quaternion.identity);
+            destroyParticle = PoolingManager.instance.GetObject("MonsterHitParticle", transform.position);
 
             if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
                 referenceHero.AttackMonster(target.GetComponent<Monster>());
 
             Destroy(this.gameObject, lifeTime);
+        }
+    }
+
+    protected virtual void OnDestroy()
+    {
+        if (destroyParticle != null)
+        {
+            PoolingManager.instance.ReturnObject(destroyParticle);
         }
     }
 }

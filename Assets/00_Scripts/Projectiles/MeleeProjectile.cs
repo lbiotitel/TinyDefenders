@@ -11,7 +11,7 @@ public class MeleeProjectile : BaseProjectile
 
     protected override void HitMonster()
     {
-        Instantiate(destroyParticle, transform.position, Quaternion.identity);
+        destroyParticle = PoolingManager.instance.GetObject("MonsterHitParticle", transform.position);
 
         if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
             referenceHero.AttackMonster(target.GetComponent<Monster>());

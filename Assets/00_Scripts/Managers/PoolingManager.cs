@@ -55,7 +55,7 @@ public class PoolingManager : MonoBehaviour
 
             for (int i = 0; i < size; i++)
             {
-                queue.Enqueue(SpawnObject(poolData.poolTag, transform.position));
+                SpawnObject(poolData.poolTag, transform.position);
             }
         }
     }
@@ -66,11 +66,15 @@ public class PoolingManager : MonoBehaviour
         {
             GameObject go = poolDictionary[tag].Dequeue();
             TurnOn(ref go);
+            go.transform.position = position;
             return go;
         }
 
-        GameObject g = SpawnObject(tag, position);
-        return TurnOn(ref g);
+        SpawnObject(tag, position);
+        GameObject g = poolDictionary[tag].Dequeue();
+        TurnOn(ref g);
+        g.transform.position = position;
+        return g;
     }
 
     public T GetObject<T>(string tag,Vector3 position) where T : Component
@@ -89,7 +93,8 @@ public class PoolingManager : MonoBehaviour
             return null;
         }
 
-        T component = SpawnObject<T>(tag, position);
+        SpawnObject(tag, position);
+        T component = poolDictionary[tag].Dequeue().GetComponent<T>();
         GameObject g = component.gameObject;
         TurnOn(ref g);
         
@@ -117,6 +122,7 @@ public class PoolingManager : MonoBehaviour
             Debug.LogError("존재하지 않는 태그");
             return null;
         }
+
         GameObject go = Instantiate(prefab,position,quaternion);
 
         go.transform.position = transform.position;
@@ -167,6 +173,7 @@ public class PoolingManager : MonoBehaviour
     public void ReturnObject(GameObject gameObject)
     {
         string tag = gameObject.tag;
+        Debug.Log(tag);
 
         if (!poolDictionary.ContainsKey(tag))
         {
@@ -176,7 +183,7 @@ public class PoolingManager : MonoBehaviour
 
         gameObject.transform.SetParent(transform);
         gameObject.transform.position = transform.position;
-        if (gameObject.activeSelf) gameObject.SetActive(false);
+        gameObject.SetActive(false);
 
         poolDictionary[tag].Enqueue(gameObject);
     }
