@@ -40546,7 +40546,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: poolObjects.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: poolObjects.Array.data[0].size
@@ -40554,7 +40554,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: poolObjects.Array.data[1].size
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: poolObjects.Array.data[0].poolTag
@@ -40562,7 +40562,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: poolObjects.Array.data[1].poolTag
-      value: Monster
+      value: MonsterDeadParticle
       objectReference: {fileID: 0}
     - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: poolObjects.Array.data[0].poolType
@@ -40570,7 +40570,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: poolObjects.Array.data[1].poolType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: poolObjects.Array.data[0].poolPrefab
@@ -40579,7 +40579,7 @@ PrefabInstance:
     - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: poolObjects.Array.data[1].poolPrefab
       value: 
-      objectReference: {fileID: 3052580924962584419, guid: 31e34304ed3d4994fb94a450dc7cf39f, type: 3}
+      objectReference: {fileID: 5737305730674577762, guid: d4cc1225b3a2c9548909376bc6967a05, type: 3}
     - target: {fileID: 6395522242120650137, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: m_Name
       value: PoolingManager

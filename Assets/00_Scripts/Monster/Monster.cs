@@ -13,7 +13,6 @@ public partial class Monster : Entity
     [SerializeField] private Image hpImage;
     [SerializeField] private Image hpImageEffect;
     [SerializeField] private float hpAnimeSpeed = 2f;
-    [SerializeField] private GameObject deadEffect;
     
     int currentMoveTarget = 1;
     List<Transform> targetLists;
@@ -82,7 +81,6 @@ public partial class Monster : Entity
             gameObject.layer = LayerMask.NameToLayer("Default");
             StartCoroutine(DeadCoroutine());
             AnimatorChange("DEAD", true);
-            Instantiate(deadEffect,transform.position,Quaternion.identity);
         }
     }
 
@@ -114,6 +112,9 @@ public partial class Monster : Entity
 
     IEnumerator DeadCoroutine()
     {
+        GameObject deadParticle = PoolingManager.instance.GetObject("MonsterDeadParticle", transform.position);
+        deadParticle.transform.position = transform.position;
+
         float alpha = 1.0f;
 
         while (spriteRenderer.color.a > 0.0f)
@@ -136,6 +137,8 @@ public partial class Monster : Entity
         {
             this.gameObject.SetActive(false);
         }
+
+        PoolingManager.instance.ReturnObject(deadParticle);
     }
 
     public bool IsDead() { return isDead; }

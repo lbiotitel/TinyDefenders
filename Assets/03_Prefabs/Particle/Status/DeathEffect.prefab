@@ -14724,7 +14724,7 @@ GameObject:
   - component: {fileID: -1032960524357473125}
   m_Layer: 0
   m_Name: DeathEffect
-  m_TagString: Untagged
+  m_TagString: MonsterDeadParticle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14755,9 +14755,9 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5737305730674577762}
   serializedVersion: 8
-  lengthInSec: 2
+  lengthInSec: 1
   simulationSpeed: 1
-  stopAction: 2
+  stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
