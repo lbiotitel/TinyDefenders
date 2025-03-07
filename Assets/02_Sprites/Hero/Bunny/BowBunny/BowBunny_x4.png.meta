@@ -1,7 +1,34 @@
 fileFormatVersion: 2
-guid: b953e3cd1562651419d3cd6a3996a3ca
+guid: 7172f2ccb6845eb469c250d8ec80db77
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 8235803694844343266
+    second: BowBunny_x4_0
+  - first:
+      213: 7494025556758794811
+    second: BowBunny_x4_1
+  - first:
+      213: -1923350985465576067
+    second: BowBunny_x4_2
+  - first:
+      213: 895212927529276190
+    second: BowBunny_x4_3
+  - first:
+      213: 2830089971311046681
+    second: BowBunny_x4_4
+  - first:
+      213: 4448923794794439328
+    second: BowBunny_x4_5
+  - first:
+      213: -8467100882263544501
+    second: BowBunny_x4_6
+  - first:
+      213: 7633594387370801970
+    second: BowBunny_x4_7
+  - first:
+      213: -3932374122379971837
+    second: BowBunny_x4_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -48,7 +75,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 24
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -94,19 +121,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Server
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -123,199 +137,199 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BowBunny_0
+      name: BowBunny_x4_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 23
-        height: 24
+        y: 1
+        width: 92
+        height: 95
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: cf45d63cea8fb6b45b71b26901010be5
-      internalID: 742271123
+      spriteID: 2e3fb0743d37b4270800000000000000
+      internalID: 8235803694844343266
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BowBunny_1
-      rect:
-        serializedVersion: 2
-        x: 23
-        y: 0
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: aea0128e6dc0adc4e9f82d7571faee22
-      internalID: 674800613
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BowBunny_2
-      rect:
-        serializedVersion: 2
-        x: 46
-        y: 0
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9124dc6138e524e4bb6bed81e21225f4
-      internalID: -2129942753
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BowBunny_3
-      rect:
-        serializedVersion: 2
-        x: 69
-        y: 0
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 60578541ffcf50443954a98bc1c968db
-      internalID: 199085578
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BowBunny_4
+      name: BowBunny_x4_1
       rect:
         serializedVersion: 2
         x: 92
-        y: 0
-        width: 23
-        height: 24
+        y: 1
+        width: 92
+        height: 95
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: cc8d80c844e4b904d95865ce5dddbe8e
-      internalID: 144405556
+      spriteID: b329e40f980200860800000000000000
+      internalID: 7494025556758794811
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BowBunny_5
-      rect:
-        serializedVersion: 2
-        x: 115
-        y: 0
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b54271b19972f004f92bd0bf9c14eb2b
-      internalID: 20537684
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BowBunny_6
-      rect:
-        serializedVersion: 2
-        x: 138
-        y: 0
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: aa75b4d2b60c4c5479dbcb92807078cb
-      internalID: 2062780338
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BowBunny_7
-      rect:
-        serializedVersion: 2
-        x: 161
-        y: 0
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fe216db10e3d82b4ab294d8490f027bd
-      internalID: 1578690352
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BowBunny_8
+      name: BowBunny_x4_2
       rect:
         serializedVersion: 2
         x: 184
-        y: 0
-        width: 23
-        height: 24
+        y: 1
+        width: 92
+        height: 95
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: b7599f6698016654691c5d27949d6839
-      internalID: -256008127
+      spriteID: d754de41872ee45e0800000000000000
+      internalID: -1923350985465576067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BowBunny_x4_3
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 1
+        width: 92
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1358bf1a6f6c6c00800000000000000
+      internalID: 895212927529276190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BowBunny_x4_4
+      rect:
+        serializedVersion: 2
+        x: 368
+        y: 1
+        width: 92
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 910f36e95df764720800000000000000
+      internalID: 2830089971311046681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BowBunny_x4_5
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 1
+        width: 92
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a26185be90cdbd30800000000000000
+      internalID: 4448923794794439328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BowBunny_x4_6
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 1
+        width: 92
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4de843bb90de7a80800000000000000
+      internalID: -8467100882263544501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BowBunny_x4_7
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 1
+        width: 92
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23bf6aa96a9ffe960800000000000000
+      internalID: 7633594387370801970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BowBunny_x4_8
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 1
+        width: 92
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3037a9ff1966d69c0800000000000000
+      internalID: -3932374122379971837
       vertices: []
       indices: 
       edges: []
@@ -324,7 +338,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 7d7ea02cf76106141a27e274078358a9
     internalID: 0
     vertices: []
     indices: 
@@ -334,15 +348,15 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BowBunny_0: 742271123
-      BowBunny_1: 674800613
-      BowBunny_2: -2129942753
-      BowBunny_3: 199085578
-      BowBunny_4: 144405556
-      BowBunny_5: 20537684
-      BowBunny_6: 2062780338
-      BowBunny_7: 1578690352
-      BowBunny_8: -256008127
+      BowBunny_x4_0: 8235803694844343266
+      BowBunny_x4_1: 7494025556758794811
+      BowBunny_x4_2: -1923350985465576067
+      BowBunny_x4_3: 895212927529276190
+      BowBunny_x4_4: 2830089971311046681
+      BowBunny_x4_5: 4448923794794439328
+      BowBunny_x4_6: -8467100882263544501
+      BowBunny_x4_7: 7633594387370801970
+      BowBunny_x4_8: -3932374122379971837
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
