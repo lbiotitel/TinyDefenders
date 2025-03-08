@@ -28,6 +28,7 @@ public class MainSceneUI : MonoBehaviour
     [Header("Menu UI")]
     [SerializeField] private GameObject battleUI;
     [SerializeField] private GameObject heroCollectionUI;
+    [SerializeField] private GameObject shopUI;
 
     [Header("Battle UI")]
     [SerializeField] private TextMeshProUGUI bestWaveText;
@@ -58,6 +59,11 @@ public class MainSceneUI : MonoBehaviour
             heroCollectionUI.SetActive(true);
         });
 
+        shopButton.onClick.AddListener(() => {
+            HideAllMenu();
+            shopUI.SetActive(true);
+        });
+
         HideAllMenu();
         battleUI.SetActive(true);
     }
@@ -66,6 +72,7 @@ public class MainSceneUI : MonoBehaviour
     {
         battleUI.SetActive(false);
         heroCollectionUI.SetActive(false);
+        shopUI.SetActive(false);
     }
 
     public void ShowNickNameUI()

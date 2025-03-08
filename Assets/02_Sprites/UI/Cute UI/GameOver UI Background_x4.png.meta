@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c7ede6c7374943f4eb52c7a596f40e7a
+guid: 18c9a0b41e8c9ba4f8964f5c9b7e9036
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6682738439518977790
-    second: Ground_0
+      213: -9202786428590363005
+    second: GameOver UI Background_x4_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,8 +51,8 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
-  spriteBorder: {x: 62, y: 59, z: 53, w: 58}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 27, y: 45, z: 28, w: 27}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ground_0
+      name: GameOver UI Background_x4_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 250
-        height: 252
+        width: 160
+        height: 184
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: efe706e343bddbc50800000000000000
-      internalID: 6682738439518977790
+      spriteID: 38ee51c6082294080800000000000000
+      internalID: -9202786428590363005
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Ground_0: 6682738439518977790
+      GameOver UI Background_x4_0: -9202786428590363005
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
