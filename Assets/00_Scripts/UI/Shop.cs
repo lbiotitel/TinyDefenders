@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +17,7 @@ public class Shop : MonoBehaviour
     [SerializeField] private Button multiSummonButton;
     [SerializeField] private Button closeSummonButton;
 
-    
+    private List<GameObject> summonHeroList = new List<GameObject>();
 
     private void Start()
     {
@@ -29,10 +31,10 @@ public class Shop : MonoBehaviour
     }
 
     private void GetCurrentUserAsset()
-    { 
+    {
         UserData userData = CloudManager.instance.userData;
         goldText.text = userData.gold.ToString();
-        crystalText.text = userData.crystal.ToString(); 
+        crystalText.text = userData.crystal.ToString();
     }
 
     private void InitButtons()
@@ -46,36 +48,48 @@ public class Shop : MonoBehaviour
     {
         int price = value == 1 ? 150 : 1500;
         int currentCrystal = CloudManager.instance.userData.crystal;
-        
+
         if (currentCrystal < price)
         {
             Debug.Log("재화가 부족");
             return;
         }
 
+        StartCoroutine(SummonHeroCoroutine(value));
+        currentCrystal -= price;
+        CloudManager.instance.CrystalChangeValue(currentCrystal);
+        summonHeroUI.SetActive(true);
+    }
+
+
+    private IEnumerator SummonHeroCoroutine(int value)
+    {
         for (int i = 0; i < value; i++)
         {
-            GameObject go = Instantiate(summonHeroNode, summonHeroTransform);
+            yield return new WaitForSeconds(0.1f);
+
             Rarity rarity = Utils.GetSummonRarity();
             HeroScriptable heroScriptable = GetHeroData(rarity);
 
             if (heroScriptable != null)
             {
+                GameObject go = Instantiate(summonHeroNode, summonHeroTransform);
+
                 go.transform.Find("Hero Image").GetComponent<Image>().sprite = heroScriptable.heroMainImage;
+                go.transform.Find("Hero Circle").GetComponent<Image>().color = Utils.GetRarityColor(rarity);
+
+                summonHeroList.Add(go);
             }
         }
-
-        CloudManager.instance.CrystalChangeValue(currentCrystal - price);
-        summonHeroUI.SetActive(true);
     }
 
 
     private HeroScriptable GetHeroData(Rarity rarity)
     {
         HeroScriptable[] heroes = Resources.LoadAll<HeroScriptable>("HeroDatas/" + rarity.ToString());
-        if(heroes.Length <= 0)return null;
+        if (heroes.Length <= 0) return null;
 
-        int random = Random.Range(0,heroes.Length);
+        int random = Random.Range(0, heroes.Length);
 
 
         return heroes[random];
@@ -85,6 +99,10 @@ public class Shop : MonoBehaviour
     {
         summonHeroUI.SetActive(false);
 
+        foreach (var heroNode in summonHeroList)
+            Destroy(heroNode);
+
+        summonHeroList.Clear();
     }
 
     private void InitEvent()
@@ -94,7 +112,7 @@ public class Shop : MonoBehaviour
     }
 
     private void ChangeGoldText()
-    {  
+    {
         goldText.text = CloudManager.instance.userData.gold.ToString();
     }
 

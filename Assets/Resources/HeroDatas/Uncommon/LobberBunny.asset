@@ -17,7 +17,7 @@ MonoBehaviour:
   atkSpeed: 0.2
   atkRange: 1
   rarity: 0
-  heroMainImage: {fileID: 0}
+  heroMainImage: {fileID: -8401148639148532006, guid: 0420a7e80fafe0849ba53ffc7ffe7782, type: 3}
   leftEquipmentPrefab: {fileID: 9218246734644273656, guid: dbceb4f948478ad4d95d24ad1f622a27, type: 3}
   rightEquipmentPrefab: {fileID: 0}
   runtimeAnimatorController: {fileID: 9100000, guid: 5041f080e18ea9e44bf0ce78374557a7, type: 2}
@@ -27,5 +27,7 @@ MonoBehaviour:
     coolTime: 10
     skillPrefab: {fileID: 0}
     skillDamage: 0
+    targetCount: 0
     buffTime: 0
     buffAmount: 0
+    buffRange: 0

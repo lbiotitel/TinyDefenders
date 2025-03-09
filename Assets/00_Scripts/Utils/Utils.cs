@@ -9,9 +9,24 @@ public class Utils : MonoBehaviour
 
 
     public static Rarity GetSummonRarity()
-    { 
+    {
         return probabilitySetting.GetRarity();
     }
+
+    public static Color GetRarityColor(Rarity rarity)
+    {
+        switch (rarity)
+        {
+            case Rarity.Normal: return new Color(0.69f, 0.69f, 0.69f, 0.7f);
+            case Rarity.Uncommon: return new Color(0.16f, 0.47f, 1.0f, 0.7f);
+            case Rarity.Rare: return new Color(0.56f, 0.14f, 0.66f, 0.7f);
+            case Rarity.Legend: return new Color(1.0f, 0.84f, 0.0f, 0.7f);
+            case Rarity.God: return new Color(0.0f, 0.78f, 0.33f, 0.7f);
+        }
+
+        return Color.white;
+    }
+
 
     public static string Localization_Text(Localize localize, string key)
     {

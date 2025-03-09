@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: BerserkerDog
   m_EditorClassIdentifier: 
-  heroName: 
+  heroName: BerserkerDog
   atk: 20
   atkSpeed: 1
   atkRange: 2
   rarity: 0
-  heroMainImage: {fileID: 0}
+  heroMainImage: {fileID: -2538478018448539250, guid: 5b4d83963e7df634c823663025b692b3, type: 3}
   leftEquipmentPrefab: {fileID: 0}
   rightEquipmentPrefab: {fileID: 839100161667405971, guid: 1820eeb613d83b84da2088adc75141e7, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 82e95c7cc19a17c489e2058ef801717c, type: 2}
@@ -27,5 +27,7 @@ MonoBehaviour:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
+    targetCount: 0
     buffTime: 0
     buffAmount: 0
+    buffRange: 0

@@ -121,6 +121,7 @@ public class HeroEditor : Editor
     public override void OnInspectorGUI()
     {
         EditorGUILayout.PropertyField(serializedObject.FindProperty("heroName"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("heroMainImage"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("atk"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("atkSpeed"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("atkRange"));
