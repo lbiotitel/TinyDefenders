@@ -13,15 +13,21 @@ public class UserData
     public string userName;
     public int userLevel;
     public int bestWave = 1;
+    public int crystal;
+    public int gold;
 
-    public UserData(string userName, int userLevel, int bestWave)
+    public UserData(string userName, int userLevel, int bestWave, int crystal, int gold)
     {
         this.userName = userName;
         this.userLevel = userLevel;
         this.bestWave = bestWave;
+        this.crystal = crystal;
+        this.gold = gold;
     }
 }
 
+public delegate void OnCrystalValueChage();
+public delegate void OnGoldValueChange();
 
 public class CloudManager : MonoBehaviour
 {
@@ -32,6 +38,9 @@ public class CloudManager : MonoBehaviour
     [SerializeField] private float saveInterval = 10f;
     private float saveTime = 0f;
     private bool isSave = false;
+
+    public OnCrystalValueChage onCrystalValueChange;
+    public OnGoldValueChange onGoldValueChange;
 
     private void Awake()
     {
@@ -51,6 +60,17 @@ public class CloudManager : MonoBehaviour
         IntervalSaveUserData();
     }
 
+    public void CrystalChangeValue(int newValue)
+    { 
+        userData.crystal = newValue;
+        onCrystalValueChange?.Invoke();
+    }
+
+    public void GoldChangeValue(int newValue)
+    {
+        userData.gold = newValue;
+        onGoldValueChange?.Invoke();
+    }
 
     private void IntervalSaveUserData()
     {
@@ -110,7 +130,7 @@ public class CloudManager : MonoBehaviour
             else {
                 Debug.Log("저장된 플레이어가 존재하지 않음");
                 MainSceneUI.instance.ShowNickNameUI();
-                return this.userData = new UserData("",1,1);
+                return this.userData = new UserData("",1,1,0,0);
             }
         }
         catch (System.Exception e)

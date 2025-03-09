@@ -82,7 +82,7 @@ public class Hero : Entity
             case Rarity.Uncommon:
                 return 0;
 
-            case Rarity.Unique:
+            case Rarity.Rare:
                 return 1;
 
             case Rarity.Legend:

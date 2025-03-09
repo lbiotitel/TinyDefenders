@@ -48,10 +48,12 @@ public class NetUtils
                 return "<color=#A4A4A4>";
             case Rarity.Uncommon:
                 return "<color=#79FF73>";
-            case Rarity.Unique:
+            case Rarity.Rare:
                 return "<color=#6EE5FF>";
             case Rarity.Legend:
                 return "<color=#FFBA13>";
+            case Rarity.God:
+                return "<color=#92DC00>";
         }
 
         return "";

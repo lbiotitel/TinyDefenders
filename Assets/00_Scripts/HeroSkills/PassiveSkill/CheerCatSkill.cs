@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class CheerCatSkill : PassiveSkillBase
 {
-    private List<Hero> buffHeroList = new List<Hero>();
-    float buffAmount;
+
 
     protected override void ActiveSkill()
     {
+        List<Hero> buffHeroList = new List<Hero>();
         List<Hero> heroList = GameManager.instance.GetHeroList();
-        buffAmount = heroData.skillData.buffAmount;
+        float  buffAmount = heroData.skillData.buffAmount;
+
+        heroList.Remove(base.hero);
 
         foreach (var hero in heroList)
         {
@@ -27,13 +29,15 @@ public class CheerCatSkill : PassiveSkillBase
                 }
             }
         }
+
+        StartCoroutine(BuffSkillCoroutine(buffHeroList,buffAmount));
     }
 
-    private IEnumerator BuffSkillCoroutine()
+    private IEnumerator BuffSkillCoroutine(List<Hero> heroes,float buffAmount)
     {
         yield return new WaitForSeconds(heroData.skillData.buffTime);
 
-        foreach (var hero in buffHeroList)
+        foreach (var hero in heroes)
         {
             if (hero != null)
             {
@@ -41,11 +45,8 @@ public class CheerCatSkill : PassiveSkillBase
                 if (hero.TryGetComponent<Skill>(out skill))
                 {
                     skill.skillAcc -= buffAmount;
-                    buffHeroList.Add(hero);
                 }
             }
         }
-
-        buffHeroList.Clear();
     }
 }

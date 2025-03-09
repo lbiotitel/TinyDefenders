@@ -31,6 +31,11 @@ public enum HostType {
     ALL
 }
 
+public enum Localize
+{
+    UI,
+    Hero
+}
 public enum ProjectileType { 
     NORMAL,
     ROTATE,
@@ -38,6 +43,7 @@ public enum ProjectileType {
 public enum Rarity { 
     Normal,
     Uncommon,
-    Unique,
-    Legend
+    Rare,
+    Legend,
+    God
 }

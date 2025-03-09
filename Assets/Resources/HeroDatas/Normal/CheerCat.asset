@@ -24,10 +24,10 @@ MonoBehaviour:
   projectile: {fileID: 0}
   debuffEffects: []
   skillData:
-    coolTime: 0
+    coolTime: 10
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
-    buffTime: 0
-    buffAmount: 0
-    buffRange: 0
+    buffTime: 5
+    buffAmount: 1
+    buffRange: 2
