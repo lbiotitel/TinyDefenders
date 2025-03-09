@@ -15,6 +15,9 @@ public class DamageText : MonoBehaviour
     public void InitDamageText(double damage)
     {
         damageText.text = string.Format("{0:0}", damage);
+        Color color = damageText.color;
+        color.a = 1f;
+        damageText.color = color;
         textColor = damageText.color;
         StartCoroutine(ShowAndFade());
     }
