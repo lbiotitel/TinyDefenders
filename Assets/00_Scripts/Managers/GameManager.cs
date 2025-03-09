@@ -59,7 +59,7 @@ public class GameManager : NetworkBehaviour
 
     private WaveScriptable[] waveData = null;
 
-    private List<Hero> heroLists = new List<Hero>();
+    private List<Hero> heroList = new List<Hero>();
 
 
     private void Start()
@@ -204,14 +204,14 @@ public class GameManager : NetworkBehaviour
 
     public void AddHero(Hero hero)
     {
-        heroLists.Add(hero);
+        heroList.Add(hero);
         currentHeroCount++;
         onSummonHero?.Invoke();
     }
 
     public void RemoveHero(Hero hero)
     { 
-        heroLists.Remove(hero);
+        heroList.Remove(hero);
         currentHeroCount--;
         onSummonHero?.Invoke();
     }   
@@ -331,4 +331,6 @@ public class GameManager : NetworkBehaviour
     {
         InGameUI.instance.InitAllUserName(hostName,clientName);
     }
+
+    public List<Hero> GetHeroList() { return heroList; }
 }

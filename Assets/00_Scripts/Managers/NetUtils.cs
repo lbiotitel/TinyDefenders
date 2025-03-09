@@ -30,6 +30,16 @@ public class NetUtils
         return false;
     }
 
+    public static bool IsMineHero(Hero hero, Hero targetHero)
+    {
+        string heroHolderId = hero.GetHeroHolder().holderId.Contains("CLIENT") ? "CLIENT" : "HOST";
+        string targetHeroId = targetHero.GetHeroHolder().holderId.Contains("CLIENT") ? "CLIENT" : "HOST";
+
+        if (heroHolderId == targetHeroId) return true;
+
+        return false;
+    }
+
     public static string GetRarityColor(Rarity rarity)
     {
         switch (rarity)

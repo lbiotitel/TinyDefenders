@@ -10,7 +10,7 @@ public class Skill : MonoBehaviour
     protected HeroScriptable heroData;
     [SerializeField] protected Image skillFillImage;
     [SerializeField] protected GameObject skillCanvas;
-
+    public float skillAcc = 1f;
 
 
     protected void Start()
@@ -42,7 +42,7 @@ public class Skill : MonoBehaviour
 
         while (t < coolTime)
         {
-            t += Time.deltaTime;
+            t += Time.deltaTime * skillAcc;
             skillFillImage.fillAmount = (t / coolTime);
             yield return null;
         }
