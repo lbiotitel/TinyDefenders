@@ -154,7 +154,9 @@ public class InGameUI : NetworkBehaviour
 
     private IEnumerator SummonCoroutine()
     {
-        HeroScriptable heroData = Spawner.instance.LoadData("Normal");
+        HeroScriptable heroData = Spawner.instance.LoadData(Utils.GetIngameSummonRarity().ToString());
+
+        Debug.Log(heroData.rarity);
 
         Vector3 targetPos = Spawner.instance.GetHolderPosition(heroData);
 
@@ -183,7 +185,7 @@ public class InGameUI : NetworkBehaviour
         }
 
         Destroy(effect);
-        Spawner.instance.Summon("Normal", heroData);
+        Spawner.instance.Summon(heroData.rarity.ToString(), heroData);
     }
 
     [ServerRpc(RequireOwnership = false)]

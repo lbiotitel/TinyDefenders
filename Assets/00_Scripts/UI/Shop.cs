@@ -68,7 +68,7 @@ public class Shop : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
 
-            Rarity rarity = Utils.GetSummonRarity();
+            Rarity rarity = Utils.GetShopSummonRarity();
             HeroScriptable heroScriptable = GetHeroData(rarity);
 
             if (heroScriptable != null)

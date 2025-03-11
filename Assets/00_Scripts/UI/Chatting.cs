@@ -16,6 +16,7 @@ public class Chatting : NetworkBehaviour
         chatInputField.onEndEdit.AddListener(ParsingChatting);
         chatInputField.onSelect.AddListener(ShowChattingBox);
         chatInputField.onDeselect.AddListener(HideChattingBox);
+        HideChattingBox("");
     }
 
 

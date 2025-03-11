@@ -5,13 +5,19 @@ using UnityEngine.Localization.Settings;
 
 public class Utils : MonoBehaviour
 {
-    private static ProbabilitySetting probabilitySetting = Resources.Load<ProbabilitySetting>("SettingData/ProbabilitySettingData");
+    private static ProbabilitySetting shopProbabilitySetting = Resources.Load<ProbabilitySetting>("SettingData/ShopProbabilitySettingData");
+    private static ProbabilitySetting inGameProbabilitySetting = Resources.Load<ProbabilitySetting>("SettingData/InGameProbabilitySettingData");
 
-
-    public static Rarity GetSummonRarity()
+    public static Rarity GetShopSummonRarity()
     {
-        return probabilitySetting.GetRarity();
+        return shopProbabilitySetting.GetRarity();
     }
+
+    public static Rarity GetIngameSummonRarity()
+    { 
+        return inGameProbabilitySetting.GetRarity();
+    }
+
 
     public static Color GetRarityColor(Rarity rarity)
     {

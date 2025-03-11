@@ -307,6 +307,7 @@ public class Spawner : NetworkBehaviour
 
     public HeroScriptable LoadData(string rarity)
     {
+        Debug.Log(rarity);
         HeroScriptable[] heroDatas = Resources.LoadAll<HeroScriptable>("HeroDatas/" + rarity);
 
         HeroScriptable data = heroDatas[UnityEngine.Random.Range(0, heroDatas.Length)];

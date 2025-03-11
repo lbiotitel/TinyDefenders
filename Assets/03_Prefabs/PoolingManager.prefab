@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7734593479244336300}
-  - component: {fileID: 9175962250494575034}
   - component: {fileID: 3479610467601627585}
   m_Layer: 0
   m_Name: PoolingManager
@@ -33,31 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9175962250494575034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6395522242120650137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 392184184
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
 --- !u!114 &3479610467601627585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,5 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a11588c854b970346b693613e9402f74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  poolObjects: []
+  poolObjects:
+  - poolTag: DamageText
+    poolPrefab: {fileID: 8569716173733949794, guid: 60a8e892def7dc540b6f058e9ea90b22, type: 3}
+    size: 1
+    poolType: 0
+  - poolTag: MonsterDeadParticle
+    poolPrefab: {fileID: 5737305730674577762, guid: d4cc1225b3a2c9548909376bc6967a05, type: 3}
+    size: 0
+    poolType: 0
+  - poolTag: MonsterHitParticle
+    poolPrefab: {fileID: 3211877774832872067, guid: cb743783234f8e74d9956031b0ceed0f, type: 3}
+    size: 1
+    poolType: 0

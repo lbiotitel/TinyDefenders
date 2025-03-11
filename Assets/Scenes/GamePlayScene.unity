@@ -5116,7 +5116,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 31}
+  m_AnchoredPosition: {x: -36, y: 24}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &656026537
@@ -42063,54 +42063,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
-      propertyPath: poolObjects.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
-      propertyPath: poolObjects.Array.data[0].size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
-      propertyPath: poolObjects.Array.data[1].size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
-      propertyPath: poolObjects.Array.data[2].size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
-      propertyPath: poolObjects.Array.data[0].poolTag
-      value: DamageText
-      objectReference: {fileID: 0}
-    - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
-      propertyPath: poolObjects.Array.data[1].poolTag
-      value: MonsterDeadParticle
-      objectReference: {fileID: 0}
-    - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
-      propertyPath: poolObjects.Array.data[2].poolTag
-      value: MonsterHitParticle
-      objectReference: {fileID: 0}
-    - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
-      propertyPath: poolObjects.Array.data[0].poolType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
-      propertyPath: poolObjects.Array.data[1].poolType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
-      propertyPath: poolObjects.Array.data[0].poolPrefab
-      value: 
-      objectReference: {fileID: 8569716173733949794, guid: 60a8e892def7dc540b6f058e9ea90b22, type: 3}
-    - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
-      propertyPath: poolObjects.Array.data[1].poolPrefab
-      value: 
-      objectReference: {fileID: 5737305730674577762, guid: d4cc1225b3a2c9548909376bc6967a05, type: 3}
-    - target: {fileID: 3479610467601627585, guid: 68e200050db165e4db639c627c737392, type: 3}
-      propertyPath: poolObjects.Array.data[2].poolPrefab
-      value: 
-      objectReference: {fileID: 3211877774832872067, guid: cb743783234f8e74d9956031b0ceed0f, type: 3}
     - target: {fileID: 6395522242120650137, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: m_Name
       value: PoolingManager
@@ -42155,16 +42107,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9175962250494575034, guid: 68e200050db165e4db639c627c737392, type: 3}
-      propertyPath: GlobalObjectIdHash
-      value: 1446091787
-      objectReference: {fileID: 0}
-    - target: {fileID: 9175962250494575034, guid: 68e200050db165e4db639c627c737392, type: 3}
-      propertyPath: InScenePlacedSourceGlobalObjectIdHash
-      value: 1675046390
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 9175962250494575034, guid: 68e200050db165e4db639c627c737392, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

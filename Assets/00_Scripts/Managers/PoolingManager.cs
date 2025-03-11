@@ -173,7 +173,6 @@ public class PoolingManager : MonoBehaviour
     public void ReturnObject(GameObject gameObject)
     {
         string tag = gameObject.tag;
-        Debug.Log(tag);
 
         if (!poolDictionary.ContainsKey(tag))
         {

@@ -11,6 +11,7 @@ public class Hero : Entity
     [SerializeField] private Transform leftHand;
     [SerializeField] private Transform rightHand;
     [SerializeField] private GameObject spawnParticle;
+    [SerializeField] private ParticleSystem rarityParticle;    
 
     HeroScriptable heroData;
     private HeroHolder heroHolder;
@@ -18,6 +19,7 @@ public class Hero : Entity
     private double baseAtk;
     private float attackDelay;
     bool isServerHero;
+
 
     public double atk
     {
@@ -65,6 +67,8 @@ public class Hero : Entity
 
         GetInitEntity(data.heroName, rarity);
 
+        InitRarityCircleColor();
+
         InitEquipment();
 
         GameManager.instance.AddHero(this);
@@ -72,6 +76,12 @@ public class Hero : Entity
         Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
 
         isServerHero = heroHolder.holderId.Contains("CLIENT") ? false : true;
+    }
+
+    private void InitRarityCircleColor()
+    {
+        ParticleSystem.MainModule main = rarityParticle.main;
+        main.startColor = Utils.GetRarityColor(heroRarity);
     }
 
     private int GetUpgradeIndex()
