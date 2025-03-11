@@ -22,13 +22,14 @@ public class MainSceneUI : MonoBehaviour
     [Header("Mene Button")]
     [SerializeField] private Button battleButton; 
     [SerializeField] private Button heroButton; 
-    [SerializeField] private Button guildButton; 
+    [SerializeField] private Button rankingButton; 
     [SerializeField] private Button shopButton;
 
     [Header("Menu UI")]
     [SerializeField] private GameObject battleUI;
     [SerializeField] private GameObject heroCollectionUI;
     [SerializeField] private GameObject shopUI;
+    [SerializeField] private GameObject rankingUI;
 
     [Header("Battle UI")]
     [SerializeField] private TextMeshProUGUI bestWaveText;
@@ -64,6 +65,12 @@ public class MainSceneUI : MonoBehaviour
             shopUI.SetActive(true);
         });
 
+        rankingButton.onClick.AddListener(() =>
+        {
+            HideAllMenu();
+            rankingUI.SetActive(true);
+        });
+
         HideAllMenu();
         battleUI.SetActive(true);
     }
@@ -73,6 +80,7 @@ public class MainSceneUI : MonoBehaviour
         battleUI.SetActive(false);
         heroCollectionUI.SetActive(false);
         shopUI.SetActive(false);
+        rankingUI.SetActive(false);
     }
 
     public void ShowNickNameUI()

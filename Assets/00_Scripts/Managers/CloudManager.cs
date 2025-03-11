@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.CloudSave;
+using Unity.Services.Leaderboards;
 using Unity.Services.CloudSave.Models;
 using UnityEngine;
 
@@ -36,6 +37,7 @@ public class CloudManager : MonoBehaviour
     public static CloudManager instance = null;
     public UserData userData = null;
     private const string playerDataKey = "PlayerData";
+    private const string leaderBoardKey = "TinyDefenceRank";
 
     [SerializeField] private float saveInterval = 10f;
     private float saveTime = 0f;
@@ -108,10 +110,24 @@ public class CloudManager : MonoBehaviour
             var data = new Dictionary<string, object> { { playerDataKey, jsonData } };
             await CloudSaveService.Instance.Data.Player.SaveAsync(data);
             Debug.Log(userData.userName + "플레이어 저장 완료");
+            await UpdateLeaderBoard(userData.rakingPoint);
         }
         catch (System.Exception e)
         {
             Debug.LogError("플레이어 저장 실패" + e);
+        }
+    }
+
+    private async Task UpdateLeaderBoard(int score)
+    {
+        try
+        {
+            await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderBoardKey,score);
+            Debug.Log("리더 보드 업데이트 완료");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("리더보드 저장 실패"  + e);
         }
     }
 

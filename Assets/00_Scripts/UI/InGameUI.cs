@@ -156,7 +156,7 @@ public class InGameUI : NetworkBehaviour
     {
         HeroScriptable heroData = Spawner.instance.LoadData(Utils.GetIngameSummonRarity().ToString());
 
-        Debug.Log(heroData.rarity);
+    
 
         Vector3 targetPos = Spawner.instance.GetHolderPosition(heroData);
 
