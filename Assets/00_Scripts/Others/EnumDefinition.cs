@@ -1,6 +1,11 @@
 using UnityEngine;
 
 
+public enum CardType{
+    SUMMON,
+    ATTACK,
+    PASSIVE
+}
 
 public struct LayerName {
     public static string Monster = "Monster";
