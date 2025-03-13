@@ -2,6 +2,7 @@ using DG.Tweening;
 using NUnit.Framework;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Multiplayer.Center.NetcodeForGameObjectsExample.DistributedAuthority;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -38,8 +39,11 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     {
         transform.position = Input.mousePosition;
         if (IsInDropZone())
-        { 
-            
+        {
+            InGameUI.instance.ShowArrowGuide(GetComponent<RectTransform>());
+        }
+        else {
+            InGameUI.instance.HideArrowGuide();
         }
     }
 
@@ -54,6 +58,11 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
             transform.SetParent(parentTransform);
             ReturnOriginalCard();
         }
+        else {
+            UseCard();
+            CardManager.instance.RemoveCard(this);
+        }
+        InGameUI.instance.HideArrowGuide();
         CardManager.instance.SortCard();
     }
 

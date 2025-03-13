@@ -76,6 +76,9 @@ public class InGameUI : NetworkBehaviour
     [Header("Hero Info")]
     [SerializeField] private HeroInfoUI heroInfoUI;
 
+    [Header("Card Arrow")]
+    [SerializeField] private CardArrowGuide arrowGuide;
+
     private void Start()
     {
         InitEvent();
@@ -219,6 +222,16 @@ public class InGameUI : NetworkBehaviour
     public void HideHeroInfoUI()
     {
         heroInfoUI.HideHeroInfoUI();
+    }
+
+    public void ShowArrowGuide(RectTransform startPos)
+    {
+        arrowGuide.ShowArrow(startPos);
+    }
+
+    public void HideArrowGuide()
+    {
+        arrowGuide.HideArrow();
     }
 
     public void ShowAlarmText(string text)
