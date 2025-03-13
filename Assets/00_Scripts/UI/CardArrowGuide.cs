@@ -15,8 +15,8 @@ public class CardArrowGuide : MonoBehaviour
     private List<Vector2> controlPoints = new List<Vector2>();
     private readonly List<Vector2> controlPointFactors = new List<Vector2>
     {
-        new Vector2(-0.6f, 0.5f),  
-        new Vector2(-0.2f, 1.2f)   
+        new Vector2(-0f, -0.5f),  
+        new Vector2(0f, -1.2f)   
     };
 
     private void Awake()
@@ -64,7 +64,9 @@ public class CardArrowGuide : MonoBehaviour
     {
         if (startPos == null) return;
 
-        controlPoints[0] = new Vector2(startPos.transform.position.x, startPos.position.y + 200f);
+        float cardHeight = startPos.rect.height;
+
+        controlPoints[0] = new Vector2(startPos.transform.position.x, startPos.position.y + cardHeight);
 
         controlPoints[3] = new Vector2(targetPos.transform.position.x, targetPos.transform.position.y);
 

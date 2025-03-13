@@ -21,8 +21,10 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     private Transform parentTransform;
     private Transform dragParent;
-    bool isEnlargement = false;
-    bool isDrag = false;
+    private bool isInit = false;
+    private bool isEnlargement = false;
+    private bool isDrag = false;
+
 
 
     private void Start()
@@ -31,12 +33,13 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     }
 
     public void InitCardNode()
-    { 
-        
+    {
+        isInit = true;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!isInit) return;
         transform.position = Input.mousePosition;
         if (IsInDropZone())
         {
@@ -49,6 +52,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!isInit) return;
         isDrag = false;
 
         if (!IsInDropZone())
@@ -94,6 +98,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     public void OnBeginDrag(PointerEventData evenData)
     {
+        if (!isInit) return;
         isDrag = true;
         dragOriginalPosition = transform.position;
         dragOriginalQuaternion = transform.rotation;
@@ -104,6 +109,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!isInit) return;
         if (isDrag) return;
         if (!isEnlargement)
         {
@@ -125,6 +131,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (!isInit) return;
         if (isDrag) return;
         if (isEnlargement)
         {

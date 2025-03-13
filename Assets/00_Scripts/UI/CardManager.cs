@@ -69,10 +69,11 @@ public class CardManager : MonoBehaviour
                 rot *= -1;
 
             RectTransform cardTransform = myCards[i].GetComponent<RectTransform>();
-            cardTransform.DOAnchorPos(new Vector2(x, y - curve),0.2f);
+            cardTransform.DOAnchorPos(new Vector2(x, y - curve), 0.2f);
             cardTransform.DORotate(new Vector3(0, 0, rot),0.2f);
 
             myCards[i].transform.SetSiblingIndex(i);
+            myCards[i].InitCardNode();
         }
     }
 
