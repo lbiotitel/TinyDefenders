@@ -226,6 +226,7 @@ public class GameManager : NetworkBehaviour
     public void StartGame()
     { 
         isGameStart = true;
+        CardManager.instance.DrawFiveCard();
         //SoundManager.instance.PlayMusicSound("InGameBgm",true);
     }
 

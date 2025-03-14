@@ -1022,7 +1022,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 424, y: -555}
+  m_AnchoredPosition: {x: 424, y: -620}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &99806896
@@ -41633,6 +41633,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: a931b31dbc28094448a10f2efb62970f, type: 3}
+    - target: {fileID: 425071593790384163, guid: 7e44b7d99f0354943b83c9606e3ec54b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 586197169109760256, guid: 7e44b7d99f0354943b83c9606e3ec54b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -41784,6 +41788,10 @@ PrefabInstance:
     - target: {fileID: 2212201925188457040, guid: 7e44b7d99f0354943b83c9606e3ec54b, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 1182985697
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605400724899910492, guid: 7e44b7d99f0354943b83c9606e3ec54b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -218
       objectReference: {fileID: 0}
     - target: {fileID: 2682859051435740344, guid: 7e44b7d99f0354943b83c9606e3ec54b, type: 3}
       propertyPath: m_Sprite
@@ -42033,6 +42041,7 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 218713203517941375, guid: 7e44b7d99f0354943b83c9606e3ec54b, type: 3}
     - {fileID: 5110280728567058325, guid: 7e44b7d99f0354943b83c9606e3ec54b, type: 3}
+    - {fileID: 6513593852538126538, guid: 7e44b7d99f0354943b83c9606e3ec54b, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 951294789458294828, guid: 7e44b7d99f0354943b83c9606e3ec54b, type: 3}
       insertIndex: -1

@@ -25,16 +25,22 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     private bool isEnlargement = false;
     private bool isDrag = false;
 
-
+    private CardSO cardSO;
 
     private void Start()
     {
         dragParent = GameObject.Find("CardDrag").transform;
     }
 
-    public void InitCardNode()
+    public void InitCardNode(CardSO cardSO)
     {
-        isInit = true;
+        this.isInit = true;
+        this.cardSO = cardSO;
+
+        cardImage.sprite = cardSO.cardImage;
+        cardNameText.text = cardSO.cardName;
+
+        cardImage.preserveAspect = true;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -91,8 +97,13 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     private void UseCard()
     {
-        //카드 효과 발동
-        Debug.Log("카드효과 발동");
+        switch (cardSO.cardType)
+        {
+            case CardType.SUMMON:
+                SummonCard summonCard = cardSO as SummonCard;
+                summonCard.Summon();
+                break;
+        }
         CardManager.instance.RemoveCard(this);
     }
 

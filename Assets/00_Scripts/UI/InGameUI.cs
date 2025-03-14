@@ -17,7 +17,6 @@ public class InGameUI : NetworkBehaviour
     }
 
     [SerializeField] private TextMeshProUGUI monsterCountText;
-    [SerializeField] private TextMeshProUGUI summonGoldText;
     [SerializeField] private TextMeshProUGUI currentGoldText;
 
     [SerializeField] private Image monsterCountSliderImage;
@@ -254,9 +253,7 @@ public class InGameUI : NetworkBehaviour
         monsterCountText.text =
             GameManager.instance.currentMonsterCount.ToString() + "/" + GameManager.instance.maxMonsterCount.ToString();
         monsterCountSliderImage.fillAmount = GameManager.instance.currentMonsterCount / 100f;
-        summonGoldText.text = GameManager.instance.summonGold.ToString();
         currentGoldText.text = GameManager.instance.gold.ToString();
-        summonGoldText.color = GameManager.instance.gold >= GameManager.instance.summonGold ? Color.white : Color.red;
         heroCountText.text = string.Format("{0:D2}/{1:D2}", GameManager.instance.currentHeroCount, GameManager.instance.maxHeroCount);
         goldGoblinLevelText.text = string.Format("Lv.{0}",GameManager.instance.goldGoblinLevel.ToString());
 

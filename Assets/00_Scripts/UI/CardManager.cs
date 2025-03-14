@@ -26,21 +26,43 @@ public class CardManager : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            DrawCard();
-            SortCard();
+            DrawFiveCard();
         }
     }
+#endif
+
+    public void DrawFiveCard()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            DrawCard();
+        }
+        SortCard();
+    } 
 
     public CardNode DrawCard()
     {
+        SummonCard cardSO = GetSummonCard();
         CardNode cardNode = Instantiate(cardPrefab);
+        cardNode.InitCardNode(cardSO);
         cardNode.transform.SetParent(myCardPos);
         myCards.Add(cardNode);
         return cardNode;
+    }
+
+
+    public SummonCard GetSummonCard()
+    {
+        HeroScriptable heroData = Spawner.instance.LoadData(Utils.GetIngameSummonRarity().ToString());
+        SummonCard cardSO = ScriptableObject.CreateInstance<SummonCard>();
+        cardSO.InitSummonCard(heroData);
+
+        return cardSO;
     }
 
     public void RemoveCard(CardNode card)
@@ -73,7 +95,6 @@ public class CardManager : MonoBehaviour
             cardTransform.DORotate(new Vector3(0, 0, rot),0.2f);
 
             myCards[i].transform.SetSiblingIndex(i);
-            myCards[i].InitCardNode();
         }
     }
 
