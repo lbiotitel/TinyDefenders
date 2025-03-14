@@ -41,12 +41,6 @@ public class InGameUI : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI friendProfileAnimNameText;
     public bool profileAnimationReady = false;
 
-    [Header("Summon Button")]
-    [SerializeField] private Button summonButton;
-    [SerializeField] private GameObject summonEffect;
-    [SerializeField] private float effectSpeed;
-
-
     [Header("Upgarde UI")]
     [SerializeField] private TextMeshProUGUI[] upgradeLevelText;
     [SerializeField] private TextMeshProUGUI[] upgradeCostText;
@@ -64,11 +58,6 @@ public class InGameUI : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI playerDpsText;
     [SerializeField] private TextMeshProUGUI friendDpsText;
 
-    [Header("Summon Goblin UI")]
-    [SerializeField] private Button summonGoldGoblinButton;
-    [SerializeField] private TextMeshProUGUI goldGoblinLevelText;
-    public Image summonGoldGoblinImage;
-
     [Header("Alarm UI")]
     [SerializeField] private AlarmUI alarmUI;
 
@@ -81,7 +70,6 @@ public class InGameUI : NetworkBehaviour
     private void Start()
     {
         InitEvent();
-        summonGoldGoblinButton.onClick.AddListener(() => GameManager.instance.SummonGoldGoblin());
         if (profileAnimator.gameObject.activeSelf == false)
             profileAnimator.gameObject.SetActive(true);
         heroInfoUI.HideHeroInfoUI();
@@ -103,7 +91,6 @@ public class InGameUI : NetworkBehaviour
         GameManager.instance.onGoldGet += GoldAnimation;
         GameManager.instance.onTimerUp += DrawWaveAndTime;
         GameManager.instance.onGameOver += ShowGameOverUI;
-        summonButton.onClick.AddListener(() => ClickSummon());
     }
 
     public void ShowWaveUI()
@@ -120,17 +107,7 @@ public class InGameUI : NetworkBehaviour
         bossNameText.text = bossName;
     }
 
-    private void ClickSummon()
-    {
-        if (GameManager.instance.gold < GameManager.instance.summonGold) return;
-        if (GameManager.instance.currentHeroCount >= GameManager.instance.maxHeroCount) return;
-
-        GameManager.instance.gold -= GameManager.instance.summonGold;
-        GameManager.instance.summonGold += GameManager.instance.summonGoldInc;
-
-        StartCoroutine(SummonCoroutine());
-    }
-
+  
     public void ShowGameOverUI()
     {
         gameOverUI.SetActive(true);
@@ -154,41 +131,6 @@ public class InGameUI : NetworkBehaviour
         GameManager.instance.upgarde[value]++;
     }
 
-    private IEnumerator SummonCoroutine()
-    {
-        HeroScriptable heroData = Spawner.instance.LoadData(Utils.GetIngameSummonRarity().ToString());
-
-    
-
-        Vector3 targetPos = Spawner.instance.GetHolderPosition(heroData);
-
-        Vector3 buttonWorldPosition = Camera.main.ScreenToWorldPoint(summonButton.transform.position);
-        GameObject effect = Instantiate(summonEffect);
-
-        effect.transform.position = buttonWorldPosition;
-
-        Vector3 startPoint = buttonWorldPosition;
-        Vector3 endPoint = targetPos;
-
-        Vector3 randomPoint = MathUtils.GenerateRandomPoint(startPoint, endPoint);
-
-        float elapsedTime = 0.0f;
-        while (elapsedTime < effectSpeed)
-        {
-            float t = elapsedTime / effectSpeed;
-
-            Vector3 curvePoint = MathUtils.GenerateBezierPoint(t, startPoint,
-                randomPoint, endPoint);
-
-            effect.transform.position = new Vector3(curvePoint.x, curvePoint.y, 0);
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        Destroy(effect);
-        Spawner.instance.Summon(heroData.rarity.ToString(), heroData);
-    }
 
     [ServerRpc(RequireOwnership = false)]
     public void ShowAlarmServerRpc(string alarmText, float duration, string strAlarmType)
@@ -255,7 +197,6 @@ public class InGameUI : NetworkBehaviour
         monsterCountSliderImage.fillAmount = GameManager.instance.currentMonsterCount / 100f;
         currentGoldText.text = GameManager.instance.gold.ToString();
         heroCountText.text = string.Format("{0:D2}/{1:D2}", GameManager.instance.currentHeroCount, GameManager.instance.maxHeroCount);
-        goldGoblinLevelText.text = string.Format("Lv.{0}",GameManager.instance.goldGoblinLevel.ToString());
 
         for (int i = 0; i < upgradeLevelText.Length; i++)
         {

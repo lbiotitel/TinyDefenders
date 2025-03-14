@@ -101,7 +101,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
         {
             case CardType.SUMMON:
                 SummonCard summonCard = cardSO as SummonCard;
-                summonCard.Summon();
+                summonCard.Summon(transform);
                 break;
         }
         CardManager.instance.RemoveCard(this);

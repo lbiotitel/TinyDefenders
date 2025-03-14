@@ -29,6 +29,9 @@ public class Spawner : NetworkBehaviour
         }
     };
 
+    [SerializeField] private GameObject summonEffect;
+    [SerializeField] private float effectSpeed;
+
     [SerializeField] private int gridWidth;
     [SerializeField] private int gridHeight;
     [SerializeField] private float spawnTime;
@@ -413,4 +416,41 @@ public class Spawner : NetworkBehaviour
     }
 
     #endregion
+
+    public void SummonHero(HeroScriptable heroData, Transform cardTransform)
+    {
+        StartCoroutine(SummonCoroutine(heroData, cardTransform));
+    }
+
+    private IEnumerator SummonCoroutine(HeroScriptable heroData, Transform cardTransform)
+    {
+        Vector3 targetPos = Spawner.instance.GetHolderPosition(heroData);
+
+        Vector3 buttonWorldPosition = Camera.main.ScreenToWorldPoint(cardTransform.position);
+        GameObject effect = Instantiate(summonEffect);
+
+        effect.transform.position = buttonWorldPosition;
+
+        Vector3 startPoint = buttonWorldPosition;
+        Vector3 endPoint = targetPos;
+
+        Vector3 randomPoint = MathUtils.GenerateRandomPoint(startPoint, endPoint);
+
+        float elapsedTime = 0.0f;
+        while (elapsedTime < effectSpeed)
+        {
+            float t = elapsedTime / effectSpeed;
+
+            Vector3 curvePoint = MathUtils.GenerateBezierPoint(t, startPoint,
+                randomPoint, endPoint);
+
+            effect.transform.position = new Vector3(curvePoint.x, curvePoint.y, 0);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(effect);
+        Spawner.instance.Summon(heroData.rarity.ToString(), heroData);
+    }
 }

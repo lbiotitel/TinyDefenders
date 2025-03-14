@@ -286,8 +286,6 @@ public class GameManager : NetworkBehaviour
         {
             goldGoblinDelay = true;
             goldGoblinLevel++;
-            StartCoroutine(GoldGolbinDelayCoroutine());
-            
 
             NetUtils.HostAndClientMethod(() =>
             {
@@ -299,21 +297,6 @@ public class GameManager : NetworkBehaviour
                 Spawner.instance.StartMonsterSpawn("GoldGoblin", 0, 1);
             });
         }
-    }
-
-    private IEnumerator GoldGolbinDelayCoroutine()
-    {
-        float currentTime = 0f;
-
-        while (currentTime <= goldGoblinDelayTime)
-        {
-            currentTime += Time.deltaTime;
-
-            InGameUI.instance.summonGoldGoblinImage.fillAmount = currentTime / goldGoblinDelayTime;
-
-            yield return null;
-        }
-        goldGoblinDelay = false;
     }
 
 

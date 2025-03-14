@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SummonCard : CardSO
@@ -11,9 +12,8 @@ public class SummonCard : CardSO
         this.cardImage = heroData.heroMainImage;
     }
 
-    public void Summon()
+    public void Summon(Transform cardTransform)
     {
-        Spawner.instance.Summon(heroData.rarity.ToString(), heroData);
+        Spawner.instance.SummonHero(heroData,cardTransform);
     }
-
 }
