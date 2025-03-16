@@ -11,6 +11,7 @@ public class MainSceneUI : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            Utils.InitAllHeroScriptableObject();
         }
     }
 
@@ -34,7 +35,9 @@ public class MainSceneUI : MonoBehaviour
     [Header("Battle UI")]
     [SerializeField] private TextMeshProUGUI bestWaveText;
 
-    
+    [Header("Extra")]
+    [SerializeField] private Color activeButtonColor;
+
 
     private void Start()
     {
@@ -51,28 +54,32 @@ public class MainSceneUI : MonoBehaviour
     {
         battleButton.onClick.AddListener(() => { 
             HideAllMenu(); 
-            battleUI.SetActive(true); 
+            battleUI.SetActive(true);
+            battleButton.GetComponent<Image>().color = activeButtonColor;
         });
 
         heroButton.onClick.AddListener(() =>
         {
             HideAllMenu();
             heroCollectionUI.SetActive(true);
+            heroButton.GetComponent<Image>().color = activeButtonColor;
         });
 
         shopButton.onClick.AddListener(() => {
             HideAllMenu();
             shopUI.SetActive(true);
+            shopButton.GetComponent<Image>().color = activeButtonColor;
         });
 
         rankingButton.onClick.AddListener(() =>
         {
             HideAllMenu();
             rankingUI.SetActive(true);
+            rankingButton.GetComponent<Image>().color = activeButtonColor;
         });
 
         HideAllMenu();
-        battleUI.SetActive(true);
+        battleButton.onClick?.Invoke();
     }
 
     private void HideAllMenu()
@@ -81,6 +88,11 @@ public class MainSceneUI : MonoBehaviour
         heroCollectionUI.SetActive(false);
         shopUI.SetActive(false);
         rankingUI.SetActive(false);
+
+        battleButton.GetComponent<Image>().color = Color.white;
+        heroButton.GetComponent<Image>().color = Color.white;
+        shopButton.GetComponent<Image>().color = Color.white;
+        rankingButton.GetComponent<Image>().color = Color.white;
     }
 
     public void ShowNickNameUI()

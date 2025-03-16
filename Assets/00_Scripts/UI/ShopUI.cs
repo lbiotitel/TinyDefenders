@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Shop : MonoBehaviour
+public class ShopUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private TextMeshProUGUI crystalText;
@@ -55,10 +56,11 @@ public class Shop : MonoBehaviour
             return;
         }
 
-        StartCoroutine(SummonHeroCoroutine(value));
         currentCrystal -= price;
         CloudManager.instance.CrystalChangeValue(currentCrystal);
         summonHeroUI.SetActive(true);
+
+        StartCoroutine(SummonHeroCoroutine(value));
     }
 
 
@@ -66,20 +68,28 @@ public class Shop : MonoBehaviour
     {
         for (int i = 0; i < value; i++)
         {
-            yield return new WaitForSeconds(0.1f);
-
             Rarity rarity = Utils.GetShopSummonRarity();
             HeroScriptable heroScriptable = GetHeroData(rarity);
 
             if (heroScriptable != null)
             {
                 GameObject go = Instantiate(summonHeroNode, summonHeroTransform);
-
+                go.SetActive(false);
                 go.transform.Find("Hero Image").GetComponent<Image>().sprite = heroScriptable.heroMainImage;
                 go.transform.Find("Hero Circle").GetComponent<Image>().color = Utils.GetRarityColor(rarity);
 
                 summonHeroList.Add(go);
             }
+
+            CloudManager.instance.SetHeroCountValue(heroScriptable.heroName,10);
+        }
+
+        CloudManager.instance.SaveUserData();
+
+        for (int i = 0; i < summonHeroList.Count; i++)
+        {
+            yield return new WaitForSeconds(0.1f);
+            summonHeroList[i].SetActive(true);
         }
     }
 

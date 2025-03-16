@@ -6,17 +6,34 @@ using Unity.Services.CloudSave;
 using Unity.Services.Leaderboards;
 using Unity.Services.CloudSave.Models;
 using UnityEngine;
+using Unity.VisualScripting;
+
 
 
 [System.Serializable]
 public class UserData
 {
+    [System.Serializable]
+    public class HeroStoreData
+    {
+
+        public int heroLevel;
+        public int heroCount;
+
+        public HeroStoreData(int heroLevel, int heroCount)
+        {
+            this.heroLevel = heroLevel;
+            this.heroCount = heroCount;
+        }
+    }
+
     public string userName;
     public int userLevel;
     public int bestWave = 1;
     public int crystal;
     public int gold;
-    public int rakingPoint;
+    public int rankingPoint;
+    public Dictionary<string, HeroStoreData> heroDatas;
 
     public UserData(string userName, int userLevel, int bestWave, int crystal, int gold, int rakingPoint)
     {
@@ -25,7 +42,20 @@ public class UserData
         this.bestWave = bestWave;
         this.crystal = crystal;
         this.gold = gold;
-        this.rakingPoint = rakingPoint;
+        this.rankingPoint = rakingPoint;
+        this.heroDatas = new Dictionary<string, HeroStoreData>();
+
+        InitHeroDatas();
+    }
+
+    private void InitHeroDatas()
+    {
+        List<HeroScriptable> heroDataList = Utils.GetHeroScriptableAllDatas();
+
+        for (int i = 0; i < heroDataList.Count; i++)
+        {
+            heroDatas.Add(heroDataList[i].heroName, new HeroStoreData(0, 0));
+        }
     }
 }
 
@@ -64,6 +94,8 @@ public class CloudManager : MonoBehaviour
         IntervalSaveUserData();
     }
 
+    #region About User Asset Method
+
     public void CrystalChangeValue(int newValue)
     { 
         userData.crystal = newValue;
@@ -75,6 +107,9 @@ public class CloudManager : MonoBehaviour
         userData.gold = newValue;
         onGoldValueChange?.Invoke();
     }
+    #endregion
+
+    #region About User Basic Data Method
 
     private void IntervalSaveUserData()
     {
@@ -110,7 +145,7 @@ public class CloudManager : MonoBehaviour
             var data = new Dictionary<string, object> { { playerDataKey, jsonData } };
             await CloudSaveService.Instance.Data.Player.SaveAsync(data);
             Debug.Log(userData.userName + "플레이어 저장 완료");
-            await UpdateLeaderBoard(userData.rakingPoint);
+            await UpdateLeaderBoard(userData.rankingPoint);
         }
         catch (System.Exception e)
         {
@@ -148,7 +183,8 @@ public class CloudManager : MonoBehaviour
             else {
                 Debug.Log("저장된 플레이어가 존재하지 않음");
                 MainSceneUI.instance.ShowNickNameUI();
-                return this.userData = new UserData("",1,1,0,0,0);
+                this.userData = new UserData("", 1, 1, 0, 0, 0);
+                return this.userData;
             }
         }
         catch (System.Exception e)
@@ -158,6 +194,12 @@ public class CloudManager : MonoBehaviour
 
         return null;
     }
+    #endregion
 
-
+    #region About User HeroData Method
+    public void SetHeroCountValue(string heroName, int count)
+    {
+        userData.heroDatas[heroName].heroCount += count;
+    }
+    #endregion
 }
