@@ -68,7 +68,7 @@ public class ShopUI : MonoBehaviour
     {
         for (int i = 0; i < value; i++)
         {
-            Rarity rarity = Utils.GetShopSummonRarity();
+            HeroRarity rarity = Utils.GetShopSummonRarity();
             HeroScriptable heroScriptable = GetHeroData(rarity);
 
             if (heroScriptable != null)
@@ -94,8 +94,9 @@ public class ShopUI : MonoBehaviour
     }
 
 
-    private HeroScriptable GetHeroData(Rarity rarity)
+    private HeroScriptable GetHeroData(HeroRarity rarity)
     {
+        //나중에 스크립터블 매니저에서 가져오기
         HeroScriptable[] heroes = Resources.LoadAll<HeroScriptable>("HeroDatas/" + rarity.ToString());
         if (heroes.Length <= 0) return null;
 

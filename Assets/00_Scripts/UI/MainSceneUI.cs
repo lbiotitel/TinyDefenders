@@ -11,7 +11,6 @@ public class MainSceneUI : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            Utils.InitAllHeroScriptableObject();
         }
     }
 
@@ -23,12 +22,14 @@ public class MainSceneUI : MonoBehaviour
     [Header("Mene Button")]
     [SerializeField] private Button battleButton; 
     [SerializeField] private Button heroButton; 
+    [SerializeField] private Button spellCardButton; 
     [SerializeField] private Button rankingButton; 
     [SerializeField] private Button shopButton;
 
     [Header("Menu UI")]
     [SerializeField] private GameObject battleUI;
     [SerializeField] private GameObject heroCollectionUI;
+    [SerializeField] private GameObject cardCollectionUI;
     [SerializeField] private GameObject shopUI;
     [SerializeField] private GameObject rankingUI;
 
@@ -78,6 +79,13 @@ public class MainSceneUI : MonoBehaviour
             rankingButton.GetComponent<Image>().color = activeButtonColor;
         });
 
+        spellCardButton.onClick.AddListener(() =>
+        {
+            HideAllMenu();
+            cardCollectionUI.SetActive(true);
+            spellCardButton.GetComponent<Image>().color = activeButtonColor;
+        });
+
         HideAllMenu();
         battleButton.onClick?.Invoke();
     }
@@ -88,11 +96,13 @@ public class MainSceneUI : MonoBehaviour
         heroCollectionUI.SetActive(false);
         shopUI.SetActive(false);
         rankingUI.SetActive(false);
+        cardCollectionUI.SetActive(false);
 
         battleButton.GetComponent<Image>().color = Color.white;
         heroButton.GetComponent<Image>().color = Color.white;
         shopButton.GetComponent<Image>().color = Color.white;
         rankingButton.GetComponent<Image>().color = Color.white;
+        spellCardButton.GetComponent<Image>().color = Color.white;
     }
 
     public void ShowNickNameUI()

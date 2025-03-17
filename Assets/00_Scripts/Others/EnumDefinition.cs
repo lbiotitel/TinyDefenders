@@ -45,7 +45,14 @@ public enum ProjectileType {
     NORMAL,
     ROTATE,
 }
-public enum Rarity { 
+
+public enum CardRarity {
+    Normal,
+    Uncommon,
+    Rare
+}
+
+public enum HeroRarity { 
     Normal,
     Uncommon,
     Rare,

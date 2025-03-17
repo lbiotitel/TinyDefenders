@@ -6,7 +6,14 @@ public class CardSO : ScriptableObject
     public CardType cardType;
     public int cardCost;
     public string cardName;
-    public string cardDescription;
+    [TextArea]public string cardDescription;
     public Sprite cardImage;
+
+    protected virtual void OnEnable()
+    {
+        cardName = name;
+    }
+
+    protected virtual void Init() { }
 
 }

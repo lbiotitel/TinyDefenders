@@ -11,7 +11,7 @@ public class HeroCollectionUINode : MonoBehaviour
     [SerializeField] private Image heroCountSlider;
 
 
-    public void Init(string heroName, Sprite heroImage, Rarity rarity, int heroCount)
+    public void Init(string heroName, Sprite heroImage, HeroRarity rarity, int heroCount)
     {
         this.heroNameText.text = heroName;
         this.heroImage.sprite = heroImage;

@@ -40,19 +40,19 @@ public class NetUtils
         return false;
     }
 
-    public static string GetRarityColor(Rarity rarity)
+    public static string GetRarityColor(HeroRarity rarity)
     {
         switch (rarity)
         {
-            case Rarity.Normal:
+            case HeroRarity.Normal:
                 return "<color=#A4A4A4>";
-            case Rarity.Uncommon:
+            case HeroRarity.Uncommon:
                 return "<color=#79FF73>";
-            case Rarity.Rare:
+            case HeroRarity.Rare:
                 return "<color=#6EE5FF>";
-            case Rarity.Legend:
+            case HeroRarity.Legend:
                 return "<color=#FFBA13>";
-            case Rarity.God:
+            case HeroRarity.God:
                 return "<color=#92DC00>";
         }
 

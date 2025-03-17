@@ -75,7 +75,7 @@ public class HeroHolder : NetworkBehaviour
         if (alarmText)
         {
             InGameUI.instance.ShowAlarmText(string.Format("영웅을 판매하였습니다. {0}{1}",
-            NetUtils.GetRarityColor((Rarity)Enum.Parse(typeof(Rarity), heroData.rarity)),
+            NetUtils.GetRarityColor((HeroRarity)Enum.Parse(typeof(HeroRarity), heroData.rarity)),
             heroData.heroName));
         }
 
@@ -211,7 +211,7 @@ public class HeroHolder : NetworkBehaviour
     {
         if (ownHero == null)
         {
-            circleSpriteRenderer.color = circleColors[(int)Rarity.Normal];
+            circleSpriteRenderer.color = circleColors[(int)HeroRarity.Normal];
         return;
         }
         ownHero.transform.localPosition = Vector2.zero;

@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.CloudSave;
-using Unity.Services.Leaderboards;
 using Unity.Services.CloudSave.Models;
+using Unity.Services.Leaderboards;
 using UnityEngine;
-using Unity.VisualScripting;
 
 
 
@@ -50,7 +49,7 @@ public class UserData
 
     private void InitHeroDatas()
     {
-        List<HeroScriptable> heroDataList = Utils.GetHeroScriptableAllDatas();
+        List<HeroScriptable> heroDataList = SoDataManager.instance.GetAllHeroScriptableData();
 
         for (int i = 0; i < heroDataList.Count; i++)
         {
@@ -97,7 +96,7 @@ public class CloudManager : MonoBehaviour
     #region About User Asset Method
 
     public void CrystalChangeValue(int newValue)
-    { 
+    {
         userData.crystal = newValue;
         onCrystalValueChange?.Invoke();
     }
@@ -128,7 +127,7 @@ public class CloudManager : MonoBehaviour
     {
         isSave = true;
         await SaveUserData(userData);
-        action?.Invoke();   
+        action?.Invoke();
     }
 
 
@@ -157,12 +156,12 @@ public class CloudManager : MonoBehaviour
     {
         try
         {
-            await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderBoardKey,score);
+            await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderBoardKey, score);
             Debug.Log("리더 보드 업데이트 완료");
         }
         catch (Exception e)
         {
-            Debug.LogError("리더보드 저장 실패"  + e);
+            Debug.LogError("리더보드 저장 실패" + e);
         }
     }
 
@@ -180,7 +179,8 @@ public class CloudManager : MonoBehaviour
                 this.userData = userData;
                 return userData;
             }
-            else {
+            else
+            {
                 Debug.Log("저장된 플레이어가 존재하지 않음");
                 MainSceneUI.instance.ShowNickNameUI();
                 this.userData = new UserData("", 1, 1, 0, 0, 0);

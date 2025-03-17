@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Hero : Entity
@@ -11,7 +9,7 @@ public class Hero : Entity
     [SerializeField] private Transform leftHand;
     [SerializeField] private Transform rightHand;
     [SerializeField] private GameObject spawnParticle;
-    [SerializeField] private ParticleSystem rarityParticle;    
+    [SerializeField] private ParticleSystem rarityParticle;
 
     HeroScriptable heroData;
     private HeroHolder heroHolder;
@@ -38,7 +36,7 @@ public class Hero : Entity
     [field: SerializeField] public float attackSpeed;
     [field: SerializeField] public LayerMask monsterLayer { get; private set; }
     public string heroName { get; set; }
-    public Rarity heroRarity;
+    public HeroRarity heroRarity;
     public NetworkObject target { get; set; } = null;
 
 
@@ -52,7 +50,7 @@ public class Hero : Entity
         heroData = Resources.Load<HeroScriptable>("HeroDatas/" + rarity + "/" + data.heroName);
 
         heroName = heroData.heroName;
-        heroRarity = (Rarity)Enum.Parse(typeof(Rarity), rarity);
+        heroRarity = (HeroRarity)Enum.Parse(typeof(HeroRarity), rarity);
         baseAtk = heroData.atk;
         attackRange = heroData.atkRange;
         attackSpeed = heroData.atkSpeed;
@@ -88,14 +86,14 @@ public class Hero : Entity
     {
         switch (heroRarity)
         {
-            case Rarity.Normal:
-            case Rarity.Uncommon:
+            case HeroRarity.Normal:
+            case HeroRarity.Uncommon:
                 return 0;
 
-            case Rarity.Rare:
+            case HeroRarity.Rare:
                 return 1;
 
-            case Rarity.Legend:
+            case HeroRarity.Legend:
                 return 2;
         }
 
@@ -262,7 +260,7 @@ public class Hero : Entity
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void AttackMonsterServerRpc(ulong monsterId,bool isServer)
+    private void AttackMonsterServerRpc(ulong monsterId, bool isServer)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(monsterId, out NetworkObject networkObject))
         {
@@ -270,7 +268,7 @@ public class Hero : Entity
             Monster monster = networkObject.GetComponent<Monster>();
             if (monster != null)
             {
-                monster.GetDamage(atk,isServer);
+                monster.GetDamage(atk, isServer);
             }
         }
     }
@@ -278,7 +276,7 @@ public class Hero : Entity
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position,attackRange);
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
     public override void OnDestroy()

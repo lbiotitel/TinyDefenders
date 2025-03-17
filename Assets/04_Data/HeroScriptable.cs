@@ -55,7 +55,7 @@ public class HeroScriptable : ScriptableObject
     public int atk;
     public float atkSpeed;
     public float atkRange;
-    public Rarity rarity;
+    public HeroRarity rarity;
 
     [Header("Extra")]
     public Sprite heroMainImage;

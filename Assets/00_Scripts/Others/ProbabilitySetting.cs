@@ -6,7 +6,7 @@ public class ProbabilitySetting : ScriptableObject
     [System.Serializable]
     public class ProbabilityNode {
         public float probability;
-        public Rarity rarity;
+        public HeroRarity rarity;
     }
 
     public ProbabilityNode[] probabilityNode;
@@ -27,7 +27,7 @@ public class ProbabilitySetting : ScriptableObject
     }
 
 
-    public Rarity GetRarity()
+    public HeroRarity GetRarity()
     {
         float random = Random.Range(0, totalWeight);
 
@@ -43,6 +43,6 @@ public class ProbabilitySetting : ScriptableObject
             }
         }
 
-        return Rarity.Normal;
+        return HeroRarity.Normal;
     }
 }

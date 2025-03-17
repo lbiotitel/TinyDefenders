@@ -26,7 +26,7 @@ public class HeroCollectionUI : MonoBehaviour
         foreach (var data in ownHeroDatas)
         {
             HeroCollectionUINode node = Instantiate(heroCollectionUINode,contentParent);
-            HeroScriptable heroData = Utils.GetHeroScriptableData(data.Key);
+            HeroScriptable heroData = SoDataManager.instance.GetHeroScriptableData(data.Key);
             node.Init(data.Key,heroData.heroMainImage,heroData.rarity, data.Value.heroCount);
 
             heroCollectionUINodes.Add(node);
