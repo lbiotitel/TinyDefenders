@@ -67,6 +67,10 @@ public class InGameUI : NetworkBehaviour
     [Header("Card Arrow")]
     [SerializeField] private CardArrowGuide arrowGuide;
 
+    [Header("Card Range UI")]
+    [SerializeField] private GameObject cardRangeUI;
+
+
     private void Start()
     {
         InitEvent();
@@ -224,4 +228,20 @@ public class InGameUI : NetworkBehaviour
     {
         assetAnimator.SetTrigger("GOLDGET");
     }
+
+
+    #region About CardRange UI
+    public void ShowCardRangeUI(Vector3 targetPos ,float range)
+    {
+        cardRangeUI.transform.position = targetPos;
+        cardRangeUI.transform.localScale = Vector3.one * range;
+        cardRangeUI.gameObject.SetActive(true);
+    }
+
+    public void HideCardRangeUI() 
+    { 
+        cardRangeUI.gameObject.SetActive(false);
+    }
+
+    #endregion
 }

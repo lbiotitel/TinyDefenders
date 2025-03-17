@@ -43,15 +43,19 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
         cardImage.preserveAspect = true;
     }
 
+
+    #region Card Drag Method
     public void OnDrag(PointerEventData eventData)
     {
         if (!isInit) return;
         transform.position = Input.mousePosition;
         if (IsInDropZone())
         {
+            transform.localScale = Vector3.one * 0.5f;
             InGameUI.instance.ShowArrowGuide(GetComponent<RectTransform>());
         }
         else {
+            transform.localScale = Vector3.one;
             InGameUI.instance.HideArrowGuide();
         }
     }
@@ -72,12 +76,29 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
             UseCard();
             CardManager.instance.RemoveCard(this);
         }
+
         InGameUI.instance.HideArrowGuide();
         CardManager.instance.SortCard();
     }
 
+    public void OnBeginDrag(PointerEventData evenData)
+    {
+        if (!isInit) return;
+        isDrag = true;
+        dragOriginalPosition = transform.position;
+        dragOriginalQuaternion = transform.rotation;
+        parentTransform = transform.parent;
+        transform.rotation = Quaternion.identity;
+        transform.SetParent(dragParent);
+    }
+
+
+    #endregion
+
+
     private bool IsInDropZone()
-    { 
+    {
+        ShowRange();
         PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
         pointerEventData.position = Input.mousePosition;
 
@@ -95,6 +116,13 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
         return false;
     }
 
+    private void ShowRange()
+    {
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        worldPos.z = 0f;
+        InGameUI.instance.ShowCardRangeUI(worldPos, 2f);
+    }
+
     private void UseCard()
     {
         switch (cardSO.cardType)
@@ -103,20 +131,17 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
                 SummonCard summonCard = cardSO as SummonCard;
                 summonCard.Summon(transform);
                 break;
+
+            case CardType.ATTACK:
+                ActiveCardSO activeCardSO = cardSO as ActiveCardSO;
+                Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                worldPos.z = 0f;
+                activeCardSO.UseCard(worldPos);
+                break;
         }
         CardManager.instance.RemoveCard(this);
     }
 
-    public void OnBeginDrag(PointerEventData evenData)
-    {
-        if (!isInit) return;
-        isDrag = true;
-        dragOriginalPosition = transform.position;
-        dragOriginalQuaternion = transform.rotation;
-        parentTransform = transform.parent;
-        transform.rotation = Quaternion.identity;
-        transform.SetParent(dragParent);
-    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {

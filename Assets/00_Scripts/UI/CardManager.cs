@@ -1,6 +1,6 @@
 using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -21,7 +21,8 @@ public class CardManager : MonoBehaviour
         {
             instance = this;
         }
-        else {
+        else
+        {
             Destroy(gameObject);
         }
     }
@@ -31,32 +32,61 @@ public class CardManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            DrawFiveCard();
+            RerollCard();
         }
     }
 #endif
 
-    public void DrawFiveCard()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            DrawCard();
-        }
-        SortCard();
-    } 
 
-    public CardNode DrawCard()
+
+    public void RerollCard()
     {
-        SummonCard cardSO = GetSummonCard();
+        for (int i = 0; i < 2; i++)
+        {
+            DrawCard(CardType.SUMMON);
+        }
+
+        for (int i = 0; i < 2; i++)
+        {
+            DrawCard(CardType.ATTACK);
+        }
+
+        SortCard();
+    }
+
+
+    private void DrawCard(CardType cardType)
+    {
+        switch (cardType)
+        {
+            case CardType.SUMMON:
+                InstantiateCard(GetSummonCardSO());
+                break;
+            case CardType.ATTACK:
+                InstantiateCard(GetRandomCardSO());
+                break;
+        }
+    }
+
+    private void InstantiateCard(CardSO cardSO)
+    {
         CardNode cardNode = Instantiate(cardPrefab);
         cardNode.InitCardNode(cardSO);
         cardNode.transform.SetParent(myCardPos);
         myCards.Add(cardNode);
-        return cardNode;
     }
 
+    private CardSO GetRandomCardSO()
+    {
+        CardRarity randomRarity = (CardRarity)Random.Range(0,(int)CardRarity.Rare);
+        List<CardSO> cardList = SoDataManager.instance.GetAllSpellCardScirptableObject(CardRarity.Normal);
 
-    public SummonCard GetSummonCard()
+        int randomCard = Random.Range(0, cardList.Count);
+
+        return cardList[randomCard];
+    }
+
+    private SummonCard GetSummonCardSO()
     {
         HeroScriptable heroData = Spawner.instance.LoadData(Utils.GetIngameSummonRarity().ToString());
         SummonCard cardSO = ScriptableObject.CreateInstance<SummonCard>();
@@ -66,15 +96,24 @@ public class CardManager : MonoBehaviour
     }
 
     public void RemoveCard(CardNode card)
-    { 
-         myCards.Remove(card);
+    {
+        myCards.Remove(card);
         Destroy(card.gameObject);
     }
 
     public void SortCard()
     {
-        if (myCards.Count == 0) return;
+        if (myCards.Count == 0)
+        {
+            myCards.Clear();
+            RerollCard();
+        }
 
+        StartCoroutine(SortCardCoroutine());
+    }
+
+    private IEnumerator SortCardCoroutine()
+    {
         for (int i = 0; i < myCards.Count; i++)
         {
             if (myCards[i].IsDrag()) continue;
@@ -92,12 +131,12 @@ public class CardManager : MonoBehaviour
 
             RectTransform cardTransform = myCards[i].GetComponent<RectTransform>();
             cardTransform.DOAnchorPos(new Vector2(x, y - curve), 0.2f);
-            cardTransform.DORotate(new Vector3(0, 0, rot),0.2f);
+            cardTransform.DORotate(new Vector3(0, 0, rot), 0.2f);
 
             myCards[i].transform.SetSiblingIndex(i);
+
+            yield return new WaitForSeconds(0.2f);
         }
     }
-
-
 
 }

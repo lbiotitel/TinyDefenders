@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CardAbilityBase : MonoBehaviour
 {
-    CardSO cardSO;
+    protected CardSO cardSO;
 
     protected void OnValidate()
     {
@@ -14,7 +14,7 @@ public class CardAbilityBase : MonoBehaviour
         this.cardSO = cardSO;
     }
 
-    public virtual void ActiveAbility()
+    public virtual void ActiveAbility(Vector2 targetPos)
     { 
         
     }

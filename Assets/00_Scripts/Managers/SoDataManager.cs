@@ -93,6 +93,21 @@ public class SoDataManager : MonoBehaviour
         return null;
     }
 
+    public List<CardSO> GetAllSpellCardScirptableObject(CardRarity rarity)
+    {
+        List<CardSO> rarityCardSO = new List<CardSO>();
+
+        foreach (var data in spellCardScriptableDatas)
+        {
+            if (data.Value.cardRarity == rarity)
+            {
+                rarityCardSO.Add(data.Value);
+            }
+        }
+
+        return rarityCardSO;
+    }
+
     public List<CardSO> GetAllCardScriptableData()
     {
         List<CardSO> cardDatas = new List<CardSO>();
