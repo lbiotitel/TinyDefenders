@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class CardAbilityBase : MonoBehaviour
@@ -14,7 +15,7 @@ public class CardAbilityBase : MonoBehaviour
         this.cardSO = cardSO;
     }
 
-    public virtual void ActiveAbility(Vector2 targetPos)
+    public virtual void ActiveAbility()
     { 
         
     }

@@ -25,13 +25,9 @@ public class InGameUI : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI monsterNameText;
 
-    [SerializeField] private TextMeshProUGUI heroCountText;
-
     [SerializeField] private Transform alarmBar;
     [SerializeField] private TextMeshProUGUI alarmTextPrefab;
     private List<TextMeshProUGUI> alarmTextList = new List<TextMeshProUGUI>();
-
-    [SerializeField] private Animator assetAnimator;
 
     [Header("Game Start UI")]
     [SerializeField] private Animator profileAnimator;
@@ -92,7 +88,6 @@ public class InGameUI : NetworkBehaviour
 
     private void InitEvent()
     {
-        GameManager.instance.onGoldGet += GoldAnimation;
         GameManager.instance.onTimerUp += DrawWaveAndTime;
         GameManager.instance.onGameOver += ShowGameOverUI;
     }
@@ -200,7 +195,6 @@ public class InGameUI : NetworkBehaviour
             GameManager.instance.currentMonsterCount.ToString() + "/" + GameManager.instance.maxMonsterCount.ToString();
         monsterCountSliderImage.fillAmount = GameManager.instance.currentMonsterCount / 100f;
         currentGoldText.text = GameManager.instance.gold.ToString();
-        heroCountText.text = string.Format("{0:D2}/{1:D2}", GameManager.instance.currentHeroCount, GameManager.instance.maxHeroCount);
 
         for (int i = 0; i < upgradeLevelText.Length; i++)
         {
@@ -222,11 +216,6 @@ public class InGameUI : NetworkBehaviour
         int seconds = Mathf.FloorToInt(GameManager.instance.timer % 60);
 
         return string.Format("{0:D2}:{1:D2}",minutes,seconds);
-    }
-
-    private void GoldAnimation()
-    {
-        assetAnimator.SetTrigger("GOLDGET");
     }
 
 

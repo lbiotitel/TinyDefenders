@@ -24,7 +24,10 @@ public class LaserProjectile : BaseProjectile
         destroyParticle = PoolingManager.instance.GetObject("MonsterHitParticle", transform.position);
 
         if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
-            referenceHero.AttackMonster(target.GetComponent<Monster>());
+        {
+            NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), referenceHero.atk, target.GetComponent<Monster>(),
+                referenceHero.GetHeroData().debuffEffects);
+        }
 
         Destroy(this.gameObject);
     }

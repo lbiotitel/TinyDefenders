@@ -227,53 +227,6 @@ public class Hero : Entity
         }
     }
 
-    public void AttackMonster(Monster monster = null)
-    {
-        if (monster != null)
-        {
-            AttackMonsterServerRpc(monster.NetworkObjectId, isServerHero);
-            DebuffEffect(isServerHero);
-        }
-    }
-
-    private void DebuffEffect(bool isServer)
-    {
-        for (int i = 0; i < heroData.debuffEffects.Count; i++)
-        {
-            DebuffEffect debuffEffect = heroData.debuffEffects[i];
-            DebuffType debuffType = debuffEffect.debuffType;
-            float chance = debuffEffect.values[0];
-
-            List<float> values = new List<float>(debuffEffect.values);
-            values.RemoveAt(0);
-
-            float[] sendValues = values.ToArray();
-
-            if (UnityEngine.Random.value <= chance)
-            {
-                if (target == null) return;
-                target.GetComponent<Monster>().DebuffServerRpc(
-                    (int)debuffType, sendValues, isServer
-                    );
-            }
-        }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void AttackMonsterServerRpc(ulong monsterId, bool isServer)
-    {
-        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(monsterId, out NetworkObject networkObject))
-        {
-            if (networkObject == null) return;
-            Monster monster = networkObject.GetComponent<Monster>();
-            if (monster != null)
-            {
-                monster.GetDamage(atk, isServer);
-            }
-        }
-    }
-
-
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, attackRange);

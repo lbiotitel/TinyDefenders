@@ -27,7 +27,8 @@ public class WideAreaProjectile : BaseProjectile
 
         foreach (var monster in monsters)
         {
-            referenceHero.AttackMonster(monster);
+            NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), referenceHero.atk, monster,
+              referenceHero.GetHeroData().debuffEffects);
         }
     }
 
@@ -37,10 +38,10 @@ public class WideAreaProjectile : BaseProjectile
     {
         Instantiate(destroyParticle, transform.position, Quaternion.identity);
 
-        if (NetUtils.IsServer() && target != null)
+        if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
         {
-            referenceHero.AttackMonster(target.GetComponent<Monster>());
-            RangeDamage();
+            NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), referenceHero.atk, target.GetComponent<Monster>(),
+                referenceHero.GetHeroData().debuffEffects);
         }
 
         Destroy(this.gameObject);

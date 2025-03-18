@@ -87,7 +87,13 @@ public class BaseProjectile : MonoBehaviour
             destroyParticle = PoolingManager.instance.GetObject("MonsterHitParticle", transform.position);
 
             if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
-                referenceHero.AttackMonster(target.GetComponent<Monster>());
+            {
+                NetworkRpcManager.instance.AttackMonster(
+                    NetUtils.IsServerHolder(referenceHero), 
+                    referenceHero.atk, 
+                    target.GetComponent<Monster>(),
+                    referenceHero.GetHeroData().debuffEffects);
+            }
 
             Destroy(this.gameObject, lifeTime);
         }

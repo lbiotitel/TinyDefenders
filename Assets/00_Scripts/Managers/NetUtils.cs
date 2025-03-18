@@ -1,6 +1,5 @@
 using System;
 using Unity.Netcode;
-using UnityEngine;
 
 public class NetUtils
 {
@@ -38,6 +37,11 @@ public class NetUtils
         if (heroHolderId == targetHeroId) return true;
 
         return false;
+    }
+
+    public static bool IsServerHolder(Hero hero)
+    {
+        return hero.GetHeroHolder().holderId.Contains("HOST") ? true : false;
     }
 
     public static string GetRarityColor(HeroRarity rarity)
