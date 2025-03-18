@@ -9,11 +9,11 @@ public class SpellCardBaseProjectile : MonoBehaviour
     [SerializeField][Range(0.2f, 10f)] protected float lifeTime = 0.2f;
 
     protected GameObject destroyParticle;
-    protected ActiveCardSO referenceCard;
+    protected AttackCardSO referenceCard;
     protected Transform target;
     protected bool isAttack = false;
 
-    public virtual void Init(Transform target, ActiveCardSO referenceCard)
+    public virtual void Init(Transform target, AttackCardSO referenceCard)
     {
         this.referenceCard = referenceCard;
         this.target = target;
@@ -80,7 +80,14 @@ public class SpellCardBaseProjectile : MonoBehaviour
     //상속 받아 구현
     protected virtual void HitMonster() { }
 
-
+    protected void AttackMonster(GameObject monster,double damage)
+    {
+        if (NetUtils.IsServer() && monster != null && !monster.GetComponent<Monster>().IsDead())
+        {
+            NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), damage, monster.GetComponent<Monster>(),
+                referenceCard.debuffEffects);
+        }
+    } 
 
     protected virtual void OnDestroy()
     {

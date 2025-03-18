@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd2a65136a26624da4fb5e4c4cfd051, type: 3}
+  m_Name: ThunderExplosion
+  m_EditorClassIdentifier: 
+  cardType: 1
+  cardRarity: 0
+  cardCost: 0
+  cardName: ThunderExplosion
+  cardDescription: 
+  cardImage: {fileID: 290922002, guid: 3dcd592e1a3a86049b7dc8dae1ee6b70, type: 3}
+  atkRange: 1
+  damage: 30
+  value: 0
+  activePrefab: {fileID: 7697508310552310812, guid: e52c96e4149eaed4695fd793c29640b0, type: 3}
+  debuffEffects:
+  - debuffType: 1
+    values:
+    - 100
+    - 3

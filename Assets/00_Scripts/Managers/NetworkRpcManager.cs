@@ -76,7 +76,7 @@ public class NetworkRpcManager : NetworkBehaviour
     [ClientRpc]
     private void SpawnCardAblilityClientRpc(Vector3 targetPos, string cardName)
     {
-        ActiveCardSO cardSO = SoDataManager.instance.GetSpellCardScirptableObject(cardName) as ActiveCardSO;
+        AttackCardSO cardSO = SoDataManager.instance.GetSpellCardScirptableObject(cardName) as AttackCardSO;
         CardAbilityBase cardAbilityBase = Instantiate(cardSO.activePrefab, targetPos, Quaternion.identity);
         cardAbilityBase.InitCardAbility(cardSO);
         cardAbilityBase.ActiveAbility();

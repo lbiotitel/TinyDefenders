@@ -9,6 +9,6 @@ public class TornadoAbility : CardAbilityBase
     public override void ActiveAbility()
     {
         SpellCardBaseProjectile projectile = Instantiate(tornadoPrefab, transform.position, Quaternion.identity);
-        projectile.Init(transform, cardSO as ActiveCardSO);
+        projectile.Init(transform, cardSO as AttackCardSO);
     }
 }

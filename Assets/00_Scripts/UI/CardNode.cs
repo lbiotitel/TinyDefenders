@@ -133,7 +133,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
                 break;
 
             case CardType.ATTACK:
-                ActiveCardSO activeCardSO = cardSO as ActiveCardSO;
+                AttackCardSO activeCardSO = cardSO as AttackCardSO;
                 Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 worldPos.z = 0f;
                 activeCardSO.UseCard(worldPos);

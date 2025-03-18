@@ -15,10 +15,7 @@ public class SpellCardRangeProjectile : SpellCardBaseProjectile
 
             foreach (var collider in colliders)
             {
-                if (NetUtils.IsServer() && collider != null && !collider.GetComponent<Monster>().IsDead())
-                {
-                    NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), referenceCard.damage, collider.GetComponent<Monster>());
-                }
+                AttackMonster(collider.gameObject,referenceCard.damage);
             }
 
             Destroy(this.gameObject, lifeTime);

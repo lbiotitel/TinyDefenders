@@ -26,14 +26,10 @@ public class SpellCardPersistenceProjectile : SpellCardBaseProjectile
 
             foreach (var collider in colliders)
             {
-                if (NetUtils.IsServer() && collider != null && !collider.GetComponent<Monster>().IsDead())
-                {
-                    NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), referenceCard.damage, collider.GetComponent<Monster>());
-                }
-
-
-                yield return new WaitForSeconds(tickTime);
+                AttackMonster(collider.gameObject,tickDamage);
             }
+
+            yield return new WaitForSeconds(tickTime);
         }
 
         Destroy(gameObject);
