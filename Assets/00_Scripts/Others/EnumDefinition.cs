@@ -10,18 +10,23 @@ public enum CardType{
 public struct LayerName {
     public static string Monster = "Monster";
     public static string Hero = "Hero";
+    public static string Defulat = "Default";
 }
 
 public enum DebuffType { 
     SLOW,
     STUN,
-    BLEED
+    BLEED,
+    POISION,
+    FREEZE,
+    CHEEL,
 }
 
 public enum AlarmType { 
     NORMAL,
     GOOD,
-    BAD
+    BAD,
+    WARNING
 }
 
 public enum MonsterType { 

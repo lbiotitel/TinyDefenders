@@ -37,12 +37,17 @@ public class GameManager : NetworkBehaviour
     public int currentWave = 0;
     public float timer = 100000;
     public int currentMonsterCount = 0;
+    
     public int currentHeroCount = 0;
     public int[] upgarde = new int[4];
     public int goldGoblinLevel = 1;
     public int goldGoblinRewardGold = 100;
     public float goldGoblinDelayTime = 0f;
     private bool goldGoblinDelay = false;
+
+    public int warningMonsterCount;
+    public float warningAlarmDelayTime = 30f;
+    private bool warningAlarmDelay = false;
 
     private bool isGameStart = false;
 
@@ -136,14 +141,18 @@ public class GameManager : NetworkBehaviour
     }
 
 
+    #region Monster Count Method
+
+    private void UpdateClientMonsterCount()
+    {
+        NotifyClientMonsterCountClientRpc(currentMonsterCount);
+    }
+
     public void AddMonster(Monster monster)
     {
         monsterList.Add(monster);
         currentMonsterCount++;
-        if (currentMonsterCount >= maxMonsterCount)
-        {
-            GameOver();
-        }
+        CheckMonsterCount();
         UpdateClientMonsterCount();
     }
     public void RemoveMonster(Monster monster)
@@ -152,6 +161,43 @@ public class GameManager : NetworkBehaviour
         currentMonsterCount--;
         UpdateClientMonsterCount();
     }
+
+    private void CheckMonsterCount()
+    {
+        if (NetUtils.IsServer())
+        {
+            if (warningMonsterCount <= currentMonsterCount) ShowWarningAlarm();
+            if (currentMonsterCount >= maxMonsterCount) GameOver();
+        }
+    }
+
+    private void ShowWarningAlarm()
+    {
+        if (!warningAlarmDelay)
+        {
+            warningAlarmDelay = true;
+
+            NetUtils.HostAndClientMethod(() =>
+            {
+                InGameUI.instance.ShowAlarmServerRpc("몬수터 수 위험!", 2f, AlarmType.WARNING.ToString());
+            }, () =>
+            {
+                InGameUI.instance.ShowAlarmClientRpc("몬수터 수 위험!", 2f, AlarmType.WARNING.ToString());
+            });
+
+            StartCoroutine(WarningAlramCoroutine());
+        }
+    }
+
+    private IEnumerator WarningAlramCoroutine()
+    {
+        yield return new WaitForSeconds(warningAlarmDelayTime);
+        warningAlarmDelay = false;
+    }
+
+    #endregion
+
+
     public void GetGold(int gold,HostType hostType = HostType.ALL)
     {
         if (hostType == HostType.ALL)
@@ -164,10 +210,7 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    private void UpdateClientMonsterCount()
-    {
-        NotifyClientMonsterCountClientRpc(currentMonsterCount);
-    }
+
 
     public void BossMonsterDead()
     {

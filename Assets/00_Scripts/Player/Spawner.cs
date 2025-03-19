@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Spawner : NetworkBehaviour
 {
@@ -105,22 +106,23 @@ public class Spawner : NetworkBehaviour
 
         if (IsServer)
         {
-            StartCoroutine(WaitForClient());
-            for (int i = 0; i < gridHeight; i++)
-            {
-                for (int j = 0; j < gridWidth; j++)
-                {
-                    StartCoroutine(DelaySetHeroHolder(id, value));
-                }
-            }
+            StartCoroutine(WaitForClient(id,value));
         }
 
         heroHolderValue[value] = 0;
     }
 
-    private IEnumerator WaitForClient()
+    private IEnumerator WaitForClient(string id,int value)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.3f);
+
+        for (int i = 0; i < gridHeight; i++)
+        {
+            for (int j = 0; j < gridWidth; j++)
+            {
+                StartCoroutine(DelaySetHeroHolder(id, value));
+            }
+        }
     }
 
     //히어로를 가지고있을 히어로 홀더들을 서버에서 생성
@@ -133,7 +135,7 @@ public class Spawner : NetworkBehaviour
         string heroHolderId = id + heroHolderValue[value].ToString();
         heroHolderValue[value]++;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
 
         SetHeroHolderPositionClientRpc(networkObject.NetworkObjectId, heroHolderId);
     }
@@ -279,13 +281,14 @@ public class Spawner : NetworkBehaviour
 
     private void MonsterSpawn(bool isServer, string monsterName)
     {
-        Monster go = Instantiate(monsterPrefab, monsterSpawnPos.position, Quaternion.identity);
-        NetworkObject networkObject = go.gameObject.GetComponent<NetworkObject>();
-        go.GetComponent<NetworkObject>().Spawn();
+        if (NetUtils.IsServer())
+        {
+            NetworkObject monster = NetworkPoolingManager.instance.GetObject(monsterSpawnPos.position, Quaternion.identity);
 
-        GameManager.instance.AddMonster(go);
+            GameManager.instance.AddMonster(monster.GetComponent<Monster>());
 
-        MonsterSpawnClientRpc(networkObject.NetworkObjectId, isServer, monsterName);
+            MonsterSpawnClientRpc(monster.NetworkObjectId, isServer, monsterName);
+        }
     }
 
     [ClientRpc]

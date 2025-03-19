@@ -28,7 +28,7 @@ public class RankingUI : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        CloudManager.instance.GetLeaderBoard();
     }
 
     private void ShowRankImage(int score)

@@ -152,19 +152,6 @@ public class CloudManager : MonoBehaviour
         }
     }
 
-    private async Task UpdateLeaderBoard(int score)
-    {
-        try
-        {
-            await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderBoardKey, score);
-            Debug.Log("리더 보드 업데이트 완료");
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("리더보드 저장 실패" + e);
-        }
-    }
-
     public async Task<UserData> LoadUserData()
     {
         try
@@ -194,6 +181,38 @@ public class CloudManager : MonoBehaviour
 
         return null;
     }
+
+    [Serializable]
+    public class LeaderBoard { 
+        public string playerName;
+    }
+
+    private async Task UpdateLeaderBoard(int score)
+    {
+        try
+        {
+            await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderBoardKey, score);
+            Debug.Log("리더 보드 업데이트 완료");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("리더보드 저장 실패" + e);
+        }
+    }
+
+    public async void GetLeaderBoard()
+    {
+        var leaderBoard = await LeaderboardsService.Instance.GetScoresAsync(leaderBoardKey);
+
+        for (int i = 0; i < leaderBoard.Total; i++)
+        {
+            Debug.Log(leaderBoard.Results[i].PlayerId);
+            Debug.Log(leaderBoard.Results[i].PlayerName);
+            Debug.Log(leaderBoard.Results[i].Score);
+            Debug.Log(leaderBoard.Results[i].Rank);
+        }
+    }
+
     #endregion
 
     #region About User HeroData Method

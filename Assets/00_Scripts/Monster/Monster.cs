@@ -6,18 +6,23 @@ using UnityEngine.UI;
 
 public partial class Monster : Entity
 {
-    [SerializeField] private float speed = 0f;
-    [SerializeField] private double maxHp = 0;
-    private double hp = 0;
+    [Header("Monster Basic Property")]
     [SerializeField] private DamageText damageText;
     [SerializeField] private Image hpImage;
     [SerializeField] private Image hpImageEffect;
     [SerializeField] private float hpAnimeSpeed = 2f;
 
+    private float speed = 0f;
+    private double maxHp = 0;
+    private double hp = 0;
+
+
     int currentMoveTarget = 1;
     List<Transform> targetLists;
     private bool isDead = false;
     private MonsterType monsterType = MonsterType.NORMAL;
+
+    private NetworkVariable<Vector3> monsterPosition = new NetworkVariable<Vector3>();
 
     public override void Awake()
     {
@@ -26,10 +31,27 @@ public partial class Monster : Entity
 
     public void InitData(MonsterScriptable data)
     {
+        ResetObject();
         hp = maxHp = data.monsterHp;
         speed = originalSpeed = data.monsterSpeed;
         animator.runtimeAnimatorController = data.animatorController;
         monsterType = data.monsterType;
+    }
+
+    private void ResetObject()
+    {
+        if (!gameObject.activeSelf) gameObject.SetActive(true);
+        isDead = false;
+        gameObject.layer = LayerMask.NameToLayer(LayerName.Monster);
+
+        Color originColor = spriteRenderer.color;
+        originColor.a = 1f;
+        spriteRenderer.color = originColor;
+
+        animator.Rebind();
+        spriteRenderer.flipX = true;
+        currentMoveTarget = 1;
+        hpImage.fillAmount = 1f;
     }
 
     public void SetMoveTarget(List<Transform> targetLists)
@@ -78,10 +100,10 @@ public partial class Monster : Entity
         if (hp <= 0)
         {
             isDead = true;
-            gameObject.layer = LayerMask.NameToLayer("Default");
+            gameObject.layer = LayerMask.NameToLayer(LayerName.Defulat);
             StartCoroutine(DeadCoroutine());
             AnimatorChange("DEAD", true);
-           
+            targetLists = null;
         }
     }
 
@@ -103,7 +125,20 @@ public partial class Monster : Entity
         if (isDead) return;
         HpSlideAnimation();
         if (isStun) return;
-        MoveLogic();
+        SyncMonsterPosition();
+    }
+
+    private void SyncMonsterPosition()
+    {
+        if (NetUtils.IsServer())
+        {
+            MoveLogic();
+            monsterPosition.Value = transform.position;
+        }
+        else
+        {
+            transform.position = monsterPosition.Value;
+        }
     }
 
     private void HpSlideAnimation()
@@ -113,6 +148,7 @@ public partial class Monster : Entity
 
     IEnumerator DeadCoroutine()
     {
+        StopAllDebuff();
         GameObject deadParticle = PoolingManager.instance.GetObject("MonsterDeadParticle", transform.position);
         float alpha = 1.0f;
 
@@ -130,13 +166,8 @@ public partial class Monster : Entity
         {
             if (monsterType == MonsterType.BOSS)
                 GameManager.instance.BossMonsterDead();
-            this.gameObject.SetActive(false);
             GetComponent<NetworkObject>().Despawn();
             GameManager.instance.RemoveMonster(this);
-        }
-        else
-        {
-            this.gameObject.SetActive(false);
         }
     }
 

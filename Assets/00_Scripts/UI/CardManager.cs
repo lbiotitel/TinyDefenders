@@ -13,6 +13,9 @@ public class CardManager : MonoBehaviour
     [SerializeField] private Transform myCardPos;
     [SerializeField] private float curve;
     [SerializeField] private float cardSpacing;
+
+    [SerializeField] private int rerollHeroCount;
+    [SerializeField] private int rerollSpellCardCount;
     private List<CardNode> myCards = new List<CardNode>();
 
     private void Awake()
@@ -41,12 +44,12 @@ public class CardManager : MonoBehaviour
 
     public void RerollCard()
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < rerollHeroCount; i++)
         {
             DrawCard(CardType.SUMMON);
         }
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < rerollSpellCardCount; i++)
         {
             DrawCard(CardType.ATTACK);
         }

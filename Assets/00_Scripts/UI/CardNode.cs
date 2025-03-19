@@ -52,11 +52,9 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
         if (IsInDropZone())
         {
             transform.localScale = Vector3.one * 0.5f;
-            InGameUI.instance.ShowArrowGuide(GetComponent<RectTransform>());
         }
         else {
             transform.localScale = Vector3.one;
-            InGameUI.instance.HideArrowGuide();
         }
     }
 
@@ -77,7 +75,6 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
             CardManager.instance.RemoveCard(this);
         }
 
-        InGameUI.instance.HideArrowGuide();
         CardManager.instance.SortCard();
     }
 

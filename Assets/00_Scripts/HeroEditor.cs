@@ -85,6 +85,18 @@ public class HeroEditor : Editor
                     DrawParameterField("Bleed Percent", rect, parameterProp, 2);
 
                     break;
+
+                case DebuffType.POISION:
+                    parameterProp.arraySize = 3;
+                    DrawParameterField("Chance", rect, parameterProp, 0);
+                    rect.y += EditorGUIUtility.singleLineHeight + 4;
+
+                    DrawParameterField("Poision Duration", rect, parameterProp, 1);
+                    rect.y += EditorGUIUtility.singleLineHeight + 4;
+
+                    DrawParameterField("Poision Tick Damage", rect, parameterProp, 2);
+
+                    break;
             }
         };
 
