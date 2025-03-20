@@ -140,6 +140,8 @@ public class CardManager : MonoBehaviour
 
     private IEnumerator SortCardCoroutine()
     {
+        SetCardInteract(false);
+
         for (int i = 0; i < myCardList.Count; i++)
         {
             if (myCardList[i].IsDrag()) continue;
@@ -157,6 +159,16 @@ public class CardManager : MonoBehaviour
             myCardList[i].transform.SetSiblingIndex(i);
 
             yield return new WaitForSeconds(0.2f);
+        }
+
+        SetCardInteract(true);
+    }
+
+    private void SetCardInteract(bool interact)
+    {
+        foreach (var card in myCardList)
+        {
+            card.readyInteract = interact;
         }
     }
 

@@ -13,6 +13,11 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     [SerializeField] private TextMeshProUGUI cardNameText;
     [SerializeField] private Image cardImage;
 
+    [SerializeField] private GameObject heroInfoBackground;
+    [SerializeField] private TextMeshProUGUI heroAtkText;
+    [SerializeField] private TextMeshProUGUI heroAtkSpeedText;
+    [SerializeField] private TextMeshProUGUI heroAtkRangeText;
+
     private Vector2 enlargementOriginalPosition;
 
     private Vector2 dragOriginalPosition;
@@ -24,6 +29,8 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     private bool isDrag = false;
 
     private CardSO cardSO;
+
+    public bool readyInteract { get; set; } = false;
 
     private void Start()
     {
@@ -38,6 +45,24 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
         cardNameText.text = cardSO.cardName;
 
         cardImage.preserveAspect = true;
+
+        if (cardSO.cardType == CardType.SUMMON)
+        {
+            heroInfoBackground.SetActive(true);
+            InitSummonCard();
+        }
+        else {
+            heroInfoBackground.SetActive(false);
+        }
+    }
+
+    private void InitSummonCard()
+    { 
+        SummonCard summonCard = cardSO as SummonCard;
+        HeroScriptable heroData = summonCard.GetHeroData();
+        heroAtkText.text = heroData.atk.ToString();
+        heroAtkSpeedText.text = heroData.atkSpeed.ToString();
+        heroAtkRangeText.text = heroData.atkRange.ToString();
     }
 
     private void Update()
@@ -91,6 +116,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     public void OnBeginDrag(PointerEventData evenData)
     {
+        if (!readyInteract) return;
         isDrag = true;
         dragOriginalPosition = transform.position;
         dragOriginalQuaternion = transform.rotation;
@@ -165,6 +191,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     #region Mouse in Card
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!readyInteract) return;
         if (isDrag) return;
         if (!isEnlargement)
         {

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class DrawCardAbility : CardAbilityBase
 {
 
@@ -11,6 +9,8 @@ public class DrawCardAbility : CardAbilityBase
         for (int i = 0; i < utilityCardSO.values[0]; i++)
         {
             CardManager.instance.DrawCard();
-                }
+        }
+
+        Destroy(gameObject);
     }
 }

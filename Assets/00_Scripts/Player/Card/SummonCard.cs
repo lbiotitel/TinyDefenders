@@ -16,4 +16,9 @@ public class SummonCard : CardSO
     {
         Spawner.instance.SummonHero(heroData,cardTransform);
     }
+
+    public HeroScriptable GetHeroData() 
+    {
+        return heroData;
+    }
 }
