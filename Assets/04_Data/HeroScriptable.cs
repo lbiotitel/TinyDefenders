@@ -59,8 +59,6 @@ public class HeroScriptable : ScriptableObject
 
     [Header("Extra")]
     public Sprite heroMainImage;
-    public GameObject leftEquipmentPrefab = null;
-    public GameObject rightEquipmentPrefab = null;
     public RuntimeAnimatorController runtimeAnimatorController;
 
     [Header("Projectile")]

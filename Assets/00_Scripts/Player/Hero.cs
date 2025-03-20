@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class Hero : Entity
 {
-    [SerializeField] private Transform leftHand;
-    [SerializeField] private Transform rightHand;
     [SerializeField] private GameObject spawnParticle;
     [SerializeField] private ParticleSystem rarityParticle;
 
@@ -15,7 +13,7 @@ public class Hero : Entity
     private HeroHolder heroHolder;
     private bool isMove = false;
     private double baseAtk;
-    private float attackDelay;
+    private bool attackDelay = false;
     bool isServerHero;
 
 
@@ -56,8 +54,6 @@ public class Hero : Entity
         attackSpeed = heroData.atkSpeed;
         this.heroHolder = heroHolder;
 
-        attackDelay = attackSpeed;
-
         Type classType = Type.GetType(heroName + "Skill");
         if (classType != null)
             gameObject.AddComponent(classType);
@@ -66,8 +62,6 @@ public class Hero : Entity
         GetInitEntity(data.heroName, rarity);
 
         InitRarityCircleColor();
-
-        InitEquipment();
 
         GameManager.instance.AddHero(this);
 
@@ -99,24 +93,6 @@ public class Hero : Entity
 
         return -1;
     }
-
-    private void InitEquipment()
-    {
-        if (heroData.leftEquipmentPrefab != null)
-        {
-            GameObject leftEquipment = Instantiate(heroData.leftEquipmentPrefab);
-            leftEquipment.transform.SetParent(leftHand);
-            leftEquipment.transform.localPosition = Vector3.zero;
-        }
-
-        if (heroData.rightEquipmentPrefab != null)
-        {
-            GameObject rightEquipment = Instantiate(heroData.rightEquipmentPrefab);
-            rightEquipment.transform.SetParent(rightHand);
-            rightEquipment.transform.localPosition = Vector3.zero;
-        }
-    }
-
 
     private void Update()
     {
@@ -176,11 +152,7 @@ public class Hero : Entity
         if (heroData.projectile == null) return;
         if (IsServer)
         {
-            if (attackDelay > 0)
-            {
-                attackDelay -= Time.deltaTime;
-                return;
-            }
+            if (attackDelay) return;
 
             target = null;
 
@@ -204,7 +176,8 @@ public class Hero : Entity
 
                 if (target != null)
                 {
-                    attackDelay = attackSpeed;
+                    attackDelay = true;
+                    StartCoroutine(AttackDelayCoroutine());
                     LoadBulletClientRpc(target.NetworkObjectId);
                 }
             }
@@ -213,6 +186,12 @@ public class Hero : Entity
         }
     }
 
+
+    private IEnumerator AttackDelayCoroutine()
+    {
+        yield return new WaitForSeconds(1f/attackSpeed);
+        attackDelay = false;
+    }
 
 
     [ClientRpc]
@@ -225,11 +204,6 @@ public class Hero : Entity
             go.Init(targetObject.transform, this);
             target = targetObject;
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
     public override void OnDestroy()

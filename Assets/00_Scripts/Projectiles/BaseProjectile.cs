@@ -9,7 +9,7 @@ public class BaseProjectile : MonoBehaviour
     [Header("Base Projectile Value")]
     [SerializeField] protected float speed;
     [SerializeField] protected ProjectileType projectileType = ProjectileType.NORMAL;
-    [SerializeField][Range(0.2f,1f)] protected float lifeTime = 0.2f;
+    [SerializeField][Range(0.1f,1f)] protected float lifeTime = 0.2f;
     protected GameObject destroyParticle;
     protected Hero referenceHero;
     protected Transform target;

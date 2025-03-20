@@ -4,7 +4,7 @@ using UnityEngine;
 public enum CardType{
     SUMMON,
     ATTACK,
-    NOATTACK
+    UTILITY
 }
 
 public struct LayerName {

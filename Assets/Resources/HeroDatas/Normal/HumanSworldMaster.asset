@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: HumanSworldMaster
+  m_EditorClassIdentifier: 
+  heroName: HumanSworldMaster
+  atk: 5
+  atkSpeed: 4
+  atkRange: 1.5
+  rarity: 0
+  heroMainImage: {fileID: -2982154035576548524, guid: fd8645d779e22244da5d66709c058bce, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 34b6d2ac07357af4ba7d6e6cf42f2905, type: 2}
+  projectile: {fileID: 1195089578203227832, guid: 3c7aee8139557a14280ff6e2594a5e16, type: 3}
+  debuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0

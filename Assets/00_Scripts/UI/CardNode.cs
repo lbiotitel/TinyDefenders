@@ -14,14 +14,12 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     [SerializeField] private Image cardImage;
 
     private Vector2 enlargementOriginalPosition;
-    private Quaternion enlargementOriginalQuaternion;
 
     private Vector2 dragOriginalPosition;
     private Quaternion dragOriginalQuaternion;
 
     private Transform parentTransform;
     private Transform dragParent;
-    private bool isInit = false;
     private bool isEnlargement = false;
     private bool isDrag = false;
 
@@ -34,7 +32,6 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     public void InitCardNode(CardSO cardSO)
     {
-        this.isInit = true;
         this.cardSO = cardSO;
 
         cardImage.sprite = cardSO.cardImage;
@@ -43,11 +40,25 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
         cardImage.preserveAspect = true;
     }
 
+    private void Update()
+    {
+        if (isDrag)
+        {
+            if (Input.mousePosition == transform.position)
+            {
+                if (cardSO.cardType == CardType.ATTACK)
+                {
+                    ShowRange();
+                    return;
+                }
+            }
+        }
+    }
+
 
     #region Card Drag Method
     public void OnDrag(PointerEventData eventData)
     {
-        if (!isInit) return;
         transform.position = Input.mousePosition;
         if (IsInDropZone())
         {
@@ -60,7 +71,6 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!isInit) return;
         isDrag = false;
 
         if (!IsInDropZone())
@@ -75,12 +85,12 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
             CardManager.instance.RemoveCard(this);
         }
 
+        HideRange();
         CardManager.instance.SortCard();
     }
 
     public void OnBeginDrag(PointerEventData evenData)
     {
-        if (!isInit) return;
         isDrag = true;
         dragOriginalPosition = transform.position;
         dragOriginalQuaternion = transform.rotation;
@@ -95,7 +105,6 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     private bool IsInDropZone()
     {
-        ShowRange();
         PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
         pointerEventData.position = Input.mousePosition;
 
@@ -115,10 +124,17 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     private void ShowRange()
     {
+        AttackCardSO attackCardSO = cardSO as AttackCardSO;
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         worldPos.z = 0f;
-        InGameUI.instance.ShowCardRangeUI(worldPos, 2f);
+        InGameUI.instance.ShowCardRangeUI(worldPos, attackCardSO.atkRange);
     }
+
+    private void HideRange()
+    {
+        InGameUI.instance.HideCardRangeUI();
+    }
+
 
     private void UseCard()
     {
@@ -135,14 +151,20 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
                 worldPos.z = 0f;
                 activeCardSO.UseCard(worldPos);
                 break;
+
+            case CardType.UTILITY:
+                UtilityCardSO utilityCardSO = cardSO as UtilityCardSO;
+                utilityCardSO.UseCard();
+                break;
         }
         CardManager.instance.RemoveCard(this);
     }
 
 
+
+    #region Mouse in Card
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isInit) return;
         if (isDrag) return;
         if (!isEnlargement)
         {
@@ -153,18 +175,15 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     private void EnlargeMentCard()
     {
         enlargementOriginalPosition = transform.position;
-        enlargementOriginalQuaternion = transform.transform.rotation;
-        transform.DOScale(new Vector2(1.5f, 1.5f), 0f).OnComplete(() =>
+        transform.DOMove(new Vector2(transform.position.x, transform.position.y + 300f), 0f).OnComplete(() =>
         {
             isEnlargement = true;
         });
-        transform.DOMove(new Vector2(transform.position.x, transform.position.y + 300f), 0f);
         transform.rotation = Quaternion.identity;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!isInit) return;
         if (isDrag) return;
         if (isEnlargement)
         {
@@ -174,12 +193,12 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     private void ReturnOriginalCard()
     {
-        transform.DOMove(enlargementOriginalPosition, 0f);
-        transform.rotation = enlargementOriginalQuaternion;
-        transform.DOScale(new Vector2(1f, 1f), 0f).OnComplete(() => {
+        transform.DOMove(enlargementOriginalPosition, 0f).OnComplete(() => {
             isEnlargement = false;
         });
     }
+
+    #endregion
 
     public bool IsDrag() { return isDrag; }
 

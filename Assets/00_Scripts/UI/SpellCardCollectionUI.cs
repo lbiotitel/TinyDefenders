@@ -22,7 +22,7 @@ public class SpellCardCollectionUI : MonoBehaviour
             cardUINodeList.Clear();
         }
 
-        List<CardSO> cardList = SoDataManager.instance.GetAllCardScriptableData();
+        List<CardSO> cardList = SoDataManager.instance.GetAllCardScriptableObjectData();
 
         foreach (var data in cardList)
         {

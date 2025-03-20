@@ -26,6 +26,16 @@ public class UserData
         }
     }
 
+    [System.Serializable]
+    public class SpellCardStoreData {
+        public bool isOwned;
+
+        public SpellCardStoreData(bool isOwned)
+        {
+            this.isOwned = isOwned;
+        }
+    }
+
     public string userName;
     public int userLevel;
     public int bestWave = 1;
@@ -33,6 +43,7 @@ public class UserData
     public int gold;
     public int rankingPoint;
     public Dictionary<string, HeroStoreData> heroDatas;
+    public Dictionary<string, SpellCardStoreData> spellCardDatas;
 
     public UserData(string userName, int userLevel, int bestWave, int crystal, int gold, int rakingPoint)
     {
@@ -43,8 +54,10 @@ public class UserData
         this.gold = gold;
         this.rankingPoint = rakingPoint;
         this.heroDatas = new Dictionary<string, HeroStoreData>();
+        this.spellCardDatas = new Dictionary<string, SpellCardStoreData>();
 
         InitHeroDatas();
+        InitSpellCardDatas();
     }
 
     private void InitHeroDatas()
@@ -54,6 +67,16 @@ public class UserData
         for (int i = 0; i < heroDataList.Count; i++)
         {
             heroDatas.Add(heroDataList[i].heroName, new HeroStoreData(0, 0));
+        }
+    }
+
+    private void InitSpellCardDatas()
+    {
+        List<CardSO> spellCardList = SoDataManager.instance.GetAllCardScriptableObjectData();
+
+        for (int i = 0; i < spellCardList.Count; i++)
+        {
+            spellCardDatas.Add(spellCardList[i].cardName, new SpellCardStoreData(false));
         }
     }
 }
@@ -182,16 +205,14 @@ public class CloudManager : MonoBehaviour
         return null;
     }
 
-    [Serializable]
-    public class LeaderBoard { 
-        public string playerName;
-    }
-
     private async Task UpdateLeaderBoard(int score)
     {
         try
         {
-            await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderBoardKey, score);
+            Dictionary<string, string> metaData = new Dictionary<string, string>();
+            metaData["userName"] = userData.userName;
+            await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderBoardKey, score,
+                new AddPlayerScoreOptions { Metadata = metaData });
             Debug.Log("리더 보드 업데이트 완료");
         }
         catch (Exception e)
