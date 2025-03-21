@@ -66,9 +66,7 @@ public class SoundManager : MonoBehaviour
                 {
                     if (!sfxAudioSource[j].isPlaying)
                     {
-                        sfxAudioSource[j].resource = sfxSoundList[i].audioClip;
-                        sfxAudioSource[j].loop = loop;
-                        sfxAudioSource[j].Play();
+                        sfxAudioSource[j].PlayOneShot(sfxSoundList[i].audioClip);
                     }
                 }
             }

@@ -11,7 +11,7 @@ public class SpellCardRangeProjectile : SpellCardBaseProjectile
             isAttack = true;
 
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position,referenceCard.atkRange, LayerMask.GetMask(LayerName.Monster));
-            destroyParticle = PoolingManager.instance.GetObject("MonsterHitParticle", transform.position);
+            destroyParticle = PoolingManager.instance.GetObject(destroyParticle, transform.position);
 
             foreach (var collider in colliders)
             {

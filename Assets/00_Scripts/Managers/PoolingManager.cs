@@ -24,7 +24,8 @@ public class PoolingManager : MonoBehaviour
     }
 
     [SerializeField] private PoolObject[] poolObjects;
-    private Dictionary<string, Queue<GameObject>> poolDictionary;
+    private Dictionary<GameObject, Queue<GameObject>> poolDictionary;
+    private Dictionary<GameObject, GameObject> instanceToPrefabMap = new Dictionary<GameObject, GameObject>();
 
     private void Awake()
     {
@@ -45,98 +46,86 @@ public class PoolingManager : MonoBehaviour
 
     private void Init()
     {
-        poolDictionary = new Dictionary<string, Queue<GameObject>>();
+        poolDictionary = new Dictionary<GameObject, Queue<GameObject>>();
         foreach (var poolData in poolObjects)
         { 
             int size = poolData.size;
             
             Queue<GameObject> queue = new Queue<GameObject>();
-            poolDictionary[poolData.poolTag] = queue;
+            poolDictionary[poolData.poolPrefab] = queue;
 
             for (int i = 0; i < size; i++)
             {
-                SpawnObject(poolData.poolTag, transform.position);
+                SpawnObject(poolData.poolPrefab, transform.position);
             }
         }
     }
 
-    public GameObject GetObject(string tag, Vector3 position)
+    public GameObject GetObject(GameObject gameObject, Vector3 position)
     {
-        if (poolDictionary[tag].Count > 0)
+        if (poolDictionary.ContainsKey(gameObject))
         {
-            GameObject go = poolDictionary[tag].Dequeue();
-            TurnOn(ref go);
-            go.transform.position = position;
-            return go;
+            if (poolDictionary[gameObject].Count > 0)
+            {
+                GameObject go = poolDictionary[gameObject].Dequeue();
+                TurnOn(ref go);
+                go.transform.position = position;
+                return go;
+            }
+        }
+        else { 
+            poolDictionary.Add(gameObject, new Queue<GameObject>());
         }
 
-        SpawnObject(tag, position);
-        GameObject g = poolDictionary[tag].Dequeue();
+        SpawnObject(gameObject, position);
+        GameObject g = poolDictionary[gameObject].Dequeue();
         TurnOn(ref g);
         g.transform.position = position;
         return g;
     }
 
-    public T GetObject<T>(string tag,Vector3 position) where T : Component
+    public T GetObject<T>(GameObject gameObject, Vector3 position) where T : Component
     {
-     
-        if (poolDictionary[tag].Count > 0)
+        GameObject go = GetObject(gameObject, position);
+        TurnOn(ref go);
+        go.transform.position = position;
+        T goComponent = null;
+        if (go.TryGetComponent<T>(out goComponent))
         {
-            GameObject go = poolDictionary[tag].Dequeue();
-            TurnOn(ref go);
-            go.transform.position = position;
-            T goComponent = null;
-            if (go.TryGetComponent<T>(out goComponent))
-            {
-                return goComponent;
-            }
-            return null;
+            return goComponent;
         }
-
-        SpawnObject(tag, position);
-        T component = poolDictionary[tag].Dequeue().GetComponent<T>();
-        GameObject g = component.gameObject;
-        TurnOn(ref g);
-        
-        return component;
+        return null;
     }
 
 
-    private T SpawnObject<T>(string tag, Vector3 position) where T : Component
+    private T SpawnObject<T>(GameObject gameObject, Vector3 position) where T : Component
     { 
-        return SpawnObject<T>(tag, position,Quaternion.identity);
+        return SpawnObject<T>(gameObject, position,Quaternion.identity);
     }
 
-    private GameObject SpawnObject(string tag, Vector3 position)
+    private GameObject SpawnObject(GameObject gameObject, Vector3 position)
     {
-        GameObject go = SpawnObject(tag, position, Quaternion.identity);
+        GameObject go = SpawnObject(gameObject, position, Quaternion.identity);
         return go;
     }
 
-    private GameObject SpawnObject(string tag, Vector3 position, Quaternion quaternion)
+    private GameObject SpawnObject(GameObject gameObject, Vector3 position, Quaternion quaternion)
     {
-        GameObject prefab = GetPrefabByTag(tag);
-
-        if (prefab == null)
-        {
-            Debug.LogError("존재하지 않는 태그");
-            return null;
-        }
-
-        GameObject go = Instantiate(prefab,position,quaternion);
+        GameObject go = Instantiate(gameObject, position,quaternion);
 
         go.transform.position = transform.position;
         go.transform.SetParent(transform);
         go.SetActive(false);
 
-        poolDictionary[tag].Enqueue(go);
+        poolDictionary[gameObject].Enqueue(go);
+        instanceToPrefabMap[go] = gameObject;   
 
         return go;
     }
 
-    private T SpawnObject<T>(string tag, Vector3 position, Quaternion quaternion)where T : Component {
+    private T SpawnObject<T>(GameObject gameObject, Vector3 position, Quaternion quaternion)where T : Component {
 
-        GameObject go = SpawnObject(tag,position,quaternion);
+        GameObject go = SpawnObject(gameObject, position,quaternion);
 
         T component = null;
         if (go.TryGetComponent<T>(out component))
@@ -150,18 +139,6 @@ public class PoolingManager : MonoBehaviour
     }
 
 
-    private GameObject GetPrefabByTag(string tag) 
-    {
-        foreach (var data in poolObjects)
-        {
-            if (data.poolTag == tag)
-            {
-                return data.poolPrefab;
-            }
-        }
-
-        return null;
-    }
 
     private GameObject TurnOn(ref GameObject gameObject)
     {
@@ -172,19 +149,18 @@ public class PoolingManager : MonoBehaviour
 
     public void ReturnObject(GameObject gameObject)
     {
-        string tag = gameObject.tag;
-
-        if (!poolDictionary.ContainsKey(tag))
+        if (instanceToPrefabMap.TryGetValue(gameObject, out GameObject prefab))
         {
-            Debug.LogError("존재하지 않는 태그");
-            return;
+            gameObject.transform.SetParent(transform);
+            gameObject.transform.position = transform.position;
+            gameObject.SetActive(false);
+
+            poolDictionary[prefab].Enqueue(gameObject);
         }
-
-        gameObject.transform.SetParent(transform);
-        gameObject.transform.position = transform.position;
-        gameObject.SetActive(false);
-
-        poolDictionary[tag].Enqueue(gameObject);
+        else
+        {
+            Debug.LogError("풀링 되지 않은 객체" + gameObject.name);
+        }
     }
 
 }

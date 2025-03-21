@@ -9798,8 +9798,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  destroyParticle: {fileID: 3211877774832872067, guid: cb743783234f8e74d9956031b0ceed0f, type: 3}
   projectileType: 0
+  lifeTime: 0.1
+  currentTransformParticle: 0
 --- !u!1 &8200776074304694790
 GameObject:
   m_ObjectHideFlags: 0

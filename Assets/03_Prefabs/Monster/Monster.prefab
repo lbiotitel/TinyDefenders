@@ -186,6 +186,8 @@ MonoBehaviour:
   bleedEffect: {fileID: 7105891856192635138}
   poisionEffect: {fileID: 8880422131524290675}
   damageText: {fileID: 613767842028869875, guid: 60a8e892def7dc540b6f058e9ea90b22, type: 3}
+  damageTextPrefab: {fileID: 8569716173733949794, guid: 60a8e892def7dc540b6f058e9ea90b22, type: 3}
+  deadParticlePrefab: {fileID: 5737305730674577762, guid: d4cc1225b3a2c9548909376bc6967a05, type: 3}
   hpImage: {fileID: 8650127064340355761}
   hpImageEffect: {fileID: 3240731415993647524}
   hpAnimeSpeed: 2
@@ -707,7 +709,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8761027195105394181, guid: 2ba8640322b798245a4c2d2f60858718, type: 3}
       propertyPath: m_SortingLayer
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8761027195105394181, guid: 2ba8640322b798245a4c2d2f60858718, type: 3}
       propertyPath: m_SortingLayerID
@@ -850,7 +852,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3087270198007521625, guid: bddfb4e3afe303b45b030cf3c9bcda8f, type: 3}
       propertyPath: m_SortingLayer
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3087270198007521625, guid: bddfb4e3afe303b45b030cf3c9bcda8f, type: 3}
       propertyPath: m_SortingLayerID
@@ -889,7 +891,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6873174941490874089, guid: 9a367a5fa181aea46834bec32cc5f991, type: 3}
       propertyPath: m_SortingLayer
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6873174941490874089, guid: 9a367a5fa181aea46834bec32cc5f991, type: 3}
       propertyPath: m_SortingLayerID

@@ -10,6 +10,7 @@ public class BaseProjectile : MonoBehaviour
     [SerializeField] protected float speed;
     [SerializeField] protected ProjectileType projectileType = ProjectileType.NORMAL;
     [SerializeField][Range(0.1f,1f)] protected float lifeTime = 0.2f;
+    [SerializeField] protected GameObject destroyParticlePrefab;
     protected GameObject destroyParticle;
     protected Hero referenceHero;
     protected Transform target;
@@ -84,7 +85,7 @@ public class BaseProjectile : MonoBehaviour
         {
             isAttack = true;
 
-            destroyParticle = PoolingManager.instance.GetObject("MonsterHitParticle", transform.position);
+            destroyParticle = PoolingManager.instance.GetObject(destroyParticlePrefab, transform.position);
 
             if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
             {
@@ -95,16 +96,29 @@ public class BaseProjectile : MonoBehaviour
                     referenceHero.GetHeroData().debuffEffects);
             }
 
-            Destroy(this.gameObject, lifeTime);
+            DisableObject(lifeTime);
         }
     }
 
-    protected virtual void OnDestroy()
+
+    protected void DisableObject(float time)
     {
-        if (destroyParticle != null)
+        StartCoroutine(DisableObjectCoroutine(lifeTime));
+    }
+
+    private IEnumerator DisableObjectCoroutine(float time)
+    { 
+        yield return new WaitForSeconds(time);
+        target = null;
+        referenceHero = null;
+        isAttack = false;
+
+        if (PoolingManager.instance != null)
         {
-            if(PoolingManager.instance != null)
-                PoolingManager.instance.ReturnObject(destroyParticle);
+            PoolingManager.instance.ReturnObject(destroyParticle);
+            PoolingManager.instance.ReturnObject(gameObject);
+            Debug.Log(gameObject.name + "µ¹¾Æ°¨");
         }
     }
+
 }

@@ -21,7 +21,7 @@ public class LaserProjectile : BaseProjectile
 
     protected override void HitMonster()
     {
-        destroyParticle = PoolingManager.instance.GetObject("MonsterHitParticle", transform.position);
+        destroyParticle = PoolingManager.instance.GetObject(destroyParticle, transform.position);
 
         if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
         {

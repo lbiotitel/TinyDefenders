@@ -19,13 +19,15 @@ public class MeleeProjectile : BaseProjectile
         {
             isAttack = true;
 
-            destroyParticle = PoolingManager.instance.GetObject("MonsterHitParticle", transform.position);
+            destroyParticle = PoolingManager.instance.GetObject(destroyParticlePrefab, transform.position);
 
             if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
             {
                 NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), referenceHero.atk, target.GetComponent<Monster>(),
                     referenceHero.GetHeroData().debuffEffects);
             }
+
+            DisableObject(lifeTime);
         }
     }
 

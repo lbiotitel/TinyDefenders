@@ -8,6 +8,8 @@ public partial class Monster : Entity
 {
     [Header("Monster Basic Property")]
     [SerializeField] private DamageText damageText;
+    [SerializeField] private GameObject damageTextPrefab;
+    [SerializeField] private GameObject deadParticlePrefab;
     [SerializeField] private Image hpImage;
     [SerializeField] private Image hpImageEffect;
     [SerializeField] private float hpAnimeSpeed = 2f;
@@ -88,7 +90,7 @@ public partial class Monster : Entity
     {
         hp = remainHp;
         hpImage.fillAmount = ((float)hp / (float)maxHp);
-        DamageText damageText = PoolingManager.instance.GetObject<DamageText>("DamageText", transform.position);
+        DamageText damageText = PoolingManager.instance.GetObject<DamageText>(damageTextPrefab, transform.position);
         damageText.InitDamageText(damage);
         Dead();
     }
@@ -145,7 +147,7 @@ public partial class Monster : Entity
 
     IEnumerator DeadCoroutine()
     {
-        GameObject deadParticle = PoolingManager.instance.GetObject("MonsterDeadParticle", transform.position);
+        GameObject deadParticle = PoolingManager.instance.GetObject(deadParticlePrefab, transform.position);
         float alpha = 1.0f;
 
         while (spriteRenderer.color.a > 0.0f)

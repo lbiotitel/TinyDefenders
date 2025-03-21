@@ -200,7 +200,8 @@ public class Hero : Entity
         if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject targetObject))
         {
             AnimatorChange("ATTACK", true);
-            BaseProjectile go = Instantiate(heroData.projectile, transform.position, Quaternion.identity);
+            BaseProjectile go = 
+                PoolingManager.instance.GetObject<BaseProjectile>(heroData.projectile.gameObject,transform.position);
             go.Init(targetObject.transform, this);
             target = targetObject;
         }
