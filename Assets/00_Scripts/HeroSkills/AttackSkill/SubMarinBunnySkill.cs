@@ -9,7 +9,7 @@ public class SubMarinBunnySkill : AttackSkillBase
 
         HeroHolder heroHolder = hero.GetHeroHolder();
         Collider2D[] enemiesInRange =
-                Physics2D.OverlapCircleAll(heroHolder.transform.position, heroData.atkRange, hero.monsterLayer);
+                Physics2D.OverlapCircleAll(heroHolder.transform.position, heroData.atkRange.GetValue(), hero.monsterLayer);
 
         Debug.Log("È£Ãâ");
         if (enemiesInRange.Length > 0)

@@ -21,7 +21,7 @@ public class HeroHolder : NetworkBehaviour
     [HideInInspector]public string holderName;
     [HideInInspector] public string holderId;
     [HideInInspector] public Hero ownHero = null;
-    [HideInInspector] public HeroData heroData;
+    [HideInInspector] public HeroScriptable heroData;
     [HideInInspector] public int holderIndex;
 
 
@@ -49,7 +49,7 @@ public class HeroHolder : NetworkBehaviour
 
     public void ShowRange()
     {
-        float range = heroData.heroAtkRange;
+        float range = heroData.atkRange.GetValue();
         heroRange.localScale = Vector2.one * range * 2;
 
         heroRange.gameObject.SetActive(true);
@@ -61,11 +61,11 @@ public class HeroHolder : NetworkBehaviour
         heroRange.localScale = Vector2.zero;
     }
 
-    public void SpawnHero(HeroData heroData, string rarity)
+    public void SpawnHero(string heroName, string rarity)
     {
         if (IsServer)
         {
-            HeroSpawn(NetUtils.GetLocalD(), heroData, rarity);
+            HeroSpawn(NetUtils.GetLocalD(), heroName, rarity);
         }
     }
 
@@ -75,7 +75,7 @@ public class HeroHolder : NetworkBehaviour
         if (alarmText)
         {
             InGameUI.instance.ShowAlarmText(string.Format("영웅을 판매하였습니다. {0}{1}",
-            NetUtils.GetRarityColor((HeroRarity)Enum.Parse(typeof(HeroRarity), heroData.rarity)),
+            NetUtils.GetRarityColor((HeroRarity)Enum.Parse(typeof(HeroRarity), heroData.rarity.ToString())),
             heroData.heroName));
         }
 
@@ -196,7 +196,7 @@ public class HeroHolder : NetworkBehaviour
         ownHero.SwapPosition(newHeroHolder, newHeroHolder.transform.TransformPoint(Vector2.zero));
     }
 
-    private void HeroSpawn(ulong clientId, HeroData data, string rarity)
+    private void HeroSpawn(ulong clientId, string heroName, string rarity)
     {
         Hero hero = Instantiate(heroPrefab);
         NetworkObject networkObject = hero.GetComponent<NetworkObject>();
@@ -204,7 +204,7 @@ public class HeroHolder : NetworkBehaviour
 
         hero.transform.parent = this.transform;
 
-        UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId, data, rarity);
+        UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId, heroName, rarity);
     }
 
     private void ClientSetPosition()
@@ -220,11 +220,13 @@ public class HeroHolder : NetworkBehaviour
 
 
     [ClientRpc]
-    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId, ulong clientId, HeroData heroData, string rarity)
+    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId, ulong clientId, string heroName, string rarity)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject networkObject))
         {
             Hero hero = networkObject.GetComponent<Hero>();
+
+            HeroScriptable heroData = SoDataManager.instance.GetHeroScriptableData(heroName);
 
             this.ownHero = hero;
             this.holderName = heroData.heroName;

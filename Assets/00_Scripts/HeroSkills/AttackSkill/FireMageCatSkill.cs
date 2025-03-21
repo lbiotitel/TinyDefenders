@@ -8,7 +8,7 @@ public class FireMageCatSkill : AttackSkillBase
     {
         HeroHolder heroHolder = hero.GetHeroHolder();
         Collider2D[] collider2D = Physics2D.OverlapCircleAll(
-            heroHolder.transform.position,heroData.atkRange,hero.monsterLayer);
+            heroHolder.transform.position,heroData.atkRange.GetValue(),hero.monsterLayer);
 
         int count = 0;
         foreach (var collider in collider2D)

@@ -10,9 +10,12 @@ using UnityEngine.UI;
 public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     IBeginDragHandler,IDragHandler,IEndDragHandler
 {
+    [Header("Basic Card Info")]
     [SerializeField] private TextMeshProUGUI cardNameText;
+    [SerializeField] private TextMeshProUGUI cardDescText;
     [SerializeField] private Image cardImage;
 
+    [Header("HeroCard Info")]
     [SerializeField] private GameObject heroInfoBackground;
     [SerializeField] private TextMeshProUGUI heroAtkText;
     [SerializeField] private TextMeshProUGUI heroAtkSpeedText;
@@ -21,7 +24,6 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     private Vector2 enlargementOriginalPosition;
 
     private Vector2 dragOriginalPosition;
-    private Quaternion dragOriginalQuaternion;
 
     private Transform parentTransform;
     private Transform dragParent;
@@ -30,7 +32,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     private CardSO cardSO;
 
-    public bool readyInteract { get; set; } = false;
+    private bool readyInteract = false;
 
     private void Start()
     {
@@ -46,12 +48,19 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
         cardImage.preserveAspect = true;
 
+        InitCardEachType();
+    }
+
+    private void InitCardEachType()
+    {
         if (cardSO.cardType == CardType.SUMMON)
         {
             heroInfoBackground.SetActive(true);
             InitSummonCard();
         }
-        else {
+        else if(cardSO.cardType == CardType.ATTACK)
+        {
+            cardDescText.text = cardSO.cardDescription;
             heroInfoBackground.SetActive(false);
         }
     }
@@ -63,6 +72,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
         heroAtkText.text = heroData.atk.ToString();
         heroAtkSpeedText.text = heroData.atkSpeed.ToString();
         heroAtkRangeText.text = heroData.atkRange.ToString();
+        cardDescText.text = heroData.heroDesc;
     }
 
     private void Update()
@@ -77,6 +87,17 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
                     return;
                 }
             }
+        }
+    }
+
+
+    public void InitReadyInteract(bool interact)
+    { 
+        readyInteract = interact;
+        if (readyInteract)
+        {
+            dragOriginalPosition = transform.position;
+            enlargementOriginalPosition = transform.position;
         }
     }
 
@@ -101,12 +122,11 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
         if (!IsInDropZone())
         {
             transform.position = dragOriginalPosition;
-            transform.rotation = dragOriginalQuaternion;
             transform.SetParent(parentTransform);
             ReturnOriginalCard();
         }
         else {
-            UseCard();
+            CheckCost();
             CardManager.instance.RemoveCard(this);
         }
 
@@ -118,8 +138,6 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     {
         if (!readyInteract) return;
         isDrag = true;
-        dragOriginalPosition = transform.position;
-        dragOriginalQuaternion = transform.rotation;
         parentTransform = transform.parent;
         transform.rotation = Quaternion.identity;
         transform.SetParent(dragParent);
@@ -187,6 +205,19 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     }
 
 
+    private void CheckCost()
+    {
+        if (GameManager.instance.gold >= cardSO.cardCost)
+        { 
+            GameManager.instance.gold -= cardSO.cardCost;
+            UseCard();
+        }
+        else
+        {
+            //재화가 부족하다는 알림
+        }
+    }
+
 
     #region Mouse in Card
     public void OnPointerEnter(PointerEventData eventData)
@@ -201,12 +232,9 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     private void EnlargeMentCard()
     {
-        enlargementOriginalPosition = transform.position;
-        transform.DOMove(new Vector2(transform.position.x, transform.position.y + 300f), 0f).OnComplete(() =>
-        {
-            isEnlargement = true;
-        });
-        transform.rotation = Quaternion.identity;
+        isEnlargement = true;
+        transform.SetAsLastSibling();
+        transform.DOMove(new Vector3(transform.position.x, transform.position.y + 300f), 0f);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -220,7 +248,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     private void ReturnOriginalCard()
     {
-        transform.DOMove(enlargementOriginalPosition, 0f).OnComplete(() => {
+        transform.DOMove(enlargementOriginalPosition, 0.2f).OnComplete(() => {
             isEnlargement = false;
         });
     }

@@ -31,7 +31,8 @@ public class GameSettingManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        gameSettingData.SaveData();
+        if(instance != null)
+            gameSettingData.SaveData();
     }
 
 }

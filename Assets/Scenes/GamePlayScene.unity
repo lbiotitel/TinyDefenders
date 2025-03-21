@@ -6814,7 +6814,7 @@ Transform:
   m_GameObject: {fileID: 1149392069}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.3498548, y: -0.41933873, z: -0.117798716}
+  m_LocalPosition: {x: 6.16, y: 4.49, z: -0.117798716}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12014,11 +12014,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4331504153603779530, guid: 93370abbbfc3fc14b8e0989278a41926, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.48
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4331504153603779530, guid: 93370abbbfc3fc14b8e0989278a41926, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.91
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4331504153603779530, guid: 93370abbbfc3fc14b8e0989278a41926, type: 3}
       propertyPath: m_LocalPosition.z
@@ -16103,6 +16103,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Red Protal
       objectReference: {fileID: 0}
+    - target: {fileID: 6353018836712417485, guid: e9d5c1d6be3390344a9f143792a22efa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 6353018836712417485, guid: e9d5c1d6be3390344a9f143792a22efa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.03
+      objectReference: {fileID: 0}
     - target: {fileID: 6758941569214711903, guid: e9d5c1d6be3390344a9f143792a22efa, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3028626546
@@ -16150,7 +16158,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!198 &5632059184944194658
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -16341,7 +16349,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.6792453, g: 0.043733384, b: 0.009611944, a: 1}
+      maxColor: {r: 0.6037736, g: 0.12621085, b: 0.09967959, a: 0.40392157}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -21310,15 +21318,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7734593479244336300, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.2773501
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7734593479244336300, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.054367
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7734593479244336300, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.10732929
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7734593479244336300, guid: 68e200050db165e4db639c627c737392, type: 3}
       propertyPath: m_LocalRotation.w

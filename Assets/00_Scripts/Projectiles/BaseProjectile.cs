@@ -103,7 +103,8 @@ public class BaseProjectile : MonoBehaviour
     {
         if (destroyParticle != null)
         {
-            PoolingManager.instance.ReturnObject(destroyParticle);
+            if(PoolingManager.instance != null)
+                PoolingManager.instance.ReturnObject(destroyParticle);
         }
     }
 }

@@ -6,7 +6,7 @@ public class NetworkPoolingManager : NetworkBehaviour
 {
     public static NetworkPoolingManager instance = null;
     [SerializeField] private GameObject networkObjectPrefab;
-    private Queue<NetworkObject> poolQueue = new Queue<NetworkObject>();
+    [SerializeField] private List<NetworkObject> poolList = new List<NetworkObject>();
 
     private void Awake()
     {
@@ -32,9 +32,10 @@ public class NetworkPoolingManager : NetworkBehaviour
     {
         NetworkObject networkObject = null;
 
-        if (poolQueue.Count > 0)
+        if (poolList.Count > 0)
         {
-            networkObject = poolQueue.Dequeue();
+            networkObject = poolList[0];
+            poolList.RemoveAt(0);
         }
         else {
             networkObject = Instantiate(networkObjectPrefab, position, rotation).GetComponent<NetworkObject>();
@@ -42,6 +43,7 @@ public class NetworkPoolingManager : NetworkBehaviour
 
         GameObject go = networkObject.gameObject;
         go.gameObject.SetActive(true);
+        go.transform.SetParent(null);
         networkObject.Spawn();
 
         go.transform.position = position;
@@ -54,8 +56,9 @@ public class NetworkPoolingManager : NetworkBehaviour
     public void ReturnObject(NetworkObject networkObject)
     {
         GameObject go = networkObject.gameObject;
+        go.transform.position = transform.position;
         go.gameObject.SetActive(false);
-        poolQueue.Enqueue(networkObject);
+        poolList.Add(networkObject);
     }
 
     private class NetworkPrefabHandler : INetworkPrefabInstanceHandler

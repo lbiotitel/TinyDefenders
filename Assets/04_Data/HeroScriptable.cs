@@ -27,36 +27,20 @@ public class SkillData {
 }
 
 
-[System.Serializable]
-public struct HeroData : INetworkSerializable
-{
-    public string heroName;
-    public int heroAtk;
-    public float heroAtkSpeed;
-    public float heroAtkRange;
-    public string rarity;
-
-
-    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-    {
-        serializer.SerializeValue(ref heroName);
-        serializer.SerializeValue(ref heroAtk);
-        serializer.SerializeValue(ref heroAtkSpeed);
-        serializer.SerializeValue(ref heroAtkRange);
-        serializer.SerializeValue(ref rarity);
-    }
-}
 
 [CreateAssetMenu(fileName = "HeroScriptable", menuName = "Scriptable Objects/HeroScriptable")]
 public class HeroScriptable : ScriptableObject
 {
     [Header("Stat")]
     public string heroName;
-    public int atk;
-    public float atkSpeed;
-    public float atkRange;
     public HeroRarity rarity;
-
+    public Stat atk;
+    public Stat damage;
+    public Stat criticalRate;
+    public Stat atkSpeed;
+    public Stat atkRange;
+    [TextArea] public string heroDesc;
+    
     [Header("Extra")]
     public Sprite heroMainImage;
     public RuntimeAnimatorController runtimeAnimatorController;
@@ -75,15 +59,4 @@ public class HeroScriptable : ScriptableObject
         heroName = this.name;
     }
 
-    public HeroData GetHeroData()
-    {
-        return new HeroData
-        {
-            heroName = heroName,
-            heroAtk = atk,
-            heroAtkSpeed = atkSpeed,
-            heroAtkRange = atkRange,
-            rarity = rarity.ToString(),
-        };
-    }
 }

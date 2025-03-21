@@ -22,8 +22,6 @@ public partial class Monster : Entity
     private bool isDead = false;
     private MonsterType monsterType = MonsterType.NORMAL;
 
-    private NetworkVariable<Vector3> monsterPosition = new NetworkVariable<Vector3>();
-
     public override void Awake()
     {
         base.Awake();
@@ -47,6 +45,7 @@ public partial class Monster : Entity
         Color originColor = spriteRenderer.color;
         originColor.a = 1f;
         spriteRenderer.color = originColor;
+        spriteRenderer.flipX = false;
 
         animator.Rebind();
         spriteRenderer.flipX = true;
@@ -65,7 +64,6 @@ public partial class Monster : Entity
         if (isDead) return;
 
         MonsterGetDamage(damage, isServer);
-        UpdateClientRpc(this.hp, damage);
     }
 
     private void MonsterGetDamage(double damage, bool isServer)
@@ -81,8 +79,8 @@ public partial class Monster : Entity
 
         hp -= (int)damage;
         hpImage.fillAmount = ((float)hp / (float)maxHp);
-        Dead();
         GetReward();
+        UpdateClientRpc(hp,damage);
     }
 
     [ClientRpc]
@@ -99,11 +97,15 @@ public partial class Monster : Entity
     {
         if (hp <= 0)
         {
-            isDead = true;
-            gameObject.layer = LayerMask.NameToLayer(LayerName.Defulat);
-            StartCoroutine(DeadCoroutine());
-            AnimatorChange("DEAD", true);
-            targetLists = null;
+            if (!isDead)
+            {
+                isDead = true;
+                StopAllDebuff();
+                gameObject.layer = LayerMask.NameToLayer(LayerName.Defulat);
+                StartCoroutine(DeadCoroutine());
+                AnimatorChange("DEAD", true);
+                targetLists = null;
+            }
         }
     }
 
@@ -133,11 +135,6 @@ public partial class Monster : Entity
         if (NetUtils.IsServer())
         {
             MoveLogic();
-            monsterPosition.Value = transform.position;
-        }
-        else
-        {
-            transform.position = monsterPosition.Value;
         }
     }
 
@@ -148,7 +145,6 @@ public partial class Monster : Entity
 
     IEnumerator DeadCoroutine()
     {
-        StopAllDebuff();
         GameObject deadParticle = PoolingManager.instance.GetObject("MonsterDeadParticle", transform.position);
         float alpha = 1.0f;
 

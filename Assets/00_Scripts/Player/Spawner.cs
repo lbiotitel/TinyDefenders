@@ -321,28 +321,25 @@ public class Spawner : NetworkBehaviour
         return data;
     }
 
-    private void HeroSpawn(ulong clientId, string rarity, string dataName)
+    private void HeroSpawn(ulong clientId, string rarity, string heroName)
     {
-
-        heroData = Resources.Load<HeroScriptable>("HeroDatas/" + rarity + "/" + dataName);
-
         string temp = clientId == 0 ? "HOST" : "CLIENT";
         int value = clientId == 0 ? 0 : 1;
         string heroHolderId = temp + heroHolderValue[value].ToString();
 
-        HeroHolder findHeroHolder = GetRemainHeroHolder(temp, this.heroData.heroName);
+        HeroHolder findHeroHolder = GetRemainHeroHolder(temp, heroName);
 
-        AlarmClientRpc(clientId, this.heroData.heroName, heroData.rarity.ToString());
+        AlarmClientRpc(clientId, heroName, rarity);
 
         if (findHeroHolder != null)
         {
-            findHeroHolder.SpawnHero(this.heroData.GetHeroData(), rarity);
+            findHeroHolder.SpawnHero(heroName, rarity);
             return;
         }
 
         NetworkObject networkObject = heroHolders[heroHolderId].GetComponent<NetworkObject>();
 
-        HeroSpawnClientRpc(networkObject.NetworkObjectId, this.heroData.GetHeroData(), rarity, value);
+        HeroSpawnClientRpc(networkObject.NetworkObjectId, heroName, rarity, value);
     }
 
     public Vector3 GetHolderPosition(HeroScriptable heroData)
@@ -377,13 +374,13 @@ public class Spawner : NetworkBehaviour
 
 
     [ClientRpc]
-    private void HeroSpawnClientRpc(ulong networkObjectId, HeroData heroData, string rarity, int value)
+    private void HeroSpawnClientRpc(ulong networkObjectId, string heroName, string rarity, int value)
     {
         if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject networkObject))
         {
             HeroHolder heroHolder = networkObject.GetComponent<HeroHolder>();
             heroHolderValue[value]++;
-            heroHolder.SpawnHero(heroData, rarity);
+            heroHolder.SpawnHero(heroName, rarity);
         }
     }
 

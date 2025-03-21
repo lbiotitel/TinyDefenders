@@ -34,6 +34,8 @@ public partial class Monster : Entity
     [ServerRpc(RequireOwnership = false)]
     public void DebuffServerRpc(int debuffType, float[] values, bool isServer)
     {
+        if (isDead) return;
+  
         DebuffType debuff = (DebuffType)debuffType;
 
         switch (debuff)
@@ -199,7 +201,6 @@ public partial class Monster : Entity
     {
         if (coroutine != null)
         {
-            if (isDead) return;
             StopCoroutine(coroutine);
         }
     }

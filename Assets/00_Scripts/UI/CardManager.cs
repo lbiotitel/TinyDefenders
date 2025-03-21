@@ -20,6 +20,8 @@ public class CardManager : MonoBehaviour
     [SerializeField] private int rerollSpellCardCount;
     private List<CardNode> myCardList = new List<CardNode>();
 
+    public static int MostFrontCardOrder = 100;
+
     private void Awake()
     {
         if (instance == null)
@@ -138,6 +140,7 @@ public class CardManager : MonoBehaviour
         StartCoroutine(SortCardCoroutine());
     }
 
+
     private IEnumerator SortCardCoroutine()
     {
         SetCardInteract(false);
@@ -156,7 +159,7 @@ public class CardManager : MonoBehaviour
             RectTransform cardTransform = myCardList[i].GetComponent<RectTransform>();
             cardTransform.DOAnchorPos(new Vector2(x, y), 0.2f);
 
-            myCardList[i].transform.SetSiblingIndex(i);
+            myCardList[i].transform.SetAsFirstSibling();
 
             yield return new WaitForSeconds(0.2f);
         }
@@ -168,7 +171,7 @@ public class CardManager : MonoBehaviour
     {
         foreach (var card in myCardList)
         {
-            card.readyInteract = interact;
+            card.InitReadyInteract(interact);
         }
     }
 

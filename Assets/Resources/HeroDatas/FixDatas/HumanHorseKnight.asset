@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: HumanHorseKnight
+  m_EditorClassIdentifier: 
+  heroName: HumanHorseKnight
+  rarity: 0
+  atk:
+    baseValue: 5
+  damage:
+    baseValue: 0
+  criticalRate:
+    baseValue: 0
+  atkSpeed:
+    baseValue: 2
+  atkRange:
+    baseValue: 2
+  heroMainImage: {fileID: -893807919, guid: 56f3d939ce84615418d46f4723c7ba33, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 69048f87371ebec468552d93e06ba05c, type: 2}
+  projectile: {fileID: 1195089578203227832, guid: 62c6bf23da567054893722f433e5ba82, type: 3}
+  debuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0

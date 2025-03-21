@@ -7,7 +7,7 @@ public class DoctorBunnySkill : AttackSkillBase
 
         HeroHolder heroHolder = hero.GetHeroHolder();
         Collider2D[] enemiesInRange =
-                Physics2D.OverlapCircleAll(heroHolder.transform.position, heroData.atkRange, hero.monsterLayer);
+                Physics2D.OverlapCircleAll(heroHolder.transform.position, heroData.atkRange.GetValue(), hero.monsterLayer);
 
         int currentTargetCount = 0;
 

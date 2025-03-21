@@ -43,15 +43,15 @@ public class Hero : Entity
         base.Awake();
     }
 
-    public void InitHeroData(HeroData data, HeroHolder heroHolder, string rarity)
+    public void InitHeroData(HeroScriptable data, HeroHolder heroHolder, string rarity)
     {
-        heroData = Resources.Load<HeroScriptable>("HeroDatas/" + rarity + "/" + data.heroName);
+        heroData = data;
 
         heroName = heroData.heroName;
         heroRarity = (HeroRarity)Enum.Parse(typeof(HeroRarity), rarity);
-        baseAtk = heroData.atk;
-        attackRange = heroData.atkRange;
-        attackSpeed = heroData.atkSpeed;
+        baseAtk = heroData.atk.baseValue;
+        attackRange = heroData.atkRange.baseValue;
+        attackSpeed = heroData.atkSpeed.baseValue;
         this.heroHolder = heroHolder;
 
         Type classType = Type.GetType(heroName + "Skill");
@@ -189,7 +189,7 @@ public class Hero : Entity
 
     private IEnumerator AttackDelayCoroutine()
     {
-        yield return new WaitForSeconds(1f/attackSpeed);
+        yield return new WaitForSeconds(1f/heroData.atkSpeed.GetValue());
         attackDelay = false;
     }
 
