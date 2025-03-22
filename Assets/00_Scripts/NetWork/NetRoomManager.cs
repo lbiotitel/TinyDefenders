@@ -151,7 +151,7 @@ public partial class NetManager : MonoBehaviour
     {
         NetworkManager.Singleton.StartHost();
         Debug.Log("호스트 시작");
-
+        NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnHostDisconnected;
     }
@@ -174,6 +174,7 @@ public partial class NetManager : MonoBehaviour
     private void StartClient()
     {
         NetworkManager.Singleton.StartClient();
+        NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
         Debug.Log("클라이언트 시작");
     }
 

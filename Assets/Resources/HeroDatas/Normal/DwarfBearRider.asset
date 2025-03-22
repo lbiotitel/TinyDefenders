@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: DwarfBearRider
+  m_EditorClassIdentifier: 
+  heroName: DwarfBearRider
+  rarity: 0
+  atk:
+    baseValue: 50
+  damage:
+    baseValue: 0
+  criticalRate:
+    baseValue: 0
+  atkSpeed:
+    baseValue: 1
+  atkRange:
+    baseValue: 1.5
+  heroDesc: 
+  heroMainImage: {fileID: 852022193, guid: 0c3bde291d462c746a58e6994f3b89ea, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 03b96d1b3a4e6d84eb0601dc1b04909e, type: 2}
+  projectile: {fileID: 9014258871268885674, guid: db3d9e772b5d01c4ca9242d56d5c3274, type: 3}
+  debuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0

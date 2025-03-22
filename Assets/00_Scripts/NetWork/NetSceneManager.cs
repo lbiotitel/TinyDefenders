@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public partial class NetManager : MonoBehaviour
 {
@@ -22,6 +23,23 @@ public partial class NetManager : MonoBehaviour
                 gamePlaySceneName,
                 UnityEngine.SceneManagement.LoadSceneMode.Single
                 );
+        }
+    }
+
+    private void OnSceneLoaded(ulong clientId, string sceneName, LoadSceneMode mode)
+    {
+        GameObject go = GameObject.Find("GameManager");
+        if (go != null)
+        {
+            GameManager gameManager = go.GetComponent<GameManager>();
+            if (NetUtils.IsServer())
+            {
+                gameManager.SetSpawner();
+            }
+            else
+            {
+                gameManager.SendUserNameServerRpc(CloudManager.instance.userData.userName);
+            }
         }
     }
 

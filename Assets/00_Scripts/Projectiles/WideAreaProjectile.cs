@@ -8,42 +8,42 @@ public class WideAreaProjectile : BaseProjectile
     [SerializeField] private float range;
     [SerializeField] private int targetCount;
 
-    private void RangeDamage()
-    {
-        int currentCount = 0;
-
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position,
-            range,LayerMask.GetMask(LayerName.Monster));
-
-        List<Monster> monsters = new List<Monster>();
-
-        foreach (Collider2D collider in colliders)
-        {
-            if (currentCount >= targetCount) break;
-            if (collider.GetComponent<Monster>().IsDead()) continue;
-            monsters.Add(collider.GetComponent<Monster>());
-            currentCount++;
-        }
-
-        foreach (var monster in monsters)
-        {
-            NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), referenceHero.atk, monster,
-              referenceHero.GetHeroData().debuffEffects);
-        }
-    }
-
-
 
     protected override void HitMonster()
     {
-        Instantiate(destroyParticle, transform.position, Quaternion.identity);
-
-        if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
+        if (!isAttack)
         {
-            NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), referenceHero.atk, target.GetComponent<Monster>(),
-                referenceHero.GetHeroData().debuffEffects);
-        }
+            isAttack = true;
 
-        Destroy(this.gameObject);
+            int currentCount = 0;
+
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position,
+                range, LayerMask.GetMask(LayerName.Monster));
+
+            List<Monster> monsters = new List<Monster>();
+
+            foreach (Collider2D collider in colliders)
+            {
+                if (currentCount >= targetCount) break;
+                if (collider.GetComponent<Monster>().IsDead()) continue;
+
+                monsters.Add(collider.GetComponent<Monster>());
+                currentCount++;
+            }
+
+            foreach (var monster in monsters)
+            {
+                if (NetUtils.IsServer() && monster != null && !monster.GetComponent<Monster>().IsDead())
+                {
+                    NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), referenceHero.atk, monster.GetComponent<Monster>(),
+                        referenceHero.GetHeroData().debuffEffects);
+                }
+            }
+
+            destroyParticle = PoolingManager.instance.GetObject(destroyParticlePrefab, transform.position);
+
+
+            DisableObject(lifeTime);
+        }
     }
 }

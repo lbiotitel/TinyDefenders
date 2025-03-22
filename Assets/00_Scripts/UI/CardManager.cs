@@ -158,8 +158,6 @@ public class CardManager : MonoBehaviour
 
         for (int i = 0; i < myCardList.Count; i++)
         {
-            if (myCardList[i].IsDrag()) continue;
-
             float pos = (float)i / (myCardList.Count - 1);
             if (myCardList.Count == 1)
                 pos = 0.5f;

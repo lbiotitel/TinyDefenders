@@ -225,7 +225,6 @@ public class Hero : Entity
         if (!NetUtils.IsServer()) return;
         if (collision.CompareTag("Monster"))
         {
-            Debug.Log("°¨Áö");
             monsterInRangeList.Add(collision.GetComponent<Monster>());
         }
     }

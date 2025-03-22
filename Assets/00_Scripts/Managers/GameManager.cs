@@ -6,6 +6,7 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 
 public delegate void OnGoldGetEventHandler();
@@ -67,13 +68,6 @@ public class GameManager : NetworkBehaviour
     private List<Hero> heroList = new List<Hero>();
 
 
-    private void Start()
-    {
-        if (IsClient)
-        {
-            SendUserNameServerRpc(CloudManager.instance.userData.userName);
-        }
-    }
 
     private void InitGameManager()
     {
@@ -90,6 +84,11 @@ public class GameManager : NetworkBehaviour
     {
         CheckEndProfileAnimation();
         UpdateTime();
+    }
+
+    public void SetSpawner()
+    {
+        Spawner.instance.SetSpawner();
     }
 
     private void CheckEndProfileAnimation()
@@ -345,7 +344,7 @@ public class GameManager : NetworkBehaviour
 
     //send users name
     [ServerRpc(RequireOwnership = false)]
-    private void SendUserNameServerRpc(string userName)
+    public void SendUserNameServerRpc(string userName)
     {
         if (IsServer)
         {

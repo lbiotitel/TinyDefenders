@@ -108,6 +108,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     #region Card Drag Method
     public void OnDrag(PointerEventData eventData)
     {
+        if (!readyInteract) return;
         CardManager.instance.OnCardDropZone();
         transform.position = Input.mousePosition;
         if (IsInDropZone())
@@ -121,6 +122,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!readyInteract) return;
         isDrag = false;
 
         if (!IsInDropZone())

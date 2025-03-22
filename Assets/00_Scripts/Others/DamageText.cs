@@ -10,15 +10,17 @@ public class DamageText : MonoBehaviour
     [SerializeField] private Vector3 offset = new Vector3(0, 2, 0);
     [SerializeField] private float randX;
     [SerializeField] private TextMeshPro damageText;
+    [SerializeField] private GameObject criticalParticle;
     private Color textColor;
 
-    public void InitDamageText(double damage)
+    public void InitDamageText(double damage, bool cri = false)
     {
         damageText.text = string.Format("{0:0}", damage);
         Color color = damageText.color;
         color.a = 1f;
         damageText.color = color;
         textColor = damageText.color;
+        if (cri) criticalParticle.SetActive(true);
         StartCoroutine(ShowAndFade());
     }
 
@@ -48,6 +50,7 @@ public class DamageText : MonoBehaviour
             yield return null;
         }
 
+        criticalParticle.SetActive(false);
         PoolingManager.instance.ReturnObject(gameObject);
     }
 

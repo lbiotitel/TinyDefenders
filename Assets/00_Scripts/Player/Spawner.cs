@@ -59,6 +59,11 @@ public class Spawner : NetworkBehaviour
 
     private void Start()
     {
+        SetSpawner();
+    }
+
+    public void SetSpawner()
+    {
         DrawGrid(hostTileMap, ref hostSpawnList, "HOST", 0);
         DrawGrid(clientTimeMap, ref clientSpawnList, "CLIENT", 1);
 
@@ -95,35 +100,34 @@ public class Spawner : NetworkBehaviour
         {
             for (int col = bounds.xMax; col >= bounds.xMin; col--)
             {
-                Vector3Int tilePosition = new Vector3Int(col,row,0);
+                Vector3Int tilePosition = new Vector3Int(col, row, 0);
                 if (!tileMap.HasTile(tilePosition)) continue;  // 타일이 없으면 무시
 
                 Vector3 worldPos = tileMap.CellToWorld(tilePosition);
 
-                spawnList.Add(new SpawnNode(worldPos + new Vector3(0,0.30f,0), false));
+                spawnList.Add(new SpawnNode(worldPos + new Vector3(0, 0.30f, 0), false));
             }
         }
 
-        if (IsServer)
-        {
-            StartCoroutine(WaitForClient(id,value));
-        }
+        SetHeroHolders(id, value);
 
         heroHolderValue[value] = 0;
     }
 
-    private IEnumerator WaitForClient(string id,int value)
+    private void SetHeroHolders(string id, int value)
     {
-        yield return new WaitForSeconds(0.3f);
-
-        for (int i = 0; i < gridHeight; i++)
+        if (IsServer)
         {
-            for (int j = 0; j < gridWidth; j++)
+            for (int i = 0; i < gridHeight; i++)
             {
-                StartCoroutine(DelaySetHeroHolder(id, value));
+                for (int j = 0; j < gridWidth; j++)
+                {
+                    StartCoroutine(DelaySetHeroHolder(id, value));
+                }
             }
         }
     }
+
 
     //히어로를 가지고있을 히어로 홀더들을 서버에서 생성
     private IEnumerator DelaySetHeroHolder(string id, int value)

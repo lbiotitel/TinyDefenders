@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using Unity.Services.CloudSave;
 using Unity.Services.CloudSave.Models;
 using Unity.Services.Leaderboards;
 using UnityEngine;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 
 
@@ -205,6 +207,8 @@ public class CloudManager : MonoBehaviour
         return null;
     }
 
+
+    #region About LeaderBoard
     private async Task UpdateLeaderBoard(int score)
     {
         try
@@ -221,18 +225,48 @@ public class CloudManager : MonoBehaviour
         }
     }
 
-    public async void GetLeaderBoard()
+    public async Task<RankData> GetUserLeaderBoard()
     {
-        var leaderBoard = await LeaderboardsService.Instance.GetScoresAsync(leaderBoardKey);
+        var leaderBoard = await LeaderboardsService.Instance.GetPlayerScoreAsync(leaderBoardKey,
+            new GetPlayerScoreOptions { IncludeMetadata = true });
+
+        string metaData = leaderBoard.Metadata;
+        Dictionary<string,string> data = JsonConvert.DeserializeObject<Dictionary<string, string>>(metaData);
+
+        RankData rankData = new RankData
+        {
+            userName = data["userName"],
+            userRankPoint = leaderBoard.Score,
+            userRank = leaderBoard.Rank,
+            userTier = leaderBoard.Tier,
+        };
+
+        return rankData;
+    }
+
+    public async Task<List<RankData>> GetLeaderBoard()
+    {
+        var leaderBoard = await LeaderboardsService.Instance.GetScoresAsync(leaderBoardKey,
+             new GetScoresOptions { IncludeMetadata = true });
+
+        List<RankData> rankDatas = new List<RankData>();
 
         for (int i = 0; i < leaderBoard.Total; i++)
         {
-            Debug.Log(leaderBoard.Results[i].PlayerId);
-            Debug.Log(leaderBoard.Results[i].PlayerName);
-            Debug.Log(leaderBoard.Results[i].Score);
-            Debug.Log(leaderBoard.Results[i].Rank);
+            string metaData = leaderBoard.Results[i].Metadata;
+            Dictionary<string, string> data = JsonConvert.DeserializeObject<Dictionary<string, string>>(metaData);
+
+            rankDatas.Add(new RankData { 
+                userName = data["userName"],
+                userRankPoint = leaderBoard.Results[i].Score,
+                userRank = leaderBoard.Results[i].Rank,
+                userTier = leaderBoard.Results[i].Tier,
+            });
         }
+
+        return rankDatas;
     }
+    #endregion
 
     #endregion
 

@@ -91,7 +91,7 @@ public partial class Monster : Entity
         hp = remainHp;
         hpImage.fillAmount = ((float)hp / (float)maxHp);
         DamageText damageText = PoolingManager.instance.GetObject<DamageText>(damageTextPrefab, transform.position);
-        damageText.InitDamageText(damage);
+        damageText.InitDamageText(damage, true);
         Dead();
     }
 
