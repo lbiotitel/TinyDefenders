@@ -13,6 +13,16 @@ public struct LayerName {
     public static string Defulat = "Default";
 }
 
+public enum HeroTribe { 
+    HUMAN,
+    DWARF,
+    UNDEAD,
+    DEVILL,
+    ELF,
+    ORC,
+    SCAVENGER
+}
+
 public enum DebuffType { 
     SLOW,
     STUN,

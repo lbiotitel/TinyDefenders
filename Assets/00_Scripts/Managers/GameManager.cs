@@ -67,8 +67,19 @@ public class GameManager : NetworkBehaviour
 
     private List<Hero> heroList = new List<Hero>();
 
+    [Header("Hero Upgrade")]
+    [SerializeField]private InGameHeroUpgrade clientUpgrade;
+    [SerializeField]private InGameHeroUpgrade serverUpgrade;
 
 
+
+    private void Update()
+    {
+        CheckEndProfileAnimation();
+        UpdateTime();
+    }
+
+    #region Game Start Logic
     private void InitGameManager()
     {
         if (IsServer)
@@ -80,16 +91,19 @@ public class GameManager : NetworkBehaviour
     }
 
 
-    private void Update()
-    {
-        CheckEndProfileAnimation();
-        UpdateTime();
-    }
-
     public void SetSpawner()
     {
         Spawner.instance.SetSpawner();
     }
+
+    public void StartGame()
+    {
+        isGameStart = true;
+        CardManager.instance.RerollCard();
+        //SoundManager.instance.PlayMusicSound("InGameBgm",true);
+    }
+
+
 
     private void CheckEndProfileAnimation()
     {
@@ -102,6 +116,10 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    #endregion
+
+
+    #region Game Wave Logic
     private void UpdateTime()
     {
         if (!isGameStart) return;
@@ -138,6 +156,7 @@ public class GameManager : NetworkBehaviour
             waveData[currentWave - 1].spawnInterval,
             waveData[currentWave - 1].waveMonsterCount);
     }
+    #endregion
 
 
     #region Monster Count Method
@@ -209,8 +228,6 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-
-
     public void BossMonsterDead()
     {
         StartWave();
@@ -244,20 +261,6 @@ public class GameManager : NetworkBehaviour
         onTimerUp?.Invoke(monsterName);
     }
 
-    public void AddHero(Hero hero)
-    {
-        heroList.Add(hero);
-        currentHeroCount++;
-        onSummonHero?.Invoke();
-    }
-
-    public void RemoveHero(Hero hero)
-    { 
-        heroList.Remove(hero);
-        currentHeroCount--;
-        onSummonHero?.Invoke();
-    }   
-
 
     [ClientRpc]
     private void NotifyClientMonsterCountClientRpc(int count)
@@ -265,14 +268,9 @@ public class GameManager : NetworkBehaviour
         currentMonsterCount = count;
     }
 
-    public void StartGame()
-    { 
-        isGameStart = true;
-        CardManager.instance.RerollCard();
-        //SoundManager.instance.PlayMusicSound("InGameBgm",true);
-    }
 
 
+    #region Game Over Logic
     private void CleanNetworkObject()
     {
         if (IsServer)
@@ -322,6 +320,25 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    #endregion
+
+
+    public void AddHero(Hero hero)
+    {
+        heroList.Add(hero);
+        currentHeroCount++;
+        onSummonHero?.Invoke();
+    }
+
+    public void RemoveHero(Hero hero)
+    {
+        heroList.Remove(hero);
+        currentHeroCount--;
+        onSummonHero?.Invoke();
+    }
+
+    public List<Hero> GetHeroList() { return heroList; }
+
     public void SummonGoldGoblin()
     {
         if (!goldGoblinDelay)
@@ -341,7 +358,7 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-
+    #region Send Name
     //send users name
     [ServerRpc(RequireOwnership = false)]
     public void SendUserNameServerRpc(string userName)
@@ -357,6 +374,43 @@ public class GameManager : NetworkBehaviour
     {
         InGameUI.instance.InitAllUserName(hostName,clientName);
     }
+    #endregion
 
-    public List<Hero> GetHeroList() { return heroList; }
+
+    #region Hero Upgrade
+
+    [ServerRpc(RequireOwnership = false)]
+    public void UpgardeHeroServerRpc(int heroTribe,bool isServer)
+    {
+        HeroTribe tribe = (HeroTribe)heroTribe;
+        if (isServer)
+        {
+            serverUpgrade.Upgrade(tribe);   
+        }
+        else {
+            clientUpgrade.Upgrade(tribe);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void GetHeroUpgradeValueServerRpc(int heroTribe,bool isServer)
+    {
+        HeroTribe tribe = (HeroTribe)heroTribe;
+        if (isServer)
+        {
+            serverUpgrade.GetHeroUpgrade(tribe);
+        }
+        else {
+            clientUpgrade.GetHeroUpgrade(tribe);
+        }
+    }
+
+    [ClientRpc]
+    public void GetHeroUpgradeValueClientRpc()
+    { 
+        
+    }
+
+    #endregion
+
 }

@@ -35,10 +35,13 @@ public partial class NetManager : MonoBehaviour
             if (NetUtils.IsServer())
             {
                 gameManager.SetSpawner();
+                NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
             }
             else
-            {
+            { 
                 gameManager.SendUserNameServerRpc(CloudManager.instance.userData.userName);
+                gameManager.SetSpawner();
+                NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
             }
         }
     }

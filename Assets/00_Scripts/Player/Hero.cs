@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -174,15 +175,8 @@ public class Hero : Entity
 
             if (monsterInRangeList.Count > 0)
             {
-                foreach (var monster in monsterInRangeList)
-                {
-                    if (monster.IsDead()) continue;
-                    if (monster != null)
-                    {
-                        target = monster.GetComponent<NetworkObject>();
-                        break;
-                    }
-                }
+                target = FindCloseMonster()?.GetComponent<NetworkObject>();
+
                 if (target != null)
                 {
                     attackDelay = true;
@@ -194,6 +188,28 @@ public class Hero : Entity
             else
                 target = null;
         }
+    }
+
+    private GameObject FindCloseMonster()
+    {
+        GameObject go = null;
+        float distance = float.MaxValue;
+
+        foreach (var monster in monsterInRangeList)
+        {
+            if (monster.IsDead()) continue;
+            if (monster != null)
+            {
+                float currentDistance = Vector2.Distance(transform.position, monster.transform.position);
+                if (currentDistance < distance)
+                {
+                    go = monster.gameObject;
+                    distance = currentDistance;
+                }
+            }
+        }
+
+        return go;
     }
 
 
@@ -213,8 +229,14 @@ public class Hero : Entity
             BaseProjectile go = 
                 PoolingManager.instance.GetObject<BaseProjectile>(heroData.projectile.gameObject,transform.position);
             go.Init(targetObject.transform, this);
-            target = targetObject;
+            LooKTarget(targetObject.gameObject);
         }
+    }
+
+    private void LooKTarget(GameObject target)
+    {
+        spriteRenderer.flipX = 
+            ((int)Mathf.Sin(target.transform.position.x - transform.position.x)) == 1 ? false : true;
     }
 
 

@@ -40,8 +40,9 @@ public class HeroScriptable : ScriptableObject
     public Stat atkSpeed;
     public Stat atkRange;
     [TextArea] public string heroDesc;
-    
+
     [Header("Extra")]
+    public HeroTribe heroTribe;
     public Sprite heroMainImage;
     public RuntimeAnimatorController runtimeAnimatorController;
 

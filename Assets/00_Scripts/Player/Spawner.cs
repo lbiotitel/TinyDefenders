@@ -57,11 +57,6 @@ public class Spawner : NetworkBehaviour
 
     private int serverClientHolderReadyValue = 0;
 
-    private void Start()
-    {
-        SetSpawner();
-    }
-
     public void SetSpawner()
     {
         DrawGrid(hostTileMap, ref hostSpawnList, "HOST", 0);
@@ -101,7 +96,7 @@ public class Spawner : NetworkBehaviour
             for (int col = bounds.xMax; col >= bounds.xMin; col--)
             {
                 Vector3Int tilePosition = new Vector3Int(col, row, 0);
-                if (!tileMap.HasTile(tilePosition)) continue;  // 타일이 없으면 무시
+                if (!tileMap.HasTile(tilePosition)) continue;  
 
                 Vector3 worldPos = tileMap.CellToWorld(tilePosition);
 
@@ -116,7 +111,7 @@ public class Spawner : NetworkBehaviour
 
     private void SetHeroHolders(string id, int value)
     {
-        if (IsServer)
+        if (NetUtils.IsServer())
         {
             for (int i = 0; i < gridHeight; i++)
             {
