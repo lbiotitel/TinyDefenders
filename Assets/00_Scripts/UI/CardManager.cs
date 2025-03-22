@@ -15,6 +15,7 @@ public class CardManager : MonoBehaviour
     [SerializeField] private float curve;
     [SerializeField] private float cardSpacing;
     [SerializeField] private Button rerollButton;
+    [SerializeField] private GameObject cardDropZone;
 
     [SerializeField] private int rerollHeroCount;
     [SerializeField] private int rerollSpellCardCount;
@@ -140,6 +141,16 @@ public class CardManager : MonoBehaviour
         StartCoroutine(SortCardCoroutine());
     }
 
+
+    public void OffCardDropZone()
+    {
+        cardDropZone.SetActive(false); 
+    }
+
+    public void OnCardDropZone()
+    { 
+        cardDropZone.SetActive(true); 
+    }
 
     private IEnumerator SortCardCoroutine()
     {

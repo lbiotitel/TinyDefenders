@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
 public class Hero : Entity
 {
     [SerializeField] private GameObject spawnParticle;
     [SerializeField] private ParticleSystem rarityParticle;
+    [SerializeField] private PolygonCollider2D heroRangeCollider;
 
     HeroScriptable heroData;
     private HeroHolder heroHolder;
@@ -15,7 +17,7 @@ public class Hero : Entity
     private double baseAtk;
     private bool attackDelay = false;
     bool isServerHero;
-
+    private List<Monster> monsterInRangeList = new List<Monster>();
 
     public double atk
     {
@@ -54,6 +56,8 @@ public class Hero : Entity
         attackSpeed = heroData.atkSpeed.baseValue;
         this.heroHolder = heroHolder;
 
+        InitHeroRangeCollider();
+
         Type classType = Type.GetType(heroName + "Skill");
         if (classType != null)
             gameObject.AddComponent(classType);
@@ -68,6 +72,18 @@ public class Hero : Entity
         Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
 
         isServerHero = heroHolder.holderId.Contains("CLIENT") ? false : true;
+    }
+
+    private void InitHeroRangeCollider()
+    {
+        Vector2[] points = heroRangeCollider.points;
+
+        for (int i = 0; i < points.Length; i++)
+        {
+            points[i] *= heroData.atkRange.baseValue;
+        }
+
+        heroRangeCollider.points = points;
     }
 
     private void InitRarityCircleColor()
@@ -156,30 +172,24 @@ public class Hero : Entity
 
             target = null;
 
-            Collider2D[] enemiesInRange =
-                Physics2D.OverlapCircleAll(heroHolder.transform.position, attackRange, monsterLayer);
-
-            if (enemiesInRange.Length > 0)
+            if (monsterInRangeList.Count > 0)
             {
-                for (int i = 0; i < enemiesInRange.Length; i++)
+                foreach (var monster in monsterInRangeList)
                 {
-                    if (enemiesInRange[i].GetComponent<Monster>().IsDead())
+                    if (monster.IsDead()) continue;
+                    if (monster != null)
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        target = enemiesInRange[i].transform.GetComponent<NetworkObject>();
+                        target = monster.GetComponent<NetworkObject>();
                         break;
                     }
                 }
-
                 if (target != null)
                 {
                     attackDelay = true;
                     StartCoroutine(AttackDelayCoroutine());
                     LoadBulletClientRpc(target.NetworkObjectId);
                 }
+
             }
             else
                 target = null;
@@ -206,6 +216,30 @@ public class Hero : Entity
             target = targetObject;
         }
     }
+
+
+    #region Collision Check
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!NetUtils.IsServer()) return;
+        if (collision.CompareTag("Monster"))
+        {
+            Debug.Log("°¨Áö");
+            monsterInRangeList.Add(collision.GetComponent<Monster>());
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (!NetUtils.IsServer()) return;
+        if (collision.CompareTag("Monster"))
+        {
+            monsterInRangeList.Remove(collision.GetComponent<Monster>());
+        }
+    }
+
+    #endregion
 
     public override void OnDestroy()
     {

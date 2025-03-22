@@ -7,6 +7,7 @@ using UnityEngine;
 public class GameSettingData {
     public float backgroundSoundVolume;
     public float sfxSoundVolume;
+    public int targetFrame;
 }
 
 
@@ -15,16 +16,19 @@ public class GameSettingSO : ScriptableObject
 {
     public float backgroundSoundVolume;
     public float sfxSoundVolume;
+    public int targetFrame;
 
     public void SaveData()
     {
         GameSettingData gameSettingData = new GameSettingData
         {
             backgroundSoundVolume = backgroundSoundVolume,
-            sfxSoundVolume = this.sfxSoundVolume
+            sfxSoundVolume = sfxSoundVolume,
+            targetFrame = targetFrame
         };
         string json = JsonUtility.ToJson(gameSettingData);
         File.WriteAllText(Application.persistentDataPath + "/GameSettingData.json", json);
+        Debug.Log(Application.persistentDataPath + "/GameSettingData.json");
     }
 
     public void LoadData()
@@ -36,6 +40,7 @@ public class GameSettingSO : ScriptableObject
             GameSettingData data = JsonUtility.FromJson<GameSettingData>(json);
             this.backgroundSoundVolume = data.backgroundSoundVolume;
             this.sfxSoundVolume = data.sfxSoundVolume;
+            this.targetFrame = data.targetFrame;
         }
     }
 

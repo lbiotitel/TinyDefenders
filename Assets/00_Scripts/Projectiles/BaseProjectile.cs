@@ -9,8 +9,9 @@ public class BaseProjectile : MonoBehaviour
     [Header("Base Projectile Value")]
     [SerializeField] protected float speed;
     [SerializeField] protected ProjectileType projectileType = ProjectileType.NORMAL;
-    [SerializeField][Range(0.1f,1f)] protected float lifeTime = 0.2f;
+    [SerializeField][Range(0f,1f)] protected float lifeTime = 0.2f;
     [SerializeField] protected GameObject destroyParticlePrefab;
+    
     protected GameObject destroyParticle;
     protected Hero referenceHero;
     protected Transform target;
@@ -117,7 +118,6 @@ public class BaseProjectile : MonoBehaviour
         {
             PoolingManager.instance.ReturnObject(destroyParticle);
             PoolingManager.instance.ReturnObject(gameObject);
-            Debug.Log(gameObject.name + "µ¹¾Æ°¨");
         }
     }
 

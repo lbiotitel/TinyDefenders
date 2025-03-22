@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: UndeadNecromancer
+  m_EditorClassIdentifier: 
+  heroName: UndeadNecromancer
+  rarity: 0
+  atk:
+    baseValue: 20
+  damage:
+    baseValue: 0
+  criticalRate:
+    baseValue: 0
+  atkSpeed:
+    baseValue: 1
+  atkRange:
+    baseValue: 2
+  heroDesc: 
+  heroMainImage: {fileID: 105302136, guid: ec2d42e40bea0f04b824b7c129d75464, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 04e82b68f25851d4d96158f34d7e1d9a, type: 2}
+  projectile: {fileID: 7978453413053508807, guid: afe413c1523373347b09ed8edc97e5ed, type: 3}
+  debuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0

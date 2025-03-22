@@ -68,10 +68,13 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     private void InitSummonCard()
     { 
         SummonCard summonCard = cardSO as SummonCard;
+
         HeroScriptable heroData = summonCard.GetHeroData();
-        heroAtkText.text = heroData.atk.ToString();
-        heroAtkSpeedText.text = heroData.atkSpeed.ToString();
-        heroAtkRangeText.text = heroData.atkRange.ToString();
+        heroAtkText.text = heroData.atk.baseValue.ToString();
+        heroAtkSpeedText.text = heroData.atkSpeed.baseValue.ToString();
+        heroAtkRangeText.text = heroData.atkRange.baseValue.ToString();
+
+        cardNameText.text = heroData.GetLocalizationName();
         cardDescText.text = heroData.heroDesc;
     }
 
@@ -105,6 +108,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     #region Card Drag Method
     public void OnDrag(PointerEventData eventData)
     {
+        CardManager.instance.OnCardDropZone();
         transform.position = Input.mousePosition;
         if (IsInDropZone())
         {
@@ -131,6 +135,7 @@ public class CardNode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
         }
 
         HideRange();
+        CardManager.instance.OffCardDropZone();
         CardManager.instance.SortCard();
     }
 

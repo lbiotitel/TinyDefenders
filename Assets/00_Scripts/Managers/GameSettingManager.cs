@@ -21,6 +21,7 @@ public class GameSettingManager : MonoBehaviour
     {
         gameSettingData = Resources.Load<GameSettingSO>("SettingData/GameSettingSO");
         gameSettingData.LoadData();
+        Application.targetFrameRate = gameSettingData.targetFrame;
     }
 
     public void SetBackgroundVolume(float volume)

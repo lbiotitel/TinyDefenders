@@ -350,7 +350,7 @@ Animator:
   m_GameObject: {fileID: 5249462860078115409}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b0c4bb6bf5227f44c9b8de366d464fb9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4c528c3c39e56184e81f96e3f7637ef8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -419,6 +419,7 @@ GameObject:
   - component: {fileID: 5210453875251253061}
   - component: {fileID: 4046672439042829149}
   - component: {fileID: 860972043160866581}
+  - component: {fileID: 3897633773471109625}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -484,12 +485,64 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   spawnParticle: {fileID: 5626245795935178412, guid: fd1add2b7de660f498cb90d16f9f8561, type: 3}
   rarityParticle: {fileID: 5773783186465888369}
+  heroRangeCollider: {fileID: 3897633773471109625}
   <attackRange>k__BackingField: 1
   attackSpeed: 0
   <monsterLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
   heroRarity: 0
+--- !u!60 &3897633773471109625
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7380748454083490264}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.00060730614, y: 0.6573229}
+      - {x: -1.4006593, y: -0.0099848285}
+      - {x: 0.013408862, y: -0.6379546}
+      - {x: 1.4184221, y: -0.0050400794}
+  m_UseDelaunayMesh: 0
 --- !u!1001 &5459179785711751962
 PrefabInstance:
   m_ObjectHideFlags: 0

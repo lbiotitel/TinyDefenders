@@ -59,4 +59,14 @@ public class HeroScriptable : ScriptableObject
         heroName = this.name;
     }
 
+    public string GetLocalizationName()
+    {
+        return Utils.Localization_Text(Localize.Hero,heroName);
+    }
+
+    public string GetLocalizationDesc()
+    {
+        return Utils.Localization_Text(Localize.Hero, heroName + "Desc");
+    }
+
 }

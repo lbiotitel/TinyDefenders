@@ -50,7 +50,7 @@ public class HeroHolder : NetworkBehaviour
     public void ShowRange()
     {
         float range = heroData.atkRange.GetValue();
-        heroRange.localScale = Vector2.one * range * 2;
+        heroRange.localScale = Vector2.one * range;
 
         heroRange.gameObject.SetActive(true);
     }

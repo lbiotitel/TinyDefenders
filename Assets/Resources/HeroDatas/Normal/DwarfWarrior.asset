@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: DwarfWarrior
+  m_EditorClassIdentifier: 
+  heroName: DwarfWarrior
+  rarity: 0
+  atk:
+    baseValue: 5
+  damage:
+    baseValue: 0
+  criticalRate:
+    baseValue: 0
+  atkSpeed:
+    baseValue: 1
+  atkRange:
+    baseValue: 2
+  heroDesc: 
+  heroMainImage: {fileID: -1994867108, guid: e8cc0949bab38da4a84be74efd8840ec, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 9ca447951a8103a4795eba2f945462d8, type: 2}
+  projectile: {fileID: 8196813808265226441, guid: adaf937ec3131c740866f625810f585c, type: 3}
+  debuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0
