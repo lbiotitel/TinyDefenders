@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: ScavengerThug
+  m_EditorClassIdentifier: 
+  heroName: ScavengerThug
+  rarity: 0
+  atk:
+    baseValue: 5
+  damage:
+    baseValue: 0
+  criticalRate:
+    baseValue: 0
+  atkSpeed:
+    baseValue: 2
+  atkRange:
+    baseValue: 1.5
+  heroDesc: 
+  heroTribe: 6
+  heroMainImage: {fileID: 1563941236, guid: 342167fcc3354c44ea25e11c997478ab, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 929d9a5b8fe272d4cb9c39dbb431b4fd, type: 2}
+  projectile: {fileID: 2786315958115145823, guid: cf677e431a119ae4ca154e82b3ec123b, type: 3}
+  debuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0

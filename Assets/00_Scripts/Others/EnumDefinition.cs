@@ -17,7 +17,7 @@ public enum HeroTribe {
     HUMAN,
     DWARF,
     UNDEAD,
-    DEVILL,
+    DEMON,
     ELF,
     ORC,
     SCAVENGER
