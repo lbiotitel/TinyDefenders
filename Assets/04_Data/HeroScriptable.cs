@@ -23,7 +23,10 @@ public class SkillData {
     public float buffTime;
     public float buffAmount;
     public float buffRange;
-    
+
+    [Header("Skill Debuff")]
+    public List<DebuffEffect> debuffEffects;
+
 }
 
 

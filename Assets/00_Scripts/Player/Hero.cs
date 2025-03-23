@@ -19,6 +19,8 @@ public class Hero : Entity
     private bool attackDelay = false;
     bool isServerHero;
     private List<Monster> monsterInRangeList = new List<Monster>();
+    private int monsterKillCount = 0;
+
 
     public double atk
     {
@@ -129,16 +131,6 @@ public class Hero : Entity
 
         int sign = (int)Mathf.Sign(targetPos.x - transform.position.x);
 
-        switch (sign)
-        {
-            case -1:
-                transform.Rotate(0, 180, 0);
-                break;
-            case 1:
-                transform.Rotate(0, -180, 0);
-                break;
-        }
-
         StartCoroutine(SwapCoroutine(targetPos));
     }
 
@@ -160,7 +152,6 @@ public class Hero : Entity
         }
 
         isMove = false;
-        transform.Rotate(0, 180, 0);
         AnimatorChange("IDLE", false);
     }
 
@@ -235,8 +226,15 @@ public class Hero : Entity
 
     private void LooKTarget(GameObject target)
     {
-        spriteRenderer.flipX = 
-            ((int)Mathf.Sin(target.transform.position.x - transform.position.x)) == 1 ? false : true;
+        if (target.transform.position.x > transform.position.x)
+        {
+            spriteRenderer.flipX = false;
+        }
+        else
+        {
+
+            spriteRenderer.flipX = true;
+        }
     }
 
 
@@ -269,4 +267,5 @@ public class Hero : Entity
     }
     public HeroScriptable GetHeroData() { return heroData; }
     public HeroHolder GetHeroHolder() { return heroHolder; }
+    public void IncreaseMonsterKillCount() { monsterKillCount++; }
 }

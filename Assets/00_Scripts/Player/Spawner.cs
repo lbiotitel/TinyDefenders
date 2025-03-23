@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static UnityEngine.Rendering.DebugUI;
@@ -103,6 +105,8 @@ public class Spawner : NetworkBehaviour
                 spawnList.Add(new SpawnNode(worldPos + new Vector3(0, 0.30f, 0), false));
             }
         }
+
+        if (id == "CLIENT") spawnList.Reverse();
 
         SetHeroHolders(id, value);
 
@@ -257,6 +261,7 @@ public class Spawner : NetworkBehaviour
 
     public void StartMonsterSpawn(string monsterName, float spawnInterval, int spawnCount)
     {
+        StopAllCoroutines();
         StartCoroutine(SpawnMonsterCoroutine(monsterName, spawnInterval, spawnCount));
     }
 
@@ -271,9 +276,9 @@ public class Spawner : NetworkBehaviour
     {
         for (int i = 0; i < spawnCount; i++)
         {
-            yield return new WaitForSeconds(spawnInterval);
             MonsterSpawn(true, monsterName);
             MonsterSpawn(false, monsterName);
+            yield return new WaitForSeconds(spawnInterval);
         }
     }
 
@@ -301,6 +306,7 @@ public class Spawner : NetworkBehaviour
 
             monsterNetworkObject.transform.position = spawnPoints[0].position;
 
+            monsterNetworkObject.GetComponent<NetworkTransform>().Interpolate = true;
             monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(spawnPoints);
             monsterNetworkObject.GetComponent<Monster>().InitData(monsterData);
         }

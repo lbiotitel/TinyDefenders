@@ -230,13 +230,19 @@ public class GameManager : NetworkBehaviour
 
     public void BossMonsterDead()
     {
-        StartWave();
-        NotifyTimerClientRpc(
-             timer,
-             currentWave,
-             true,
-             waveData[currentWave - 1].bossWave,
-             waveData[currentWave - 1].spawnMonsterData.monsterName);
+        if (timer > 0)
+        {
+            StartWave();
+            NotifyTimerClientRpc(
+                 timer,
+                 currentWave,
+                 true,
+                 waveData[currentWave - 1].bossWave,
+                 waveData[currentWave - 1].spawnMonsterData.monsterName);
+        }
+        else {
+            GameOver();
+        }
     }
 
     [ClientRpc]

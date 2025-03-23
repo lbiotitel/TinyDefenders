@@ -16,6 +16,7 @@ public class BaseProjectile : MonoBehaviour
     protected Hero referenceHero;
     protected Transform target;
     protected bool isAttack = false;
+    protected bool isHit = false;
 
     public virtual void Init(Transform target, Hero referenceHero)
     {
@@ -88,17 +89,26 @@ public class BaseProjectile : MonoBehaviour
 
             destroyParticle = PoolingManager.instance.GetObject(destroyParticlePrefab, transform.position);
 
-            if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
-            {
-                NetworkRpcManager.instance.AttackMonster(
-                    NetUtils.IsServerHolder(referenceHero), 
-                    referenceHero.atk, 
-                    target.GetComponent<Monster>(),
-                    referenceHero.GetHeroData().debuffEffects);
-            }
+            AttackMonster(target.gameObject);
 
             DisableObject(lifeTime);
         }
+    }
+
+    protected void AttackMonster(GameObject monster)
+    {
+        if (NetUtils.IsServer() && monster != null && !monster.GetComponent<Monster>().IsDead())
+        {
+            isHit = true;
+            NetworkRpcManager.instance.AttackMonster(
+                NetUtils.IsServerHolder(referenceHero),
+                referenceHero.atk,
+                monster.GetComponent<Monster>(),
+                referenceHero.GetHeroData().debuffEffects);
+        }
+
+        if (isHit && monster.GetComponent<Monster>().IsDead())
+            referenceHero.IncreaseMonsterKillCount();
     }
 
 

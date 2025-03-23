@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: ScavengerVagabond
+  m_EditorClassIdentifier: 
+  heroName: ScavengerVagabond
+  rarity: 0
+  atk:
+    baseValue: 120
+  damage:
+    baseValue: 0
+  criticalRate:
+    baseValue: 0
+  atkSpeed:
+    baseValue: 3
+  atkRange:
+    baseValue: 2
+  heroDesc: 
+  heroTribe: 6
+  heroMainImage: {fileID: 1951152065, guid: af6f3d5ff74dad342bb1f804396491da, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 674b96fce4123db47b3a7c877a256142, type: 2}
+  projectile: {fileID: 2819403659766304229, guid: 419d7e5451930e54e9c97700c2f75fbc, type: 3}
+  debuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0
+    debuffEffects: []

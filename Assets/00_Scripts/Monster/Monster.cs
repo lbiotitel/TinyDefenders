@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,7 +32,6 @@ public partial class Monster : Entity
 
     public void InitData(MonsterScriptable data)
     {
-        ResetObject();
         hp = maxHp = data.monsterHp;
         speed = originalSpeed = data.monsterSpeed;
         animator.runtimeAnimatorController = data.animatorController;
@@ -58,6 +58,7 @@ public partial class Monster : Entity
     public void SetMoveTarget(List<Transform> targetLists)
     {
         this.targetLists = targetLists;
+        ResetObject();
     }
 
     public void GetDamage(double damage, bool isServer)
@@ -159,6 +160,8 @@ public partial class Monster : Entity
         }
 
         PoolingManager.instance.ReturnObject(deadParticle);
+
+        GetComponent<NetworkTransform>().Interpolate = false;
 
         if (IsServer)
         {

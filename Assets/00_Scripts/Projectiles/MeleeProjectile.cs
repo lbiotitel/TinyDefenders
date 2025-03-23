@@ -21,15 +21,12 @@ public class MeleeProjectile : BaseProjectile
 
             destroyParticle = PoolingManager.instance.GetObject(destroyParticlePrefab, transform.position);
 
-            if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
-            {
-                NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), referenceHero.atk, target.GetComponent<Monster>(),
-                    referenceHero.GetHeroData().debuffEffects);
-            }
+            AttackMonster(target.gameObject);
 
             DisableObject(lifeTime);
         }
     }
+
 
     protected override void ChasingTarget() { }
 

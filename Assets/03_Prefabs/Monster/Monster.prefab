@@ -115,7 +115,8 @@ GameObject:
   - component: {fileID: 78768045178406000}
   - component: {fileID: 8394448746075349729}
   - component: {fileID: 8002492217148536748}
-  - component: {fileID: 7110612453798079101}
+  - component: {fileID: 8680035700902512701}
+  - component: {fileID: 7807133113019817217}
   m_Layer: 6
   m_Name: Monster
   m_TagString: Monster
@@ -262,9 +263,9 @@ MonoBehaviour:
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
   SwitchTransformSpaceWhenParented: 0
-  Interpolate: 1
+  Interpolate: 0
   SlerpPosition: 0
---- !u!50 &7110612453798079101
+--- !u!50 &8680035700902512701
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -276,7 +277,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDamping: 0
   m_AngularDamping: 0
   m_GravityScale: 0
@@ -291,6 +292,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &7807133113019817217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3052580924962584419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1
 --- !u!1 &3130607394382358451
 GameObject:
   m_ObjectHideFlags: 0
