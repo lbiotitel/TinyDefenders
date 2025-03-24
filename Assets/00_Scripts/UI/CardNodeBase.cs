@@ -38,6 +38,12 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
     public virtual void InitCardNode(CardSO cardSO)
     {
         cardImage.preserveAspect = true;
+        this.cardSO = cardSO;
+
+        cardImage.sprite = cardSO.cardImage;
+        cardNameText.text = cardSO.cardName;
+        cardDescText.text = cardSO.cardDescription;
+        cardCostText.text = cardSO.cardCost.ToString();
     }
 
 

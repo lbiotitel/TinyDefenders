@@ -12,14 +12,16 @@ public class Hero : Entity
     [SerializeField] private ParticleSystem rarityParticle;
     [SerializeField] private PolygonCollider2D heroRangeCollider;
 
-    HeroScriptable heroData;
+    private HeroScriptable heroData;
     private HeroHolder heroHolder;
+
     private bool isMove = false;
     private double baseAtk;
     private bool attackDelay = false;
     bool isServerHero;
+
     private List<Monster> monsterInRangeList = new List<Monster>();
-    private int monsterKillCount = 0;
+    [SerializeField]private int monsterKillCount = 0;
 
 
     public double atk
@@ -268,4 +270,7 @@ public class Hero : Entity
     public HeroScriptable GetHeroData() { return heroData; }
     public HeroHolder GetHeroHolder() { return heroHolder; }
     public void IncreaseMonsterKillCount() { monsterKillCount++; }
+    public int GetMonsterKillCount() { return monsterKillCount; }
+    public void SetMonsterKillCount(int killCount) { this.monsterKillCount = killCount; }
+    public List<Monster> GetMonsterList() { return monsterInRangeList; }
 }

@@ -115,10 +115,10 @@ public class CardManager : MonoBehaviour
         {
             case CardType.ATTACK:
                 cardNode = Instantiate(attackCardPrefab, transform.position, Quaternion.identity);
-                return;
+                break;
             case CardType.UTILITY:
                 cardNode = Instantiate(utilityCardPrefab, transform.position, Quaternion.identity);
-                return;
+                break;
         }
        
         cardNode.InitCardNode(cardList[randomCard]);
@@ -136,6 +136,8 @@ public class CardManager : MonoBehaviour
         SummonCardNode cardNode = Instantiate(summonCardPrefab, transform.position, Quaternion.identity);
         cardNode.InitCardNode(cardSO);
         cardNode.transform.SetParent(myCardPos);
+
+        myCardList.Add(cardNode);
     }
 
     public void RemoveCard(CardNodeBase card)

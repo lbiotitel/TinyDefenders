@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
-  m_Name: DemonImp
+  m_Name: DemonFireThrower
   m_EditorClassIdentifier: 
-  heroName: DemonImp
+  heroName: DemonFireThrower
   rarity: 0
   atk:
-    baseValue: 5
+    baseValue: 40
   damage:
     baseValue: 0
   criticalRate:
     baseValue: 0
   atkSpeed:
-    baseValue: 1
+    baseValue: 1.3
   atkRange:
-    baseValue: 1.5
+    baseValue: 2
   heroDesc: 
   heroTribe: 3
-  heroMainImage: {fileID: 1191374277, guid: 432d180cf8acc3f44968d35619fa751c, type: 3}
-  runtimeAnimatorController: {fileID: 9100000, guid: f0108050ff0e778459a83339e32906d7, type: 2}
-  projectile: {fileID: 3241479529911869568, guid: a84cbbb54404c3d499340f02e684aab0, type: 3}
+  heroMainImage: {fileID: -8947062720977524987, guid: 80a15fab3c4729f42ae66de53ee60bbd, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 8d682a21552cb3f498ec10a7bd4c8e91, type: 2}
+  projectile: {fileID: 3086803288590146874, guid: 50361d5a7a0ee9544a143101620c99f1, type: 3}
   debuffEffects: []
   skillData:
     coolTime: 0
@@ -38,3 +38,4 @@ MonoBehaviour:
     buffTime: 0
     buffAmount: 0
     buffRange: 0
+    debuffEffects: []

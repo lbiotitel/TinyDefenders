@@ -63,15 +63,15 @@ public partial class Monster : Entity
         this.targetLists = targetLists;
     }
 
-    public void GetDamage(double damage, bool isServer)
+    public void GetDamage(double damage, bool isServer, bool isCri = false)
     {
         if (!IsServer) return;
         if (isDead) return;
 
-        MonsterGetDamage(damage, isServer);
+        MonsterGetDamage(damage, isServer,isCri);
     }
 
-    private void MonsterGetDamage(double damage, bool isServer)
+    private void MonsterGetDamage(double damage, bool isServer, bool isCri)
     {
         if (isServer)
         {
@@ -82,19 +82,22 @@ public partial class Monster : Entity
             GameManager.instance.friendDps += damage;
         }
 
+
+        if (isCri) damage *= 1.5f;
+
         hp -= (int)damage;
         hpImage.fillAmount = ((float)hp / (float)maxHp);
         GetReward();
-        UpdateClientRpc(hp,damage);
+        UpdateClientRpc(hp,damage, isCri);
     }
 
     [ClientRpc]
-    private void UpdateClientRpc(double remainHp, double damage)
+    private void UpdateClientRpc(double remainHp, double damage,bool isCri)
     {
         hp = remainHp;
         hpImage.fillAmount = ((float)hp / (float)maxHp);
         DamageText damageText = PoolingManager.instance.GetObject<DamageText>(damageTextPrefab, transform.position);
-        damageText.InitDamageText(damage, true);
+        damageText.InitDamageText(damage, isCri);
         Dead();
     }
 

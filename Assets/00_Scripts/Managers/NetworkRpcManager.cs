@@ -82,4 +82,35 @@ public class NetworkRpcManager : NetworkBehaviour
         cardAbilityBase.ActiveAbility();
     }
     #endregion
+
+
+    #region About Hero Data
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void GetServerHeroKillCountServerRpc(ulong heroNetworkId)
+    {
+        if (NetUtils.TryGetSpawnedObject(heroNetworkId, out NetworkObject heroNetWorkObject))
+        {
+            Hero hero = heroNetWorkObject.GetComponent<Hero>();
+            GetServerHeroKillCountClientRpc(heroNetworkId, hero.GetMonsterKillCount());
+        }
+    }
+
+    [ClientRpc]
+    public void GetServerHeroKillCountClientRpc(ulong heroNetworkId, int killCount)
+    {
+        if (IsClient)
+        {
+            if (NetUtils.TryGetSpawnedObject(heroNetworkId, out NetworkObject heroNetWorkObject))
+            {
+                Hero hero = heroNetWorkObject.GetComponent<Hero>();
+                hero.SetMonsterKillCount(killCount);
+            }
+        }
+    }
+
+
+    #endregion
+
 }

@@ -106,6 +106,7 @@ public class GameCamera : NetworkBehaviour
     #region Hero Control Logic
     private void MouseButtonDown()
     {
+        InGameUI.instance.HideHeroInfoUI();
 
         if (heroHolder != null)
         {

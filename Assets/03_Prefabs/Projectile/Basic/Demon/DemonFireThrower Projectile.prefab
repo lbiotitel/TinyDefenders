@@ -4907,9 +4907,9 @@ GameObject:
   - component: {fileID: 4159634926396103297}
   - component: {fileID: 2329132389730211274}
   - component: {fileID: 8296184545390350458}
-  - component: {fileID: 6170028381908909986}
+  - component: {fileID: 3086803288590146874}
   m_Layer: 0
-  m_Name: DragonDog Pojectile
+  m_Name: DemonFireThrower Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9761,7 +9761,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1115819473
-  m_SortingLayer: 6
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -9892,7 +9892,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6170028381908909986
+--- !u!114 &3086803288590146874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9901,12 +9901,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2367334733768428185}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55899e51aacb02b4abe47f261cff8f70, type: 3}
+  m_Script: {fileID: 11500000, guid: dc884d34467c98b4b807c502c95f4d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 13
+  speed: 12
   projectileType: 0
-  lifeTime: 1
+  lifeTime: 0.7
+  destroyParticlePrefab: {fileID: 3211877774832872067, guid: cb743783234f8e74d9956031b0ceed0f, type: 3}
 --- !u!1 &4401211344417363866
 GameObject:
   m_ObjectHideFlags: 0

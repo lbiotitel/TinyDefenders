@@ -28,6 +28,8 @@ public class SummonCardNode : CardNodeBase
 
         HeroScriptable heroData = summonCard.GetHeroData();
 
+        cardImage.sprite = heroData.heroMainImage;
+
         heroAtkText.text = heroData.atk.baseValue.ToString();
         heroAtkSpeedText.text = heroData.atkSpeed.baseValue.ToString();
         heroAtkRangeText.text = heroData.atkRange.baseValue.ToString();

@@ -184,11 +184,6 @@ public class InGameUI : NetworkBehaviour
         monsterCountSliderImage.fillAmount = GameManager.instance.currentMonsterCount / 100f;
         currentGoldText.text = GameManager.instance.gold.ToString();
 
-        for (int i = 0; i < upgradeLevelText.Length; i++)
-        {
-            upgradeLevelText[i].text = "Lv." + (GameManager.instance.upgarde[i] + 1).ToString();
-            upgradeCostText[i].text = (30 + GameManager.instance.upgarde[i]).ToString();
-        }
     }
 
     private void DrawWaveAndTime(string monsterName)
