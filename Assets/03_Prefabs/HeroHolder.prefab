@@ -164,8 +164,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   heroPrefab: {fileID: 860972043160866581, guid: 510e3d43739a4c4419eba2d1caaaddf9, type: 3}
   heroRange: {fileID: 5397061593036701197}
-  heroSquare: {fileID: 7701613819570078620}
-  heroCircle: {fileID: 8285482146142203731}
+  heroTargetMark: {fileID: 7701613819570078620}
+  heroOwnMark: {fileID: 8285482146142203731}
   circleColors:
   - {r: 0, g: 0, b: 0, a: 0.7058824}
   - {r: 0.22677112, g: 0.2770618, b: 0.9811321, a: 0.7058824}
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 8285482146142203731}
   - component: {fileID: 4757646501810942586}
   m_Layer: 0
-  m_Name: HeroCircle
+  m_Name: HeroOwnMark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 7701613819570078620}
   - component: {fileID: 2112067731288957499}
   m_Layer: 0
-  m_Name: HeroSquare
+  m_Name: HeroTargetMark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -368,7 +368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5397061593036701197
 Transform:
   m_ObjectHideFlags: 0

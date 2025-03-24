@@ -35,8 +35,6 @@ public class Spawner : NetworkBehaviour
     [SerializeField] private GameObject summonEffect;
     [SerializeField] private float effectSpeed;
 
-    [SerializeField] private int gridWidth;
-    [SerializeField] private int gridHeight;
     [SerializeField] private float spawnTime;
 
     [SerializeField] private HeroHolder heroHolderPrefab;
@@ -106,30 +104,29 @@ public class Spawner : NetworkBehaviour
             }
         }
 
+        int count = spawnList.Count;
+
         if (id == "CLIENT") spawnList.Reverse();
 
-        SetHeroHolders(id, value);
+        SetHeroHolders(count, id, value);
 
         heroHolderValue[value] = 0;
     }
 
-    private void SetHeroHolders(string id, int value)
+    private void SetHeroHolders(int count, string id, int value)
     {
         if (NetUtils.IsServer())
         {
-            for (int i = 0; i < gridHeight; i++)
+            for (int i = 0; i < count; i++)
             {
-                for (int j = 0; j < gridWidth; j++)
-                {
-                    StartCoroutine(DelaySetHeroHolder(id, value));
-                }
+                StartCoroutine(DelaySetHeroHolder(id, value,count));
             }
         }
     }
 
 
     //히어로를 가지고있을 히어로 홀더들을 서버에서 생성
-    private IEnumerator DelaySetHeroHolder(string id, int value)
+    private IEnumerator DelaySetHeroHolder(string id, int value,int count)
     {
         HeroHolder heroHolder = Instantiate(heroHolderPrefab);
         NetworkObject networkObject = heroHolder.GetComponent<NetworkObject>();
@@ -140,13 +137,13 @@ public class Spawner : NetworkBehaviour
 
         yield return new WaitForSeconds(0.3f);
 
-        SetHeroHolderPositionClientRpc(networkObject.NetworkObjectId, heroHolderId);
+        SetHeroHolderPositionClientRpc(networkObject.NetworkObjectId, heroHolderId,count);
     }
 
 
     //생성된 히어로 홀더를 호스트와 클라이언트에 따라 각각 다르게 위치 처리
     [ClientRpc]
-    private void SetHeroHolderPositionClientRpc(ulong networkObjectId, string heroHolderId)
+    private void SetHeroHolderPositionClientRpc(ulong networkObjectId, string heroHolderId,int count)
     {
         if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject networkObject))
         {
@@ -165,7 +162,7 @@ public class Spawner : NetworkBehaviour
             heroHolders.Add(heroHolderId, heroHolder);
             heroHolder.holderId = heroHolderId;
 
-            if (heroHolderId.Contains("CLIENT" + (gridHeight * gridWidth - 1).ToString()))
+            if (heroHolderId.Contains("CLIENT" + (count - 1).ToString()))
             {
                 FinishSpawnHeroHolderServerRpc();
             }
@@ -202,11 +199,6 @@ public class Spawner : NetworkBehaviour
                 networkObject.transform.position = spawnPositionList[positionIndex].spawnPos;
                 break;
             }
-        }
-
-        if (positionIndex == gridHeight * gridWidth - 1)
-        {
-            FinishSpawnHeroHolderServerRpc();
         }
 
         HeroHolder heroHolder = networkObject.GetComponent<HeroHolder>();

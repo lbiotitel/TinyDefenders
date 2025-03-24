@@ -13,7 +13,6 @@ public class CardManager : MonoBehaviour
     [SerializeField] private CardNode cardPrefab;
     [SerializeField] private Transform myCardPos;
     [SerializeField] private float curve;
-    [SerializeField] private float cardSpacing;
     [SerializeField] private Button rerollButton;
     [SerializeField] private GameObject cardDropZone;
 
@@ -22,12 +21,15 @@ public class CardManager : MonoBehaviour
     private List<CardNode> myCardList = new List<CardNode>();
 
     public static int MostFrontCardOrder = 100;
+    private float cardSpacing;
+    private float cardWidth;
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            cardWidth = myCardPos.GetComponent<BoxCollider2D>().bounds.size.x;
         }
         else
         {
@@ -155,6 +157,8 @@ public class CardManager : MonoBehaviour
     private IEnumerator SortCardCoroutine()
     {
         SetCardInteract(false);
+
+        cardSpacing = cardWidth / myCardList.Count;
 
         for (int i = 0; i < myCardList.Count; i++)
         {

@@ -24,7 +24,7 @@ public class GameCamera : NetworkBehaviour
     private void Start()
     {
         cam = GetComponent<Camera>();
-        hostOrClient = NetUtils.GetLocalD() == 0 ? "HOST" : "CLIENT";
+        hostOrClient = NetUtils.IsServer() ? "HOST" : "CLIENT";
 
     }
     //ray cast
@@ -102,16 +102,18 @@ public class GameCamera : NetworkBehaviour
         return hit;
     }
 
+
+    #region Hero Control Logic
     private void MouseButtonDown()
     {
-        RaycastHit2D hit = GetRayObject();
 
         if (heroHolder != null)
         {
-            heroHolder.HideRange();
+            heroHolder.HideHeroRange();
             heroHolder = null;
-            InGameUI.instance.HideHeroInfoUI();
         }
+
+        RaycastHit2D hit = GetRayObject();
 
         if (hit.collider != null)
         {
@@ -122,6 +124,7 @@ public class GameCamera : NetworkBehaviour
             }
 
             heroHolder = hit.collider.GetComponent<HeroHolder>();
+
             if (heroHolder.holderName == "" || heroHolder.holderName == null)
             {
                 heroHolder = null;
@@ -139,6 +142,8 @@ public class GameCamera : NetworkBehaviour
                 heroHolder = null;
                 return;
             }
+
+            heroHolder.ShowOwnMark();
             InGameUI.instance.ShowHeroInfoUI(heroHolder.ownHero);
         }
     }
@@ -147,22 +152,16 @@ public class GameCamera : NetworkBehaviour
     {
         if (heroHolder != null)
         {
-            heroHolder.ShowCircle();
             RaycastHit2D hit = GetRayObject();
 
             if (hit.collider != null && hit.collider.transform != heroHolder.transform)
             {
                 if (hit.collider.GetComponent<HeroHolder>() == null) return;
-                if (hit.collider.GetComponent<HeroHolder>().holderId.Contains(hostOrClient) == false)
-                {
-                    return;
-                }
-                if (moveHolder != null)
-                {
-                    moveHolder.HideSquare();
-                }
+                if (hit.collider.GetComponent<HeroHolder>().holderId.Contains(hostOrClient) == false) return;
+                
+                if (moveHolder != null) moveHolder.HideHeroMoveTargetMark();
                 moveHolder = hit.collider.GetComponent<HeroHolder>();
-                moveHolder.ShowSquare();
+                moveHolder.ShowHeroMoveTargetMark();
             }
         }
     }
@@ -170,29 +169,22 @@ public class GameCamera : NetworkBehaviour
     private void MouseButtonUp()
     {
         if (heroHolder == null) return;
-        if (moveHolder == null)
-        {
-            RaycastHit2D hit = GetRayObject();
 
-            if (hit.collider != null)
-            {
-                if (heroHolder.transform == hit.collider.transform)
-                {
-                    heroHolder.ShowRange();
-                }
-            }
-        }
-        else
+        if (moveHolder != null)
         {
-            moveHolder.HideSquare();
-            Spawner.instance.HeroHolderSwap(heroHolder.holderId,moveHolder.holderId);
+            moveHolder.HideHeroMoveTargetMark();
+            heroHolder.HideHeroRange();
+            heroHolder.HideOwnMark();
+            Spawner.instance.HeroHolderSwap(heroHolder.holderId, moveHolder.holderId);
         }
-
-        if (heroHolder != null)
-            heroHolder.HideCircle();
+        else {
+            heroHolder.HideOwnMark();
+            heroHolder.ShowHeroRange();
+            InGameUI.instance.ShowHeroInfoUI(heroHolder.ownHero);
+        }
 
         moveHolder = null;
     }
 
-
+    #endregion
 }

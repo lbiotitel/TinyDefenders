@@ -1143,8 +1143,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -126, y: 51}
-  m_SizeDelta: {x: 0, y: 100}
+  m_AnchoredPosition: {x: 45, y: 51}
+  m_SizeDelta: {x: -126, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &99806896
 BoxCollider2D:
@@ -1180,7 +1180,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 172.63477, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -9875,7 +9875,6 @@ MonoBehaviour:
   cardPrefab: {fileID: 4680184921540089082, guid: 2e4f578e046d2ef4f9344ccb5f3fd7cb, type: 3}
   myCardPos: {fileID: 99806895}
   curve: 1000
-  cardSpacing: 300
   rerollButton: {fileID: 523773607}
   cardDropZone: {fileID: 2022359193}
   rerollHeroCount: 3

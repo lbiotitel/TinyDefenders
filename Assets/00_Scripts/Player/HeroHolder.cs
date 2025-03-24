@@ -10,8 +10,8 @@ public class HeroHolder : NetworkBehaviour
 {
     [SerializeField] private Hero heroPrefab;
     [SerializeField] private Transform heroRange;
-    [SerializeField] private Transform heroSquare;
-    [SerializeField] private Transform heroCircle;
+    [SerializeField] private Transform heroTargetMark;
+    [SerializeField] private Transform heroOwnMark;
 
     [SerializeField] private Color[] circleColors;
     [SerializeField] private SpriteRenderer circleSpriteRenderer;
@@ -27,9 +27,9 @@ public class HeroHolder : NetworkBehaviour
 
     private void Start()
     {
-        HideRange();
-        HideCircle();
-        HideSquare();
+        HideHeroRange();
+        HideOwnMark();
+        HideHeroMoveTargetMark();
     }
 
     public void InitCollider()
@@ -37,17 +37,17 @@ public class HeroHolder : NetworkBehaviour
         CircleCollider2D collider = transform.AddComponent<CircleCollider2D>();
         collider.isTrigger = true;
         collider.radius = circleRadius;
-        heroSquare.GetComponent<SpriteRenderer>().size = new Vector2(circleRadius, circleRadius);
+        heroTargetMark.GetComponent<SpriteRenderer>().size = new Vector2(circleRadius, circleRadius);
     }
 
 
-    public void ShowCircle() { heroCircle.gameObject.SetActive(true); }
-    public void ShowSquare() { heroSquare.gameObject.SetActive(true); }
-    public void HideCircle() { heroCircle.gameObject.SetActive(false); }
-    public void HideSquare() { heroSquare.gameObject.SetActive(false); }
+    public void ShowOwnMark() { heroOwnMark.gameObject.SetActive(true); }
+    public void HideOwnMark() { heroOwnMark.gameObject.SetActive(false); }
+    public void ShowHeroMoveTargetMark() { heroTargetMark.gameObject.SetActive(true); }
+    public void HideHeroMoveTargetMark() { heroTargetMark.gameObject.SetActive(false); }
 
 
-    public void ShowRange()
+    public void ShowHeroRange()
     {
         float range = heroData.atkRange.GetValue();
         heroRange.localScale = Vector2.one * range;
@@ -55,7 +55,7 @@ public class HeroHolder : NetworkBehaviour
         heroRange.gameObject.SetActive(true);
     }
 
-    public void HideRange()
+    public void HideHeroRange()
     {
         heroRange.gameObject.SetActive(false);
         heroRange.localScale = Vector2.zero;
@@ -128,9 +128,9 @@ public class HeroHolder : NetworkBehaviour
             HeroHolder holder = heroHolder.GetComponent<HeroHolder>();
             holder.holderName = string.Empty;
             ownHero = null;
-            HideCircle();
-            HideRange();
-            HideSquare();
+            HideOwnMark();
+            HideHeroRange();
+            HideHeroMoveTargetMark();
         }
     }
 
@@ -181,9 +181,9 @@ public class HeroHolder : NetworkBehaviour
             Spawner.instance.heroHolders[compositionHero[i]].Sell(false);
         }
 
-        HideRange();
-        HideCircle();
-        HideSquare();
+        HideHeroRange();
+        HideOwnMark();
+        HideHeroMoveTargetMark();
 
         Spawner.instance.Summon("Uncommon");
     }
