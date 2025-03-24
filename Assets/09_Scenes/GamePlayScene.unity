@@ -1971,7 +1971,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1409.9401, y: -100}
+  m_AnchoredPosition: {x: 1280, y: -100}
   m_SizeDelta: {x: 640.24, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &250479888
@@ -9872,7 +9872,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79aa67c6b8a9d314f8611502ab950b03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPrefab: {fileID: 4680184921540089082, guid: 2e4f578e046d2ef4f9344ccb5f3fd7cb, type: 3}
+  summonCardPrefab: {fileID: 264951703328407556, guid: 2e4f578e046d2ef4f9344ccb5f3fd7cb, type: 3}
+  attackCardPrefab: {fileID: 9020222763461176017, guid: cbaa1459ed0277b478d0b9948914248b, type: 3}
+  utilityCardPrefab: {fileID: 7267141971448523888, guid: f4e1f219e9cfe744f8682369ea477899, type: 3}
   myCardPos: {fileID: 99806895}
   curve: 1000
   rerollButton: {fileID: 523773607}
@@ -15111,7 +15113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2115594997
 RectTransform:
   m_ObjectHideFlags: 0

@@ -10,15 +10,17 @@ public class CardManager : MonoBehaviour
 {
     public static CardManager instance;
 
-    [SerializeField] private CardNode cardPrefab;
+    [SerializeField] private SummonCardNode summonCardPrefab;
+    [SerializeField] private AttackCardNode attackCardPrefab;
+    [SerializeField] private UtilityCardNode utilityCardPrefab;
+
     [SerializeField] private Transform myCardPos;
-    [SerializeField] private float curve;
     [SerializeField] private Button rerollButton;
     [SerializeField] private GameObject cardDropZone;
 
     [SerializeField] private int rerollHeroCount;
     [SerializeField] private int rerollSpellCardCount;
-    private List<CardNode> myCardList = new List<CardNode>();
+    private List<CardNodeBase> myCardList = new List<CardNodeBase>();
 
     public static int MostFrontCardOrder = 100;
     private float cardSpacing;
@@ -90,43 +92,53 @@ public class CardManager : MonoBehaviour
         switch (cardType)
         {
             case CardType.SUMMON:
-                InstantiateCard(GetSummonCardSO());
+                GetSummonCardSO();
                 break;
             case CardType.ATTACK:
-                InstantiateCard(GetRandomCardSO());
+                GetRandomCardSO();
                 break;
         }
     }
 
-    private void InstantiateCard(CardSO cardSO)
-    {
-        CardNode cardNode = Instantiate(cardPrefab,transform.position,Quaternion.identity);
-        cardNode.InitCardNode(cardSO);
-        cardNode.transform.SetParent(myCardPos);
-        myCardList.Add(cardNode);
-    }
-
-    private CardSO GetRandomCardSO()
+    private void GetRandomCardSO()
     {
         CardRarity randomRarity = (CardRarity)Random.Range(0,(int)CardRarity.Rare);
         List<CardSO> cardList = SoDataManager.instance.GetAllSpellCardScirptableObjectByRarity(CardRarity.Normal);
 
         int randomCard = Random.Range(0, cardList.Count);
 
-        return cardList[randomCard];
+        CardType cardType = cardList[randomCard].cardType;
+
+        CardNodeBase cardNode = null;
+
+        switch (cardType)
+        {
+            case CardType.ATTACK:
+                cardNode = Instantiate(attackCardPrefab, transform.position, Quaternion.identity);
+                return;
+            case CardType.UTILITY:
+                cardNode = Instantiate(utilityCardPrefab, transform.position, Quaternion.identity);
+                return;
+        }
+       
+        cardNode.InitCardNode(cardList[randomCard]);
+        cardNode.transform.SetParent(myCardPos);
+        myCardList.Add(cardNode);
     }
 
-    private SummonCard GetSummonCardSO()
+    private void GetSummonCardSO()
     {
         HeroScriptable heroData = Spawner.instance.LoadData(Utils.GetIngameSummonRarity().ToString());
         SummonCard cardSO = ScriptableObject.CreateInstance<SummonCard>();
         cardSO.cardType = CardType.SUMMON;
         cardSO.InitSummonCard(heroData);
 
-        return cardSO;
+        SummonCardNode cardNode = Instantiate(summonCardPrefab, transform.position, Quaternion.identity);
+        cardNode.InitCardNode(cardSO);
+        cardNode.transform.SetParent(myCardPos);
     }
 
-    public void RemoveCard(CardNode card)
+    public void RemoveCard(CardNodeBase card)
     {
         myCardList.Remove(card);
         Destroy(card.gameObject);
@@ -162,6 +174,8 @@ public class CardManager : MonoBehaviour
 
         for (int i = 0; i < myCardList.Count; i++)
         {
+            SoundManager.instance.PlaySfxSound("CardDrawSFX");
+
             float pos = (float)i / (myCardList.Count - 1);
             if (myCardList.Count == 1)
                 pos = 0.5f;
@@ -170,11 +184,11 @@ public class CardManager : MonoBehaviour
             float y = myCardPos.position.y;
 
             RectTransform cardTransform = myCardList[i].GetComponent<RectTransform>();
-            cardTransform.DOAnchorPos(new Vector2(x, y), 0.2f);
+            cardTransform.DOAnchorPos(new Vector2(x, y), 0.1f);
 
             myCardList[i].transform.SetAsFirstSibling();
 
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
         }
 
         SetCardInteract(true);

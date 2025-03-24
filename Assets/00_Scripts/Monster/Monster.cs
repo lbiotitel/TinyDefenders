@@ -32,14 +32,17 @@ public partial class Monster : Entity
 
     public void InitData(MonsterScriptable data)
     {
+        StartCoroutine(ResetObject());
         hp = maxHp = data.monsterHp;
         speed = originalSpeed = data.monsterSpeed;
         animator.runtimeAnimatorController = data.animatorController;
         monsterType = data.monsterType;
     }
 
-    private void ResetObject()
+    private IEnumerator ResetObject()
     {
+        yield return new WaitForSeconds(0.2f);
+
         if (!gameObject.activeSelf) gameObject.SetActive(true);
         isDead = false;
         gameObject.layer = LayerMask.NameToLayer(LayerName.Monster);
@@ -58,7 +61,6 @@ public partial class Monster : Entity
     public void SetMoveTarget(List<Transform> targetLists)
     {
         this.targetLists = targetLists;
-        ResetObject();
     }
 
     public void GetDamage(double damage, bool isServer)
