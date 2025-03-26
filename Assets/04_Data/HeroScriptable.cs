@@ -18,14 +18,12 @@ public class SkillData
     [Header("Attack Skill")]
     public float skillDamage;
     public int targetCount;
+    public float skillDuration;
 
     [Header("Buff Skill")]
     public float buffTime;
     public float buffAmount;
     public float buffRange;
-
-    [Header("Skill Debuff")]
-    public List<DebuffEffect> debuffEffects;
 
 }
 
@@ -54,6 +52,12 @@ public class HeroScriptable : ScriptableObject
 
     [Header("Debuff")]
     public List<DebuffEffect> debuffEffects;
+
+
+    [Header("Skill Debuff")]
+    public List<DebuffEffect> skillDebuffEffects;
+
+
 
     [Header("Skill")]
     public SkillData skillData;

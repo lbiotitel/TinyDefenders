@@ -12,7 +12,7 @@ public class HeroInfoUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI attackSpeedText;
     [SerializeField] private TextMeshProUGUI attackRangeText;
     [SerializeField] private TextMeshProUGUI criRateText;
-    [SerializeField] private TextMeshProUGUI monsterKillCountText;
+    [SerializeField] private TextMeshProUGUI monsterDamageStack;
 
 
     [SerializeField] private Button sellButton;
@@ -58,7 +58,7 @@ public class HeroInfoUI : MonoBehaviour
         HeroScriptable heroData = hero.GetHeroData();
 
         if (!NetUtils.IsServer())
-            NetworkRpcManager.instance.GetServerHeroKillCountServerRpc(hero.NetworkObjectId);
+            NetworkRpcManager.instance.GetServerHeroDamageStackServerRpc(hero.NetworkObjectId);
 
         gameObject.SetActive(true);
 
@@ -71,8 +71,8 @@ public class HeroInfoUI : MonoBehaviour
 
         this.attackText.text =
             hero.GetBonusHeroAtk() == 0 ?
-            string.Format("{0:0}", hero.GetHeroAtk()) :
-            string.Format("{0:0}<color=#00FF00>(+{1:0})", hero.GetHeroAtk(), hero.GetBonusHeroAtk());
+            string.Format("{0:N0}", hero.GetHeroAtk()) :
+            string.Format("{0:N0}<color=#00FF00>(+{1:N0})", hero.GetHeroAtk(), hero.GetBonusHeroAtk());
 
         this.attackSpeedText.text =
            hero.GetBounusHeroAtkSpeed() == 0 ?
@@ -86,7 +86,7 @@ public class HeroInfoUI : MonoBehaviour
 
         this.criRateText.text = heroData.criticalRate.baseValue.ToString();
 
-        this.monsterKillCountText.text = "몬스터 처치 수 : " + hero.GetMonsterKillCount().ToString();
+        this.monsterDamageStack.text = string.Format("가한 데미지 : {0:N0}", hero.GetDamageStack());
     }
 
     public void HideHeroInfoUI()

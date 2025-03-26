@@ -100,7 +100,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1115819473
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 10000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &6434979013580078767
@@ -208,6 +208,10 @@ PrefabInstance:
     - target: {fileID: 8239534582076007557, guid: 56b6a35442b216248ab25a1a7940709c, type: 3}
       propertyPath: m_Name
       value: CriticalParticle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8239534582076007557, guid: 56b6a35442b216248ab25a1a7940709c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8239534582076007578, guid: 56b6a35442b216248ab25a1a7940709c, type: 3}
       propertyPath: m_LocalPosition.x

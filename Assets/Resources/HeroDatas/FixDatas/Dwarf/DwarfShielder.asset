@@ -21,7 +21,7 @@ MonoBehaviour:
   criticalRate:
     baseValue: 0
   atkSpeed:
-    baseValue: 1
+    baseValue: 3
   atkRange:
     baseValue: 1.5
   heroDesc: 
@@ -30,11 +30,16 @@ MonoBehaviour:
   runtimeAnimatorController: {fileID: 9100000, guid: df521184092963a46979b26b408abf2b, type: 2}
   projectile: {fileID: 9014258871268885674, guid: 21fa390135a2073478e4219018129a6b, type: 3}
   debuffEffects: []
+  skillDebuffEffects:
+  - debuffType: 1
+    values:
+    - 100
+    - 2
   skillData:
-    coolTime: 0
-    skillPrefab: {fileID: 0}
-    skillDamage: 0
-    targetCount: 0
+    coolTime: 10
+    skillPrefab: {fileID: 4086126213069182278, guid: 9c419106672632b4995bed7695c58ade, type: 3}
+    skillDamage: 150
+    targetCount: 7
     buffTime: 0
     buffAmount: 0
     buffRange: 0

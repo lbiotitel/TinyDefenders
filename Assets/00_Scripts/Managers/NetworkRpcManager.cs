@@ -16,11 +16,11 @@ public class NetworkRpcManager : NetworkBehaviour
     }
 
     #region About Attack and Debuff
-    public void AttackMonster(bool isServer,double damage,Monster monster = null,List<DebuffEffect> debuffList = null)
+    public void AttackMonster(bool isServer,double damage, Hero hero,Monster monster = null,List<DebuffEffect> debuffList = null)
     {
         if (monster != null)
         {
-            AttackMonsterServerRpc(monster.NetworkObjectId, isServer, damage);
+            AttackMonsterServerRpc(monster.NetworkObjectId,hero.NetworkObjectId, isServer, damage);
             if(debuffList != null)DebuffEffect(isServer, monster, debuffList);
         }
     }
@@ -49,7 +49,7 @@ public class NetworkRpcManager : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void AttackMonsterServerRpc(ulong monsterId, bool isServer, double damage)
+    private void AttackMonsterServerRpc(ulong monsterId,ulong heroId, bool isServer, double damage)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(monsterId, out NetworkObject networkObject))
         {
@@ -57,7 +57,7 @@ public class NetworkRpcManager : NetworkBehaviour
             Monster monster = networkObject.GetComponent<Monster>();
             if (monster != null)
             {
-                monster.GetDamage(damage, isServer);
+                monster.GetDamage(damage, isServer,heroId);
             }
         }
     }
@@ -88,24 +88,24 @@ public class NetworkRpcManager : NetworkBehaviour
 
 
     [ServerRpc(RequireOwnership = false)]
-    public void GetServerHeroKillCountServerRpc(ulong heroNetworkId)
+    public void GetServerHeroDamageStackServerRpc(ulong heroNetworkId)
     {
         if (NetUtils.TryGetSpawnedObject(heroNetworkId, out NetworkObject heroNetWorkObject))
         {
             Hero hero = heroNetWorkObject.GetComponent<Hero>();
-            GetServerHeroKillCountClientRpc(heroNetworkId, hero.GetMonsterKillCount());
+            GetServerHeroKillCountClientRpc(heroNetworkId, hero.GetDamageStack());
         }
     }
 
     [ClientRpc]
-    public void GetServerHeroKillCountClientRpc(ulong heroNetworkId, int killCount)
+    public void GetServerHeroKillCountClientRpc(ulong heroNetworkId, double damageStack)
     {
         if (IsClient)
         {
             if (NetUtils.TryGetSpawnedObject(heroNetworkId, out NetworkObject heroNetWorkObject))
             {
                 Hero hero = heroNetWorkObject.GetComponent<Hero>();
-                hero.SetMonsterKillCount(killCount);
+                hero.SetMonsterKillCount(damageStack);
             }
         }
     }

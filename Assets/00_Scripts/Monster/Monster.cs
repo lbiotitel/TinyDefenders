@@ -18,6 +18,7 @@ public partial class Monster : Entity
     private float speed = 0f;
     private double maxHp = 0;
     private double hp = 0;
+    private double defense = 0;
 
 
     int currentMoveTarget = 1;
@@ -30,14 +31,25 @@ public partial class Monster : Entity
         base.Awake();
     }
 
+    #region Monster Init Logic
+
     public void InitData(MonsterScriptable data, List<Transform> targetLists)
     {
         StartCoroutine(ResetObject());
         hp = maxHp = data.monsterHp;
+        defense = data.defense;
         speed = originalSpeed = data.monsterSpeed;
         animator.runtimeAnimatorController = data.animatorController;
         monsterType = data.monsterType;
         this.movePointList = targetLists;
+    }
+
+    private void SyncMonsterPosition()
+    {
+        if (NetUtils.IsServer())
+        {
+            MoveLogic();
+        }
     }
 
     private IEnumerator ResetObject()
@@ -59,15 +71,45 @@ public partial class Monster : Entity
         hpImage.fillAmount = 1f;
     }
 
-    public void GetDamage(double damage, bool isServer, bool isCri = false)
+    #endregion
+
+    #region Monster Damage Logic
+
+    public void GetDamage(double damage, bool isServer, ulong heroId ,bool isCri = false)
     {
         if (!IsServer) return;
         if (isDead) return;
 
-        MonsterGetDamage(damage, isServer,isCri);
+        MonsterGetDamage(damage, isServer,heroId,isCri);
     }
 
-    private void MonsterGetDamage(double damage, bool isServer, bool isCri)
+    private void MonsterGetDamage(double damage, bool isServer, ulong heroId, bool isCri)
+    {
+        if (isCri) damage *= 1.5f;
+
+        damage -= defense;
+        hp -= ((int)damage);
+        StackDamage(damage, isServer, heroId);
+
+        hpImage.fillAmount = ((float)hp / (float)maxHp);
+        UpdateClientRpc(hp, damage, isCri);
+    }
+
+    private void StackDamage(double damage, bool isServer, ulong heroId)
+    {
+        if (hp <= 0) damage += hp;
+
+        StackPlayerDamage(damage, isServer);
+
+        if (NetUtils.TryGetSpawnedObject(heroId, out NetworkObject heroObject))
+        {
+            Hero hero = heroObject.GetComponent<Hero>();
+            hero.IncreaseDamageStack(damage);
+        }
+
+    }
+
+    private static void StackPlayerDamage(double damage, bool isServer)
     {
         if (isServer)
         {
@@ -77,14 +119,6 @@ public partial class Monster : Entity
         {
             GameManager.instance.friendDps += damage;
         }
-
-
-        if (isCri) damage *= 1.5f;
-
-        hp -= (int)damage;
-        hpImage.fillAmount = ((float)hp / (float)maxHp);
-        GetReward();
-        UpdateClientRpc(hp,damage, isCri);
     }
 
     [ClientRpc]
@@ -97,21 +131,8 @@ public partial class Monster : Entity
         Dead();
     }
 
-    private void Dead()
-    {
-        if (hp <= 0)
-        {
-            if (!isDead)
-            {
-                isDead = true;
-                StopAllDebuff();
-                gameObject.layer = LayerMask.NameToLayer(LayerName.Defulat);
-                StartCoroutine(DeadCoroutine());
-                AnimatorChange("DEAD", true);
-                movePointList = null;
-            }
-        }
-    }
+    #endregion
+
 
     private void GetReward()
     {
@@ -134,17 +155,31 @@ public partial class Monster : Entity
         SyncMonsterPosition();
     }
 
-    private void SyncMonsterPosition()
-    {
-        if (NetUtils.IsServer())
-        {
-            MoveLogic();
-        }
-    }
+
 
     private void HpSlideAnimation()
     {
         hpImageEffect.fillAmount = Mathf.Lerp(hpImageEffect.fillAmount, hpImage.fillAmount, Time.deltaTime * hpAnimeSpeed);
+    }
+
+
+    #region Monster Dead Logic
+    private void Dead()
+    {
+        if (hp <= 0)
+        {
+            if (!isDead)
+            {
+                if (IsServer) GetReward();
+
+                isDead = true;
+                StopAllDebuff();
+                gameObject.layer = LayerMask.NameToLayer(LayerName.Defulat);
+                StartCoroutine(DeadCoroutine());
+                AnimatorChange("DEAD", true);
+                movePointList = null;
+            }
+        }
     }
 
     IEnumerator DeadCoroutine()
@@ -174,6 +209,8 @@ public partial class Monster : Entity
     }
 
     public bool IsDead() { return isDead; }
+
+    #endregion
 
     private void MoveLogic()
     {

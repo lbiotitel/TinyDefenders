@@ -153,7 +153,7 @@ public class PoolingManager : MonoBehaviour
         {
             gameObject.transform.SetParent(transform);
             gameObject.transform.position = transform.position;
-            gameObject.SetActive(false);
+            if (gameObject.activeSelf) gameObject.SetActive(false);
 
             poolDictionary[prefab].Enqueue(gameObject);
         }

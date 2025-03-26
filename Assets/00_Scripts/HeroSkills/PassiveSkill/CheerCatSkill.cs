@@ -20,8 +20,8 @@ public class CheerCatSkill : PassiveSkillBase
             {
                 if (NetUtils.IsMineHero(base.hero, hero))
                 {
-                    SkillBase skill;
-                    if (hero.TryGetComponent<SkillBase>(out skill))
+                    SkillContainer skill;
+                    if (hero.TryGetComponent<SkillContainer>(out skill))
                     {
                         skill.skillAcc += buffAmount;
                         buffHeroList.Add(hero);
@@ -41,8 +41,8 @@ public class CheerCatSkill : PassiveSkillBase
         {
             if (hero != null)
             {
-                SkillBase skill;
-                if (hero.TryGetComponent<SkillBase>(out skill))
+                SkillContainer skill;
+                if (hero.TryGetComponent<SkillContainer>(out skill))
                 {
                     skill.skillAcc -= buffAmount;
                 }

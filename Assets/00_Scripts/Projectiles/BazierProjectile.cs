@@ -5,9 +5,10 @@ public class BazierProjectile : BaseProjectile
 {
 
 
-    protected override void ChasingTarget()
+    protected override void ProjectileLogic()
     {
         StartCoroutine(ChasingTargetBazier());
+        ProjectileTypeLogic();
     }
 
     private IEnumerator ChasingTargetBazier()

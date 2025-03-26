@@ -5,6 +5,7 @@ public class MonsterScriptable : ScriptableObject
 {
     public string monsterName;
     public double monsterHp;
+    public double defense;
     public float monsterSpeed;
     public MonsterType monsterType;
     public RuntimeAnimatorController animatorController;

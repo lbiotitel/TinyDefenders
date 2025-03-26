@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: ScavengerCaptain
+  m_EditorClassIdentifier: 
+  heroName: ScavengerCaptain
+  rarity: 0
+  atk:
+    baseValue: 100
+  damage:
+    baseValue: 0
+  criticalRate:
+    baseValue: 0
+  atkSpeed:
+    baseValue: 2
+  atkRange:
+    baseValue: 2
+  heroDesc: 
+  heroTribe: 6
+  heroMainImage: {fileID: -1362523885457534645, guid: fb59afa6c25a9d143b261153ff800c6a, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 00d7e7f2c45e08641bd5f19f10f02ec3, type: 2}
+  projectile: {fileID: 2786315958115145823, guid: 8d6a24d4215166d40855838c3fcdfe59, type: 3}
+  debuffEffects: []
+  skillDebuffEffects: []
+  skillData:
+    coolTime: 15
+    skillPrefab: {fileID: 5480645021078868391, guid: 9163628eda175bd48ae21103f0710ccd, type: 3}
+    skillDamage: 30
+    targetCount: 6
+    skillDuration: 5
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0

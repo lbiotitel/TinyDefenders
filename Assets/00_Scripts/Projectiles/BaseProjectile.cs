@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Serialization;
 using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -9,38 +10,35 @@ public class BaseProjectile : MonoBehaviour
     [Header("Base Projectile Value")]
     [SerializeField] protected float speed;
     [SerializeField] protected ProjectileType projectileType = ProjectileType.NORMAL;
-    [SerializeField][Range(0f,1f)] protected float lifeTime = 0.2f;
+    [SerializeField][Range(0f,10f)] protected float lifeTime = 0.2f;
     [SerializeField] protected GameObject destroyParticlePrefab;
     
     protected GameObject destroyParticle;
     protected Hero referenceHero;
     protected Transform target;
     protected bool isAttack = false;
-    protected bool isHit = false;
-    private float skillDamage;
+    protected double damage;
 
-    public virtual void Init(Transform target, Hero referenceHero,float skillDamage = 100f)
+    private List<DebuffEffect> debuffEffects = new List<DebuffEffect>();
+
+    public virtual void Init(Transform target, Hero referenceHero,double damage,List<DebuffEffect> debuffEffects = null)
     {
         this.referenceHero = referenceHero;
         this.target = target;
-        this.skillDamage = skillDamage;
+        this.debuffEffects = debuffEffects;
+        this.damage = damage;
     }
 
 
     protected virtual void Update()
     {
-        if (target == null)
-        {
-            StopAllCoroutines();
-            HitMonster();
-            return;
-        }
+        if (target == null) return;
         ProjectileLogic();
     }
 
     protected virtual void ProjectileLogic()
     {
-        ChasingTarget();
+        ProjectileMoveLogic();
         ProjectileTypeLogic();
     }
 
@@ -69,7 +67,7 @@ public class BaseProjectile : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
-    protected virtual void ChasingTarget()
+    protected virtual void ProjectileMoveLogic()
     {
         float distance = Vector2.Distance(transform.position, target.position);
         if (distance > 0.1f)
@@ -89,7 +87,8 @@ public class BaseProjectile : MonoBehaviour
         {
             isAttack = true;
 
-            destroyParticle = PoolingManager.instance.GetObject(destroyParticlePrefab, transform.position);
+            if(destroyParticlePrefab != null)
+                destroyParticle = PoolingManager.instance.GetObject(destroyParticlePrefab, transform.position);
 
             AttackMonster(target.gameObject);
 
@@ -101,18 +100,13 @@ public class BaseProjectile : MonoBehaviour
     {
         if (NetUtils.IsServer() && monster != null && !monster.GetComponent<Monster>().IsDead())
         {
-            isHit = true;
-            double damage = referenceHero.GetHeroAtk() * (skillDamage/100f);
-
             NetworkRpcManager.instance.AttackMonster(
                 NetUtils.IsServerHolder(referenceHero),
                 damage,
+                referenceHero,
                 monster.GetComponent<Monster>(),
-                referenceHero.GetHeroData().debuffEffects);
+                debuffEffects == null ? referenceHero.GetHeroData().debuffEffects : debuffEffects);
         }
-
-        if (isHit && monster.GetComponent<Monster>().IsDead())
-            referenceHero.IncreaseMonsterKillCount();
     }
 
 
@@ -128,10 +122,13 @@ public class BaseProjectile : MonoBehaviour
         target = null;
         referenceHero = null;
         isAttack = false;
+        debuffEffects = null;
+
 
         if (PoolingManager.instance != null)
         {
-            PoolingManager.instance.ReturnObject(destroyParticle);
+            if (destroyParticlePrefab != null)
+                PoolingManager.instance.ReturnObject(destroyParticle);
             PoolingManager.instance.ReturnObject(gameObject);
         }
     }

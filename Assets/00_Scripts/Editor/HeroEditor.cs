@@ -8,7 +8,14 @@ using UnityEngine;
 public class HeroEditor : Editor
 {
     private ReorderableList debuffTypeList;
+    private ReorderableList skillDebuffTypeList;
     private void OnEnable()
+    {
+        DrawDebuffEditor();
+        DrawSkillDebuffEditor();
+    }
+
+    private void DrawDebuffEditor()
     {
         SerializedProperty debuffTypeProperty = serializedObject.FindProperty("debuffEffects");
         debuffTypeList = new ReorderableList(serializedObject, debuffTypeProperty, true, true, true, true);
@@ -110,13 +117,109 @@ public class HeroEditor : Editor
             newElement.FindPropertyRelative("debuffType").enumValueIndex = 0;
             newElement.FindPropertyRelative("values").arraySize = 0;
         };
+    }
 
-        debuffTypeList.onRemoveCallback = (ReorderableList list) =>
+    private void DrawSkillDebuffEditor()
+    {
+        SerializedProperty skillDebuffTypeProperty = serializedObject.FindProperty("skillDebuffEffects");
+        skillDebuffTypeList = new ReorderableList(serializedObject, skillDebuffTypeProperty, true, true, true, true);
+
+        skillDebuffTypeList.drawHeaderCallback = (Rect rect) =>
         {
-            if (EditorUtility.DisplayDialog("Remove Effect", "진짜 삭제할래?", "YES", "NO"))
+            EditorGUI.LabelField(rect, "Hero Skill Debuff Types");
+        };
+
+        //set elements height
+        skillDebuffTypeList.elementHeightCallback = (index) =>
+        {
+            SerializedProperty element = skillDebuffTypeProperty.GetArrayElementAtIndex(index);
+            SerializedProperty parameterProp = element.FindPropertyRelative("values");
+
+            float baseHeight = EditorGUIUtility.singleLineHeight + 6.0f;
+            float paramHeight = parameterProp.arraySize * (EditorGUIUtility.singleLineHeight + 4.0f);
+
+            return baseHeight + paramHeight + 10.0f;
+        };
+
+        //draw elements
+        skillDebuffTypeList.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
+        {
+            SerializedProperty element = skillDebuffTypeProperty.GetArrayElementAtIndex((int)index);
+            rect.y += 2;
+
+            SerializedProperty effectTypeProp = element.FindPropertyRelative("debuffType");
+            EditorGUI.PropertyField(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight),
+                effectTypeProp, new GUIContent("Debuff Type"));
+
+            DebuffType debuffType = (DebuffType)effectTypeProp.enumValueIndex;
+            SerializedProperty parameterProp = element.FindPropertyRelative("values");
+
+
+            rect.y += EditorGUIUtility.singleLineHeight + 4;
+
+            switch (debuffType)
             {
-                ReorderableList.defaultBehaviours.DoRemoveButton(list);
+                case DebuffType.SLOW:
+                    parameterProp.arraySize = 4;
+                    DrawParameterField("Chance", rect, parameterProp, 0);
+                    rect.y += EditorGUIUtility.singleLineHeight + 4;
+
+                    DrawParameterField("Debuff Level", rect, parameterProp, 1);
+                    rect.y += EditorGUIUtility.singleLineHeight + 4;
+
+                    DrawParameterField("Slow Amount", rect, parameterProp, 2);
+
+                    rect.y += EditorGUIUtility.singleLineHeight + 4;
+
+                    DrawParameterField("Slow Duration", rect, parameterProp, 3);
+
+                    break;
+
+                case DebuffType.STUN:
+                    parameterProp.arraySize = 2;
+
+                    DrawParameterField("Chance", rect, parameterProp, 0);
+                    rect.y += EditorGUIUtility.singleLineHeight + 4;
+
+                    DrawParameterField("Stun Duration", rect, parameterProp, 1);
+                    break;
+
+                case DebuffType.BLEED:
+                    parameterProp.arraySize = 3;
+
+                    DrawParameterField("Chance", rect, parameterProp, 0);
+                    rect.y += EditorGUIUtility.singleLineHeight + 4;
+
+                    DrawParameterField("Bleed Duration", rect, parameterProp, 1);
+
+                    rect.y += EditorGUIUtility.singleLineHeight + 4;
+
+                    DrawParameterField("Bleed Percent", rect, parameterProp, 2);
+
+                    break;
+
+                case DebuffType.POISION:
+                    parameterProp.arraySize = 3;
+                    DrawParameterField("Chance", rect, parameterProp, 0);
+                    rect.y += EditorGUIUtility.singleLineHeight + 4;
+
+                    DrawParameterField("Poision Duration", rect, parameterProp, 1);
+                    rect.y += EditorGUIUtility.singleLineHeight + 4;
+
+                    DrawParameterField("Poision Tick Damage", rect, parameterProp, 2);
+
+                    break;
             }
+        };
+
+        skillDebuffTypeList.onAddCallback = (ReorderableList list) =>
+        {
+            int index = list.serializedProperty.arraySize;
+            list.serializedProperty.InsertArrayElementAtIndex(index);
+
+            SerializedProperty newElement = list.serializedProperty.GetArrayElementAtIndex((int)index);
+            newElement.FindPropertyRelative("debuffType").enumValueIndex = 0;
+            newElement.FindPropertyRelative("values").arraySize = 0;
         };
     }
 
@@ -147,6 +250,7 @@ public class HeroEditor : Editor
         EditorGUILayout.Space(20f);
 
         debuffTypeList.DoLayoutList();
+        skillDebuffTypeList.DoLayoutList();
 
         serializedObject.ApplyModifiedProperties();
     }

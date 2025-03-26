@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1804634151904096725}
   - component: {fileID: 3056056647807907859}
   m_Layer: 6
-  m_Name: Skill Image
+  m_Name: SkillFill Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -350,7 +350,7 @@ Animator:
   m_GameObject: {fileID: 5249462860078115409}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c1d5b8fbdbb5c9b49a1e01fc74f8e936, type: 2}
+  m_Controller: {fileID: 9100000, guid: df521184092963a46979b26b408abf2b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -420,6 +420,7 @@ GameObject:
   - component: {fileID: 4046672439042829149}
   - component: {fileID: 860972043160866581}
   - component: {fileID: 3897633773471109625}
+  - component: {fileID: 5699632463434534283}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -541,6 +542,22 @@ PolygonCollider2D:
       - {x: -0.015502416, y: -0.6652597}
       - {x: 1.3525687, y: 0.006203197}
   m_UseDelaunayMesh: 0
+--- !u!114 &5699632463434534283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7380748454083490264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dff174c735bbf6845860dc7150e5d136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  skillFillImage: {fileID: 3056056647807907859}
+  skillCanvas: {fileID: 2762832127224288746}
+  skillAcc: 1
 --- !u!1001 &5459179785711751962
 PrefabInstance:
   m_ObjectHideFlags: 0

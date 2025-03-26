@@ -145,7 +145,7 @@ public partial class Monster : Entity
         while (true)
         {
             float bleedHp = Mathf.Max((float)(hp / 100f) * bleedPercent, 1f);
-            GetDamage(bleedHp, isServer);
+            //GetDamage(bleedHp, isServer);
             yield return new WaitForSeconds(1f);
         }
     }
@@ -193,7 +193,7 @@ public partial class Monster : Entity
               {
                   poisionEffect.gameObject.SetActive(true);
                   double damage = poisionStack * poisionTickDamage;
-                  GetDamage(damage, isServer);
+                  //GetDamage(damage, isServer);
               },
               () =>
               {
@@ -222,7 +222,7 @@ public partial class Monster : Entity
               {
                   igniteEffect.gameObject.SetActive(true);
                   double damage = igniteTickDamage;
-                  GetDamage(damage, isServer);
+                  //GetDamage(damage, isServer);
               },
               () =>
               {

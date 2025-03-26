@@ -30,12 +30,12 @@ MonoBehaviour:
   runtimeAnimatorController: {fileID: 9100000, guid: 19cbe5cc304b1534cb12f7f6f29b5651, type: 2}
   projectile: {fileID: 2720812044146250102, guid: 86568e015c7cd4143904ab255efb9f6a, type: 3}
   debuffEffects: []
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
-    targetCount: 0
+    targetCount: 1
     buffTime: 0
     buffAmount: 0
     buffRange: 0
-    debuffEffects: []

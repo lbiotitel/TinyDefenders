@@ -18,7 +18,7 @@ public class Hero : Entity
     bool isServerHero;
 
     private List<Monster> monsterInRangeList = new List<Monster>();
-    private int monsterKillCount = 0;
+    private double damageStack = 0;
 
     [field: SerializeField] public LayerMask monsterLayer { get; private set; }
     public string heroName { get; set; }
@@ -45,20 +45,11 @@ public class Hero : Entity
 
         InitRarityCircleColor();
 
-        InitHeroSkill();
-
         GameManager.instance.AddHero(this);
 
         Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
 
         isServerHero = heroHolder.holderId.Contains("CLIENT") ? false : true;
-    }
-
-    private void InitHeroSkill()
-    {
-        Type classType = Type.GetType(heroName + "Skill");
-        if (classType != null)
-            gameObject.AddComponent(classType);
     }
 
 
@@ -204,7 +195,7 @@ public class Hero : Entity
             AnimatorChange("ATTACK", true);
             BaseProjectile go =
                 PoolingManager.instance.GetObject<BaseProjectile>(heroData.projectile.gameObject, transform.position);
-            go.Init(targetObject.transform, this);
+            go.Init(targetObject.transform,this, GetHeroAtk());
             LooKTarget(targetObject.gameObject);
         }
     }
@@ -281,10 +272,26 @@ public class Hero : Entity
         return heroData.atkRange.GetModifireValue();
     }
 
+    public double GetHeroSkillDamage()
+    {
+        double damage = GetHeroAtk() * (heroData.skillData.skillDamage / 100f);
+        return damage;
+    }
+
+    public void AddAtkModifire(float value)
+    {
+        heroData.atk.AddModifire(value);    
+    }
+
+    public void RemovAtkModifire(float value)
+    {
+        heroData.atk.RemoveModifire(value);
+    }
+
     public HeroScriptable GetHeroData() { return heroData; }
     public HeroHolder GetHeroHolder() { return heroHolder; }
-    public void IncreaseMonsterKillCount() { monsterKillCount++; }
-    public int GetMonsterKillCount() { return monsterKillCount; }
-    public void SetMonsterKillCount(int killCount) { this.monsterKillCount = killCount; }
+    public void IncreaseDamageStack(double damage) { damageStack += damage; }
+    public double GetDamageStack() { return damageStack; }
+    public void SetMonsterKillCount(double damageStack) { this.damageStack = damageStack; }
     public List<Monster> GetMonsterList() { return monsterInRangeList; }
 }

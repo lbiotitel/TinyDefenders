@@ -84,7 +84,7 @@ public class SpellCardBaseProjectile : MonoBehaviour
     {
         if (NetUtils.IsServer() && monster != null && !monster.GetComponent<Monster>().IsDead())
         {
-            NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), damage, monster.GetComponent<Monster>(),
+            NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), damage,null,monster.GetComponent<Monster>(),
                 referenceCard.debuffEffects);
         }
     } 

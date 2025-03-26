@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PassiveSkillBase : SkillBase
+public class PassiveSkillBase : SkillContainer
 {
     protected override void ActiveSkill()
     {
