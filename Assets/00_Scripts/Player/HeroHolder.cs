@@ -75,7 +75,6 @@ public class HeroHolder : NetworkBehaviour
         if (alarmText)
         {
             InGameUI.instance.ShowAlarmText(string.Format("영웅을 판매하였습니다. {0}{1}",
-            NetUtils.GetRarityColor((HeroRarity)Enum.Parse(typeof(HeroRarity), heroData.rarity.ToString())),
             heroData.heroName));
         }
 
@@ -199,6 +198,7 @@ public class HeroHolder : NetworkBehaviour
     private void HeroSpawn(ulong clientId, string heroName, string rarity)
     {
         Hero hero = Instantiate(heroPrefab);
+
         NetworkObject networkObject = hero.GetComponent<NetworkObject>();
         networkObject.Spawn();
 
@@ -206,6 +206,8 @@ public class HeroHolder : NetworkBehaviour
 
         UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId, heroName, rarity);
     }
+
+
 
     private void ClientSetPosition()
     {

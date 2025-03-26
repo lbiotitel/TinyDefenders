@@ -1,12 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 
 
 public delegate void OnGoldGetEventHandler();
@@ -38,7 +34,7 @@ public class GameManager : NetworkBehaviour
     public int currentWave = 0;
     public float timer = 100000;
     public int currentMonsterCount = 0;
-    
+
     public int currentHeroCount = 0;
     public int[] upgarde = new int[4];
     public int goldGoblinLevel = 1;
@@ -68,8 +64,8 @@ public class GameManager : NetworkBehaviour
     private List<Hero> heroList = new List<Hero>();
 
     [Header("Hero Upgrade")]
-    [SerializeField]private InGameHeroUpgrade clientUpgrade;
-    [SerializeField]private InGameHeroUpgrade serverUpgrade;
+    [field: SerializeField] public InGameHeroUpgrade clientUpgrade { get; private set; }
+    [field: SerializeField] public InGameHeroUpgrade serverUpgrade { get; private set; }
 
 
 
@@ -137,12 +133,12 @@ public class GameManager : NetworkBehaviour
                 waveUI = true;
                 StartWave();
             }
-           NotifyTimerClientRpc(
-               timer,
-               currentWave, 
-               waveUI,
-               waveData[currentWave - 1].bossWave,
-               waveData[currentWave - 1].spawnMonsterData.monsterName);
+            NotifyTimerClientRpc(
+                timer,
+                currentWave,
+                waveUI,
+                waveData[currentWave - 1].bossWave,
+                waveData[currentWave - 1].spawnMonsterData.monsterName);
         }
     }
 
@@ -216,13 +212,14 @@ public class GameManager : NetworkBehaviour
     #endregion
 
 
-    public void GetGold(int gold,HostType hostType = HostType.ALL)
+    public void GetGold(int gold, HostType hostType = HostType.ALL)
     {
         if (hostType == HostType.ALL)
         {
             GiveGoldToAllPlayersClientRpc(gold);
         }
-        else if(hostType == HostType.CLIENT) {
+        else if (hostType == HostType.CLIENT)
+        {
             this.gold += gold;
             onGoldGet?.Invoke();
         }
@@ -240,7 +237,8 @@ public class GameManager : NetworkBehaviour
                  waveData[currentWave - 1].bossWave,
                  waveData[currentWave - 1].spawnMonsterData.monsterName);
         }
-        else {
+        else
+        {
             GameOver();
         }
     }
@@ -253,7 +251,7 @@ public class GameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void NotifyTimerClientRpc(float time,int wave,bool waveUI,bool isBoss,string monsterName)
+    private void NotifyTimerClientRpc(float time, int wave, bool waveUI, bool isBoss, string monsterName)
     {
         this.timer = time;
         this.currentWave = wave;
@@ -293,12 +291,12 @@ public class GameManager : NetworkBehaviour
 
     public void GameOver()
     {
-        GameOverClientRpc(playerDps,friendDps);
+        GameOverClientRpc(playerDps, friendDps);
         StartCoroutine(ChangeToMainSceneForAllPlayers());
     }
 
     [ClientRpc]
-    private void GameOverClientRpc(double playerDps,double friendDps)
+    private void GameOverClientRpc(double playerDps, double friendDps)
     {
         CloudManager.instance.userData.bestWave = currentWave;
         CloudManager.instance.SaveUserData();
@@ -343,6 +341,12 @@ public class GameManager : NetworkBehaviour
         onSummonHero?.Invoke();
     }
 
+    public bool IsEnoughGold(int gold)
+    {
+        if (this.gold < gold) return false;
+        return true;
+    }
+
     public List<Hero> GetHeroList() { return heroList; }
 
     public void SummonGoldGoblin()
@@ -371,50 +375,42 @@ public class GameManager : NetworkBehaviour
     {
         if (IsServer)
         {
-            SendUserNameClientRpc(CloudManager.instance.userData.userName,userName);
+            SendUserNameClientRpc(CloudManager.instance.userData.userName, userName);
         }
     }
 
     [ClientRpc]
     private void SendUserNameClientRpc(string hostName, string clientName)
     {
-        InGameUI.instance.InitAllUserName(hostName,clientName);
+        InGameUI.instance.InitAllUserName(hostName, clientName);
     }
     #endregion
 
 
     #region Hero Upgrade
 
-    [ServerRpc(RequireOwnership = false)]
-    public void UpgardeHeroServerRpc(int heroTribe,bool isServer)
+
+    public int GetHeroUpgradeLevel(HeroTribe heroTribe)
     {
-        HeroTribe tribe = (HeroTribe)heroTribe;
-        if (isServer)
-        {
-            serverUpgrade.Upgrade(tribe);   
-        }
-        else {
-            clientUpgrade.Upgrade(tribe);
-        }
+        return NetUtils.IsServer() == true ?
+            serverUpgrade.GetHeroUpgradeLevel(heroTribe) : clientUpgrade.GetHeroUpgradeLevel(heroTribe);
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void GetHeroUpgradeValueServerRpc(int heroTribe,bool isServer)
+    public int GetHeroUpgradeLevel(HeroTribe heroTribe,bool isServerHero)
     {
-        HeroTribe tribe = (HeroTribe)heroTribe;
-        if (isServer)
-        {
-            serverUpgrade.GetHeroUpgrade(tribe);
-        }
-        else {
-            clientUpgrade.GetHeroUpgrade(tribe);
-        }
+        return isServerHero == true ?
+            serverUpgrade.GetHeroUpgradeLevel(heroTribe) : clientUpgrade.GetHeroUpgradeLevel(heroTribe);
     }
 
-    [ClientRpc]
-    public void GetHeroUpgradeValueClientRpc()
-    { 
-        
+    public int GetHeroUpgradeCost(HeroTribe heroTribe)
+    {
+        return NetUtils.IsServer() == true ?
+            serverUpgrade.GetHeroUpgradeCost(heroTribe) : clientUpgrade.GetHeroUpgradeCost(heroTribe);
+    }
+    public int GetHeroUpgradeCost(HeroTribe heroTribe,bool isServerHero)
+    {
+        return isServerHero == true ?
+            serverUpgrade.GetHeroUpgradeCost(heroTribe) : clientUpgrade.GetHeroUpgradeCost(heroTribe);
     }
 
     #endregion

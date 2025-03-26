@@ -1,6 +1,4 @@
 using Unity.Netcode;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -50,29 +48,29 @@ public class GameCamera : NetworkBehaviour
             newCameraPos.y = -1;
         if (Input.GetKey(KeyCode.D))
             newCameraPos.x = 1;
-        if(Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
             newCameraPos.x = -1;
 
         Vector3 moveDir = newCameraPos.normalized;
         Vector3 newPos = transform.position + moveDir * cameraSpeed;
 
-        transform.position = Vector3.Lerp(transform.position,newPos,Time.deltaTime * 2f);
+        transform.position = Vector3.Lerp(transform.position, newPos, Time.deltaTime * 2f);
     }
 
     private void CameraZoom()
     {
         float zoomDir = Input.mouseScrollDelta.y;
         float destination = cam.orthographicSize + (zoomDir * zoomSpeed);
-        destination = Mathf.Clamp(destination,minZoomValue,maxZoomValue);
+        destination = Mathf.Clamp(destination, minZoomValue, maxZoomValue);
         cam.orthographicSize = destination;
     }
 
     private void CheckCameraRange()
     {
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x,cameraClampCollider.bounds.min.x,
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, cameraClampCollider.bounds.min.x,
             cameraClampCollider.bounds.max.x),
             Mathf.Clamp(transform.position.y, cameraClampCollider.bounds.min.y,
-            cameraClampCollider.bounds.max.y), 
+            cameraClampCollider.bounds.max.y),
             transform.position.z);
 
     }
@@ -98,7 +96,7 @@ public class GameCamera : NetworkBehaviour
     private RaycastHit2D GetRayObject()
     {
         Vector3 worldPos = cam.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(worldPos, transform.forward,100,LayerMask.GetMask("HeroHolder"));
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, transform.forward, 100, LayerMask.GetMask("HeroHolder"));
         return hit;
     }
 
@@ -135,8 +133,8 @@ public class GameCamera : NetworkBehaviour
             bool isOwn = false;
 
             ulong value = NetworkManager.Singleton.LocalClientId;
-            if(value == 0) isOwn = heroHolder.holderId.Contains("HOST");
-            else if(value == 1) isOwn = heroHolder.holderId.Contains("CLIENT");
+            if (value == 0) isOwn = heroHolder.holderId.Contains("HOST");
+            else if (value == 1) isOwn = heroHolder.holderId.Contains("CLIENT");
 
             if (!isOwn)
             {
@@ -159,7 +157,7 @@ public class GameCamera : NetworkBehaviour
             {
                 if (hit.collider.GetComponent<HeroHolder>() == null) return;
                 if (hit.collider.GetComponent<HeroHolder>().holderId.Contains(hostOrClient) == false) return;
-                
+
                 if (moveHolder != null) moveHolder.HideHeroMoveTargetMark();
                 moveHolder = hit.collider.GetComponent<HeroHolder>();
                 moveHolder.ShowHeroMoveTargetMark();
@@ -178,7 +176,8 @@ public class GameCamera : NetworkBehaviour
             heroHolder.HideOwnMark();
             Spawner.instance.HeroHolderSwap(heroHolder.holderId, moveHolder.holderId);
         }
-        else {
+        else
+        {
             heroHolder.HideOwnMark();
             heroHolder.ShowHeroRange();
             InGameUI.instance.ShowHeroInfoUI(heroHolder.ownHero);

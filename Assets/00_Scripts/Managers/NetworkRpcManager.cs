@@ -113,4 +113,51 @@ public class NetworkRpcManager : NetworkBehaviour
 
     #endregion
 
+
+    #region Hero Upgrade
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void UpgradeHeroServerRpc(int heroTribe, bool isServer)
+    {
+        HeroTribe tribe = (HeroTribe)heroTribe;
+
+        if (NetUtils.IsServer())
+        {
+            if (isServer)
+            {
+                GameManager.instance.serverUpgrade.Upgrade(tribe);
+                InGameUI.instance.RedrawUpgradeUINodes();
+            }
+            else
+            {
+
+                GameManager.instance.clientUpgrade.Upgrade(tribe);
+
+                int[] upgradeCosts = new int[(int)HeroTribe.LAST];
+                int[] upgradeLevels = new int[(int)HeroTribe.LAST];
+
+                for (int tribeIndex = 0; tribeIndex < (int)HeroTribe.LAST; tribeIndex++)
+                {
+                    upgradeCosts[tribeIndex] = GameManager.instance.clientUpgrade.GetHeroUpgradeCost((HeroTribe)tribeIndex);
+                    upgradeLevels[tribeIndex] = GameManager.instance.clientUpgrade.GetHeroUpgradeLevel((HeroTribe)tribeIndex);
+                }
+
+                SetUpgradeHeroClientRpc(upgradeLevels, upgradeCosts);
+            }
+        }
+    }
+
+    [ClientRpc]
+    public void SetUpgradeHeroClientRpc(int[] upgradeLevels, int[] upgradeCosts)
+    {
+        for (int tribeIndex = 0; tribeIndex < (int)HeroTribe.LAST; tribeIndex++)
+        {
+            GameManager.instance.clientUpgrade.SetHeroUpgradeLevel((HeroTribe)tribeIndex, upgradeLevels[tribeIndex]);
+            GameManager.instance.clientUpgrade.SetHeroUpgradeCost((HeroTribe)tribeIndex, upgradeCosts[tribeIndex]);
+        }
+        InGameUI.instance.RedrawUpgradeUINodes();
+    }
+
+    #endregion
 }

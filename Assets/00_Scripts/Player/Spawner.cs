@@ -294,13 +294,12 @@ public class Spawner : NetworkBehaviour
         {
             MonsterScriptable monsterData = Resources.Load<MonsterScriptable>("MonsterDatas/" + monsterName);
 
-            List<Transform> spawnPoints = isServer ? ServerMonsterMovePosition : ClientMonsterMovePosition;
+            List<Transform> movePoints = isServer ? ServerMonsterMovePosition : ClientMonsterMovePosition;
 
-            monsterNetworkObject.transform.position = spawnPoints[0].position;
+            monsterNetworkObject.transform.position = movePoints[0].position;
 
             monsterNetworkObject.GetComponent<NetworkTransform>().Interpolate = true;
-            monsterNetworkObject.GetComponent<Monster>().SetMoveTarget(spawnPoints);
-            monsterNetworkObject.GetComponent<Monster>().InitData(monsterData);
+            monsterNetworkObject.GetComponent<Monster>().InitData(monsterData,movePoints);
         }
     }
     #endregion
@@ -325,8 +324,6 @@ public class Spawner : NetworkBehaviour
         string heroHolderId = temp + heroHolderValue[value].ToString();
 
         HeroHolder findHeroHolder = GetRemainHeroHolder(temp, heroName);
-
-        AlarmClientRpc(clientId, heroName, rarity);
 
         if (findHeroHolder != null)
         {
@@ -381,17 +378,6 @@ public class Spawner : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    private void AlarmClientRpc(ulong clientId, string heroName, string rarity)
-    {
-        if (clientId == NetUtils.GetLocalD())
-        {
-            InGameUI.instance.ShowAlarmText(string.Format("¿µ¿õÀ» È¹µæÇÏ¿´½À´Ï´Ù. {0}{1}",
-                NetUtils.GetRarityColor((HeroRarity)Enum.Parse(typeof(HeroRarity), rarity)),
-                heroName));
-        }
-
-    }
 
     [ServerRpc(RequireOwnership = false)]
     private void HeroSpawnServerRpc(ulong cleintId, string rarity, string dataName)

@@ -1,9 +1,7 @@
-using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
 public class Hero : Entity
@@ -16,33 +14,16 @@ public class Hero : Entity
     private HeroHolder heroHolder;
 
     private bool isMove = false;
-    private double baseAtk;
     private bool attackDelay = false;
     bool isServerHero;
 
     private List<Monster> monsterInRangeList = new List<Monster>();
-    [SerializeField]private int monsterKillCount = 0;
+    private int monsterKillCount = 0;
 
-
-    public double atk
-    {
-        get
-        {
-            float uggradeBonus =
-                GameManager.instance.upgarde[GetUpgradeIndex()] != 0 ?
-                GameManager.instance.upgarde[GetUpgradeIndex()] * 0.1f : 0;
-            return baseAtk * (1 + uggradeBonus);
-        }
-        set
-        {
-        }
-    }
-    [field: SerializeField] public float attackRange { get; set; } = 1f;
-    [field: SerializeField] public float attackSpeed;
     [field: SerializeField] public LayerMask monsterLayer { get; private set; }
     public string heroName { get; set; }
-    public HeroRarity heroRarity;
-    public NetworkObject target { get; set; } = null;
+    [HideInInspector] public HeroRarity heroRarity;
+    [HideInInspector] public NetworkObject target { get; set; } = null;
 
 
     public override void Awake()
@@ -56,21 +37,15 @@ public class Hero : Entity
 
         heroName = heroData.heroName;
         heroRarity = (HeroRarity)Enum.Parse(typeof(HeroRarity), rarity);
-        baseAtk = heroData.atk.baseValue;
-        attackRange = heroData.atkRange.baseValue;
-        attackSpeed = heroData.atkSpeed.baseValue;
         this.heroHolder = heroHolder;
 
         InitHeroRangeCollider();
 
-        Type classType = Type.GetType(heroName + "Skill");
-        if (classType != null)
-            gameObject.AddComponent(classType);
-
-
         GetInitEntity(data.heroName, rarity);
 
         InitRarityCircleColor();
+
+        InitHeroSkill();
 
         GameManager.instance.AddHero(this);
 
@@ -78,6 +53,14 @@ public class Hero : Entity
 
         isServerHero = heroHolder.holderId.Contains("CLIENT") ? false : true;
     }
+
+    private void InitHeroSkill()
+    {
+        Type classType = Type.GetType(heroName + "Skill");
+        if (classType != null)
+            gameObject.AddComponent(classType);
+    }
+
 
     private void InitHeroRangeCollider()
     {
@@ -208,7 +191,7 @@ public class Hero : Entity
 
     private IEnumerator AttackDelayCoroutine()
     {
-        yield return new WaitForSeconds(1f/heroData.atkSpeed.GetValue());
+        yield return new WaitForSeconds(1f / heroData.atkSpeed.GetValue());
         attackDelay = false;
     }
 
@@ -219,8 +202,8 @@ public class Hero : Entity
         if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject targetObject))
         {
             AnimatorChange("ATTACK", true);
-            BaseProjectile go = 
-                PoolingManager.instance.GetObject<BaseProjectile>(heroData.projectile.gameObject,transform.position);
+            BaseProjectile go =
+                PoolingManager.instance.GetObject<BaseProjectile>(heroData.projectile.gameObject, transform.position);
             go.Init(targetObject.transform, this);
             LooKTarget(targetObject.gameObject);
         }
@@ -244,7 +227,6 @@ public class Hero : Entity
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!NetUtils.IsServer()) return;
         if (collision.CompareTag("Monster"))
         {
             monsterInRangeList.Add(collision.GetComponent<Monster>());
@@ -253,7 +235,6 @@ public class Hero : Entity
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!NetUtils.IsServer()) return;
         if (collision.CompareTag("Monster"))
         {
             monsterInRangeList.Remove(collision.GetComponent<Monster>());
@@ -267,6 +248,39 @@ public class Hero : Entity
         base.OnDestroy();
         GameManager.instance.RemoveHero(this);
     }
+
+    public double GetHeroAtk()
+    {
+        double atk = heroData.atk.GetValue();
+        atk += atk * (GameManager.instance.GetHeroUpgradeLevel(heroData.heroTribe, isServerHero) * 0.05f);
+        return atk;
+    }
+
+    public double GetBonusHeroAtk()
+    {
+        return GetHeroAtk() - heroData.atk.baseValue;
+    }
+
+    public float GetHeroAtkSpeed()
+    {
+        return heroData.atkSpeed.GetValue();
+    }
+
+    public float GetBounusHeroAtkSpeed()
+    {
+        return heroData.atk.GetModifireValue();
+    }
+
+    public float GetHeroAtkRange()
+    {
+        return heroData.atkRange.GetValue();
+    }
+
+    public float GetHeroBonusAtkRange()
+    {
+        return heroData.atkRange.GetModifireValue();
+    }
+
     public HeroScriptable GetHeroData() { return heroData; }
     public HeroHolder GetHeroHolder() { return heroHolder; }
     public void IncreaseMonsterKillCount() { monsterKillCount++; }

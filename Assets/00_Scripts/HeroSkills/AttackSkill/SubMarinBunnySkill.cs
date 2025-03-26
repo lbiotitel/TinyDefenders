@@ -4,7 +4,7 @@ public class SubMarinBunnySkill : AttackSkillBase
 {
 
 
-    protected override void ActiveSkill()
+    protected override void SkillLogic()
     {
 
         HeroHolder heroHolder = hero.GetHeroHolder();

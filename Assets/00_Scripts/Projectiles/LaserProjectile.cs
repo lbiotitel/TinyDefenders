@@ -6,9 +6,9 @@ public class LaserProjectile : BaseProjectile
 {
     private LineRenderer lineRenderer;
 
-    public override void Init(Transform target, Hero referenceHero)
+    public override void Init(Transform target, Hero referenceHero, float skillDamage = 1f)
     {
-        base.Init(target, referenceHero);
+        base.Init(target, referenceHero,skillDamage);
         lineRenderer = GetComponent<LineRenderer>();
     }
 
@@ -25,7 +25,7 @@ public class LaserProjectile : BaseProjectile
 
         if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
         {
-            NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), referenceHero.atk, target.GetComponent<Monster>(),
+            NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), referenceHero.GetHeroAtk(), target.GetComponent<Monster>(),
                 referenceHero.GetHeroData().debuffEffects);
         }
 

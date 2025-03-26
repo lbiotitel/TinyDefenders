@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TankBunnySkill : AttackSkillBase
 {
-    protected override void ActiveSkill()
+    protected override void SkillLogic()
     {
         GameObject go = Instantiate(heroData.skillData.skillPrefab,
         transform.position, Quaternion.identity);

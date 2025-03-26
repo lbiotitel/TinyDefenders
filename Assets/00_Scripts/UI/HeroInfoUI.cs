@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +25,14 @@ public class HeroInfoUI : MonoBehaviour
         InitButtons();
     }
 
+    private void Update()
+    {
+        if (gameObject.activeSelf)
+        {
+            ShowHeroInfoUI(hero);
+        }
+    }
+
     private void InitButtons()
     {
         sellButton.onClick.AddListener(() =>
@@ -50,7 +57,7 @@ public class HeroInfoUI : MonoBehaviour
 
         HeroScriptable heroData = hero.GetHeroData();
 
-        if(!NetUtils.IsServer())
+        if (!NetUtils.IsServer())
             NetworkRpcManager.instance.GetServerHeroKillCountServerRpc(hero.NetworkObjectId);
 
         gameObject.SetActive(true);
@@ -61,10 +68,24 @@ public class HeroInfoUI : MonoBehaviour
         this.heroNameText.text = heroData.GetLocalizationName();
         this.heroDesc.text = heroData.GetLocalizationDesc();
         this.heroRarity.text = heroData.rarity.ToString();
-        this.attackText.text = heroData.atk.baseValue.ToString();
-        this.attackSpeedText.text = heroData.atkSpeed.baseValue.ToString();
-        this.attackRangeText.text = heroData.atkRange.baseValue.ToString();
+
+        this.attackText.text =
+            hero.GetBonusHeroAtk() == 0 ?
+            string.Format("{0:0}", hero.GetHeroAtk()) :
+            string.Format("{0:0}<color=#00FF00>(+{1:0})", hero.GetHeroAtk(), hero.GetBonusHeroAtk());
+
+        this.attackSpeedText.text =
+           hero.GetBounusHeroAtkSpeed() == 0 ?
+            string.Format("{0:0}", hero.GetHeroAtkSpeed()) :
+            string.Format("{0:0}<color=#00FF00>(+{1:0})", hero.GetHeroAtkSpeed(), hero.GetBounusHeroAtkSpeed());
+
+        this.attackRangeText.text =
+            hero.GetHeroBonusAtkRange() == 0 ?
+            string.Format("{0:0}", hero.GetHeroAtkRange()) :
+            string.Format("{0:0}<color=#00FF00>(+{1:0})", hero.GetHeroAtkRange(), hero.GetHeroBonusAtkRange());
+
         this.criRateText.text = heroData.criticalRate.baseValue.ToString();
+
         this.monsterKillCountText.text = "몬스터 처치 수 : " + hero.GetMonsterKillCount().ToString();
     }
 

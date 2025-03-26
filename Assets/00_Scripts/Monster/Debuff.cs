@@ -29,6 +29,10 @@ public partial class Monster : Entity
     private Coroutine poisionCoroutine;
     private int poisionStack;
 
+    [Header("Ignite Effect")]
+    [SerializeField] private GameObject igniteEffect;
+    private Coroutine igniteCoroutine;
+
 
 
     [ServerRpc(RequireOwnership = false)]
@@ -76,6 +80,14 @@ public partial class Monster : Entity
                     float poisionDuration = (float)values[0];
                     float poisionTickDamage = (float)values[1];
                     PoisionDebuffClientRpc(poisionDuration, poisionTickDamage,isServer);
+                }
+                break;
+
+            case DebuffType.IGNITE: 
+                {
+                    float igniteDuration = (float)values[0];
+                    float igniteTickDamage = (float)values[1];
+                    IgniteDebuffClientRpc(igniteDuration,igniteTickDamage,isServer);
                 }
                 break;
         }
@@ -196,6 +208,33 @@ public partial class Monster : Entity
 
     #endregion
 
+    #region About Ignite Effect
+
+    [ClientRpc]
+    private void IgniteDebuffClientRpc(float igniteDuration, float igniteTickDamage, bool isServer)
+    {
+        CheckAndStopCoroutine(igniteCoroutine);
+
+        igniteCoroutine = StartCoroutine(
+          DebuffCoroutine(
+              igniteDuration,
+              () =>
+              {
+                  igniteEffect.gameObject.SetActive(true);
+                  double damage = igniteTickDamage;
+                  GetDamage(damage, isServer);
+              },
+              () =>
+              {
+                  igniteEffect.gameObject.SetActive(false);
+              }
+          )
+      );
+
+    }
+
+    #endregion
+
 
     private void CheckAndStopCoroutine(Coroutine coroutine)
     {
@@ -228,6 +267,11 @@ public partial class Monster : Entity
             StopCoroutine(stunCoroutine);
             stunEffect.gameObject.SetActive(false);
             isStun = false;
+        }
+        if (igniteCoroutine != null)
+        {
+            StopCoroutine(igniteCoroutine);
+            igniteEffect.gameObject.SetActive(false);
         }
         if (bleedCoroutine != null) StopCoroutine(bleedCoroutine);
         if(poisionCoroutine != null)StopCoroutine(poisionCoroutine);

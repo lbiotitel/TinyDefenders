@@ -7,6 +7,11 @@ public enum CardType{
     UTILITY
 }
 
+public struct SceneName {
+    public static string MainScene = "MainScene";
+    public static string GameScene = "GamePlayScene";
+}
+
 public struct LayerName {
     public static string Monster = "Monster";
     public static string Hero = "Hero";
@@ -20,7 +25,8 @@ public enum HeroTribe {
     DEMON,
     ELF,
     ORC,
-    SCAVENGER
+    SCAVENGER,
+    LAST
 }
 
 public enum DebuffType { 
@@ -30,6 +36,7 @@ public enum DebuffType {
     POISION,
     FREEZE,
     CHEEL,
+    IGNITE
 }
 
 public enum AlarmType { 
@@ -54,7 +61,8 @@ public enum HostType {
 public enum Localize
 {
     UI,
-    Hero
+    Hero,
+    HeroDesc
 }
 public enum ProjectileType { 
     NORMAL,

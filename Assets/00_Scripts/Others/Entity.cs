@@ -22,7 +22,7 @@ public class Entity : NetworkBehaviour
         spriteRenderer.sortingOrder = value;
     }
        
-    protected void AnimatorChange(string name, bool trigger)
+    public void AnimatorChange(string name, bool trigger)
     {
         if (trigger)
         {

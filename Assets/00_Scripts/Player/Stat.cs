@@ -46,4 +46,11 @@ public class Stat
     {
         modifiers.Remove(modifier);
     }
+
+    public float GetModifireValue()
+    {
+        float valueSum = 0f;
+        modifiers.ForEach(x => valueSum += x);
+        return valueSum;
+    }
 }

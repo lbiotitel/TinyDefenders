@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RocketBunnySkill : AttackSkillBase
 {
-    protected override void ActiveSkill()
+    protected override void SkillLogic()
     {
         StartCoroutine(RapidFire());
     }

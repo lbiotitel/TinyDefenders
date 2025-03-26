@@ -33,11 +33,7 @@ public class WideAreaProjectile : BaseProjectile
 
             foreach (var monster in monsters)
             {
-                if (NetUtils.IsServer() && monster != null && !monster.GetComponent<Monster>().IsDead())
-                {
-                    NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), referenceHero.atk, monster.GetComponent<Monster>(),
-                        referenceHero.GetHeroData().debuffEffects);
-                }
+                AttackMonster(monster.gameObject);
             }
 
             destroyParticle = PoolingManager.instance.GetObject(destroyParticlePrefab, transform.position);

@@ -4,7 +4,7 @@ public class FireMageCatSkill : AttackSkillBase
 {
 
 
-    protected override void ActiveSkill()
+    protected override void SkillLogic()
     {
         HeroHolder heroHolder = hero.GetHeroHolder();
         Collider2D[] collider2D = Physics2D.OverlapCircleAll(

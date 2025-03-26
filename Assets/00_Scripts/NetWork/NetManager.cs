@@ -3,6 +3,7 @@ using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public partial class NetManager : MonoBehaviour
@@ -13,10 +14,6 @@ public partial class NetManager : MonoBehaviour
     private Lobby currentLobby;
 
     private const int maxPlayers = 2;
-    [SerializeField] private string gamePlaySceneName = "GamePlayScene";
-    [SerializeField] private Button startMatchingButton;
-    [SerializeField] private GameObject matchingObject;
-    [SerializeField] private Button cancleButton;
 
     private async void Start()
     {
@@ -29,7 +26,6 @@ public partial class NetManager : MonoBehaviour
 
             MainSceneUI.instance.InitMainScene();
         }
-        startMatchingButton.onClick.AddListener(() => StartMatching());
     }
 
 

@@ -21,7 +21,7 @@ public partial class Monster : Entity
 
 
     int currentMoveTarget = 1;
-    List<Transform> targetLists;
+    List<Transform> movePointList;
     private bool isDead = false;
     private MonsterType monsterType = MonsterType.NORMAL;
 
@@ -30,13 +30,14 @@ public partial class Monster : Entity
         base.Awake();
     }
 
-    public void InitData(MonsterScriptable data)
+    public void InitData(MonsterScriptable data, List<Transform> targetLists)
     {
         StartCoroutine(ResetObject());
         hp = maxHp = data.monsterHp;
         speed = originalSpeed = data.monsterSpeed;
         animator.runtimeAnimatorController = data.animatorController;
         monsterType = data.monsterType;
+        this.movePointList = targetLists;
     }
 
     private IEnumerator ResetObject()
@@ -56,11 +57,6 @@ public partial class Monster : Entity
         spriteRenderer.flipX = true;
         currentMoveTarget = 1;
         hpImage.fillAmount = 1f;
-    }
-
-    public void SetMoveTarget(List<Transform> targetLists)
-    {
-        this.targetLists = targetLists;
     }
 
     public void GetDamage(double damage, bool isServer, bool isCri = false)
@@ -112,7 +108,7 @@ public partial class Monster : Entity
                 gameObject.layer = LayerMask.NameToLayer(LayerName.Defulat);
                 StartCoroutine(DeadCoroutine());
                 AnimatorChange("DEAD", true);
-                targetLists = null;
+                movePointList = null;
             }
         }
     }
@@ -182,13 +178,14 @@ public partial class Monster : Entity
     private void MoveLogic()
     {
         if (isDead) return;
-        if (Vector2.Distance(transform.position, targetLists[currentMoveTarget].position) <= 0.0f)
+        if (movePointList == null) return;
+        if (Vector2.Distance(transform.position, movePointList[currentMoveTarget].position) <= 0.0f)
         {
             spriteRenderer.flipX = currentMoveTarget >= 2 ? true : false;
-            currentMoveTarget = (currentMoveTarget + 1) % targetLists.Count;
+            currentMoveTarget = (currentMoveTarget + 1) % movePointList.Count;
         }
 
-        transform.position = Vector2.MoveTowards(transform.position, targetLists[currentMoveTarget].position, Time.deltaTime * speed);
+        transform.position = Vector2.MoveTowards(transform.position, movePointList[currentMoveTarget].position, Time.deltaTime * speed);
     }
 
 }

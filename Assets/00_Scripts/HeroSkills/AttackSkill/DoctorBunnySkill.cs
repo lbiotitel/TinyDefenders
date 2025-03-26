@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DoctorBunnySkill : AttackSkillBase
 {
-    protected override void ActiveSkill()
+    protected override void SkillLogic()
     {
 
         HeroHolder heroHolder = hero.GetHeroHolder();

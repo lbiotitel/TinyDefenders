@@ -1,17 +1,17 @@
 using System.Collections.Generic;
-using Unity.Netcode;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 [System.Serializable]
-public class DebuffEffect { 
+public class DebuffEffect
+{
     public DebuffType debuffType;
     public float[] values;
 }
 
 
 [System.Serializable]
-public class SkillData {
+public class SkillData
+{
     public float coolTime;
     public GameObject skillPrefab;
 
@@ -65,12 +65,19 @@ public class HeroScriptable : ScriptableObject
 
     public string GetLocalizationName()
     {
-        return Utils.Localization_Text(Localize.Hero,heroName);
+        return Utils.Localization_Text(Localize.Hero, heroName);
     }
 
     public string GetLocalizationDesc()
     {
-        return Utils.Localization_Text(Localize.Hero, heroName + "Desc");
+        /*string desc = Utils.Localization_Text(Localize.Hero, heroName + "Desc");
+
+        if (!string.IsNullOrEmpty(desc))
+        {
+            return desc;
+        }*/
+
+        return "";
     }
 
 }

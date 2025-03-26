@@ -38,8 +38,7 @@ public class InGameUI : NetworkBehaviour
     public bool profileAnimationReady = false;
 
     [Header("Upgarde UI")]
-    [SerializeField] private TextMeshProUGUI[] upgradeLevelText;
-    [SerializeField] private TextMeshProUGUI[] upgradeCostText;
+    [SerializeField] private UpgradeUINode[] upgradeUINodes;
 
     [Header("Wave UI")]
     [SerializeField] private GameObject waveUI;
@@ -70,6 +69,7 @@ public class InGameUI : NetworkBehaviour
         if (profileAnimator.gameObject.activeSelf == false)
             profileAnimator.gameObject.SetActive(true);
         heroInfoUI.HideHeroInfoUI();
+        RedrawUpgradeUINodes();
     }
 
 
@@ -116,15 +116,6 @@ public class InGameUI : NetworkBehaviour
         bestWaveText.text = GameManager.instance.currentWave.ToString();
         playerDpsText.text = GameManager.instance.playerDps.ToString();
         friendDpsText.text = GameManager.instance.friendDps.ToString();
-    }
-
-    public void ClickUpgrade(int value)
-    {
-        if (GameManager.instance.gold < 30 + GameManager.instance.upgarde[value])
-            return;
-
-        GameManager.instance.gold -= GameManager.instance.upgarde[value];
-        GameManager.instance.upgarde[value]++;
     }
 
 
@@ -213,6 +204,24 @@ public class InGameUI : NetworkBehaviour
     public void HideCardRangeUI() 
     { 
         cardRangeUI.gameObject.SetActive(false);
+    }
+
+    #endregion
+
+
+    #region Upgrade UI
+
+    public void ClickUpgradeButton(HeroTribe heroTribe)
+    {
+        NetworkRpcManager.instance.UpgradeHeroServerRpc((int)heroTribe,NetUtils.IsServer());
+    }
+
+    public void RedrawUpgradeUINodes()
+    {
+        for (int i = 0; i < upgradeUINodes.Length; i++)
+        {
+            upgradeUINodes[i].InitUpgradeUI();
+        }
     }
 
     #endregion

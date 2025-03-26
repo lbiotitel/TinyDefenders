@@ -1,18 +1,21 @@
 using UnityEngine;
 
-public class PassiveSkillBase : Skill
+public class PassiveSkillBase : SkillBase
 {
-    protected override void SkillLogic()
+    protected override void ActiveSkill()
     {
         if (!skillDelay)
         {
-            skillDelay = true;
-            StartCoroutine(SkillDelayCoroutine());
-            ActiveSkill();
+            if (IsServer)
+            {
+                skillDelay = true;
+                StartCoroutine(SkillDelayCoroutine());
+            }
+            SkillLogic();
         }
     }
 
-    protected virtual void ActiveSkill()
+    protected virtual void SkillLogic()
     {
 
     }

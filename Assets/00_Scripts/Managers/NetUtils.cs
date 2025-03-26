@@ -44,22 +44,4 @@ public class NetUtils
         return hero.GetHeroHolder().holderId.Contains("HOST") ? true : false;
     }
 
-    public static string GetRarityColor(HeroRarity rarity)
-    {
-        switch (rarity)
-        {
-            case HeroRarity.Normal:
-                return "<color=#A4A4A4>";
-            case HeroRarity.Uncommon:
-                return "<color=#79FF73>";
-            case HeroRarity.Rare:
-                return "<color=#6EE5FF>";
-            case HeroRarity.Legend:
-                return "<color=#FFBA13>";
-            case HeroRarity.God:
-                return "<color=#92DC00>";
-        }
-
-        return "";
-    }
 }

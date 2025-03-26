@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: ElfWarden
+  m_EditorClassIdentifier: 
+  heroName: ElfWarden
+  rarity: 0
+  atk:
+    baseValue: 1
+  damage:
+    baseValue: 0
+  criticalRate:
+    baseValue: 0
+  atkSpeed:
+    baseValue: 1
+  atkRange:
+    baseValue: 1
+  heroDesc: 
+  heroTribe: 4
+  heroMainImage: {fileID: -492166830, guid: dd9f1f70f12603b45942b1c9f1631427, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 51eb1dcc4aad84c45a2f0498616f80de, type: 2}
+  projectile: {fileID: 3725229338775256773, guid: 7669b0e31981f684081795d90f28f2ac, type: 3}
+  debuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0
+    debuffEffects: []

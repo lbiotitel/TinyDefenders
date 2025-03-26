@@ -251,1035 +251,463 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MiniElfMage_0
+      name: ElfMage_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 224
-        width: 15
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ab933b4a3d7393d50800000000000000
-      internalID: 6717461701340641722
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_1
-      rect:
-        serializedVersion: 2
-        x: 40
-        y: 224
-        width: 16
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 751c21ff370fd3cf0800000000000000
-      internalID: -270796021581037225
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_2
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 224
-        width: 15
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f6c1f5a7c8d00aee0800000000000000
-      internalID: -1251985799409361809
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_3
-      rect:
-        serializedVersion: 2
-        x: 104
-        y: 224
-        width: 15
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8d1de722701315e90800000000000000
-      internalID: -7038790835890105896
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_4
-      rect:
-        serializedVersion: 2
-        x: 9
-        y: 192
-        width: 14
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4e30a452531a183d0800000000000000
-      internalID: -3206104210080136220
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_5
-      rect:
-        serializedVersion: 2
-        x: 41
-        y: 192
-        width: 14
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b88a660106f3275c0800000000000000
-      internalID: -4219240219068159861
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_6
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 192
-        width: 15
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c25cebc3f73ccdef0800000000000000
-      internalID: -81975741952113364
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_7
-      rect:
-        serializedVersion: 2
-        x: 104
-        y: 192
-        width: 16
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: cd3443be24be55150800000000000000
-      internalID: 5860849162739008476
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_8
-      rect:
-        serializedVersion: 2
-        x: 136
-        y: 192
-        width: 16
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 07377a19cede6ad30800000000000000
-      internalID: 4442499682759308144
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_9
-      rect:
-        serializedVersion: 2
-        x: 168
-        y: 192
-        width: 15
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 549549d4ab3463220800000000000000
-      internalID: 2465232313476471109
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_10
-      rect:
-        serializedVersion: 2
-        x: 8
-        y: 160
-        width: 16
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a4451a61c359ffce0800000000000000
-      internalID: -1369211676387093430
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_11
-      rect:
-        serializedVersion: 2
-        x: 40
-        y: 160
-        width: 16
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0ceb0b342fbae9700800000000000000
-      internalID: 549065261591871168
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_12
-      rect:
-        serializedVersion: 2
-        x: 71
-        y: 160
-        width: 17
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2dcf87b29153c9a70800000000000000
-      internalID: 8834994951213874386
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_13
-      rect:
-        serializedVersion: 2
-        x: 8
-        y: 128
-        width: 15
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8e9ba3971ab281bc0800000000000000
-      internalID: -3812249112045504024
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_14
-      rect:
-        serializedVersion: 2
-        x: 40
-        y: 128
-        width: 15
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 78ff0b62867d02dc0800000000000000
-      internalID: -3665693254353879161
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_15
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 128
-        width: 15
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5268dc864e0f3cc70800000000000000
-      internalID: 8990294144963151397
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_16
-      rect:
-        serializedVersion: 2
-        x: 104
-        y: 128
-        width: 15
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 61f6ea9d5cccab2f0800000000000000
-      internalID: -956226820730097898
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_17
-      rect:
-        serializedVersion: 2
-        x: 137
-        y: 128
-        width: 14
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e5be9716fe2ee1980800000000000000
-      internalID: -8566159923451663522
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_18
-      rect:
-        serializedVersion: 2
-        x: 169
-        y: 128
-        width: 19
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7c495b9e8089165e0800000000000000
-      internalID: -1918084802234968889
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_19
-      rect:
-        serializedVersion: 2
-        x: 201
-        y: 128
-        width: 20
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 48e4fc62c80167bb0800000000000000
-      internalID: -4938741747232584060
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_20
-      rect:
-        serializedVersion: 2
-        x: 233
-        y: 128
-        width: 22
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 11291085a79c98ba0800000000000000
-      internalID: -6086111894114823663
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_21
-      rect:
-        serializedVersion: 2
-        x: 265
-        y: 128
-        width: 19
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9368ffe70017762d0800000000000000
-      internalID: -3285533156198873543
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_22
-      rect:
-        serializedVersion: 2
-        x: 296
-        y: 128
-        width: 19
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 187dc39a94cbe9450800000000000000
-      internalID: 6097517970064201601
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_23
-      rect:
-        serializedVersion: 2
-        x: 329
-        y: 128
-        width: 14
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9b695646078583160800000000000000
-      internalID: 7005446460118767289
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_24
-      rect:
-        serializedVersion: 2
-        x: 8
-        y: 96
-        width: 15
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0f4f0210bdefa6bf0800000000000000
-      internalID: -330171406088080144
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_25
-      rect:
-        serializedVersion: 2
-        x: 40
-        y: 96
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 245dff0e6be8c3740800000000000000
-      internalID: 5133134591405577538
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_26
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 96
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: be8bd88c7076e17d0800000000000000
-      internalID: -2945803823126562581
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_27
-      rect:
-        serializedVersion: 2
-        x: 104
-        y: 96
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4a9af52036bf290d0800000000000000
-      internalID: -3417392764560627292
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_28
-      rect:
-        serializedVersion: 2
-        x: 136
-        y: 96
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 47a1ce3bf839ee0b0800000000000000
-      internalID: -5697454233168897420
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_29
-      rect:
-        serializedVersion: 2
-        x: 168
-        y: 96
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 895e64bd0a9351e20800000000000000
-      internalID: 3320623663292016024
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_30
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 96
-        width: 15
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c60d236475cedbc00800000000000000
-      internalID: 918149758637494380
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_31
-      rect:
-        serializedVersion: 2
-        x: 231
-        y: 96
-        width: 16
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: dd2632031d8595ee0800000000000000
-      internalID: -1271887764276419875
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_32
-      rect:
-        serializedVersion: 2
-        x: 8
+        x: 0
         y: 64
-        width: 15
-        height: 18
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3a26a252e47ed67a0800000000000000
-      internalID: -6382190774097124701
+      spriteID: 6b9ccb3104557074e840a56ff7ceae20
+      internalID: 1586800823
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniElfMage_33
+      name: ElfMage_1
       rect:
         serializedVersion: 2
-        x: 40
+        x: 32
         y: 64
-        width: 17
-        height: 18
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2bc6abcdece2c76e0800000000000000
-      internalID: -1838543081872659278
+      spriteID: 1765e2e6cda9183468be94daaeaf3ccd
+      internalID: 1198709509
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniElfMage_34
+      name: ElfMage_2
       rect:
         serializedVersion: 2
-        x: 72
+        x: 64
         y: 64
-        width: 22
-        height: 18
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 990ee247e6c200eb0800000000000000
-      internalID: -4755752353595989863
+      spriteID: ed924197694ea3240a5b792b40826938
+      internalID: 634768500
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniElfMage_35
+      name: ElfMage_3
       rect:
         serializedVersion: 2
-        x: 104
+        x: 96
         y: 64
-        width: 22
-        height: 18
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d4ea10ab2eb5e03d0800000000000000
-      internalID: -3238550052691399091
+      spriteID: d646844e7dd102a4294ce9a0061d232e
+      internalID: -476576348
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniElfMage_36
+      name: ElfMage_4
       rect:
         serializedVersion: 2
-        x: 136
-        y: 64
-        width: 18
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6fa0d74680e46bb00800000000000000
-      internalID: 843947778131167990
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniElfMage_37
-      rect:
-        serializedVersion: 2
-        x: 6
+        x: 0
         y: 32
-        width: 17
-        height: 18
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 63e977d72b08e1ce0800000000000000
-      internalID: -1432566127359713738
+      spriteID: 66cfd5c8faa37914cac5af2465f29ade
+      internalID: -1393589509
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniElfMage_38
+      name: ElfMage_5
       rect:
         serializedVersion: 2
-        x: 39
+        x: 32
         y: 32
-        width: 17
-        height: 18
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a4044a1c7ad892cd0800000000000000
-      internalID: -2582377159672446902
+      spriteID: 9f74982077a712541820c1dd1abf9b52
+      internalID: 937728654
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniElfMage_39
+      name: ElfMage_6
       rect:
         serializedVersion: 2
-        x: 9
-        y: 0
-        width: 16
-        height: 18
+        x: 64
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: dbaf01bfeccffa8b0800000000000000
-      internalID: -5138610683900790083
+      spriteID: e343ab9cbe250724288745b3ec604e37
+      internalID: -680416735
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniElfMage_40
+      name: ElfMage_7
       rect:
         serializedVersion: 2
-        x: 41
-        y: 0
-        width: 18
-        height: 14
+        x: 96
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cff58af5474077bb0800000000000000
-      internalID: -4938473568520871940
+      spriteID: db814e9cc4c1ef746b4818ccb9ac9093
+      internalID: -221730528
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniElfMage_41
+      name: ElfMage_8
       rect:
         serializedVersion: 2
-        x: 73
-        y: 0
-        width: 22
-        height: 15
+        x: 128
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a1a6d8d69b21af200800000000000000
-      internalID: 214504519869753882
+      spriteID: 25f8ad0ff8098f74ab3e56c8f7da2da0
+      internalID: 1603330656
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniElfMage_42
+      name: ElfMage_9
       rect:
         serializedVersion: 2
-        x: 106
-        y: 0
-        width: 21
-        height: 15
+        x: 160
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 75aedf566d595f0f0800000000000000
-      internalID: -1083795387246056873
+      spriteID: 1a7f6a32545a12248941591edf1bfab7
+      internalID: 1497419245
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniElfMage_43
+      name: ElfMage_10
       rect:
         serializedVersion: 2
-        x: 140
+        x: 0
         y: 0
-        width: 19
-        height: 14
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3fdccd5e899048cb0800000000000000
-      internalID: -4862751145357160973
+      spriteID: b4fb18d3cad420048a6acd4541efc70d
+      internalID: -886219401
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniElfMage_44
+      name: ElfMage_11
       rect:
         serializedVersion: 2
-        x: 171
+        x: 32
         y: 0
-        width: 20
-        height: 10
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: dd8d0b7b0fe56a8f0800000000000000
-      internalID: -529631518202472227
+      spriteID: 60637ac3031abb94ea092d892200302e
+      internalID: 416523018
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniElfMage_45
+      name: ElfMage_12
       rect:
         serializedVersion: 2
-        x: 203
+        x: 64
         y: 0
-        width: 20
-        height: 11
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: dd7c45a1641369160800000000000000
-      internalID: 7031862045344843741
+      spriteID: 8ae8885f7c8d8954585e3a5c89e2e1d4
+      internalID: 580929750
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniElfMage_46
+      name: ElfMage_13
       rect:
         serializedVersion: 2
-        x: 235
+        x: 96
         y: 0
-        width: 20
-        height: 10
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4cd2fce9d9a1688b0800000000000000
-      internalID: -5150399859575018044
+      spriteID: ea8eb16624dedc34b94a782ba04fe558
+      internalID: -1355677415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ElfMage_14
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7f7e307b29a7f84aa2c19056877ba74
+      internalID: -1732557093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ElfMage_15
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9c1d65f68055a44da0c6833e8eb945d
+      internalID: 1516548296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ElfMage_16
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f069de1a095fbc469c7e3d48d613372
+      internalID: 1910216652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ElfMage_17
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63ce6d68a10cb914d94e5a936afdf1ce
+      internalID: 522798867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ElfMage_18
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5790da5cc321edc4eb70b4fc4c0e5c60
+      internalID: -596011601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ElfMage_19
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d114ca09511034f4eb334f2e4c115d34
+      internalID: 578303390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ElfMage_20
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0a0150dab9374546b793851812b808c
+      internalID: -1129747058
       vertices: []
       indices: 
       edges: []
@@ -1288,7 +716,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 416a403c38a3ed840afb64669c0cd378
     internalID: 0
     vertices: []
     indices: 
@@ -1298,53 +726,27 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      MiniElfMage_0: 6717461701340641722
-      MiniElfMage_1: -270796021581037225
-      MiniElfMage_10: -1369211676387093430
-      MiniElfMage_11: 549065261591871168
-      MiniElfMage_12: 8834994951213874386
-      MiniElfMage_13: -3812249112045504024
-      MiniElfMage_14: -3665693254353879161
-      MiniElfMage_15: 8990294144963151397
-      MiniElfMage_16: -956226820730097898
-      MiniElfMage_17: -8566159923451663522
-      MiniElfMage_18: -1918084802234968889
-      MiniElfMage_19: -4938741747232584060
-      MiniElfMage_2: -1251985799409361809
-      MiniElfMage_20: -6086111894114823663
-      MiniElfMage_21: -3285533156198873543
-      MiniElfMage_22: 6097517970064201601
-      MiniElfMage_23: 7005446460118767289
-      MiniElfMage_24: -330171406088080144
-      MiniElfMage_25: 5133134591405577538
-      MiniElfMage_26: -2945803823126562581
-      MiniElfMage_27: -3417392764560627292
-      MiniElfMage_28: -5697454233168897420
-      MiniElfMage_29: 3320623663292016024
-      MiniElfMage_3: -7038790835890105896
-      MiniElfMage_30: 918149758637494380
-      MiniElfMage_31: -1271887764276419875
-      MiniElfMage_32: -6382190774097124701
-      MiniElfMage_33: -1838543081872659278
-      MiniElfMage_34: -4755752353595989863
-      MiniElfMage_35: -3238550052691399091
-      MiniElfMage_36: 843947778131167990
-      MiniElfMage_37: -1432566127359713738
-      MiniElfMage_38: -2582377159672446902
-      MiniElfMage_39: -5138610683900790083
-      MiniElfMage_4: -3206104210080136220
-      MiniElfMage_40: -4938473568520871940
-      MiniElfMage_41: 214504519869753882
-      MiniElfMage_42: -1083795387246056873
-      MiniElfMage_43: -4862751145357160973
-      MiniElfMage_44: -529631518202472227
-      MiniElfMage_45: 7031862045344843741
-      MiniElfMage_46: -5150399859575018044
-      MiniElfMage_5: -4219240219068159861
-      MiniElfMage_6: -81975741952113364
-      MiniElfMage_7: 5860849162739008476
-      MiniElfMage_8: 4442499682759308144
-      MiniElfMage_9: 2465232313476471109
+      ElfMage_0: 1586800823
+      ElfMage_1: 1198709509
+      ElfMage_10: -886219401
+      ElfMage_11: 416523018
+      ElfMage_12: 580929750
+      ElfMage_13: -1355677415
+      ElfMage_14: -1732557093
+      ElfMage_15: 1516548296
+      ElfMage_16: 1910216652
+      ElfMage_17: 522798867
+      ElfMage_18: -596011601
+      ElfMage_19: 578303390
+      ElfMage_2: 634768500
+      ElfMage_20: -1129747058
+      ElfMage_3: -476576348
+      ElfMage_4: -1393589509
+      ElfMage_5: 937728654
+      ElfMage_6: -680416735
+      ElfMage_7: -221730528
+      ElfMage_8: 1603330656
+      ElfMage_9: 1497419245
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

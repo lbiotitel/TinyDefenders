@@ -350,7 +350,7 @@ Animator:
   m_GameObject: {fileID: 5249462860078115409}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: aa667f2eba927104aaded87d6911e962, type: 2}
+  m_Controller: {fileID: 9100000, guid: c1d5b8fbdbb5c9b49a1e01fc74f8e936, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -486,9 +486,6 @@ MonoBehaviour:
   spawnParticle: {fileID: 5626245795935178412, guid: fd1add2b7de660f498cb90d16f9f8561, type: 3}
   rarityParticle: {fileID: 5773783186465888369}
   heroRangeCollider: {fileID: 3897633773471109625}
-  monsterKillCount: 0
-  <attackRange>k__BackingField: 1
-  attackSpeed: 0
   <monsterLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 64

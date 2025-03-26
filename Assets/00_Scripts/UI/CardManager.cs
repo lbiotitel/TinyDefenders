@@ -188,7 +188,7 @@ public class CardManager : MonoBehaviour
             RectTransform cardTransform = myCardList[i].GetComponent<RectTransform>();
             cardTransform.DOAnchorPos(new Vector2(x, y), 0.1f);
 
-            myCardList[i].transform.SetAsFirstSibling();
+            myCardList[i].transform.SetAsLastSibling();
 
             yield return new WaitForSeconds(0.1f);
         }

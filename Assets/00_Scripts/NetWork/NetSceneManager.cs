@@ -18,13 +18,41 @@ public partial class NetManager : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsHost)
         {
-            Debug.Log("씬이 넘어가유");
             NetworkManager.Singleton.SceneManager.LoadScene(
-                gamePlaySceneName,
+                SceneName.GameScene,
                 UnityEngine.SceneManagement.LoadSceneMode.Single
                 );
         }
     }
+
+    /*
+    private void OnSceneLoaded(ulong clientId, string sceneName, LoadSceneMode mode)
+{
+    if (sceneName == "NextScene") // GameManager가 있는 씬 이름
+    {
+        GameObject go = GameObject.Find("GameManager");
+        if (go == null)
+        {
+            Debug.LogError("다음 씬에서도 GameManager를 찾을 수 없습니다.");
+            return;
+        }
+
+        GameManager gameManager = go.GetComponent<GameManager>();
+        gameManager.SetSpawner();
+
+        if (!NetUtils.IsServer())
+        {
+            gameManager.SendUserNameServerRpc(CloudManager.instance.userData.userName);
+        }
+    }
+
+    NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
+}
+
+     * 
+     * 
+     * 
+     */
 
     private void OnSceneLoaded(ulong clientId, string sceneName, LoadSceneMode mode)
     {
@@ -32,18 +60,15 @@ public partial class NetManager : MonoBehaviour
         if (go != null)
         {
             GameManager gameManager = go.GetComponent<GameManager>();
-            if (NetUtils.IsServer())
+            if (!NetUtils.IsServer())
             {
-                gameManager.SetSpawner();
-                NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
-            }
-            else
-            { 
                 gameManager.SendUserNameServerRpc(CloudManager.instance.userData.userName);
-                gameManager.SetSpawner();
-                NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
             }
+
+            gameManager.SetSpawner();
+            NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
         }
     }
+
 
 }

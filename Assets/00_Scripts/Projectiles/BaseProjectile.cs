@@ -17,11 +17,13 @@ public class BaseProjectile : MonoBehaviour
     protected Transform target;
     protected bool isAttack = false;
     protected bool isHit = false;
+    private float skillDamage;
 
-    public virtual void Init(Transform target, Hero referenceHero)
+    public virtual void Init(Transform target, Hero referenceHero,float skillDamage = 100f)
     {
         this.referenceHero = referenceHero;
         this.target = target;
+        this.skillDamage = skillDamage;
     }
 
 
@@ -100,9 +102,11 @@ public class BaseProjectile : MonoBehaviour
         if (NetUtils.IsServer() && monster != null && !monster.GetComponent<Monster>().IsDead())
         {
             isHit = true;
+            double damage = referenceHero.GetHeroAtk() * (skillDamage/100f);
+
             NetworkRpcManager.instance.AttackMonster(
                 NetUtils.IsServerHolder(referenceHero),
-                referenceHero.atk,
+                damage,
                 monster.GetComponent<Monster>(),
                 referenceHero.GetHeroData().debuffEffects);
         }
@@ -120,6 +124,7 @@ public class BaseProjectile : MonoBehaviour
     private IEnumerator DisableObjectCoroutine(float time)
     { 
         yield return new WaitForSeconds(time);
+
         target = null;
         referenceHero = null;
         isAttack = false;
