@@ -10,7 +10,8 @@ public class CombineNodeUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI heroDesc;
     [SerializeField] private Transform horizontalLayout;
     [SerializeField] private Button combineButton;
-    [SerializeField] private GameObject activeMarkObject;
+    [SerializeField] private Color activeColor;
+    [SerializeField] private Color deActiveColor;
 
     private HeroScriptable mainHero;
     private List<HeroScriptable> subHero;
@@ -75,11 +76,11 @@ public class CombineNodeUI : MonoBehaviour
 
         if (heroList.Count <= 0)
         {
-            activeMarkObject.gameObject.SetActive(false);
+            combineButton.GetComponent<Image>().color = deActiveColor;
             canCombine = true;
         }
         else {
-            activeMarkObject.gameObject.SetActive(true);
+            combineButton.GetComponent<Image>().color = activeColor;
             canCombine = false;
             heroHolders.Clear();
         }

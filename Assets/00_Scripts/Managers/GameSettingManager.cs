@@ -3,7 +3,7 @@ using UnityEngine;
 public class GameSettingManager : MonoBehaviour
 {
     public static GameSettingManager instance { get; private set; }
-    private GameSettingSO gameSettingData;
+    public GameSettingSO gameSettingData { get; private set; }
 
     private void Awake()
     {
@@ -12,7 +12,8 @@ public class GameSettingManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else {
+        else
+        {
             Destroy(gameObject);
         }
     }
@@ -21,20 +22,34 @@ public class GameSettingManager : MonoBehaviour
     {
         gameSettingData = Resources.Load<GameSettingSO>("SettingData/GameSettingSO");
         gameSettingData.LoadData();
+
         Application.targetFrameRate = gameSettingData.targetFrame;
         Application.runInBackground = true;
+
+        Screen.SetResolution(
+            (int)ResolutionData.resolutionList[gameSettingData.resolutionIndex].x,
+            (int)ResolutionData.resolutionList[gameSettingData.resolutionIndex].y,
+            gameSettingData.isWindow);
+
     }
 
     public void SetBackgroundVolume(float volume)
-    { 
-        
+    {
+
+
+        gameSettingData.SaveData();
     }
 
-
-    private void OnDestroy()
+    public void SetResolution(int index, bool isWindow)
     {
-        if(instance != null)
-            gameSettingData.SaveData();
+        gameSettingData.resolutionIndex = index;
+        gameSettingData.isWindow = isWindow;
+        gameSettingData.SaveData();
+    }
+
+    private void OnApplicationQuit()
+    {
+        gameSettingData.SaveData();
     }
 
 }

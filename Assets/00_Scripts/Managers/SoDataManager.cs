@@ -28,7 +28,7 @@ public class SoDataManager : MonoBehaviour
     {
         heroSciprtableDatas = new Dictionary<string, HeroScriptable>();
 
-        for (int rarity = 0; rarity <= (int)HeroRarity.God; rarity++)
+        for (int rarity = 0; rarity <= (int)HeroRarity.Legend; rarity++)
         {
             string rare = ((HeroRarity)rarity).ToString();
             HeroScriptable[] datas = Resources.LoadAll<HeroScriptable>($"HeroDatas/{rare}");

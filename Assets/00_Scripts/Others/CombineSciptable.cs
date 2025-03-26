@@ -6,4 +6,5 @@ public class CombineSciptable : ScriptableObject
 {
     public HeroScriptable mainHeroData;
     public List<HeroScriptable> subHeroDatas;
+
 }

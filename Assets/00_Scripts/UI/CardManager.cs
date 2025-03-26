@@ -15,11 +15,18 @@ public class CardManager : MonoBehaviour
     [SerializeField] private UtilityCardNode utilityCardPrefab;
 
     [SerializeField] private Transform myCardPos;
+    
     [SerializeField] private Button rerollButton;
+    [SerializeField] private Image rerollButtonImage;
+    [SerializeField] private float rerollCoolTime;
+    private bool canReroll = true;
+
     [SerializeField] private GameObject cardDropZone;
 
     [SerializeField] private int rerollHeroCount;
     [SerializeField] private int rerollSpellCardCount;
+
+
     private List<CardNodeBase> myCardList = new List<CardNodeBase>();
 
     public static int MostFrontCardOrder = 100;
@@ -56,7 +63,7 @@ public class CardManager : MonoBehaviour
 
     public void RerollCard()
     {
-
+        if (!canReroll) return;
         if (myCardList.Count > 0)
         {
             while (myCardList.Count > 0)
@@ -77,6 +84,8 @@ public class CardManager : MonoBehaviour
             DrawCard(CardType.ATTACK);
         }
 
+        canReroll = false;
+        StartCoroutine(CardRerollCoolTimeCoroutine());
         SortCard();
     }
 
@@ -195,6 +204,22 @@ public class CardManager : MonoBehaviour
 
         SetCardInteract(true);
     }
+
+    private IEnumerator CardRerollCoolTimeCoroutine()
+    {
+        float t = 0f;
+        while (t < rerollCoolTime)
+        {
+            t += Time.deltaTime;
+
+            rerollButtonImage.fillAmount = (t/rerollCoolTime);
+
+            yield return null;
+        }
+
+        canReroll = true;
+    }
+
 
     private void SetCardInteract(bool interact)
     {

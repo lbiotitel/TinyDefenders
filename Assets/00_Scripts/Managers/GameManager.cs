@@ -29,7 +29,6 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public int gold { get; set; }
     [field: SerializeField] public int summonGold { get; set; }
     [field: SerializeField] public int summonGoldInc { get; set; }
-    [SerializeField] private string mainSceneName;
 
     public int currentWave = 0;
     public float timer = 100000;
@@ -318,9 +317,9 @@ public class GameManager : NetworkBehaviour
         if (NetworkManager.Singleton.IsHost)
         {
             NetworkManager.Singleton.SceneManager.LoadScene(
-                mainSceneName,
+                SceneName.MainScene,
                 UnityEngine.SceneManagement.LoadSceneMode.Single
-                );
+            );
         }
     }
 

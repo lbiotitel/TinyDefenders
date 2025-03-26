@@ -79,6 +79,5 @@ public enum HeroRarity {
     Normal,
     Uncommon,
     Rare,
-    Legend,
-    God
+    Legend
 }

@@ -54,6 +54,7 @@ public class HeroInfoUI : MonoBehaviour
 
     public void ShowHeroInfoUI(Hero hero)
     {
+        if (hero == null) return;
 
         HeroScriptable heroData = hero.GetHeroData();
 

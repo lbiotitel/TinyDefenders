@@ -30,7 +30,6 @@ public class Utils : MonoBehaviour
             case HeroRarity.Uncommon: return new Color(0.16f, 0.47f, 1.0f, 0.7f);
             case HeroRarity.Rare: return new Color(0.56f, 0.14f, 0.66f, 0.7f);
             case HeroRarity.Legend: return new Color(1.0f, 0.84f, 0.0f, 0.7f);
-            case HeroRarity.God: return new Color(0.0f, 0.78f, 0.33f, 0.7f);
         }
 
         return Color.white;
