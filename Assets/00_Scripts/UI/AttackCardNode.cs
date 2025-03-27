@@ -10,6 +10,8 @@ public class AttackCardNode : CardNodeBase
         base.InitCardNode(cardSO);
 
         attackCardSO = cardSO as AttackCardSO;
+
+        InitCardRarityBackgroundImage(cardSO.cardRarity);
     }
 
 

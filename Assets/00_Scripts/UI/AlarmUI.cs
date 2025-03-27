@@ -84,7 +84,7 @@ public class AlarmUI : MonoBehaviour
                 
                 break;
             case AlarmType.GOOD:
-                SoundManager.instance.PlaySfxSound("GoodAlarmSFX");
+                //SoundManager.instance.PlaySfxSound("GoodAlarmSFX");
                 break;
             case AlarmType.BAD:
                 break;

@@ -37,6 +37,8 @@ public class SummonCardNode : CardNodeBase
         cardNameText.text = heroData.GetLocalizationName();
         cardDescText.text = heroData.heroDesc;
         tribeImage.sprite = GetTribeImage(heroData.heroTribe);
+
+        InitCardRarityBackgroundImage((CardRarity)((int)heroData.rarity));
     }
 
     private Sprite GetTribeImage(HeroTribe heroTribe)

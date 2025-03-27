@@ -7,15 +7,24 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
+[System.Serializable]
+public class CardColorNode {
+    public Sprite cardImage;
+    public CardRarity CardRarity;
+}
+
 public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,
     IBeginDragHandler,IDragHandler,IEndDragHandler
 {
     [Header("Basic Card Info")]
+    [SerializeField] protected Image backgroundCardImage;
     [SerializeField] protected TextMeshProUGUI cardNameText;
     [SerializeField] protected TextMeshProUGUI cardDescText;
     [SerializeField] protected TextMeshProUGUI cardCostText;
     [SerializeField] protected Image cardImage;
 
+    [SerializeField] protected CardColorNode[] cardColorNode;
 
     protected Vector2 enlargementOriginalPosition;
 
@@ -186,5 +195,10 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
     #endregion
 
     public bool IsDrag() { return isDrag; }
+
+    protected void InitCardRarityBackgroundImage(CardRarity cardRarity)
+    {
+        backgroundCardImage.sprite = cardColorNode[(int)cardRarity].cardImage;
+    }
 
 }

@@ -126,21 +126,21 @@ public class NetworkRpcManager : NetworkBehaviour
         {
             if (isServer)
             {
-                GameManager.instance.serverUpgrade.Upgrade(tribe);
+                PlayerStatManager.instance.serverUpgrade.Upgrade(tribe);
                 InGameUI.instance.RedrawUpgradeUINodes();
             }
             else
             {
 
-                GameManager.instance.clientUpgrade.Upgrade(tribe);
+                PlayerStatManager.instance.clientUpgrade.Upgrade(tribe);
 
                 int[] upgradeCosts = new int[(int)HeroTribe.LAST];
                 int[] upgradeLevels = new int[(int)HeroTribe.LAST];
 
                 for (int tribeIndex = 0; tribeIndex < (int)HeroTribe.LAST; tribeIndex++)
                 {
-                    upgradeCosts[tribeIndex] = GameManager.instance.clientUpgrade.GetHeroUpgradeCost((HeroTribe)tribeIndex);
-                    upgradeLevels[tribeIndex] = GameManager.instance.clientUpgrade.GetHeroUpgradeLevel((HeroTribe)tribeIndex);
+                    upgradeCosts[tribeIndex] = PlayerStatManager.instance.clientUpgrade.GetHeroUpgradeCost((HeroTribe)tribeIndex);
+                    upgradeLevels[tribeIndex] = PlayerStatManager.instance.clientUpgrade.GetHeroUpgradeLevel((HeroTribe)tribeIndex);
                 }
 
                 SetUpgradeHeroClientRpc(upgradeLevels, upgradeCosts);
@@ -153,8 +153,8 @@ public class NetworkRpcManager : NetworkBehaviour
     {
         for (int tribeIndex = 0; tribeIndex < (int)HeroTribe.LAST; tribeIndex++)
         {
-            GameManager.instance.clientUpgrade.SetHeroUpgradeLevel((HeroTribe)tribeIndex, upgradeLevels[tribeIndex]);
-            GameManager.instance.clientUpgrade.SetHeroUpgradeCost((HeroTribe)tribeIndex, upgradeCosts[tribeIndex]);
+            PlayerStatManager.instance.clientUpgrade.SetHeroUpgradeLevel((HeroTribe)tribeIndex, upgradeLevels[tribeIndex]);
+            PlayerStatManager.instance.clientUpgrade.SetHeroUpgradeCost((HeroTribe)tribeIndex, upgradeCosts[tribeIndex]);
         }
         InGameUI.instance.RedrawUpgradeUINodes();
     }

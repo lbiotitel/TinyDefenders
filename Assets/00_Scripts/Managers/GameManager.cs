@@ -62,10 +62,6 @@ public class GameManager : NetworkBehaviour
 
     private List<Hero> heroList = new List<Hero>();
 
-    [Header("Hero Upgrade")]
-    [field: SerializeField] public InGameHeroUpgrade clientUpgrade { get; private set; }
-    [field: SerializeField] public InGameHeroUpgrade serverUpgrade { get; private set; }
-
 
 
     private void Update()
@@ -94,8 +90,8 @@ public class GameManager : NetworkBehaviour
     public void StartGame()
     {
         isGameStart = true;
-        CardManager.instance.RerollCard();
-        //SoundManager.instance.PlayMusicSound("InGameBgm",true);
+        CardManager.instance.RerollCard(true);
+        SoundManager.instance.PlayMusicSound("InGameBgm",true);
     }
 
 
@@ -385,33 +381,5 @@ public class GameManager : NetworkBehaviour
     }
     #endregion
 
-
-    #region Hero Upgrade
-
-
-    public int GetHeroUpgradeLevel(HeroTribe heroTribe)
-    {
-        return NetUtils.IsServer() == true ?
-            serverUpgrade.GetHeroUpgradeLevel(heroTribe) : clientUpgrade.GetHeroUpgradeLevel(heroTribe);
-    }
-
-    public int GetHeroUpgradeLevel(HeroTribe heroTribe,bool isServerHero)
-    {
-        return isServerHero == true ?
-            serverUpgrade.GetHeroUpgradeLevel(heroTribe) : clientUpgrade.GetHeroUpgradeLevel(heroTribe);
-    }
-
-    public int GetHeroUpgradeCost(HeroTribe heroTribe)
-    {
-        return NetUtils.IsServer() == true ?
-            serverUpgrade.GetHeroUpgradeCost(heroTribe) : clientUpgrade.GetHeroUpgradeCost(heroTribe);
-    }
-    public int GetHeroUpgradeCost(HeroTribe heroTribe,bool isServerHero)
-    {
-        return isServerHero == true ?
-            serverUpgrade.GetHeroUpgradeCost(heroTribe) : clientUpgrade.GetHeroUpgradeCost(heroTribe);
-    }
-
-    #endregion
 
 }

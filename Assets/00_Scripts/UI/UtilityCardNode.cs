@@ -8,6 +8,8 @@ public class UtilityCardNode : CardNodeBase
     {
         base.InitCardNode(cardSO);
         utilityCardSO = cardSO as UtilityCardSO;
+
+        InitCardRarityBackgroundImage(cardSO.cardRarity);
     }
 
     protected override void UseCard()

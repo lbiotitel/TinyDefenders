@@ -62,6 +62,9 @@ public class InGameUI : NetworkBehaviour
     [Header("Card Range UI")]
     [SerializeField] private GameObject cardRangeUI;
 
+    [Header("Synergy UI")]
+    [SerializeField] private GameObject synergyUI;
+
 
     private void Start()
     {

@@ -72,7 +72,8 @@ public enum ProjectileType {
 public enum CardRarity {
     Normal,
     Uncommon,
-    Rare
+    Rare,
+    Legend
 }
 
 public enum HeroRarity { 

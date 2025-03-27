@@ -1,4 +1,4 @@
-using TMPro;
+ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,6 +44,7 @@ public class MainSceneUI : MonoBehaviour
     {
         nickNameSetButton.onClick.AddListener(() => SetNickName());
         InitButtoons();
+        SoundManager.instance.PlayMusicSound("MainBgm",true);
     }
 
     public void InitMainScene()

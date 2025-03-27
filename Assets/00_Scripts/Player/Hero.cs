@@ -243,7 +243,7 @@ public class Hero : Entity
     public double GetHeroAtk()
     {
         double atk = heroData.atk.GetValue();
-        atk += atk * (GameManager.instance.GetHeroUpgradeLevel(heroData.heroTribe, isServerHero) * 0.05f);
+        atk += atk * (PlayerStatManager.instance.GetHeroUpgradeLevel(heroData.heroTribe, isServerHero) * 0.05f);
         return atk;
     }
 

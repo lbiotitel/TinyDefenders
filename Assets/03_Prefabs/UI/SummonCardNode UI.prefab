@@ -940,7 +940,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1752218005, guid: 17b4dcda6117bb64699b823179c36ec4, type: 3}
+  m_Sprite: {fileID: -595011717, guid: 17b4dcda6117bb64699b823179c36ec4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1532,10 +1532,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4bf21e7978b594caba8a4fd10e9356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backgroundCardImage: {fileID: 530511006234559837}
   cardNameText: {fileID: 595687215040411402}
   cardDescText: {fileID: 3797471582691957044}
   cardCostText: {fileID: 8757869802057326098}
   cardImage: {fileID: 3612884725545468112}
+  cardColorNode:
+  - cardImage: {fileID: 4906828723084623458, guid: 17b4dcda6117bb64699b823179c36ec4, type: 3}
+    CardRarity: 0
+  - cardImage: {fileID: 8900570247581662170, guid: 17b4dcda6117bb64699b823179c36ec4, type: 3}
+    CardRarity: 1
+  - cardImage: {fileID: -266876101344459238, guid: 17b4dcda6117bb64699b823179c36ec4, type: 3}
+    CardRarity: 2
+  - cardImage: {fileID: 8390664759009999858, guid: 17b4dcda6117bb64699b823179c36ec4, type: 3}
+    CardRarity: 3
   heroAtkText: {fileID: 5953201412873512014}
   heroAtkSpeedText: {fileID: 3382163258913956851}
   heroAtkRangeText: {fileID: 2382786892530899942}

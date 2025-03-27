@@ -51,19 +51,36 @@ public class CardManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            RerollCard();
+            RerollCard(true);
         }
     }
 #endif
 
     private void Start()
     {
-        rerollButton.onClick.AddListener(() => RerollCard());
+        rerollButton.onClick.AddListener(() => RerollCard(false));
     }
 
-    public void RerollCard()
+
+    public void RerollCard(bool cardEmpty)
     {
-        if (!canReroll) return;
+        if (!cardEmpty)
+        {
+            if (!canReroll) return;
+            //check gold
+            DrawFiveCards();
+            canReroll = false;
+            StartCoroutine(CardRerollCoolTimeCoroutine());
+        }
+        else {
+            DrawFiveCards();
+        }
+
+        SortCard();
+    }
+
+    private void DrawFiveCards()
+    {
         if (myCardList.Count > 0)
         {
             while (myCardList.Count > 0)
@@ -83,10 +100,6 @@ public class CardManager : MonoBehaviour
         {
             DrawCard(CardType.ATTACK);
         }
-
-        canReroll = false;
-        StartCoroutine(CardRerollCoolTimeCoroutine());
-        SortCard();
     }
 
     public void DrawCard()
@@ -160,7 +173,7 @@ public class CardManager : MonoBehaviour
         if (myCardList.Count == 0)
         {
             myCardList.Clear();
-            RerollCard();
+            RerollCard(true);
         }
 
         StartCoroutine(SortCardCoroutine());
@@ -185,7 +198,7 @@ public class CardManager : MonoBehaviour
 
         for (int i = 0; i < myCardList.Count; i++)
         {
-            SoundManager.instance.PlaySfxSound("CardDrawSFX");
+            //SoundManager.instance.PlaySfxSound("CardDrawSFX");
 
             float pos = (float)i / (myCardList.Count - 1);
             if (myCardList.Count == 1)

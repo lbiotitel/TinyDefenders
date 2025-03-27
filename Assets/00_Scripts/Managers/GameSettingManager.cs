@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 
 public class GameSettingManager : MonoBehaviour
 {
@@ -20,30 +22,30 @@ public class GameSettingManager : MonoBehaviour
 
     private void Start()
     {
+        InitGameSetting();
+    }
+
+    private void InitGameSetting()
+    {
         gameSettingData = Resources.Load<GameSettingSO>("SettingData/GameSettingSO");
         gameSettingData.LoadData();
 
-        Application.targetFrameRate = gameSettingData.targetFrame;
+        Application.targetFrameRate = GameSettingDefinition.frameList[gameSettingData.frameIndex];
         Application.runInBackground = true;
+        QualitySettings.vSyncCount = GameSettingDefinition.vSyncList[gameSettingData.vSyncIndex] == true ? 1 : 0;
 
         Screen.SetResolution(
-            (int)ResolutionData.resolutionList[gameSettingData.resolutionIndex].x,
-            (int)ResolutionData.resolutionList[gameSettingData.resolutionIndex].y,
-            gameSettingData.isWindow);
+            (int)GameSettingDefinition.resolutionList[gameSettingData.resolutionIndex].x,
+            (int)GameSettingDefinition.resolutionList[gameSettingData.resolutionIndex].y,
+           GameSettingDefinition.windowModeList[gameSettingData.isWindowIndex]);
 
+        SoundManager.instance.SetBackgroundVolume(gameSettingData.backgroundSoundVolume);
+        SoundManager.instance.SetSfxVolume(gameSettingData.sfxSoundVolume);
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[gameSettingData.langaugeIndex];
     }
 
-    public void SetBackgroundVolume(float volume)
+    public void SaveGameSetting()
     {
-
-
-        gameSettingData.SaveData();
-    }
-
-    public void SetResolution(int index, bool isWindow)
-    {
-        gameSettingData.resolutionIndex = index;
-        gameSettingData.isWindow = isWindow;
         gameSettingData.SaveData();
     }
 

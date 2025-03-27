@@ -1,4 +1,3 @@
-using DG.Tweening.Plugins.Core.PathCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,14 +7,17 @@ using UnityEngine;
 [System.Serializable]
 public class GameSettingData
 {
-    public float backgroundSoundVolume;
-    public float sfxSoundVolume;
-    public int targetFrame;
+    public int langaugeIndex;
     public int resolutionIndex;
-    public bool isWindow;
+    public int backgroundSoundVolume;
+    public int sfxSoundVolume;
+    public int targetFrame;
+    public int isWindow;
+    public int frameIndex;
+    public int vSyncIndex;
 }
 
-public class ResolutionData
+public class GameSettingDefinition
 {
     public static List<Vector2> resolutionList = new List<Vector2> {
         new Vector2(1280,720),
@@ -23,30 +25,60 @@ public class ResolutionData
         new Vector2(2560,1440),
         new Vector2(3840,1440)
     };
+
+    public static List<int> frameList = new List<int> {
+        60,
+        120,
+        144,
+        240
+    };
+
+    public static List<bool> windowModeList = new List<bool>
+    {
+        true,
+        false
+    };
+
+    public static List<bool> vSyncList = new List<bool>
+    {
+        true,
+        false
+    };
+
+    public static List<string> languageList = new List<string> {
+        "English",
+        "ÇÑ±¹¾î"
+    };
 }
 
 
 [CreateAssetMenu(fileName = "GameSettingSO", menuName = "Scriptable Objects/GameSettingSO")]
 public class GameSettingSO : ScriptableObject
 {
-    public float backgroundSoundVolume;
-    public float sfxSoundVolume;
+    public int langaugeIndex;
+    public int backgroundSoundVolume;
+    public int sfxSoundVolume;
     public int targetFrame;
     public int resolutionIndex;
-    public bool isWindow;
+    public int isWindowIndex;
+    public int frameIndex;
+    public int vSyncIndex;
 
     public void SaveData()
     {
         GameSettingData gameSettingData = new GameSettingData
         {
+            langaugeIndex = langaugeIndex,
             backgroundSoundVolume = this.backgroundSoundVolume,
             sfxSoundVolume = this.sfxSoundVolume,
             targetFrame = this.targetFrame,
             resolutionIndex = this.resolutionIndex,
-            isWindow = this.isWindow
+            isWindow = this.isWindowIndex,
+            frameIndex = this.frameIndex,
+            vSyncIndex = this.vSyncIndex
         };
 
-        
+
         string json = JsonUtility.ToJson(gameSettingData);
         try
         {
@@ -70,11 +102,15 @@ public class GameSettingSO : ScriptableObject
         {
             string json = File.ReadAllText(path);
             GameSettingData data = JsonUtility.FromJson<GameSettingData>(json);
+
+            this.langaugeIndex = data.langaugeIndex;
             this.backgroundSoundVolume = data.backgroundSoundVolume;
             this.sfxSoundVolume = data.sfxSoundVolume;
             this.targetFrame = data.targetFrame;
             this.resolutionIndex = data.resolutionIndex;
-            this.isWindow = data.isWindow;
+            this.isWindowIndex = data.isWindow;
+            this.frameIndex = data.frameIndex;
+            this.vSyncIndex = data.vSyncIndex;
         }
     }
 

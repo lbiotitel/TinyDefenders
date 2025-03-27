@@ -12,6 +12,11 @@ public struct Sound
     public AudioClip audioClip;
 }
 
+public enum SFXTYPE { 
+    PROJECTILESOUND,
+    UISOUND
+}
+
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance = null;
@@ -30,17 +35,18 @@ public class SoundManager : MonoBehaviour
     }
 
 
-    [SerializeField] private AudioSource musicAudioSource;
+    [SerializeField] private AudioSource backgroundAudioSource;
     [SerializeField] private AudioSource[] sfxAudioSource;
     [SerializeField] private List<Sound> musicSoundList = new List<Sound>();
-    [SerializeField] private List<Sound> sfxSoundList = new List<Sound>();
+    [SerializeField] private List<Sound> projectileSfxSoundList = new List<Sound>();
+    [SerializeField] private List<Sound> uiSfxSoundList = new List<Sound>();
 
 
     public void StopAllMusicSound()
     {
-        musicAudioSource.Stop();
-        musicAudioSource.resource = null;
-        musicAudioSource.loop = false;
+        backgroundAudioSource.Stop();
+        backgroundAudioSource.resource = null;
+        backgroundAudioSource.loop = false;
     }
 
     public void StopAllSfxSound()
@@ -56,21 +62,36 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlaySfxSound(string sfxName, bool loop = false)
+    public void PlaySfxSound(string sfxName, SFXTYPE sfxType, bool loop = false)
     {
-        for (int i = 0; i < sfxSoundList.Count; i++)
+        List<Sound> soundList = null;
+
+        switch (sfxType)
         {
-            if (sfxName == sfxSoundList[i].soundName)
+            case SFXTYPE.PROJECTILESOUND:
+                soundList = projectileSfxSoundList;
+                break;
+            case SFXTYPE.UISOUND:
+                soundList = uiSfxSoundList;
+                break;  
+        }
+
+        for (int i = 0; i < soundList.Count; i++)
+        {
+            if (sfxName == soundList[i].soundName)
             {
                 for (int j = 0; j < sfxAudioSource.Length; j++)
                 {
                     if (!sfxAudioSource[j].isPlaying)
                     {
-                        sfxAudioSource[j].PlayOneShot(sfxSoundList[i].audioClip);
+                        sfxAudioSource[j].PlayOneShot(soundList[i].audioClip);
+                        return;
                     }
                 }
             }
         }
+
+        Debug.LogError("등록 되지않은 사운드 효과");
     }
 
 
@@ -80,11 +101,25 @@ public class SoundManager : MonoBehaviour
         {
             if (musicSoundList[i].soundName == soundName)
             {
-                musicAudioSource.Stop();
-                musicAudioSource.resource = musicSoundList[i].audioClip;
-                musicAudioSource.loop = loop;
-                musicAudioSource.Play(); 
+                backgroundAudioSource.Stop();
+                backgroundAudioSource.resource = musicSoundList[i].audioClip;
+                backgroundAudioSource.loop = loop;
+                backgroundAudioSource.Play(); 
             }
+        }
+    }
+
+
+    public void SetBackgroundVolume(int volume)
+    {
+        backgroundAudioSource.volume = volume / 100f;
+    }
+
+    public void SetSfxVolume(int volume)
+    {
+        for (int i = 0; i < sfxAudioSource.Length; i++)
+        {
+            sfxAudioSource[i].volume = volume / 100f;
         }
     }
 

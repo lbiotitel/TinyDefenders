@@ -18,8 +18,8 @@ public class UpgradeUINode : MonoBehaviour
 
     public void InitUpgradeUI()
     {
-        this.level = GameManager.instance.GetHeroUpgradeLevel(upgradeTribe);
-        this.cost = GameManager.instance.GetHeroUpgradeCost(upgradeTribe);
+        this.level = PlayerStatManager.instance.GetHeroUpgradeLevel(upgradeTribe);
+        this.cost = PlayerStatManager.instance.GetHeroUpgradeCost(upgradeTribe);
 
         upgradeCostText.text = cost.ToString();
         upgradeLevelText.text = "LV" + level.ToString();

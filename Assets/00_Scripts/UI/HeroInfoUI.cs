@@ -14,7 +14,7 @@ public class HeroInfoUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI criRateText;
     [SerializeField] private TextMeshProUGUI monsterDamageStack;
 
-
+    [SerializeField] private float yPos;
     [SerializeField] private Button sellButton;
     [SerializeField] private Button compositionButton;
 
@@ -55,6 +55,8 @@ public class HeroInfoUI : MonoBehaviour
     public void ShowHeroInfoUI(Hero hero)
     {
         if (hero == null) return;
+
+        transform.position = hero.transform.position + new Vector3(0,yPos,0);
 
         HeroScriptable heroData = hero.GetHeroData();
 
