@@ -36,10 +36,10 @@ public class HeroInfoUI : MonoBehaviour
     {
         sellButton.onClick.AddListener(() =>
         {
-            Debug.Log("ÆÇ¸Å");
             if (this.hero != null)
             {
                 hero.GetHeroHolder().Sell();
+                HideHeroInfoUI();
             }
         });
     }

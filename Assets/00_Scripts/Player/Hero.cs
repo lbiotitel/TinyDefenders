@@ -23,7 +23,7 @@ public class Hero : Entity
     public string heroName { get; set; }
     [HideInInspector] public HeroRarity heroRarity;
     [HideInInspector] public NetworkObject target { get; set; } = null;
-    public HeroOwner heroOwner { get; private set; }
+    public NetworkObjectType heroOwner { get; private set; }
 
 
     public override void Awake()
@@ -49,7 +49,7 @@ public class Hero : Entity
 
         Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
 
-        heroOwner = heroHolder.holderId.Contains("CLIENT") ? HeroOwner.HOST : HeroOwner.HOST;
+        heroOwner = heroHolder.holderId.Contains("CLIENT") ? NetworkObjectType.CLIENT : NetworkObjectType.HOST;
 
         if(IsServer)PlayerStatManager.instance.AddHero(this);
     }
@@ -166,7 +166,7 @@ public class Hero : Entity
 
     private IEnumerator AttackDelayCoroutine()
     {
-        float synergyStat = heroOwner == HeroOwner.HOST ? PlayerStatManager.instance.serverAtkSpeed.GetValue() : PlayerStatManager.instance.clientAtkSpeed.GetValue();
+        float synergyStat = heroOwner == NetworkObjectType.HOST ? PlayerStatManager.instance.serverAtkSpeed.GetValue() : PlayerStatManager.instance.clientAtkSpeed.GetValue();
         float atkSpeed = heroData.atkSpeed.GetValue() + (heroData.atkSpeed.GetValue() * synergyStat / 100f);
         Debug.Log(atkSpeed);
         yield return new WaitForSeconds(1f / atkSpeed);

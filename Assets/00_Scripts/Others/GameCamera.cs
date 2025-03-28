@@ -143,7 +143,6 @@ public class GameCamera : NetworkBehaviour
             }
 
             heroHolder.ShowOwnMark();
-            InGameUI.instance.ShowHeroInfoUI(heroHolder.ownHero);
         }
     }
 
@@ -155,6 +154,7 @@ public class GameCamera : NetworkBehaviour
 
             if (hit.collider != null && hit.collider.transform != heroHolder.transform)
             {
+                InGameUI.instance.HideHeroInfoUI();
                 if (hit.collider.GetComponent<HeroHolder>() == null) return;
                 if (hit.collider.GetComponent<HeroHolder>().holderId.Contains(hostOrClient) == false) return;
 

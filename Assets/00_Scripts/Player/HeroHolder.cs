@@ -23,6 +23,7 @@ public class HeroHolder : NetworkBehaviour
     [HideInInspector] public Hero ownHero = null;
     [HideInInspector] public HeroScriptable heroData;
     [HideInInspector] public int holderIndex;
+    private NetworkObjectType networkObjectType;
 
 
     private void Start()
@@ -129,60 +130,6 @@ public class HeroHolder : NetworkBehaviour
     }
 
     #endregion
-
-    public void Composition()
-    {
-        List<HeroHolder> holders = new List<HeroHolder>();
-
-        holders.Add(this);
-
-        foreach (var holder in Spawner.instance.heroHolders)
-        {
-            if (holder.Value.holderName == holderName && holder.Value != this)
-            {
-                string compare = NetUtils.GetLocalD() == (ulong)0 ? "HOST" : "CLIENT";
-                if (holder.Value.holderId.Contains(compare))
-                {
-                    holders.Add(holder.Value);
-                }
-            }
-        }
-
-        int cnt = 0;
-        string[] compositionHero = new string[2];
-
-        for (int i = 0; i < holders.Count; i++)
-        {
-            if (holders[i].ownHero != null)
-            {
-                compositionHero[cnt] = holders[i].holderId;
-                cnt++;
-                if (cnt >= 2)
-                {
-                    break;
-                }
-            }
-        }
-
-        for (int i = 0; i < compositionHero.Length; i++)
-        {
-            if (compositionHero[i] == "" || compositionHero[i] == null)
-            {
-                return;
-            }
-        }
-
-        for (int i = 0; i < compositionHero.Length; i++)
-        {
-            Spawner.instance.heroHolders[compositionHero[i]].Sell();
-        }
-
-        HideHeroRange();
-        HideOwnMark();
-        HideHeroMoveTargetMark();
-
-        Spawner.instance.Summon("Uncommon");
-    }
 
 
     public void SwapPosition(HeroHolder newHeroHolder)

@@ -59,7 +59,7 @@ public enum PlayerNetworkType {
     ALL
 }
 
-public enum HeroOwner { 
+public enum NetworkObjectType { 
     HOST,
     CLIENT
 }

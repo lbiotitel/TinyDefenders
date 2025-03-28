@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 
-public class HeroSynergyUI {
+public class HeroSynergyUI
+{
     public string synergyName;
     public string synergyDescription;
     public int synergyCurrentLevel;
@@ -35,7 +35,7 @@ public class PlayerStatManager : MonoBehaviour
 
 
     [Header("Client Bonus Stat")]
-    [field:SerializeField] public Stat clientAtk { get; private set; }
+    [field: SerializeField] public Stat clientAtk { get; private set; }
     [field: SerializeField] public Stat clientAtkSpeed { get; private set; }
     [field: SerializeField] public Stat clientGoldBouns { get; private set; }
 
@@ -71,7 +71,7 @@ public class PlayerStatManager : MonoBehaviour
 
     public void AddHero(Hero hero)
     {
-        if (hero.heroOwner == HeroOwner.HOST)
+        if (hero.heroOwner == NetworkObjectType.HOST)
         {
             Debug.Log("서버 영웅 추가");
             serverHeroSynergyDic[hero.GetHeroData().heroTribe]?.IncreaseTribeCount();
@@ -87,7 +87,7 @@ public class PlayerStatManager : MonoBehaviour
 
     public void RemoveHero(Hero hero)
     {
-        if (hero.heroOwner == HeroOwner.HOST)
+        if (hero.heroOwner == NetworkObjectType.HOST)
         {
             serverHeroSynergyDic[hero.GetHeroData().heroTribe]?.DecreaseTribeCount();
         }
@@ -201,9 +201,9 @@ public class PlayerStatManager : MonoBehaviour
             serverUpgrade.GetHeroUpgradeLevel(heroTribe) : clientUpgrade.GetHeroUpgradeLevel(heroTribe);
     }
 
-    public int GetHeroUpgradeLevel(HeroTribe heroTribe, HeroOwner heroOwner)
+    public int GetHeroUpgradeLevel(HeroTribe heroTribe, NetworkObjectType heroOwner)
     {
-        return heroOwner == HeroOwner.HOST ?
+        return heroOwner == NetworkObjectType.HOST ?
             serverUpgrade.GetHeroUpgradeLevel(heroTribe) : clientUpgrade.GetHeroUpgradeLevel(heroTribe);
     }
 
@@ -212,9 +212,9 @@ public class PlayerStatManager : MonoBehaviour
         return NetUtils.IsServer() == true ?
             serverUpgrade.GetHeroUpgradeCost(heroTribe) : clientUpgrade.GetHeroUpgradeCost(heroTribe);
     }
-    public int GetHeroUpgradeCost(HeroTribe heroTribe, HeroOwner heroOwner)
+    public int GetHeroUpgradeCost(HeroTribe heroTribe, NetworkObjectType heroOwner)
     {
-        return heroOwner == HeroOwner.HOST ?
+        return heroOwner == NetworkObjectType.HOST ?
             serverUpgrade.GetHeroUpgradeCost(heroTribe) : clientUpgrade.GetHeroUpgradeCost(heroTribe);
     }
 
