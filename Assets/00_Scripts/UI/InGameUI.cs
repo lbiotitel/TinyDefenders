@@ -216,7 +216,7 @@ public class InGameUI : NetworkBehaviour
 
     public void ClickUpgradeButton(HeroTribe heroTribe)
     {
-        NetworkRpcManager.instance.UpgradeHeroServerRpc((int)heroTribe,NetUtils.IsServer());
+        NetworkRpcManager.instance.UpgradeHeroServerRpc((int)heroTribe,NetUtils.IsHost());
     }
 
     public void RedrawUpgradeUINodes()

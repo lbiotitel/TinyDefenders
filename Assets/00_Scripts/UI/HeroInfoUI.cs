@@ -52,7 +52,7 @@ public class HeroInfoUI : MonoBehaviour
 
         HeroScriptable heroData = hero.GetHeroData();
 
-        if (!NetUtils.IsServer())
+        if (!NetUtils.IsHost())
             NetworkRpcManager.instance.GetServerHeroDamageStackServerRpc(hero.NetworkObjectId);
 
         gameObject.SetActive(true);

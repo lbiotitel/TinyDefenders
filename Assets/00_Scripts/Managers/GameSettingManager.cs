@@ -30,8 +30,8 @@ public class GameSettingManager : MonoBehaviour
         gameSettingData = Resources.Load<GameSettingSO>("SettingData/GameSettingSO");
         gameSettingData.LoadData();
 
-        Application.targetFrameRate = GameSettingDefinition.frameList[gameSettingData.frameIndex];
         Application.runInBackground = true;
+        Application.targetFrameRate = GameSettingDefinition.frameList[gameSettingData.frameIndex];
         QualitySettings.vSyncCount = GameSettingDefinition.vSyncList[gameSettingData.vSyncIndex] == true ? 1 : 0;
 
         Screen.SetResolution(

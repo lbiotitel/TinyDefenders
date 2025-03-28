@@ -10,7 +10,7 @@ public class NetworkPoolingManager : NetworkBehaviour
 
     private void Awake()
     {
-        if (NetUtils.IsServer())
+        if (NetUtils.IsHost())
         {
             if (instance == null)
             {

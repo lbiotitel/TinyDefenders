@@ -35,15 +35,18 @@ public class MainSceneUI : MonoBehaviour
 
     [Header("Battle UI")]
     [SerializeField] private TextMeshProUGUI bestWaveText;
+    [SerializeField] private GameObject matchingCompleteUI;
 
     [Header("Extra")]
     [SerializeField] private Color activeButtonColor;
+
 
 
     private void Start()
     {
         nickNameSetButton.onClick.AddListener(() => SetNickName());
         InitButtoons();
+        HideMatchingCompleteUI();
         SoundManager.instance.PlayMusicSound("MainBgm",true);
     }
 
@@ -128,5 +131,15 @@ public class MainSceneUI : MonoBehaviour
         CloudManager.instance.SaveUserData();
         nickNameUI.SetActive(false);
     }
-        
+
+
+    public void ShowMatchingCompleteUI()
+    { 
+        matchingCompleteUI.SetActive(true);
+    }
+
+    public void HideMatchingCompleteUI()
+    {
+        matchingCompleteUI.SetActive(false);
+    }
 }

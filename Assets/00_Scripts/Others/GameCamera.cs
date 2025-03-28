@@ -22,7 +22,7 @@ public class GameCamera : NetworkBehaviour
     private void Start()
     {
         cam = GetComponent<Camera>();
-        hostOrClient = NetUtils.IsServer() ? "HOST" : "CLIENT";
+        hostOrClient = NetUtils.IsHost() ? "HOST" : "CLIENT";
 
     }
     //ray cast

@@ -122,7 +122,7 @@ public class NetworkRpcManager : NetworkBehaviour
     {
         HeroTribe tribe = (HeroTribe)heroTribe;
 
-        if (NetUtils.IsServer())
+        if (NetUtils.IsHost())
         {
             if (isServer)
             {

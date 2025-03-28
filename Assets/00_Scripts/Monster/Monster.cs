@@ -46,7 +46,7 @@ public partial class Monster : Entity
 
     private void SyncMonsterPosition()
     {
-        if (NetUtils.IsServer())
+        if (NetUtils.IsHost())
         {
             MoveLogic();
         }

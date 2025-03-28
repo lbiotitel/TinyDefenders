@@ -173,7 +173,7 @@ public class GameManager : NetworkBehaviour
 
     private void CheckMonsterCount()
     {
-        if (NetUtils.IsServer())
+        if (NetUtils.IsHost())
         {
             if (warningMonsterCount <= currentMonsterCount) ShowWarningAlarm();
             if (currentMonsterCount >= maxMonsterCount) GameOver();

@@ -98,7 +98,7 @@ public class BaseProjectile : MonoBehaviour
 
     protected void AttackMonster(GameObject monster)
     {
-        if (NetUtils.IsServer() && monster != null && !monster.GetComponent<Monster>().IsDead())
+        if (NetUtils.IsHost() && monster != null && !monster.GetComponent<Monster>().IsDead())
         {
             NetworkRpcManager.instance.AttackMonster(
                 NetUtils.IsServerHolder(referenceHero),

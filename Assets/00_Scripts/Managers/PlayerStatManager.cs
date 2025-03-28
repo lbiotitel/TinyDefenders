@@ -197,7 +197,7 @@ public class PlayerStatManager : MonoBehaviour
 
     public int GetHeroUpgradeLevel(HeroTribe heroTribe)
     {
-        return NetUtils.IsServer() == true ?
+        return NetUtils.IsHost() == true ?
             serverUpgrade.GetHeroUpgradeLevel(heroTribe) : clientUpgrade.GetHeroUpgradeLevel(heroTribe);
     }
 
@@ -209,7 +209,7 @@ public class PlayerStatManager : MonoBehaviour
 
     public int GetHeroUpgradeCost(HeroTribe heroTribe)
     {
-        return NetUtils.IsServer() == true ?
+        return NetUtils.IsHost() == true ?
             serverUpgrade.GetHeroUpgradeCost(heroTribe) : clientUpgrade.GetHeroUpgradeCost(heroTribe);
     }
     public int GetHeroUpgradeCost(HeroTribe heroTribe, NetworkObjectType heroOwner)

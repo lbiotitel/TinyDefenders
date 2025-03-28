@@ -12,7 +12,7 @@ public class GameSettingData
     public int backgroundSoundVolume;
     public int sfxSoundVolume;
     public int targetFrame;
-    public int isWindow;
+    public int isWindowIndex;
     public int frameIndex;
     public int vSyncIndex;
 }
@@ -73,7 +73,7 @@ public class GameSettingSO : ScriptableObject
             sfxSoundVolume = this.sfxSoundVolume,
             targetFrame = this.targetFrame,
             resolutionIndex = this.resolutionIndex,
-            isWindow = this.isWindowIndex,
+            isWindowIndex = this.isWindowIndex,
             frameIndex = this.frameIndex,
             vSyncIndex = this.vSyncIndex
         };
@@ -108,7 +108,7 @@ public class GameSettingSO : ScriptableObject
             this.sfxSoundVolume = data.sfxSoundVolume;
             this.targetFrame = data.targetFrame;
             this.resolutionIndex = data.resolutionIndex;
-            this.isWindowIndex = data.isWindow;
+            this.isWindowIndex = data.isWindowIndex;
             this.frameIndex = data.frameIndex;
             this.vSyncIndex = data.vSyncIndex;
         }

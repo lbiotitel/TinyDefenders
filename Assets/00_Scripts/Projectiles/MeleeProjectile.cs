@@ -14,21 +14,6 @@ public class MeleeProjectile : BaseProjectile
         HitMonster();
     }
 
-    protected override void HitMonster()
-    {
-        if (!isAttack)
-        {
-            isAttack = true;
-
-            destroyParticle = PoolingManager.instance.GetObject(destroyParticlePrefab, transform.position);
-
-            AttackMonster(target.gameObject);
-
-            DisableObject(lifeTime);
-        }
-    }
-
-
     protected override void ProjectileLogic() { }
 
 }

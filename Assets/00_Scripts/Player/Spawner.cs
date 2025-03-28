@@ -115,7 +115,7 @@ public class Spawner : NetworkBehaviour
 
     private void SetHeroHolders(int count, string id, int value)
     {
-        if (NetUtils.IsServer())
+        if (NetUtils.IsHost())
         {
             for (int i = 0; i < count; i++)
             {
@@ -277,7 +277,7 @@ public class Spawner : NetworkBehaviour
 
     private void MonsterSpawn(bool isServer, string monsterName)
     {
-        if (NetUtils.IsServer())
+        if (NetUtils.IsHost())
         {
             NetworkObject monster = NetworkPoolingManager.instance.GetObject(monsterSpawnPos.position, Quaternion.identity);
 

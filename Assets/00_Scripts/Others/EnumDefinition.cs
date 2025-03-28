@@ -18,6 +18,9 @@ public struct LayerName {
     public static string Defulat = "Default";
 }
 
+public enum LobbyOptionKey { 
+    RelayJoinCode,
+}
 
 public enum HeroTribe { 
     HUMAN,

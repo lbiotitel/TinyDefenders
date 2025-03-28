@@ -58,7 +58,7 @@ public class CombineNodeUI : MonoBehaviour
         List<HeroScriptable> heroList = new List<HeroScriptable>(subHero);
         foreach (var heroHolder in Spawner.instance.heroHolders)
         {
-            if (heroHolder.Value.holderId.Contains(NetUtils.IsServer() ? "HOST" : "CLIENT"))
+            if (heroHolder.Value.holderId.Contains(NetUtils.IsHost() ? "HOST" : "CLIENT"))
             {
                 if (heroHolder.Value.ownHero != null)
                 {

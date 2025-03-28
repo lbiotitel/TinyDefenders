@@ -3,7 +3,7 @@ using Unity.Netcode;
 
 public class NetUtils
 {
-    public static bool IsServer()
+    public static bool IsHost()
     {
         return NetworkManager.Singleton.IsServer;
     }

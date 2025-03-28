@@ -23,9 +23,9 @@ public class LaserProjectile : BaseProjectile
     {
         destroyParticle = PoolingManager.instance.GetObject(destroyParticle, transform.position);
 
-        if (NetUtils.IsServer() && target != null && !target.GetComponent<Monster>().IsDead())
+        if (NetUtils.IsHost() && target != null && !target.GetComponent<Monster>().IsDead())
         {
-            NetworkRpcManager.instance.AttackMonster(NetUtils.IsServer(), damage, referenceHero, target.GetComponent<Monster>(),
+            NetworkRpcManager.instance.AttackMonster(NetUtils.IsHost(), damage, referenceHero, target.GetComponent<Monster>(),
                 referenceHero.GetHeroData().debuffEffects);
         }
 
