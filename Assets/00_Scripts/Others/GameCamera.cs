@@ -28,7 +28,7 @@ public class GameCamera : NetworkBehaviour
     //ray cast
     private void Update()
     {
-        CheckTouchHero();
+        CheckClickHero();
         CheckCameraRange();
         CameraZoom();
     }
@@ -75,7 +75,7 @@ public class GameCamera : NetworkBehaviour
 
     }
 
-    private void CheckTouchHero()
+    private void CheckClickHero()
     {
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {

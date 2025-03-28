@@ -70,14 +70,9 @@ public class HeroHolder : NetworkBehaviour
     }
 
 
-    public void Sell(bool alarmText)
+    #region About Sell Hero
+    public void Sell()
     {
-        if (alarmText)
-        {
-            InGameUI.instance.ShowAlarmText(string.Format("영웅을 판매하였습니다. {0}{1}",
-            heroData.heroName));
-        }
-
         NetUtils.HostAndClientMethod(
             () => SellServerRpc(NetUtils.GetLocalD()),
             () => SellHero(NetUtils.GetLocalD())
@@ -133,6 +128,8 @@ public class HeroHolder : NetworkBehaviour
         }
     }
 
+    #endregion
+
     public void Composition()
     {
         List<HeroHolder> holders = new List<HeroHolder>();
@@ -177,7 +174,7 @@ public class HeroHolder : NetworkBehaviour
 
         for (int i = 0; i < compositionHero.Length; i++)
         {
-            Spawner.instance.heroHolders[compositionHero[i]].Sell(false);
+            Spawner.instance.heroHolders[compositionHero[i]].Sell();
         }
 
         HideHeroRange();
@@ -198,10 +195,10 @@ public class HeroHolder : NetworkBehaviour
     private void HeroSpawn(ulong clientId, string heroName, string rarity)
     {
         Hero hero = Instantiate(heroPrefab);
+        
 
         NetworkObject networkObject = hero.GetComponent<NetworkObject>();
         networkObject.Spawn();
-
         hero.transform.parent = this.transform;
 
         UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId, heroName, rarity);

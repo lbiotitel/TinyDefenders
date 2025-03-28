@@ -46,7 +46,7 @@ public class CombineNodeUI : MonoBehaviour
         {
             for (int i = 0; i < heroHolders.Count; i++)
             {
-                heroHolders[i].Sell(false);
+                heroHolders[i].Sell();
             }
 
             Spawner.instance.Summon(mainHero.rarity.ToString(),mainHero);

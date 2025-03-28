@@ -59,6 +59,7 @@ public class CardManager : MonoBehaviour
     private void Start()
     {
         rerollButton.onClick.AddListener(() => RerollCard(false));
+        OffCardDropZone();
     }
 
 

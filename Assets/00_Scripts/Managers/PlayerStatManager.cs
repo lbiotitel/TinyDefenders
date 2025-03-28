@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 
@@ -25,6 +26,21 @@ public class PlayerStatManager : MonoBehaviour
     [field: SerializeField] public InGameHeroUpgrade clientUpgrade { get; private set; }
     [field: SerializeField] public InGameHeroUpgrade serverUpgrade { get; private set; }
 
+
+    [Header("Server Bonus Stat")]
+    [field: SerializeField] public Stat serverAtk { get; private set; }
+    [field: SerializeField] public Stat serverAtkSpeed { get; private set; }
+    [field: SerializeField] public Stat serverGoldBonus { get; private set; }
+
+
+
+    [Header("Client Bonus Stat")]
+    [field:SerializeField] public Stat clientAtk { get; private set; }
+    [field: SerializeField] public Stat clientAtkSpeed { get; private set; }
+    [field: SerializeField] public Stat clientGoldBouns { get; private set; }
+
+
+
     private Dictionary<HeroTribe, HeroSynergySO> clientHeroSynergyDic = new Dictionary<HeroTribe, HeroSynergySO>();
     private Dictionary<HeroTribe, HeroSynergySO> serverHeroSynergyDic = new Dictionary<HeroTribe, HeroSynergySO>();
 
@@ -38,28 +54,46 @@ public class PlayerStatManager : MonoBehaviour
     #region Hero Synergy
     private void InitHeroSynergy()
     {
-        HeroSynergySO[] clientHeroSynergySOs = Resources.LoadAll<HeroSynergySO>("HeroSynergyDatas");
+        HeroSynergySO[] heroSynergySOs = Resources.LoadAll<HeroSynergySO>("HeroSynergyDatas");
 
 
-        foreach (var heroSynergy in clientHeroSynergySOs)
+        foreach (var heroSynergy in heroSynergySOs)
         {
-            clientHeroSynergyDic.Add(heroSynergy.synergyTribe, heroSynergy);
-            HeroSynergySO heroSynergySO = Instantiate(heroSynergy);
-            serverHeroSynergyDic.Add(heroSynergySO.synergyTribe, heroSynergySO);
+            HeroSynergySO clientSynergySos = Instantiate(heroSynergy);
+            clientSynergySos.InitSynergy(PlayerNetworkType.CLIENT);
+            clientHeroSynergyDic.Add(clientSynergySos.synergyTribe, clientSynergySos);
+
+            HeroSynergySO serverHeroSynergySOs = Instantiate(heroSynergy);
+            serverHeroSynergySOs.InitSynergy(PlayerNetworkType.HOST);
+            serverHeroSynergyDic.Add(serverHeroSynergySOs.synergyTribe, serverHeroSynergySOs);
         }
     }
 
-    public void CheckHeroSynergy(Hero hero)
+    public void AddHero(Hero hero)
     {
-        if (NetUtils.IsServerHolder(hero))
+        if (hero.heroOwner == HeroOwner.HOST)
         {
-            HeroSynergySO heroSynergySO = serverHeroSynergyDic[hero.GetHeroData().heroTribe];
-            heroSynergySO.currentTribeCount++;
+            Debug.Log("서버 영웅 추가");
+            serverHeroSynergyDic[hero.GetHeroData().heroTribe]?.IncreaseTribeCount();
         }
         else
         {
-            HeroSynergySO heroSynergySO = clientHeroSynergyDic[hero.GetHeroData().heroTribe];
-            heroSynergySO.currentTribeCount++;
+            Debug.Log("클라 영웅 추가");
+            clientHeroSynergyDic[hero.GetHeroData().heroTribe]?.IncreaseTribeCount();
+        }
+
+        CheckSynergy();
+    }
+
+    public void RemoveHero(Hero hero)
+    {
+        if (hero.heroOwner == HeroOwner.HOST)
+        {
+            serverHeroSynergyDic[hero.GetHeroData().heroTribe]?.DecreaseTribeCount();
+        }
+        else
+        {
+            clientHeroSynergyDic[hero.GetHeroData().heroTribe]?.DecreaseTribeCount();
         }
 
         CheckSynergy();
@@ -69,12 +103,18 @@ public class PlayerStatManager : MonoBehaviour
     {
         foreach (var data in serverHeroSynergyDic)
         {
-
+            if (data.Value.CheckSynergyLevel() > 0)
+            {
+                data.Value.ActiveSynegy();
+            }
         }
 
         foreach (var data in clientHeroSynergyDic)
         {
-
+            if (data.Value.CheckSynergyLevel() > 0)
+            {
+                data.Value.ActiveSynegy();
+            }
         }
     }
 
@@ -93,6 +133,60 @@ public class PlayerStatManager : MonoBehaviour
 
         return heroSynergyUIs;
     }
+    #endregion
+
+    #region About Player Stat
+
+    public void AddAtkModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverAtk.AddModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientAtk.AddModifire(value);
+                break;
+        }
+    }
+
+    public void RemoveAtkModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverAtk.RemoveModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientAtk.RemoveModifire(value);
+                break;
+        }
+    }
+
+    public void AddAtkSpeedModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverAtkSpeed.AddModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientAtkSpeed.AddModifire(value);
+                break;
+        }
+    }
+    public void RemoveAtkSpeedModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverAtkSpeed.RemoveModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientAtkSpeed.RemoveModifire(value);
+                break;
+        }
+    }
 
 
     #endregion
@@ -107,9 +201,9 @@ public class PlayerStatManager : MonoBehaviour
             serverUpgrade.GetHeroUpgradeLevel(heroTribe) : clientUpgrade.GetHeroUpgradeLevel(heroTribe);
     }
 
-    public int GetHeroUpgradeLevel(HeroTribe heroTribe, bool isServerHero)
+    public int GetHeroUpgradeLevel(HeroTribe heroTribe, HeroOwner heroOwner)
     {
-        return isServerHero == true ?
+        return heroOwner == HeroOwner.HOST ?
             serverUpgrade.GetHeroUpgradeLevel(heroTribe) : clientUpgrade.GetHeroUpgradeLevel(heroTribe);
     }
 
@@ -118,9 +212,9 @@ public class PlayerStatManager : MonoBehaviour
         return NetUtils.IsServer() == true ?
             serverUpgrade.GetHeroUpgradeCost(heroTribe) : clientUpgrade.GetHeroUpgradeCost(heroTribe);
     }
-    public int GetHeroUpgradeCost(HeroTribe heroTribe, bool isServerHero)
+    public int GetHeroUpgradeCost(HeroTribe heroTribe, HeroOwner heroOwner)
     {
-        return isServerHero == true ?
+        return heroOwner == HeroOwner.HOST ?
             serverUpgrade.GetHeroUpgradeCost(heroTribe) : clientUpgrade.GetHeroUpgradeCost(heroTribe);
     }
 

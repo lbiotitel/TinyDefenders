@@ -54,7 +54,8 @@ public class MainSceneUI : MonoBehaviour
 
     private void InitButtoons()
     {
-        battleButton.onClick.AddListener(() => { 
+        battleButton.onClick.AddListener(() => {
+            if (battleUI.activeSelf) return;
             HideAllMenu(); 
             battleUI.SetActive(true);
             battleButton.GetComponent<Image>().color = activeButtonColor;
@@ -62,12 +63,14 @@ public class MainSceneUI : MonoBehaviour
 
         heroButton.onClick.AddListener(() =>
         {
+            if (heroCollectionUI.activeSelf) return;
             HideAllMenu();
             heroCollectionUI.SetActive(true);
             heroButton.GetComponent<Image>().color = activeButtonColor;
         });
 
         shopButton.onClick.AddListener(() => {
+            if (shopUI.activeSelf) return;
             HideAllMenu();
             shopUI.SetActive(true);
             shopButton.GetComponent<Image>().color = activeButtonColor;
@@ -75,6 +78,7 @@ public class MainSceneUI : MonoBehaviour
 
         rankingButton.onClick.AddListener(() =>
         {
+            if (rankingUI.activeSelf) return;
             HideAllMenu();
             rankingUI.SetActive(true);
             rankingButton.GetComponent<Image>().color = activeButtonColor;
@@ -82,6 +86,7 @@ public class MainSceneUI : MonoBehaviour
 
         spellCardButton.onClick.AddListener(() =>
         {
+            if (cardCollectionUI.activeSelf) return;
             HideAllMenu();
             cardCollectionUI.SetActive(true);
             spellCardButton.GetComponent<Image>().color = activeButtonColor;

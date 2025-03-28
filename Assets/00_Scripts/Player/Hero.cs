@@ -15,7 +15,6 @@ public class Hero : Entity
 
     private bool isMove = false;
     private bool attackDelay = false;
-    bool isServerHero;
 
     private List<Monster> monsterInRangeList = new List<Monster>();
     private double damageStack = 0;
@@ -24,6 +23,7 @@ public class Hero : Entity
     public string heroName { get; set; }
     [HideInInspector] public HeroRarity heroRarity;
     [HideInInspector] public NetworkObject target { get; set; } = null;
+    public HeroOwner heroOwner { get; private set; }
 
 
     public override void Awake()
@@ -49,7 +49,9 @@ public class Hero : Entity
 
         Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
 
-        isServerHero = heroHolder.holderId.Contains("CLIENT") ? false : true;
+        heroOwner = heroHolder.holderId.Contains("CLIENT") ? HeroOwner.HOST : HeroOwner.HOST;
+
+        if(IsServer)PlayerStatManager.instance.AddHero(this);
     }
 
 
@@ -69,24 +71,6 @@ public class Hero : Entity
     {
         ParticleSystem.MainModule main = rarityParticle.main;
         main.startColor = Utils.GetRarityColor(heroRarity);
-    }
-
-    private int GetUpgradeIndex()
-    {
-        switch (heroRarity)
-        {
-            case HeroRarity.Normal:
-            case HeroRarity.Uncommon:
-                return 0;
-
-            case HeroRarity.Rare:
-                return 1;
-
-            case HeroRarity.Legend:
-                return 2;
-        }
-
-        return -1;
     }
 
     private void Update()
@@ -182,7 +166,10 @@ public class Hero : Entity
 
     private IEnumerator AttackDelayCoroutine()
     {
-        yield return new WaitForSeconds(1f / heroData.atkSpeed.GetValue());
+        float synergyStat = heroOwner == HeroOwner.HOST ? PlayerStatManager.instance.serverAtkSpeed.GetValue() : PlayerStatManager.instance.clientAtkSpeed.GetValue();
+        float atkSpeed = heroData.atkSpeed.GetValue() + (heroData.atkSpeed.GetValue() * synergyStat / 100f);
+        Debug.Log(atkSpeed);
+        yield return new WaitForSeconds(1f / atkSpeed);
         attackDelay = false;
     }
 
@@ -243,7 +230,7 @@ public class Hero : Entity
     public double GetHeroAtk()
     {
         double atk = heroData.atk.GetValue();
-        atk += atk * (PlayerStatManager.instance.GetHeroUpgradeLevel(heroData.heroTribe, isServerHero) * 0.05f);
+        atk += atk * (PlayerStatManager.instance.GetHeroUpgradeLevel(heroData.heroTribe, heroOwner) * 0.05f);
         return atk;
     }
 
@@ -294,4 +281,11 @@ public class Hero : Entity
     public double GetDamageStack() { return damageStack; }
     public void SetMonsterKillCount(double damageStack) { this.damageStack = damageStack; }
     public List<Monster> GetMonsterList() { return monsterInRangeList; }
+
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        if (IsServer) PlayerStatManager.instance.AddHero(this);
+    }
 }

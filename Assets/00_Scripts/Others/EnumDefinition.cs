@@ -18,6 +18,7 @@ public struct LayerName {
     public static string Defulat = "Default";
 }
 
+
 public enum HeroTribe { 
     HUMAN,
     DWARF,
@@ -52,10 +53,15 @@ public enum MonsterType {
     GOLD
 }
 
-public enum HostType { 
+public enum PlayerNetworkType { 
     HOST,
     CLIENT,
     ALL
+}
+
+public enum HeroOwner { 
+    HOST,
+    CLIENT
 }
 
 public enum Localize

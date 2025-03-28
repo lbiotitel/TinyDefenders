@@ -207,13 +207,13 @@ public class GameManager : NetworkBehaviour
     #endregion
 
 
-    public void GetGold(int gold, HostType hostType = HostType.ALL)
+    public void GetGold(int gold, PlayerNetworkType hostType = PlayerNetworkType.ALL)
     {
-        if (hostType == HostType.ALL)
+        if (hostType == PlayerNetworkType.ALL)
         {
             GiveGoldToAllPlayersClientRpc(gold);
         }
-        else if (hostType == HostType.CLIENT)
+        else if (hostType == PlayerNetworkType.CLIENT)
         {
             this.gold += gold;
             onGoldGet?.Invoke();

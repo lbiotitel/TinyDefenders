@@ -16,7 +16,6 @@ public class HeroInfoUI : MonoBehaviour
 
     [SerializeField] private float yPos;
     [SerializeField] private Button sellButton;
-    [SerializeField] private Button compositionButton;
 
     private Hero hero;
 
@@ -37,17 +36,10 @@ public class HeroInfoUI : MonoBehaviour
     {
         sellButton.onClick.AddListener(() =>
         {
+            Debug.Log("ÆÇ¸Å");
             if (this.hero != null)
             {
-                hero.GetHeroHolder().Sell(true);
-            }
-        });
-
-        compositionButton.onClick.AddListener(() =>
-        {
-            if (this.hero != null)
-            {
-                hero.GetHeroHolder().Composition();
+                hero.GetHeroHolder().Sell();
             }
         });
     }
@@ -67,6 +59,7 @@ public class HeroInfoUI : MonoBehaviour
 
 
         this.hero = hero;
+
         this.heroImage.sprite = heroData.heroMainImage;
         this.heroNameText.text = heroData.GetLocalizationName();
         this.heroDesc.text = heroData.GetLocalizationDesc();
