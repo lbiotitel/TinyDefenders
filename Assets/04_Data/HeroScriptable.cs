@@ -37,9 +37,11 @@ public class HeroScriptable : ScriptableObject
     public HeroRarity rarity;
     public Stat atk;
     public Stat damage;
-    public Stat criticalRate;
     public Stat atkSpeed;
     public Stat atkRange;
+    public Stat skillAcc;
+    public Stat criticalRate;
+    public Stat criticalDamage;
     [TextArea] public string heroDesc;
 
     [Header("Extra")]

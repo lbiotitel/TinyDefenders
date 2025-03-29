@@ -110,16 +110,16 @@ public class SoundManager : MonoBehaviour
     }
 
 
-    public void SetBackgroundVolume(int volume)
+    public void SetBackgroundVolume(float volume)
     {
-        backgroundAudioSource.volume = volume / 100f;
+        backgroundAudioSource.volume = volume;
     }
 
-    public void SetSfxVolume(int volume)
+    public void SetSfxVolume(float volume)
     {
         for (int i = 0; i < sfxAudioSource.Length; i++)
         {
-            sfxAudioSource[i].volume = volume / 100f;
+            sfxAudioSource[i].volume = volume;
         }
     }
 

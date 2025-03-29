@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a11588c854b970346b693613e9402f74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectClearInterval: 60
+  objectClearStandardTime: 1
   poolObjects:
   - poolTag: DamageText
     poolPrefab: {fileID: 8569716173733949794, guid: 60a8e892def7dc540b6f058e9ea90b22, type: 3}

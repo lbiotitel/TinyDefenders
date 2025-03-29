@@ -9,8 +9,8 @@ public class GameSettingData
 {
     public int langaugeIndex;
     public int resolutionIndex;
-    public int backgroundSoundVolume;
-    public int sfxSoundVolume;
+    public float backgroundSoundVolume;
+    public float sfxSoundVolume;
     public int targetFrame;
     public int isWindowIndex;
     public int frameIndex;
@@ -56,8 +56,8 @@ public class GameSettingDefinition
 public class GameSettingSO : ScriptableObject
 {
     public int langaugeIndex;
-    public int backgroundSoundVolume;
-    public int sfxSoundVolume;
+    public float backgroundSoundVolume;
+    public float sfxSoundVolume;
     public int targetFrame;
     public int resolutionIndex;
     public int isWindowIndex;

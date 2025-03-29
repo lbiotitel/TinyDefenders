@@ -239,12 +239,15 @@ public class HeroEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("rarity"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("heroName"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("heroMainImage"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("heroDesc"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("heroTribe"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("runtimeAnimatorController"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("atk"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("atkSpeed"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("atkRange"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("heroDesc"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("criticalRate"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("criticalDamage"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("skillAcc"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("projectile"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("skillData"));
         EditorGUILayout.Space(20f);

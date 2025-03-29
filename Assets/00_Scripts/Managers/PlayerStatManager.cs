@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 
 public class HeroSynergyUI
 {
     public string synergyName;
-    public string synergyDescription;
+    public string[] synergyDescription;
     public int synergyCurrentLevel;
 }
 
@@ -28,16 +29,18 @@ public class PlayerStatManager : MonoBehaviour
 
 
     [Header("Server Bonus Stat")]
-    [field: SerializeField] public Stat serverAtk { get; private set; }
-    [field: SerializeField] public Stat serverAtkSpeed { get; private set; }
-    [field: SerializeField] public Stat serverGoldBonus { get; private set; }
+    [field: SerializeField] public Stat serverAtk;
+    [field: SerializeField] public Stat serverAtkSpeed;
+    [field: SerializeField] public Stat serverGoldBonus;
+    [field: SerializeField] public Stat serverSkillAcc;
 
-
+ 
 
     [Header("Client Bonus Stat")]
-    [field: SerializeField] public Stat clientAtk { get; private set; }
-    [field: SerializeField] public Stat clientAtkSpeed { get; private set; }
-    [field: SerializeField] public Stat clientGoldBouns { get; private set; }
+    [field: SerializeField] public Stat clientAtk;
+    [field: SerializeField] public Stat clientAtkSpeed;
+    [field: SerializeField] public Stat clientGoldBouns;
+    [field: SerializeField] public Stat clientSkillAcc;
 
 
 
@@ -186,6 +189,112 @@ public class PlayerStatManager : MonoBehaviour
                 clientAtkSpeed.RemoveModifire(value);
                 break;
         }
+    }
+
+    public void AddSkillAccModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverSkillAcc.AddModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientSkillAcc.AddModifire(value);
+                break;
+        }
+    }
+
+    public void RemoveSkillAccModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverSkillAcc.RemoveModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientSkillAcc.RemoveModifire(value);
+                break;
+        }
+    }
+
+    public double GetBonusAtk(PlayerNetworkType playerNetworkType)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                return serverAtk.GetValue();
+            case PlayerNetworkType.CLIENT:
+                return clientAtk.GetValue();
+        }
+
+        return 0;
+    }
+
+
+    public double GetBonusAtk(NetworkObjectType heroNetworkType)
+    {
+        switch (heroNetworkType)
+        {
+            case NetworkObjectType.HOST:
+                return serverAtk.GetValue();
+            case NetworkObjectType.CLIENT:
+                return clientAtk.GetValue();
+        }
+
+        return 0;
+    }
+
+    public float GetBonusAtkSpeed(PlayerNetworkType playerNetworkType)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                return serverAtkSpeed.GetValue();
+            case PlayerNetworkType.CLIENT:
+                return clientAtkSpeed.GetValue();
+        }
+
+        return 0;
+    }
+
+
+    public float GetBonusAtkSpeed(NetworkObjectType heroNetworkType)
+    {
+        switch (heroNetworkType)
+        {
+            case NetworkObjectType.HOST:
+                return serverAtkSpeed.GetValue();
+            case NetworkObjectType.CLIENT:
+                return clientAtkSpeed.GetValue();
+        }
+
+        return 0;
+    }
+
+    public float GetBonusSkillAcc(PlayerNetworkType playerNetworkType)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                return serverSkillAcc.GetValue();
+            case PlayerNetworkType.CLIENT:
+                return clientSkillAcc.GetValue();
+        }
+
+        return 0;
+    }
+
+    public float GetBonusSkillAcc(NetworkObjectType heroNetworkType)
+    {
+        switch (heroNetworkType)
+        {
+            case NetworkObjectType.HOST:
+                return serverSkillAcc.GetModifireValue();
+            case NetworkObjectType.CLIENT:
+                return clientSkillAcc.GetModifireValue();
+        }
+
+        return 0;
     }
 
 

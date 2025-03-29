@@ -10,32 +10,44 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
-  m_Name: OrcGoblin
+  m_Name: OrcOrc
   m_EditorClassIdentifier: 
-  heroName: OrcGoblin
+  heroName: OrcOrc
   rarity: 0
   atk:
-    baseValue: 25
+    baseValue: 80
+    modifiers: []
   damage:
     baseValue: 0
-  criticalRate:
-    baseValue: 0
+    modifiers: []
   atkSpeed:
-    baseValue: 1.5
+    baseValue: 0.7
+    modifiers: []
   atkRange:
-    baseValue: 1
+    baseValue: 1.5
+    modifiers: []
+  skillAcc:
+    baseValue: 0
+    modifiers: []
+  criticalRate:
+    baseValue: 20
+    modifiers: []
+  criticalDamage:
+    baseValue: 140
+    modifiers: []
   heroDesc: 
   heroTribe: 5
-  heroMainImage: {fileID: 748437418, guid: 119d89010fa22da4d8a9d50bf4580c2c, type: 3}
-  runtimeAnimatorController: {fileID: 9100000, guid: bbafb7479743eca428669ddf565a191a, type: 2}
-  projectile: {fileID: 2786315958115145823, guid: 394f68957adc97a419a7d8643d08ea82, type: 3}
+  heroMainImage: {fileID: -2051699250, guid: cd0e2ee077c000644b541de2f317efab, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 9756b9e828171cc4dade2b7492435548, type: 2}
+  projectile: {fileID: 4354393126220454295, guid: 8afaaa699d60baf4f8b15be69caf8f9e, type: 3}
   debuffEffects: []
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
+    skillDuration: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0
-    debuffEffects: []

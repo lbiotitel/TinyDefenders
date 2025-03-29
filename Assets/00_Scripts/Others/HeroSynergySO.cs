@@ -6,17 +6,19 @@ public class HeroSynergySO : ScriptableObject
 {
     public HeroTribe synergyTribe;
     public string synergyName;
-    [TextArea] public string synergyDescription;
+    [TextArea] public string[] synergyDescription;
 
-    public int currentTribeCount = 0;
     public int[] synergyRequireTribeCount;
     public HeroSynergyBase synergyBase;
 
+    private int currentTribeCount = 0;
     private int currentSynergyLevel = 0;
     private int prevSynergyLevel = 0;
 
     public void InitSynergy(PlayerNetworkType playerNetworkType)
     {
+        HeroSynergyBase heroSynergyBase = Instantiate(synergyBase);
+        synergyBase = heroSynergyBase;
         synergyBase.InitNetworkType(playerNetworkType);
     }
 
@@ -35,8 +37,8 @@ public class HeroSynergySO : ScriptableObject
     {
         if (currentSynergyLevel != prevSynergyLevel)
         {
-            synergyBase.HeroSynergyDeactive(prevSynergyLevel - 1);
-            synergyBase.HeroSynergyActive(currentSynergyLevel - 1);
+            synergyBase.HeroSynergyDeactive(prevSynergyLevel);
+            synergyBase.HeroSynergyActive(currentSynergyLevel);
 
             prevSynergyLevel = currentSynergyLevel;
         }

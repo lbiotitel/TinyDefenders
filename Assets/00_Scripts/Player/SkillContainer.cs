@@ -11,10 +11,10 @@ public class SkillContainer : NetworkBehaviour
     [SerializeField] protected Image skillFillImage;
     [SerializeField] protected GameObject skillCanvas;
 
-    public float skillAcc = 1f;
     protected bool skillDelay = true;
     private NetworkVariable<float> skillGage = new NetworkVariable<float>(0f);
-    SkillBase heroSkill;
+    private SkillBase heroSkill;
+    private Coroutine skillDelayCoroutine = null;
 
 
     protected void Start()
@@ -40,7 +40,7 @@ public class SkillContainer : NetworkBehaviour
         {
             gameObject.AddComponent(classType);
             skillCanvas.SetActive(true);
-            StartCoroutine(SkillDelayCoroutine());
+            skillDelayCoroutine = StartCoroutine(SkillDelayCoroutine());
             heroSkill = GetComponent<SkillBase>();
             heroSkill.InitHeroSkill(hero);
         }
@@ -61,8 +61,9 @@ public class SkillContainer : NetworkBehaviour
                 if (heroSkill.CheckSkillCanActive())
                 {
                     skillDelay = true;
-                    StartCoroutine(SkillDelayCoroutine());
+                    skillDelayCoroutine = StartCoroutine(SkillDelayCoroutine());
                     ActiveSkillClientRpc();
+                    EventManager.instance.heroUseSkillAction?.Invoke(hero);
                 }
             }
         }
@@ -82,11 +83,11 @@ public class SkillContainer : NetworkBehaviour
         if (IsServer)
         {
             float t = 0f;
-            float coolTime = heroData.skillData.coolTime;
+            float coolTime = heroData.skillData.coolTime - (heroData.skillData.coolTime * hero.GetHeroSkillAcc() / 100f);
 
             while (t < coolTime)
             {
-                t += Time.deltaTime * skillAcc;
+                t += Time.deltaTime;
                 skillGage.Value = (t / coolTime);
                 yield return null;
             }
@@ -100,5 +101,19 @@ public class SkillContainer : NetworkBehaviour
         skillFillImage.fillAmount = newValue;
     }
 
+    public void ResetSkill()
+    {
+        StartCoroutine(ResetSkillCoroutine());
+    }
+
+    private IEnumerator ResetSkillCoroutine()
+    {
+        yield return new WaitForSeconds(0.3f);
+        if (heroSkill.CheckSkillCanActive())
+        {
+            ActiveSkillClientRpc();
+            Debug.Log("스킬 한번더!");
+        }
+    }
 }
 

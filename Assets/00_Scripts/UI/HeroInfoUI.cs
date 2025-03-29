@@ -66,19 +66,14 @@ public class HeroInfoUI : MonoBehaviour
         this.heroRarity.text = heroData.rarity.ToString();
 
         this.attackText.text =
-            hero.GetBonusHeroAtk() == 0 ?
-            string.Format("{0:N0}", hero.GetHeroAtk()) :
-            string.Format("{0:N0}<color=#00FF00>(+{1:N0})", hero.GetHeroAtk(), hero.GetBonusHeroAtk());
+            string.Format("{0:N0}<color=#00FF00>(+{1:N0})", hero.GetHeroBaseAtk(), hero.GetHeroAtk());
 
         this.attackSpeedText.text =
-           hero.GetBounusHeroAtkSpeed() == 0 ?
-            string.Format("{0:0}", hero.GetHeroAtkSpeed()) :
-            string.Format("{0:0}<color=#00FF00>(+{1:0})", hero.GetHeroAtkSpeed(), hero.GetBounusHeroAtkSpeed());
+            string.Format("{0:0}<color=#00FF00>(+{1:0})", hero.GetHeroBaseAtkSpeed(),hero.GetHeroAtkSpeed());
 
         this.attackRangeText.text =
-            hero.GetHeroBonusAtkRange() == 0 ?
-            string.Format("{0:0}", hero.GetHeroAtkRange()) :
-            string.Format("{0:0}<color=#00FF00>(+{1:0})", hero.GetHeroAtkRange(), hero.GetHeroBonusAtkRange());
+            string.Format("{0:0}<color=#00FF00>(+{1:0})", hero.GetHeroAtkRange(), hero.GetHeroBaseAtkRange());
+
 
         this.criRateText.text = heroData.criticalRate.baseValue.ToString();
 

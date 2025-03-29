@@ -23,9 +23,14 @@ public class PoolingManager : MonoBehaviour
         public PoolType poolType;
     }
 
+    [SerializeField] private float objectClearInterval;
+    [SerializeField] private int objectClearStandardTime;
+    private float currentTime = 0f;
     [SerializeField] private PoolObject[] poolObjects;
     private Dictionary<GameObject, Queue<GameObject>> poolDictionary;
     private Dictionary<GameObject, GameObject> instanceToPrefabMap = new Dictionary<GameObject, GameObject>();
+    private Dictionary<GameObject,DateTime> clearObjectDic = new Dictionary<GameObject, DateTime>();
+
 
     private void Awake()
     {
@@ -42,6 +47,46 @@ public class PoolingManager : MonoBehaviour
     private void Start()
     {
         Init();
+    }
+
+    private void Update()
+    {
+        CheckObjectClearTime();
+    }
+
+    private void CheckObjectClearTime()
+    {
+        if (currentTime < objectClearInterval)
+        {
+            currentTime += Time.deltaTime;
+        }
+        else
+        {
+            currentTime = 0f;
+            ClearObject();
+        }
+    }
+
+    private void ClearObject()
+    {
+        DateTime dateTime = DateTime.Now;
+
+        foreach (var data in clearObjectDic)
+        {
+            var timeDiff = dateTime - data.Value;
+            if (timeDiff.Minutes > objectClearStandardTime)
+            {
+                Queue<GameObject> queue = poolDictionary[data.Key];
+                while (queue.Count > 0)
+                {
+                    GameObject go = queue.Dequeue();
+                    Debug.Log(go.name + "오브젝트 파괴");
+                    instanceToPrefabMap.Remove(go);
+                    Destroy(go);
+                }
+                poolDictionary.Remove(data.Key);
+            }
+        }
     }
 
     private void Init()
@@ -75,12 +120,16 @@ public class PoolingManager : MonoBehaviour
         }
         else { 
             poolDictionary.Add(gameObject, new Queue<GameObject>());
+            clearObjectDic.Add(gameObject,DateTime.Now);
         }
 
         SpawnObject(gameObject, position);
         GameObject g = poolDictionary[gameObject].Dequeue();
         TurnOn(ref g);
         g.transform.position = position;
+
+        clearObjectDic[gameObject] = DateTime.Now;
+
         return g;
     }
 

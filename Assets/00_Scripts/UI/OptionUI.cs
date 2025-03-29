@@ -10,8 +10,8 @@ public class OptionUI : MonoBehaviour
     [SerializeField] private ArrowOptionUI isWindowOptionUI;
     [SerializeField] private ArrowOptionUI frameOptionUI;
     [SerializeField] private ArrowOptionUI vSyncOptionUI;
-    [SerializeField] private ArrowOptionUI backgroundVolumeUI;
-    [SerializeField] private ArrowOptionUI sfxVolumeUI;
+    [SerializeField] private Slider backgroundVolumeSlider;
+    [SerializeField] private Slider sfxVolumeSlider;
 
     [SerializeField] private Button cancelButton;
 
@@ -28,8 +28,8 @@ public class OptionUI : MonoBehaviour
         isWindowOptionUI.SetIndex(GameSettingManager.instance.gameSettingData.isWindowIndex);
         frameOptionUI.SetIndex(GameSettingManager.instance.gameSettingData.frameIndex);
         vSyncOptionUI.SetIndex(GameSettingManager.instance.gameSettingData.vSyncIndex);
-        backgroundVolumeUI.SetIndex(GameSettingManager.instance.gameSettingData.backgroundSoundVolume);
-        sfxVolumeUI.SetIndex(GameSettingManager.instance.gameSettingData.sfxSoundVolume);
+        backgroundVolumeSlider.value = GameSettingManager.instance.gameSettingData.backgroundSoundVolume;
+        sfxVolumeSlider.value = GameSettingManager.instance.gameSettingData.sfxSoundVolume; 
     }
 
     private void InitArrowOptions()
@@ -85,18 +85,8 @@ public class OptionUI : MonoBehaviour
         vSyncOptionUI.SetOptions(options);
         vSyncOptionUI.onValueChanged += ChangeVsync;
 
-        options.Clear();
-
-        for (int i = 0; i <= 100; i += 5)
-        {
-            options.Add(i.ToString());
-        }
-
-        backgroundVolumeUI.SetOptions(options);
-        sfxVolumeUI.SetOptions(options);
-
-        backgroundVolumeUI.onValueChanged += ChangeBackgroundVolume;
-        sfxVolumeUI.onValueChanged += ChangeSfxVolume;
+        backgroundVolumeSlider.onValueChanged.AddListener(ChangeBackgroundVolume); 
+        sfxVolumeSlider.onValueChanged.AddListener(ChangeSfxVolume);
 
         options.Clear();
     }
@@ -136,14 +126,14 @@ public class OptionUI : MonoBehaviour
         QualitySettings.vSyncCount = GameSettingDefinition.vSyncList[optionIndex] == true ? 1 : 0;
     }
 
-    private void ChangeBackgroundVolume(int optionIndex)
+    private void ChangeBackgroundVolume(float value)
     {
-        SoundManager.instance.SetBackgroundVolume(int.Parse(backgroundVolumeUI.GetCurrentValue()));
+        SoundManager.instance.SetBackgroundVolume(value);
     }
 
-    private void ChangeSfxVolume(int optionIndex)
+    private void ChangeSfxVolume(float value)
     {
-        SoundManager.instance.SetSfxVolume(int.Parse(sfxVolumeUI.GetCurrentValue()));
+        SoundManager.instance.SetSfxVolume(value);
     }
 
 
@@ -155,8 +145,8 @@ public class OptionUI : MonoBehaviour
         GameSettingManager.instance.gameSettingData.frameIndex = frameOptionUI.GetCurrentIndex();
         GameSettingManager.instance.gameSettingData.isWindowIndex = isWindowOptionUI.GetCurrentIndex();
         GameSettingManager.instance.gameSettingData.vSyncIndex = vSyncOptionUI.GetCurrentIndex();
-        GameSettingManager.instance.gameSettingData.backgroundSoundVolume = int.Parse(backgroundVolumeUI.GetCurrentValue());
-        GameSettingManager.instance.gameSettingData.isWindowIndex = int.Parse(sfxVolumeUI.GetCurrentValue());
+        GameSettingManager.instance.gameSettingData.backgroundSoundVolume = backgroundVolumeSlider.value;
+        GameSettingManager.instance.gameSettingData.sfxSoundVolume = sfxVolumeSlider.value;
 
         GameSettingManager.instance.gameSettingData.SaveData();
     }

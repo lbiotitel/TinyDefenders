@@ -16,23 +16,38 @@ MonoBehaviour:
   rarity: 0
   atk:
     baseValue: 2
+    modifiers: []
   damage:
     baseValue: 0
-  criticalRate:
-    baseValue: 0
+    modifiers: []
   atkSpeed:
     baseValue: 1
+    modifiers: []
   atkRange:
     baseValue: 3
+    modifiers: []
+  skillAcc:
+    baseValue: 1
+    modifiers: []
+  criticalRate:
+    baseValue: 0
+    modifiers: []
+  criticalDamage:
+    baseValue: 0
+    modifiers: []
+  heroDesc: 
+  heroTribe: 0
   heroMainImage: {fileID: 8174098430123861899, guid: 3e1174dd51082bd46b720d8c5b8bd59e, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 7bfa4f5ef9078994a94568669051c61c, type: 2}
   projectile: {fileID: 8196813808265226441, guid: 43e227da964098c4cb6e74b309bfeffb, type: 3}
   debuffEffects: []
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
+    skillDuration: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0

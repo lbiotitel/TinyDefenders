@@ -166,10 +166,7 @@ public class Hero : Entity
 
     private IEnumerator AttackDelayCoroutine()
     {
-        float synergyStat = heroOwner == NetworkObjectType.HOST ? PlayerStatManager.instance.serverAtkSpeed.GetValue() : PlayerStatManager.instance.clientAtkSpeed.GetValue();
-        float atkSpeed = heroData.atkSpeed.GetValue() + (heroData.atkSpeed.GetValue() * synergyStat / 100f);
-        Debug.Log(atkSpeed);
-        yield return new WaitForSeconds(1f / atkSpeed);
+        yield return new WaitForSeconds(1f / GetHeroAtkSpeed());
         attackDelay = false;
     }
 
@@ -234,27 +231,29 @@ public class Hero : Entity
         return atk;
     }
 
-    public double GetBonusHeroAtk()
+    public double GetHeroBaseAtk()
     {
-        return GetHeroAtk() - heroData.atk.baseValue;
+        return heroData.atk.baseValue;
     }
 
     public float GetHeroAtkSpeed()
     {
-        return heroData.atkSpeed.GetValue();
+        float synergyStat = PlayerStatManager.instance.GetBonusAtkSpeed(heroOwner);
+        float atkSpeed = heroData.atkSpeed.GetValue() + (heroData.atkSpeed.GetValue() * synergyStat / 100f);
+        return atkSpeed;
     }
 
-    public float GetBounusHeroAtkSpeed()
+    public float GetHeroBaseAtkSpeed()
     {
-        return heroData.atk.GetModifireValue();
+        return heroData.atk.baseValue;
     }
 
-    public float GetHeroAtkRange()
+    public float GetHeroBaseAtkRange()
     {
         return heroData.atkRange.GetValue();
     }
 
-    public float GetHeroBonusAtkRange()
+    public float GetHeroAtkRange()
     {
         return heroData.atkRange.GetModifireValue();
     }
@@ -263,6 +262,21 @@ public class Hero : Entity
     {
         double damage = GetHeroAtk() * (heroData.skillData.skillDamage / 100f);
         return damage;
+    }
+
+    public float GetHeroCriDamage()
+    {
+        return heroData.criticalDamage.GetValue() / 100f;
+    }
+
+    public float GetHeroCriRate()
+    {
+        return heroData.criticalRate.GetValue();
+    }
+
+    public float GetHeroSkillAcc()
+    { 
+        return heroData.skillAcc.GetModifireValue() + PlayerStatManager.instance.GetBonusSkillAcc(heroOwner);
     }
 
     public void AddAtkModifire(float value)

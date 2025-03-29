@@ -92,16 +92,18 @@ public class BattleUI : MonoBehaviour
         {
             displayJoinCode.readOnly = true;
             joinFriendMatchingButton.interactable = false;  
+            createFriendMatchingButton.interactable = false;
 
             bool canJoin = await netManager.JoinGameWithCode(joinCode);
 
             if (canJoin)
             {
-
+                MainSceneUI.instance.ShowMatchingCompleteUI();
             }
             else {
                 displayJoinCode.readOnly = false;
                 joinFriendMatchingButton.interactable = true;
+                createFriendMatchingButton.interactable = true;
             }
         }
         else { 

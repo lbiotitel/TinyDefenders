@@ -75,38 +75,45 @@ public partial class Monster : Entity
 
     #region Monster Damage Logic
 
-    public void GetDamage(double damage, bool isServer, ulong heroId ,bool isCri = false)
+    public void GetDamage(double damage, bool isServer, ulong heroId)
     {
         if (!IsServer) return;
         if (isDead) return;
 
-        MonsterGetDamage(damage, isServer,heroId,isCri);
+        MonsterGetDamage(damage, isServer,heroId);
     }
 
-    private void MonsterGetDamage(double damage, bool isServer, ulong heroId, bool isCri)
+    private void MonsterGetDamage(double damage, bool isServer, ulong heroId)
     {
-        if (isCri) damage *= 1.5f;
+        if (NetUtils.TryGetSpawnedObject(heroId, out NetworkObject heroObject))
+        {
+            Hero hero = heroObject.GetComponent<Hero>();
 
-        damage -= defense;
-        hp -= ((int)damage);
-        StackDamage(damage, isServer, heroId);
+            bool isCri = IsCri(hero);
+            if (isCri) damage *= hero.GetHeroCriDamage();
 
-        hpImage.fillAmount = ((float)hp / (float)maxHp);
-        UpdateClientRpc(hp, damage, isCri);
+            damage -= defense;
+            hp -= ((int)damage);
+            StackDamage(damage, isServer, hero);
+
+            hpImage.fillAmount = ((float)hp / (float)maxHp);
+            UpdateClientRpc(hp, damage, isCri);
+        }
     }
 
-    private void StackDamage(double damage, bool isServer, ulong heroId)
+    private bool IsCri(Hero hero)
+    {
+        float cri = Random.Range(0,100f);
+        if (cri < hero.GetHeroCriRate()) return true;
+        return false;
+    }
+
+    private void StackDamage(double damage, bool isServer, Hero hero)
     {
         if (hp <= 0) damage += hp;
 
         StackPlayerDamage(damage, isServer);
-
-        if (NetUtils.TryGetSpawnedObject(heroId, out NetworkObject heroObject))
-        {
-            Hero hero = heroObject.GetComponent<Hero>();
-            hero.IncreaseDamageStack(damage);
-        }
-
+        hero.IncreaseDamageStack(damage);
     }
 
     private static void StackPlayerDamage(double damage, bool isServer)

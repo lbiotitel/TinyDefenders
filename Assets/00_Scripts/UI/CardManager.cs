@@ -145,8 +145,8 @@ public class CardManager : MonoBehaviour
         }
        
         cardNode.InitCardNode(cardList[randomCard]);
-        cardNode.transform.SetParent(myCardPos);
         cardNode.gameObject.SetActive(true);
+        cardNode.transform.SetParent(myCardPos,false);
 
         myCardList.Add(cardNode);
     }
@@ -160,8 +160,8 @@ public class CardManager : MonoBehaviour
 
         SummonCardNode cardNode = Instantiate(summonCardPrefab, transform.position, Quaternion.identity);
         cardNode.InitCardNode(cardSO);
-        cardNode.transform.SetParent(myCardPos);
         cardNode.gameObject.SetActive(true);
+        cardNode.transform.SetParent(myCardPos,false);
 
         myCardList.Add(cardNode);
     }

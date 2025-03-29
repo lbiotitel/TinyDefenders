@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
@@ -135,6 +136,7 @@ public partial class NetManager : MonoBehaviour
             }
             if (NetUtils.IsHost())
             {
+                if (currentLobby == null) return;
                 await LobbyService.Instance.DeleteLobbyAsync(currentLobby.Id);
                 NetworkManager.Singleton.Shutdown();
             }
@@ -241,8 +243,13 @@ public partial class NetManager : MonoBehaviour
     private void OnClientConnected(ulong clientId)
     {
         MainSceneUI.instance.ShowMatchingCompleteUI();
-        Debug.Log("클라이언트가 호스트에 연결완료");
+        Invoke("DelayClientConnect", 1f);
+    }
+
+    private void DelayClientConnect()
+    {
         OnPlayerJoined();
+        Debug.Log("클라이언트가 호스트에 연결완료");
     }
 
     private void OnClientDisconnected(ulong clientId)
