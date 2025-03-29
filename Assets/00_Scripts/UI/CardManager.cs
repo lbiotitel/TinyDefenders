@@ -153,7 +153,7 @@ public class CardManager : MonoBehaviour
 
     private void GetSummonCardSO()
     {
-        HeroScriptable heroData = Spawner.instance.LoadData(Utils.GetIngameSummonRarity().ToString());
+        HeroScriptable heroData = SoDataManager.instance.GetRandomHeroScriptiableData();
         SummonCard cardSO = ScriptableObject.CreateInstance<SummonCard>();
         cardSO.cardType = CardType.SUMMON;
         cardSO.InitSummonCard(heroData);

@@ -13,26 +13,41 @@ MonoBehaviour:
   m_Name: HumanCrossBow
   m_EditorClassIdentifier: 
   heroName: HumanCrossBow
-  rarity: 0
+  rarity: 1
   atk:
     baseValue: 1
+    modifiers: []
   damage:
     baseValue: 0
-  criticalRate:
-    baseValue: 0
+    modifiers: []
   atkSpeed:
     baseValue: 3
+    modifiers: []
   atkRange:
     baseValue: 2
+    modifiers: []
+  skillAcc:
+    baseValue: 0
+    modifiers: []
+  criticalRate:
+    baseValue: 0
+    modifiers: []
+  criticalDamage:
+    baseValue: 0
+    modifiers: []
+  heroDesc: 
+  heroTribe: 0
   heroMainImage: {fileID: -7999296471240237269, guid: a48e7f99bf530024dbd2986b9412937c, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 161ac36cf70f63e4a9344dfc95095a11, type: 2}
   projectile: {fileID: 1195089578203227832, guid: a450717ab5bac3445bf705c3ebb044c9, type: 3}
   debuffEffects: []
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
+    skillDuration: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0

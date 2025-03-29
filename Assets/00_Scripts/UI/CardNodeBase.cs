@@ -29,7 +29,7 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
     protected Vector2 enlargementOriginalPosition;
 
     protected Vector2 dragOriginalPosition;
-
+    protected float yHeight;
     protected Transform parentTransform;
     protected Transform dragParent;
     protected bool isEnlargement = false;
@@ -53,6 +53,8 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
         cardNameText.text = cardSO.cardName;
         cardDescText.text = cardSO.cardDescription;
         cardCostText.text = cardSO.cardCost.ToString();
+
+        yHeight = GetComponent<RectTransform>().rect.size.y / 2f;
     }
 
 
@@ -101,7 +103,6 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
         }
 
         CardManager.instance.OffCardDropZone();
-        CardManager.instance.SortCard();
     }
 
     public virtual void OnBeginDrag(PointerEventData evenData)
@@ -141,6 +142,7 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
     protected virtual void UseCard()
     {
         CardManager.instance.RemoveCard(this);
+        CardManager.instance.SortCard();
     }
 
 
@@ -173,7 +175,7 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
     {
         isEnlargement = true;
         transform.SetAsLastSibling();
-        transform.DOMove(new Vector3(transform.position.x, transform.position.y + 300f), 0f);
+        transform.DOMove(new Vector3(transform.position.x, transform.position.y + yHeight), 0f);
     }
 
     public void OnPointerExit(PointerEventData eventData)

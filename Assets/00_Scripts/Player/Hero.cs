@@ -31,17 +31,17 @@ public class Hero : Entity
         base.Awake();
     }
 
-    public void InitHeroData(HeroScriptable data, HeroHolder heroHolder, string rarity)
+    public void InitHeroData(HeroScriptable data, HeroHolder heroHolder)
     {
         heroData = data;
 
         heroName = heroData.heroName;
-        heroRarity = (HeroRarity)Enum.Parse(typeof(HeroRarity), rarity);
+        heroRarity = heroData.rarity;
         this.heroHolder = heroHolder;
 
         InitHeroRangeCollider();
 
-        GetInitEntity(data.heroName, rarity);
+        animator.runtimeAnimatorController = data.runtimeAnimatorController;
 
         InitRarityCircleColor();
 
@@ -236,6 +236,11 @@ public class Hero : Entity
         return heroData.atk.baseValue;
     }
 
+    public double GetHeroBonusAtk()
+    {
+        return GetHeroAtk() - GetHeroBaseAtk();
+    }
+
     public float GetHeroAtkSpeed()
     {
         float synergyStat = PlayerStatManager.instance.GetBonusAtkSpeed(heroOwner);
@@ -245,17 +250,22 @@ public class Hero : Entity
 
     public float GetHeroBaseAtkSpeed()
     {
-        return heroData.atk.baseValue;
+        return heroData.atkSpeed.baseValue;
+    }
+
+    public float GetHeroBounusAtkSpeed()
+    {
+        return GetHeroAtkSpeed() - GetHeroBaseAtkSpeed();
     }
 
     public float GetHeroBaseAtkRange()
     {
-        return heroData.atkRange.GetValue();
+        return heroData.atkRange.baseValue;
     }
 
     public float GetHeroAtkRange()
     {
-        return heroData.atkRange.GetModifireValue();
+        return heroData.atkRange.GetValue();
     }
 
     public double GetHeroSkillDamage()
@@ -300,6 +310,6 @@ public class Hero : Entity
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
-        if (IsServer) PlayerStatManager.instance.AddHero(this);
+        if (IsServer) PlayerStatManager.instance.RemoveHero(this);
     }
 }

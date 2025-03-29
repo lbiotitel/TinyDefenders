@@ -12,6 +12,7 @@ public class SoDataManager : MonoBehaviour
             instance = this;
             InitAllHeroScriptableObject();
             InitAllSpellCardSciprtableObject();
+            InitAllHeroSynergyData();
             DontDestroyOnLoad(gameObject);
         }
         else {
@@ -19,14 +20,55 @@ public class SoDataManager : MonoBehaviour
         }
     }
 
-    private Dictionary<string, HeroScriptable> heroSciprtableDatas;
-    private Dictionary<string, CardSO> spellCardScriptableDatas;
+    private Dictionary<string, HeroScriptable> heroSciprtableDataDic;
+    private Dictionary<string, CardSO> spellCardScriptableDataDic;
+    private Dictionary<string, HeroSynergySO> heroSynergySODataDic;
+
+
+
+    #region About Hero Synergy Data 
+    private void InitAllHeroSynergyData()
+    {
+        heroSynergySODataDic = new Dictionary<string, HeroSynergySO>();
+
+        HeroSynergySO[] heroSynergySOs = Resources.LoadAll<HeroSynergySO>("HeroSynergyDatas");
+
+        Debug.Log(heroSynergySOs.Length);
+
+        for(int i = 0; i < heroSynergySOs.Length; i++)
+        {
+            heroSynergySODataDic.Add(heroSynergySOs[i].synergyName, heroSynergySOs[i]);
+        }   
+    }
+
+    public HeroSynergySO GetHeroSynergySO(string synergyName)
+    {
+        if (heroSynergySODataDic.ContainsKey(synergyName))
+        {
+            return heroSynergySODataDic[synergyName];
+        }
+
+        return null;
+    }
+
+    public List<HeroSynergySO> GetHeroSynergySOs()
+    {
+        List<HeroSynergySO> heroSynergySOs = new List<HeroSynergySO>();
+
+        foreach (var data in heroSynergySODataDic)
+        {
+            heroSynergySOs.Add(data.Value);
+        }
+
+        return heroSynergySOs;
+    }
+    #endregion
 
 
     #region About Hero So Resource Method
     private void InitAllHeroScriptableObject()
     {
-        heroSciprtableDatas = new Dictionary<string, HeroScriptable>();
+        heroSciprtableDataDic = new Dictionary<string, HeroScriptable>();
 
         for (int rarity = 0; rarity <= (int)HeroRarity.Legend; rarity++)
         {
@@ -35,16 +77,16 @@ public class SoDataManager : MonoBehaviour
 
             for (int heroIndex = 0; heroIndex < datas.Length; heroIndex++)
             {
-                heroSciprtableDatas.Add(datas[heroIndex].heroName, datas[heroIndex]);
+                heroSciprtableDataDic.Add(datas[heroIndex].heroName, datas[heroIndex]);
             }
         }
     }
 
     public HeroScriptable GetHeroScriptableData(string heroName)
     {
-        if (heroSciprtableDatas.ContainsKey(heroName))
+        if (heroSciprtableDataDic.ContainsKey(heroName))
         {
-            return heroSciprtableDatas[heroName];
+            return heroSciprtableDataDic[heroName];
         }
 
         return null;
@@ -55,12 +97,32 @@ public class SoDataManager : MonoBehaviour
     {
         List<HeroScriptable> heroDatas = new List<HeroScriptable>();
 
-        foreach (var data in heroSciprtableDatas)
+        foreach (var data in heroSciprtableDataDic)
         {
             heroDatas.Add(data.Value);
         }
 
         return heroDatas;
+    }
+
+
+    //테스트를 위해 normal로 고정
+    public HeroScriptable GetRandomHeroScriptiableData()
+    {
+        int random = Random.Range(0,(int)HeroRarity.Legend + 1);
+
+        List<HeroScriptable> heroDatas = GetAllHeroScriptableData();
+        List<HeroScriptable> heroDatasByRarity = new List<HeroScriptable>();
+        
+        foreach (var data in heroDatas)
+        {
+            if(data.rarity == (HeroRarity.Normal))
+                heroDatasByRarity.Add(data);
+        }
+
+        int selectHero = Random.Range(0,heroDatasByRarity.Count);
+
+        return heroDatasByRarity[selectHero];
     }
     #endregion
 
@@ -69,7 +131,7 @@ public class SoDataManager : MonoBehaviour
 
     private void InitAllSpellCardSciprtableObject()
     {
-        spellCardScriptableDatas = new Dictionary<string,  CardSO>();
+        spellCardScriptableDataDic = new Dictionary<string,  CardSO>();
 
         for (int rarity = 0; rarity <= (int)CardRarity.Rare; rarity++)
         {
@@ -78,16 +140,16 @@ public class SoDataManager : MonoBehaviour
 
             for (int cardIndex = 0; cardIndex < datas.Length; cardIndex++)
             {
-                spellCardScriptableDatas.Add(datas[cardIndex].cardName, datas[cardIndex]);
+                spellCardScriptableDataDic.Add(datas[cardIndex].cardName, datas[cardIndex]);
             }
         }
     }
 
     public CardSO GetSpellCardScirptableObject(string spellName)
     {
-        if (spellCardScriptableDatas.ContainsKey(spellName))
+        if (spellCardScriptableDataDic.ContainsKey(spellName))
         { 
-            return spellCardScriptableDatas[spellName];
+            return spellCardScriptableDataDic[spellName];
         }
 
         return null;
@@ -97,7 +159,7 @@ public class SoDataManager : MonoBehaviour
     {
         List<CardSO> rarityCardSO = new List<CardSO>();
 
-        foreach (var data in spellCardScriptableDatas)
+        foreach (var data in spellCardScriptableDataDic)
         {
             if (data.Value.cardRarity == rarity)
             {
@@ -112,7 +174,7 @@ public class SoDataManager : MonoBehaviour
     {
         List<CardSO> cardDatas = new List<CardSO>();
 
-        foreach (var data in spellCardScriptableDatas)
+        foreach (var data in spellCardScriptableDataDic)
         {
             cardDatas.Add(data.Value);
         }

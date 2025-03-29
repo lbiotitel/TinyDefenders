@@ -62,8 +62,8 @@ public class InGameUI : NetworkBehaviour
     [Header("Card Range UI")]
     [SerializeField] private GameObject cardRangeUI;
 
-    [Header("Synergy UI")]
-    [SerializeField] private GameObject synergyUI;
+    [Header("Option UI")]
+    [SerializeField] private InGameOptionUI optionUI;
 
 
     private void Start()
@@ -143,6 +143,15 @@ public class InGameUI : NetworkBehaviour
     private void Update()
     {
         DrawMainUI();
+        CheckOptionButton();
+    }
+
+    private void CheckOptionButton()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            optionUI.ShowOptionUI();
+        }
     }
 
     public void ShowHeroInfoUI(Hero hero)

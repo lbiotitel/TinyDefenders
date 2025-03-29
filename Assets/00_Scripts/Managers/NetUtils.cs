@@ -12,6 +12,11 @@ public class NetUtils
         return NetworkManager.Singleton.LocalClientId;
     }
 
+    public static PlayerNetworkType GetPlayerNetworkType()
+    {
+        return IsHost() ? PlayerNetworkType.HOST : PlayerNetworkType.CLIENT;
+    }
+
     public static void HostAndClientMethod(Action clientAction, Action serverAction)
     {
         if (NetworkManager.Singleton.IsClient) clientAction?.Invoke();

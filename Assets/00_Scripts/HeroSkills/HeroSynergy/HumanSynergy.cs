@@ -14,7 +14,7 @@ public class HumanSynergy : HeroSynergyBase
         PlayerStatManager.instance.AddSkillAccModifire(playerNetworkType, skillAcc[level - 1]);
         if (level == 3)
         {
-            EventManager.instance.heroUseSkillAction += HeroCoolTimeReset;
+            EventManager.instance.onHeroUseSkillAction += HeroCoolTimeReset;
         }
     }
 
@@ -38,7 +38,7 @@ public class HumanSynergy : HeroSynergyBase
         PlayerStatManager.instance.RemoveSkillAccModifire(playerNetworkType, skillAcc[level - 1]);
         if (level == 3)
         {
-            EventManager.instance.heroUseSkillAction -= HeroCoolTimeReset;
+            EventManager.instance.onHeroUseSkillAction -= HeroCoolTimeReset;
         }
     }
 }

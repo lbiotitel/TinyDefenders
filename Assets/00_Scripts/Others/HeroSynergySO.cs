@@ -1,4 +1,3 @@
-using Unity.Services.Multiplayer;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "HeroSynergySO", menuName = "Scriptable Objects/HeroSynergySO")]
@@ -27,7 +26,7 @@ public class HeroSynergySO : ScriptableObject
         for (int i = 0; i < synergyRequireTribeCount.Length; i++)
         {
             if (currentTribeCount < synergyRequireTribeCount[i]) break;
-            currentSynergyLevel = i + 1;
+            currentSynergyLevel = i;
         }
 
         return currentSynergyLevel;
@@ -44,6 +43,14 @@ public class HeroSynergySO : ScriptableObject
         }
     }
 
+    public string GetCurrentSynergyDescription()
+    {
+        return synergyDescription[currentSynergyLevel - 1];
+    }
+
+
+    public void SetCurrentHeroSynergyLevel(int level) { currentSynergyLevel = level; }
+    public int GetCurrentSynergyLevel() { return currentSynergyLevel; } 
     public void IncreaseTribeCount() { currentTribeCount++; }
-    public void DecreaseTribeCount() { currentTribeCount = Mathf.Max(--currentTribeCount,0); }
+    public void DecreaseTribeCount() { currentTribeCount = Mathf.Max(--currentTribeCount, 0); }
 }

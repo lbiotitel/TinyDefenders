@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,11 +8,8 @@ using UnityEngine.UI;
 public class CombineNodeUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI heroName;
-    [SerializeField] private TextMeshProUGUI heroDesc;
-    [SerializeField] private Transform horizontalLayout;
+    [SerializeField] private Image heroImage;
     [SerializeField] private Button combineButton;
-    [SerializeField] private Color activeColor;
-    [SerializeField] private Color deActiveColor;
 
     private HeroScriptable mainHero;
     private List<HeroScriptable> subHero;
@@ -25,32 +23,35 @@ public class CombineNodeUI : MonoBehaviour
         GameManager.instance.onSummonHero += CanCombineHero;
     }
 
-    public void SetName(string name) { heroName.text = name; }
-
-
     public void SetHeroData(HeroScriptable mainHero, List<HeroScriptable> subHero)
     { 
         this.mainHero = mainHero;   
         this.subHero = subHero;
+        this.heroImage.sprite = mainHero.heroMainImage;
+        this.heroName.text = mainHero.heroName;
         CanCombineHero();
     }
 
-    public void AddHeroUI(GameObject gameObject)
-    {
-        gameObject.transform.SetParent(horizontalLayout);
-    }
 
     private void Combine()
     {
         if (canCombine)
         {
-            for (int i = 0; i < heroHolders.Count; i++)
-            {
-                heroHolders[i].Sell();
-            }
-
-            Spawner.instance.Summon(mainHero.rarity.ToString(),mainHero);
+            StartCoroutine(CombineCoroutine());
         }
+    }
+
+    private IEnumerator CombineCoroutine()
+    {
+        for (int i = 0; i < heroHolders.Count; i++)
+        {
+            heroHolders[i].Sell();
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        Spawner.instance.Summon(mainHero.heroName);
     }
 
     public void CanCombineHero()
@@ -76,11 +77,11 @@ public class CombineNodeUI : MonoBehaviour
 
         if (heroList.Count <= 0)
         {
-            combineButton.GetComponent<Image>().color = deActiveColor;
+            combineButton.interactable = true;
             canCombine = true;
         }
         else {
-            combineButton.GetComponent<Image>().color = activeColor;
+            combineButton.interactable = false;
             canCombine = false;
             heroHolders.Clear();
         }

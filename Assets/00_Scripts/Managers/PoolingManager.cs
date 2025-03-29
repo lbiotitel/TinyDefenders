@@ -70,6 +70,7 @@ public class PoolingManager : MonoBehaviour
     private void ClearObject()
     {
         DateTime dateTime = DateTime.Now;
+        List<GameObject> removeKey = new List<GameObject>();
 
         foreach (var data in clearObjectDic)
         {
@@ -84,7 +85,6 @@ public class PoolingManager : MonoBehaviour
                     instanceToPrefabMap.Remove(go);
                     Destroy(go);
                 }
-                poolDictionary.Remove(data.Key);
             }
         }
     }

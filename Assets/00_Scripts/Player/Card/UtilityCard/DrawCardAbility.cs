@@ -11,6 +11,8 @@ public class DrawCardAbility : CardAbilityBase
             CardManager.instance.DrawCard();
         }
 
+        CardManager.instance.SortCard();
+
         Destroy(gameObject);
     }
 }

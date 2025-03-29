@@ -50,23 +50,25 @@ public class HeroHolder : NetworkBehaviour
 
     public void ShowHeroRange()
     {
-        float range = heroData.atkRange.GetValue();
-        heroRange.localScale = Vector2.one * range;
+        if (ownHero == null) return;
 
+        heroRange.localScale = Vector2.one * ownHero.GetHeroAtkRange();
         heroRange.gameObject.SetActive(true);
     }
 
     public void HideHeroRange()
     {
+        if (ownHero == null) return;
+
         heroRange.gameObject.SetActive(false);
         heroRange.localScale = Vector2.zero;
     }
 
-    public void SpawnHero(string heroName, string rarity)
+    public void SpawnHero(string heroName)
     {
         if (IsServer)
         {
-            HeroSpawn(NetUtils.GetLocalD(), heroName, rarity);
+            HeroSpawn(NetUtils.GetLocalD(), heroName);
         }
     }
 
@@ -91,43 +93,21 @@ public class HeroHolder : NetworkBehaviour
         if (ownHero == null) return;
         ulong heroId = ownHero.NetworkObjectId;
         NetworkObject obj = NetworkManager.SpawnManager.SpawnedObjects[heroId];
-        SellClientRpc(heroId, clientId);
+        SellClientRpc();
         obj.Despawn();
     }
 
     [ClientRpc]
-    private void SellClientRpc(ulong heroKey, ulong clientId)
+    private void SellClientRpc()
     {
-        NetworkObject obj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[heroKey];
-        ownHero = null;
-        if (ownHero == null)
-        {
-            DespawnHolderServerRpc(clientId);
-        }
-        ClientSetPosition();
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void DespawnHolderServerRpc(ulong clientId)
-    {
-        DespawnHolderClientRpc(clientId,NetworkObjectId);
         holderName = string.Empty;
         ownHero = null;
+        ClientSetPosition();
+        HideOwnMark();
+        HideHeroRange();
+        HideHeroMoveTargetMark();
     }
 
-    [ClientRpc]
-    private void DespawnHolderClientRpc(ulong clientId,ulong networkObjectId)
-    {
-        if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject heroHolder))
-        {
-            HeroHolder holder = heroHolder.GetComponent<HeroHolder>();
-            holder.holderName = string.Empty;
-            ownHero = null;
-            HideOwnMark();
-            HideHeroRange();
-            HideHeroMoveTargetMark();
-        }
-    }
 
     #endregion
 
@@ -139,16 +119,15 @@ public class HeroHolder : NetworkBehaviour
         ownHero.SwapPosition(newHeroHolder, newHeroHolder.transform.TransformPoint(Vector2.zero));
     }
 
-    private void HeroSpawn(ulong clientId, string heroName, string rarity)
+    private void HeroSpawn(ulong clientId, string heroName)
     {
         Hero hero = Instantiate(heroPrefab);
-        
 
         NetworkObject networkObject = hero.GetComponent<NetworkObject>();
         networkObject.Spawn();
         hero.transform.parent = this.transform;
 
-        UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId, heroName, rarity);
+        UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId, heroName);
     }
 
 
@@ -166,7 +145,7 @@ public class HeroHolder : NetworkBehaviour
 
 
     [ClientRpc]
-    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId, ulong clientId, string heroName, string rarity)
+    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId, ulong clientId, string heroName)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject networkObject))
         {
@@ -177,7 +156,7 @@ public class HeroHolder : NetworkBehaviour
             this.ownHero = hero;
             this.holderName = heroData.heroName;
             this.heroData = heroData;
-            hero.InitHeroData(heroData, this, rarity);
+            hero.InitHeroData(heroData, this);
             ClientSetPosition();
         }
     }

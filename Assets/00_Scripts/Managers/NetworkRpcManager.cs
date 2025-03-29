@@ -160,4 +160,18 @@ public class NetworkRpcManager : NetworkBehaviour
     }
 
     #endregion
+
+
+    #region About Hero Synergy Data
+
+    [ClientRpc]
+    public void GetHHeroSynergyDatasClientRpc(int[] heroTribe, int[] synergyLevel)
+    {
+        for (int i = 0; i < heroTribe.Length; i++)
+        {
+            PlayerStatManager.instance.SetClientHeroSynergyData(NetUtils.GetPlayerNetworkType(), (HeroTribe)heroTribe[i], synergyLevel[i]);
+        }
+    }
+
+    #endregion
 }

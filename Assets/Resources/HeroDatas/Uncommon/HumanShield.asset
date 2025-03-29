@@ -13,19 +13,31 @@ MonoBehaviour:
   m_Name: HumanShield
   m_EditorClassIdentifier: 
   heroName: HumanShield
-  rarity: 0
+  rarity: 1
   atk:
     baseValue: 10
+    modifiers: []
   damage:
     baseValue: 0
-  criticalRate:
-    baseValue: 0
+    modifiers: []
   atkSpeed:
     baseValue: 2
+    modifiers: []
   atkRange:
     baseValue: 1.5
+    modifiers: []
+  skillAcc:
+    baseValue: 0
+    modifiers: []
+  criticalRate:
+    baseValue: 0
+    modifiers: []
+  criticalDamage:
+    baseValue: 0
+    modifiers: []
   heroDesc: "\uC801\uC744 \uACF5\uACA9\uC2DC 30% \uD655\uB960\uB85C 1.5\uCD08\uAC04
     \uAE30\uC808 \uC2DC\uD0A8\uB2E4."
+  heroTribe: 0
   heroMainImage: {fileID: 6827581200123067571, guid: ba7db6e1c44e61e408df6b0e53de4f80, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 18dea99f4b2c2e34f8cb80fb9b30d6a7, type: 2}
   projectile: {fileID: 2786315958115145823, guid: 1e8d4a163928ec145a407de77c93de69, type: 3}
@@ -34,11 +46,13 @@ MonoBehaviour:
     values:
     - 30
     - 1.5
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
+    skillDuration: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0

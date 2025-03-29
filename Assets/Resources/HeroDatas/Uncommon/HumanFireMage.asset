@@ -13,26 +13,41 @@ MonoBehaviour:
   m_Name: HumanFireMage
   m_EditorClassIdentifier: 
   heroName: HumanFireMage
-  rarity: 0
+  rarity: 1
   atk:
     baseValue: 2
+    modifiers: []
   damage:
     baseValue: 0
-  criticalRate:
-    baseValue: 0
+    modifiers: []
   atkSpeed:
     baseValue: 1
+    modifiers: []
   atkRange:
     baseValue: 3
+    modifiers: []
+  skillAcc:
+    baseValue: 0
+    modifiers: []
+  criticalRate:
+    baseValue: 0
+    modifiers: []
+  criticalDamage:
+    baseValue: 0
+    modifiers: []
+  heroDesc: 
+  heroTribe: 0
   heroMainImage: {fileID: -1261396374, guid: dfddf47ba9b2bfa41a02f05179720abf, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 971e57fb9cc57ad4a9ff795f97b451ab, type: 2}
   projectile: {fileID: 6170028381908909986, guid: 8fdf5dd206ef33f4491d919abea7b88c, type: 3}
   debuffEffects: []
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
+    skillDuration: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0

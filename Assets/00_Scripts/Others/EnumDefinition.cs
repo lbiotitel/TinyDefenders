@@ -10,6 +10,7 @@ public enum CardType{
 public struct SceneName {
     public static string MainScene = "MainScene";
     public static string GameScene = "GamePlayScene";
+    public static string IntroScene = "IntroScene";
 }
 
 public struct LayerName {

@@ -307,17 +307,14 @@ public class Spawner : NetworkBehaviour
 
     #region Hero spawn
 
-    public HeroScriptable LoadData(string rarity)
+    public HeroScriptable LoadData(string heroName)
     {
-        Debug.Log(rarity);
-        HeroScriptable[] heroDatas = Resources.LoadAll<HeroScriptable>("HeroDatas/" + rarity);
+        HeroScriptable heroData = SoDataManager.instance.GetHeroScriptableData(heroName);
 
-        HeroScriptable data = heroDatas[UnityEngine.Random.Range(0, heroDatas.Length)];
-
-        return data;
+        return heroData;
     }
 
-    private void HeroSpawn(ulong clientId, string rarity, string heroName)
+    private void HeroSpawn(ulong clientId, string heroName)
     {
         string temp = clientId == 0 ? "HOST" : "CLIENT";
         int value = clientId == 0 ? 0 : 1;
@@ -327,13 +324,13 @@ public class Spawner : NetworkBehaviour
 
         if (findHeroHolder != null)
         {
-            findHeroHolder.SpawnHero(heroName, rarity);
+            findHeroHolder.SpawnHero(heroName);
             return;
         }
 
         NetworkObject networkObject = heroHolders[heroHolderId].GetComponent<NetworkObject>();
 
-        HeroSpawnClientRpc(networkObject.NetworkObjectId, heroName, rarity, value);
+        HeroSpawnClientRpc(networkObject.NetworkObjectId, heroName, value);
     }
 
     public Vector3 GetHolderPosition(HeroScriptable heroData)
@@ -368,33 +365,31 @@ public class Spawner : NetworkBehaviour
 
 
     [ClientRpc]
-    private void HeroSpawnClientRpc(ulong networkObjectId, string heroName, string rarity, int value)
+    private void HeroSpawnClientRpc(ulong networkObjectId, string heroName, int value)
     {
         if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject networkObject))
         {
             HeroHolder heroHolder = networkObject.GetComponent<HeroHolder>();
             heroHolderValue[value]++;
-            heroHolder.SpawnHero(heroName, rarity);
+            heroHolder.SpawnHero(heroName);
         }
     }
 
 
     [ServerRpc(RequireOwnership = false)]
-    private void HeroSpawnServerRpc(ulong cleintId, string rarity, string dataName)
+    private void HeroSpawnServerRpc(ulong cleintId, string dataName)
     {
-        HeroSpawn(cleintId, rarity, dataName);
+        HeroSpawn(cleintId, dataName);
     }
 
     //캐릭터 소환
-    public void Summon(string rarity, HeroScriptable heroScriptableData = null)
+    public void Summon(string heroName)
     {
-        heroData = heroScriptableData;
-        if (heroScriptableData == null)
-            heroData = LoadData(rarity);
+       HeroScriptable heroData = LoadData(heroName);
 
         NetUtils.HostAndClientMethod(
-            () => HeroSpawnServerRpc(NetUtils.GetLocalD(), rarity, heroData.name),
-            () => HeroSpawn(NetUtils.GetLocalD(), rarity, heroData.name)
+            () => HeroSpawnServerRpc(NetUtils.GetLocalD(), heroData.name),
+            () => HeroSpawn(NetUtils.GetLocalD(), heroData.name)
             );
     }
 
@@ -434,6 +429,6 @@ public class Spawner : NetworkBehaviour
         }
 
         Destroy(effect);
-        Spawner.instance.Summon(heroData.rarity.ToString(), heroData);
+        Spawner.instance.Summon(heroData.heroName);
     }
 }

@@ -63,7 +63,7 @@ public class SkillContainer : NetworkBehaviour
                     skillDelay = true;
                     skillDelayCoroutine = StartCoroutine(SkillDelayCoroutine());
                     ActiveSkillClientRpc();
-                    EventManager.instance.heroUseSkillAction?.Invoke(hero);
+                    EventManager.instance.onHeroUseSkillAction?.Invoke(hero);
                 }
             }
         }

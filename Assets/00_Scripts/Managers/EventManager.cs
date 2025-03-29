@@ -14,7 +14,8 @@ public class EventManager : MonoBehaviour
     }
 
 
-    public UnityAction<Hero> heroUseSkillAction;
+    public UnityAction<Hero> onHeroUseSkillAction;
+    public UnityAction onHeroSynergyChangedAction;
 
 
     private void ReleaseHeroAction(ref UnityAction<Hero> unityAction)
@@ -28,10 +29,22 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    private void ReleaseAction(ref UnityAction unityAction)
+    {
+        if (unityAction != null)
+        {
+            foreach (var d in unityAction.GetInvocationList())
+            {
+                unityAction -= (UnityAction)d;
+            }
+        }
+    }
+
     private void OnDestroy()
     {
-        ReleaseHeroAction(ref heroUseSkillAction);
-        heroUseSkillAction = null;
+        ReleaseHeroAction(ref onHeroUseSkillAction);
+        ReleaseAction(ref onHeroSynergyChangedAction);
+        onHeroUseSkillAction = null;
         instance = null;
     }
 }
