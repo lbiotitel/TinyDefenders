@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: UndeadGhost
+  m_EditorClassIdentifier: 
+  heroName: UndeadGhost
+  rarity: 1
+  atk:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  damage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  atkSpeed:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  atkRange:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  heroDesc: 
+  heroTribe: 0
+  heroMainImage: {fileID: 1443308401, guid: 40d13055e2ac1b5468b9e51a1330c49c, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: a0c3f6c1c09ff4b40a98c923a962c2b7, type: 2}
+  projectile: {fileID: 5265102924946686861, guid: c3bd7591cfc2d434c9d6307eb91745c8, type: 3}
+  debuffEffects: []
+  skillDebuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    skillDuration: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0

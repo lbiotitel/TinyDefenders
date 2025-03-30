@@ -13,17 +13,28 @@ MonoBehaviour:
   m_Name: ScavengerCaptain
   m_EditorClassIdentifier: 
   heroName: ScavengerCaptain
-  rarity: 0
+  rarity: 3
   atk:
-    baseValue: 100
+    <baseValue>k__BackingField: 0
+    modifiers: []
   damage:
-    baseValue: 0
-  criticalRate:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
+    modifiers: []
   atkSpeed:
-    baseValue: 2
+    <baseValue>k__BackingField: 0
+    modifiers: []
   atkRange:
-    baseValue: 2
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
   heroDesc: 
   heroTribe: 6
   heroMainImage: {fileID: -1362523885457534645, guid: fb59afa6c25a9d143b261153ff800c6a, type: 3}

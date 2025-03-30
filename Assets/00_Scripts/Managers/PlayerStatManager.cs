@@ -27,6 +27,7 @@ public class PlayerStatManager : MonoBehaviour
     [field: SerializeField] public Stat serverAtkSpeed;
     [field: SerializeField] public Stat serverGoldBonus;
     [field: SerializeField] public Stat serverSkillAcc;
+    [field: SerializeField] public Stat serverCriticalRate;
 
 
 
@@ -35,7 +36,7 @@ public class PlayerStatManager : MonoBehaviour
     [field: SerializeField] public Stat clientAtkSpeed;
     [field: SerializeField] public Stat clientGoldBouns;
     [field: SerializeField] public Stat clientSkillAcc;
-
+    [field: SerializeField] public Stat clientCriticalRate;
 
 
     private Dictionary<HeroTribe, HeroSynergySO> clientHeroSynergyDic = new Dictionary<HeroTribe, HeroSynergySO>();
@@ -70,12 +71,10 @@ public class PlayerStatManager : MonoBehaviour
     {
         if (hero.heroOwner == NetworkObjectType.HOST)
         {
-            Debug.Log("서버 영웅 추가");
             serverHeroSynergyDic[hero.GetHeroData().heroTribe]?.IncreaseTribeCount();
         }
         else
         {
-            Debug.Log("클라 영웅 추가");
             clientHeroSynergyDic[hero.GetHeroData().heroTribe]?.IncreaseTribeCount();
         }
 
@@ -142,7 +141,6 @@ public class PlayerStatManager : MonoBehaviour
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         {
             clientHeroSynergyDic[heroTribe].SetCurrentHeroSynergyLevel(synergyLevel);
-            Debug.Log(heroTribe.ToString() + synergyLevel.ToString());
         }
         EventManager.instance.onHeroSynergyChangedAction?.Invoke();
     }

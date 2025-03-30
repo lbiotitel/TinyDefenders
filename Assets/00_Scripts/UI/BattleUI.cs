@@ -8,7 +8,7 @@ public class BattleUI : MonoBehaviour
 
     [Header("Random Matching")]
     [SerializeField] private Button startMatchingButton;
-    [SerializeField] private Button cancleButton;
+    [SerializeField] private Button randomMatchingCancleButton;
     [SerializeField] private GameObject matchingUI;
 
     [Header("Friend Matching")]
@@ -32,16 +32,9 @@ public class BattleUI : MonoBehaviour
 
     private void InitButtons()
     {
-        startMatchingButton.onClick.AddListener(() =>
-        {
-            netManager.StartMatching();
-            ShowMathcingUI();
-        });
+        startMatchingButton.onClick.AddListener(StartRandomMathcing);
 
-        cancleButton.onClick.AddListener(() => {
-            netManager.DestroyLobby();
-            HideMatchingUI();
-        });
+        randomMatchingCancleButton.onClick.AddListener(DestroyRandomMatching);
 
         firendMatchingButton.onClick.AddListener(ShowFriendMatchingUI);
 
@@ -109,6 +102,27 @@ public class BattleUI : MonoBehaviour
         else { 
             //제대로된 코드를 입력하세요
         }
+    }
+
+
+    private async void StartRandomMathcing()
+    {
+        ShowMathcingUI();
+        randomMatchingCancleButton.interactable = false;
+        bool result = await netManager.StartRandomMatching();
+        if (result)
+        {
+            randomMatchingCancleButton.interactable = true;
+        }
+        else {
+            HideMatchingUI();   
+        }
+    }
+
+    private void DestroyRandomMatching()
+    {
+        netManager.DestroyLobby();
+        HideMatchingUI();
     }
 
     private void ShowMathcingUI()

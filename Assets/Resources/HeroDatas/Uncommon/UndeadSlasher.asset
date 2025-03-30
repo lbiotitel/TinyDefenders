@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: UndeadSlasher
+  m_EditorClassIdentifier: 
+  heroName: UndeadSlasher
+  rarity: 1
+  atk:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  damage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  atkSpeed:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  atkRange:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  heroDesc: "\uB3C4\uC0B4 \uD574\uBC84\uB838!\n"
+  heroTribe: 0
+  heroMainImage: {fileID: 1470244543, guid: a507c4784b8946f49b711be170f6a3a6, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 8e33b4cf8d03381489310a9f88b84e1d, type: 2}
+  projectile: {fileID: 5265102924946686861, guid: 22f3128ee17a22e47b2fe33c035e5461, type: 3}
+  debuffEffects: []
+  skillDebuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    skillDuration: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0

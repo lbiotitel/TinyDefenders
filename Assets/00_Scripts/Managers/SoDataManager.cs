@@ -13,6 +13,7 @@ public class SoDataManager : MonoBehaviour
             InitAllHeroScriptableObject();
             InitAllSpellCardSciprtableObject();
             InitAllHeroSynergyData();
+            InitAllCombineData();
             DontDestroyOnLoad(gameObject);
         }
         else {
@@ -23,7 +24,42 @@ public class SoDataManager : MonoBehaviour
     private Dictionary<string, HeroScriptable> heroSciprtableDataDic;
     private Dictionary<string, CardSO> spellCardScriptableDataDic;
     private Dictionary<string, HeroSynergySO> heroSynergySODataDic;
+    private Dictionary<string, CombineSciptable> combineSODataDic;
 
+
+    #region About Combine Data
+
+    private void InitAllCombineData()
+    {
+        combineSODataDic = new Dictionary<string, CombineSciptable>();
+
+        for (int rarity = (int)HeroRarity.Uncommon; rarity <= (int)HeroRarity.Legend; rarity++)
+        {
+            string rare = ((HeroRarity)rarity).ToString();
+            CombineSciptable[] combineDatas = Resources.LoadAll<CombineSciptable>($"CombineHeroData/{rare}");
+
+            for (int i = 0; i < combineDatas.Length; i++)
+            {
+                combineSODataDic.Add(combineDatas[i].mainHeroData.heroName, combineDatas[i]);
+            }
+        }
+    }
+
+    public List<CombineSciptable> GetAllCombineData()
+    { 
+        List<CombineSciptable> combineList = new List<CombineSciptable>();
+
+        foreach (var data in combineSODataDic)
+        {
+            combineList.Add(data.Value);
+        }
+
+        return combineList;
+    }
+
+
+
+    #endregion
 
 
     #region About Hero Synergy Data 

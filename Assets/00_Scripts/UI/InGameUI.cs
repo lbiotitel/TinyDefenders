@@ -38,7 +38,10 @@ public class InGameUI : NetworkBehaviour
     public bool profileAnimationReady = false;
 
     [Header("Upgarde UI")]
-    [SerializeField] private UpgradeUINode[] upgradeUINodes;
+    [SerializeField] private UpgradeUI upgradeUI;
+
+    [Header("Hero Combine UI")]
+    [SerializeField] private CombineUI combineUI;
 
     [Header("Wave UI")]
     [SerializeField] private GameObject waveUI;
@@ -72,7 +75,7 @@ public class InGameUI : NetworkBehaviour
         if (profileAnimator.gameObject.activeSelf == false)
             profileAnimator.gameObject.SetActive(true);
         heroInfoUI.HideHeroInfoUI();
-        RedrawUpgradeUINodes();
+        RedrawUpgradeUI();
     }
 
 
@@ -143,14 +146,35 @@ public class InGameUI : NetworkBehaviour
     private void Update()
     {
         DrawMainUI();
-        CheckOptionButton();
+        CheckOptionKey();
+        CheckHeroRecipeKey();
+        CheckHeroUpgradeKey();
     }
 
-    private void CheckOptionButton()
+    private void CheckOptionKey()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            optionUI.ShowOptionUI();
+            if(!optionUI.gameObject.activeSelf)optionUI.ShowOptionUI();
+            else optionUI.HideOptionUI();
+        }
+    }
+
+    private void CheckHeroUpgradeKey()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if(!upgradeUI.gameObject.activeSelf)upgradeUI.ShowUpgradeUI();
+            else upgradeUI.HideUpgradeUI();
+        }
+    }
+
+    private void CheckHeroRecipeKey() 
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if(!combineUI.gameObject.activeSelf)combineUI.ShowHeroCombineUI();
+            else combineUI.HideHeroCombineUI();
         }
     }
 
@@ -220,21 +244,18 @@ public class InGameUI : NetworkBehaviour
 
     #endregion
 
+    #region About Upgrade UI
 
-    #region Upgrade UI
+    public void RedrawUpgradeUI()
+    {
+        upgradeUI.RedrawUpgradeUINodes();
+    }
 
     public void ClickUpgradeButton(HeroTribe heroTribe)
     {
-        NetworkRpcManager.instance.UpgradeHeroServerRpc((int)heroTribe,NetUtils.IsHost());
-    }
-
-    public void RedrawUpgradeUINodes()
-    {
-        for (int i = 0; i < upgradeUINodes.Length; i++)
-        {
-            upgradeUINodes[i].InitUpgradeUI();
-        }
+        upgradeUI.ClickUpgradeButton(heroTribe);
     }
 
     #endregion
+
 }

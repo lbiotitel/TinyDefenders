@@ -20,8 +20,10 @@ public class GameSettingData
 public class GameSettingDefinition
 {
     public static List<Vector2> resolutionList = new List<Vector2> {
-        new Vector2(1280,720),
+        new Vector2(1440,900),
+        new Vector2(1600,900),
         new Vector2(1920,1080),
+        new Vector2(2560,1080),
         new Vector2(2560,1440),
         new Vector2(3840,1440)
     };

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4f6592722b314d45abea3e658de0156, type: 3}
+  m_Name: Combine ElfHorseKnight
+  m_EditorClassIdentifier: 
+  mainHeroData: {fileID: 11400000, guid: 1d3239676f2e31144a8b68b3e78c0a89, type: 2}
+  subHeroDatas:
+  - {fileID: 11400000, guid: b38ffbd341b4b404790e52b77c3d6f97, type: 2}
+  - {fileID: 11400000, guid: 46bc5c77cb56e3a44b504f9e73d968e8, type: 2}

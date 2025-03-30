@@ -13,29 +13,41 @@ MonoBehaviour:
   m_Name: ScavengerVagabond
   m_EditorClassIdentifier: 
   heroName: ScavengerVagabond
-  rarity: 0
+  rarity: 3
   atk:
-    baseValue: 120
+    <baseValue>k__BackingField: 0
+    modifiers: []
   damage:
-    baseValue: 0
-  criticalRate:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
+    modifiers: []
   atkSpeed:
-    baseValue: 3
+    <baseValue>k__BackingField: 0
+    modifiers: []
   atkRange:
-    baseValue: 2
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
   heroDesc: 
   heroTribe: 6
   heroMainImage: {fileID: 1951152065, guid: af6f3d5ff74dad342bb1f804396491da, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 674b96fce4123db47b3a7c877a256142, type: 2}
   projectile: {fileID: 2819403659766304229, guid: 419d7e5451930e54e9c97700c2f75fbc, type: 3}
   debuffEffects: []
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
+    skillDuration: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0
-    debuffEffects: []

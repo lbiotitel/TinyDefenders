@@ -127,7 +127,7 @@ public class NetworkRpcManager : NetworkBehaviour
             if (isServer)
             {
                 PlayerStatManager.instance.serverUpgrade.Upgrade(tribe);
-                InGameUI.instance.RedrawUpgradeUINodes();
+                InGameUI.instance.RedrawUpgradeUI();
             }
             else
             {
@@ -156,7 +156,7 @@ public class NetworkRpcManager : NetworkBehaviour
             PlayerStatManager.instance.clientUpgrade.SetHeroUpgradeLevel((HeroTribe)tribeIndex, upgradeLevels[tribeIndex]);
             PlayerStatManager.instance.clientUpgrade.SetHeroUpgradeCost((HeroTribe)tribeIndex, upgradeCosts[tribeIndex]);
         }
-        InGameUI.instance.RedrawUpgradeUINodes();
+        InGameUI.instance.RedrawUpgradeUI();
     }
 
     #endregion

@@ -77,31 +77,32 @@ public class HeroHolder : NetworkBehaviour
     public void Sell()
     {
         NetUtils.HostAndClientMethod(
-            () => SellServerRpc(NetUtils.GetLocalD()),
-            () => SellHero(NetUtils.GetLocalD())
+            () => SellServerRpc(),
+            () => SellHero()
          );
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void SellServerRpc(ulong clientId)
+    private void SellServerRpc()
     {
-        SellHero(clientId);
+        SellHero();
     }
 
-    private void SellHero(ulong clientId)
+    private void SellHero()
     {
         if (ownHero == null) return;
         ulong heroId = ownHero.NetworkObjectId;
         NetworkObject obj = NetworkManager.SpawnManager.SpawnedObjects[heroId];
-        SellClientRpc();
         obj.Despawn();
+        ClearHeroHolderClientRpc();
     }
 
     [ClientRpc]
-    private void SellClientRpc()
+    private void ClearHeroHolderClientRpc()
     {
         holderName = string.Empty;
         ownHero = null;
+        heroData = null;
         ClientSetPosition();
         HideOwnMark();
         HideHeroRange();

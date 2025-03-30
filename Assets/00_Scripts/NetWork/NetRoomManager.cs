@@ -87,12 +87,12 @@ public partial class NetManager : MonoBehaviour
 
     #region About Random Matching
 
-    public async void StartMatching()
+    public async Task<bool> StartRandomMatching()
     {
         if (!AuthenticationService.Instance.IsSignedIn)
         {
             Debug.Log("로그인이 되지않음");
-            return;
+            return false;
         }
 
         currentLobby = await FindAvailableLobby();
@@ -105,6 +105,8 @@ public partial class NetManager : MonoBehaviour
         {
             await QuickJoinLobby();
         }
+
+        return true;
     }
 
     private async Task<Lobby> FindAvailableLobby()

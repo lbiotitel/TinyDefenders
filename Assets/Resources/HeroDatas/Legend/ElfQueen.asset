@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: ElfQueen
+  m_EditorClassIdentifier: 
+  heroName: ElfQueen
+  rarity: 3
+  atk:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  damage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  atkSpeed:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  atkRange:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  heroDesc: 
+  heroTribe: 4
+  heroMainImage: {fileID: -1005996560, guid: 3aebda51e80ac19409a5f9f49902b55d, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 1bb380d8d35d2894c89b66be2cce12bd, type: 2}
+  projectile: {fileID: 5768237605364998125, guid: 48cdbde9b606cbe498c3da5aae3546b0, type: 3}
+  debuffEffects: []
+  skillDebuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    skillDuration: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0

@@ -218,12 +218,6 @@ public class Hero : Entity
 
     #endregion
 
-    public override void OnDestroy()
-    {
-        base.OnDestroy();
-        GameManager.instance.RemoveHero(this);
-    }
-
     public double GetHeroAtk()
     {
         double atk = heroData.atk.GetValue();
@@ -311,5 +305,6 @@ public class Hero : Entity
     {
         base.OnNetworkDespawn();
         if (IsServer) PlayerStatManager.instance.RemoveHero(this);
+        GameManager.instance.RemoveHero(this);
     }
 }

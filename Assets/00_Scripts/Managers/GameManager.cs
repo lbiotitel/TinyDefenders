@@ -7,7 +7,6 @@ using UnityEngine;
 
 public delegate void OnGoldGetEventHandler();
 public delegate void OnTimerUpEventHandler(string monsterName);
-public delegate void OnSummonHeroEventHandler();
 public delegate void OnGameOver();
 public class GameManager : NetworkBehaviour
 {
@@ -53,14 +52,14 @@ public class GameManager : NetworkBehaviour
     //event
     public event OnGoldGetEventHandler onGoldGet;
     public event OnTimerUpEventHandler onTimerUp;
-    public event OnSummonHeroEventHandler onSummonHero;
     public event OnGameOver onGameOver;
 
     private List<Monster> monsterList = new List<Monster>();
 
     private WaveScriptable[] waveData = null;
 
-    private List<Hero> heroList = new List<Hero>();
+    private List<Hero> clientHeroList = new List<Hero>();
+    private List<Hero> serverHeroList = new List<Hero>();
 
 
 
@@ -91,7 +90,7 @@ public class GameManager : NetworkBehaviour
     {
         isGameStart = true;
         CardManager.instance.RerollCard(true);
-        SoundManager.instance.PlayMusicSound("InGameBgm",true);
+        SoundManager.instance.PlayMusicSound("InGameBgm", true);
     }
 
 
@@ -324,16 +323,47 @@ public class GameManager : NetworkBehaviour
 
     public void AddHero(Hero hero)
     {
-        heroList.Add(hero);
-        currentHeroCount++;
-        onSummonHero?.Invoke();
+        PlayerNetworkType playerNetworkType = NetUtils.GetPlayerNetworkType();
+
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverHeroList.Add(hero);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientHeroList.Add(hero);
+                break;
+        }
+        EventManager.instance.onHeroSummonAction?.Invoke();
     }
 
     public void RemoveHero(Hero hero)
     {
-        heroList.Remove(hero);
-        currentHeroCount--;
-        onSummonHero?.Invoke();
+        PlayerNetworkType playerNetworkType = NetUtils.GetPlayerNetworkType();
+
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverHeroList.Remove(hero);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientHeroList.Remove(hero);
+                break;
+        }
+        EventManager.instance.onHeroDespawnAction?.Invoke();
+    }
+
+    public List<Hero> GetHeroList(PlayerNetworkType playerNetworkType)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                return serverHeroList;
+            case PlayerNetworkType.CLIENT:
+                return clientHeroList;
+        }
+
+        return null;
     }
 
     public bool IsEnoughGold(int gold)
@@ -342,7 +372,7 @@ public class GameManager : NetworkBehaviour
         return true;
     }
 
-    public List<Hero> GetHeroList() { return heroList; }
+
 
     public void SummonGoldGoblin()
     {

@@ -25,7 +25,7 @@ public class InGameOptionUI : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void HideOption()
+    public void HideOptionUI()
     { 
         gameObject.SetActive(false);
     }

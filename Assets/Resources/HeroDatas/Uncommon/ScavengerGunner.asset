@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: ScavengerGunner
+  m_EditorClassIdentifier: 
+  heroName: ScavengerGunner
+  rarity: 1
+  atk:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  damage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  atkSpeed:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  atkRange:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  heroDesc: 
+  heroTribe: 6
+  heroMainImage: {fileID: 1755501528, guid: 32010947822684a4b8a66afe60505b66, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: a26fdcd85b3c30f48ab330d434c364a0, type: 2}
+  projectile: {fileID: 2534457697127531987, guid: 40e033455aeba4c4bb0fe52111a6fc9f, type: 3}
+  debuffEffects: []
+  skillDebuffEffects: []
+  skillData:
+    coolTime: 0
+    skillPrefab: {fileID: 0}
+    skillDamage: 0
+    targetCount: 0
+    skillDuration: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0

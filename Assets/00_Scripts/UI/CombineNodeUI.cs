@@ -1,35 +1,40 @@
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CombineNodeUI : MonoBehaviour
+public class CombineNodeUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 {
     [SerializeField] private TextMeshProUGUI heroName;
     [SerializeField] private Image heroImage;
     [SerializeField] private Button combineButton;
 
     private HeroScriptable mainHero;
-    private List<HeroScriptable> subHero;
-    private List<HeroHolder> heroHolders = new List<HeroHolder>();
-
+    private List<HeroScriptable> subHeroList;
+    private List<HeroHolder> combineHeroHolderList = new List<HeroHolder>();
+    private CombineUI combineUI;
     private bool canCombine = false;
+
+
 
     private void Start()
     {
         combineButton.onClick.AddListener(() => { Combine(); });
-        GameManager.instance.onSummonHero += CanCombineHero;
+        EventManager.instance.onHeroSummonAction += CanCombineHero;
+        //EventManager.instance.onHeroDespawnAction += CanCombineHero;
     }
 
-    public void SetHeroData(HeroScriptable mainHero, List<HeroScriptable> subHero)
+    public void SetHeroData(HeroScriptable mainHero, List<HeroScriptable> subHero,CombineUI combineUI)
     { 
         this.mainHero = mainHero;   
-        this.subHero = subHero;
+        this.subHeroList = subHero;
         this.heroImage.sprite = mainHero.heroMainImage;
         this.heroName.text = mainHero.heroName;
-        CanCombineHero();
+        this.combineUI = combineUI;
     }
 
 
@@ -37,53 +42,78 @@ public class CombineNodeUI : MonoBehaviour
     {
         if (canCombine)
         {
-            StartCoroutine(CombineCoroutine());
+            for (int i = 0; i < combineHeroHolderList.Count; i++)
+            {
+                combineHeroHolderList[i].Sell();
+            }
+
+            Spawner.instance.Summon(mainHero.heroName);
+
+            CanCombineHero();
         }
-    }
-
-    private IEnumerator CombineCoroutine()
-    {
-        for (int i = 0; i < heroHolders.Count; i++)
-        {
-            heroHolders[i].Sell();
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        yield return new WaitForSeconds(0.1f);
-
-        Spawner.instance.Summon(mainHero.heroName);
     }
 
     public void CanCombineHero()
     {
-        List<HeroScriptable> heroList = new List<HeroScriptable>(subHero);
-        foreach (var heroHolder in Spawner.instance.heroHolders)
+
+        combineHeroHolderList.Clear();
+
+        List<Hero> currentHeroList = GameManager.instance.GetHeroList(NetUtils.GetPlayerNetworkType());
+
+        Dictionary<string, int> combineHeroDic = new Dictionary<string, int>();
+
+        foreach(var hero in subHeroList)
         {
-            if (heroHolder.Value.holderId.Contains(NetUtils.IsHost() ? "HOST" : "CLIENT"))
+            if (combineHeroDic.ContainsKey(hero.heroName))
             {
-                if (heroHolder.Value.ownHero != null)
+                combineHeroDic[hero.heroName]++;
+            }
+            else { 
+                combineHeroDic.Add(hero.heroName, 1);
+            }
+        }
+
+        for (int i = 0; i < currentHeroList.Count; i++)
+        {
+            if (combineHeroDic.ContainsKey(currentHeroList[i].heroName))
+            {
+                if (combineHeroDic[currentHeroList[i].heroName] > 0)
                 {
-                    for (int j = 0; j < heroList.Count; j++)
-                    {
-                        if (heroList[j].heroName == heroHolder.Value.ownHero.heroName)
-                        {
-                            heroList.Remove(heroList[j]);
-                            heroHolders.Add(heroHolder.Value);
-                        }
-                    }
+                    combineHeroDic[currentHeroList[i].heroName]--;
+                    combineHeroHolderList.Add(currentHeroList[i].GetHeroHolder());
                 }
             }
         }
 
-        if (heroList.Count <= 0)
+        bool isEnough = true;
+
+        foreach (var data in combineHeroDic)
+        {
+            if (data.Value > 0) isEnough = false;
+        }
+
+
+        if (isEnough)
         {
             combineButton.interactable = true;
             canCombine = true;
         }
         else {
+            combineHeroHolderList.Clear();
             combineButton.interactable = false;
             canCombine = false;
-            heroHolders.Clear();
         }
+    }
+
+
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        combineUI.HideHeroInfoUI();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        combineUI.ShowHeroInfoUI(mainHero,transform);
     }
 }

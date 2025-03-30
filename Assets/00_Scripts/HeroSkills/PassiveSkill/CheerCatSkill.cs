@@ -8,7 +8,7 @@ public class CheerCatSkill : PassiveSkillBase
 
     protected override void ActiveSkill()
     {
-        List<Hero> buffHeroList = new List<Hero>();
+       /* List<Hero> buffHeroList = new List<Hero>();
         List<Hero> heroList = GameManager.instance.GetHeroList();
         float  buffAmount = heroData.skillData.buffAmount;
 
@@ -30,7 +30,7 @@ public class CheerCatSkill : PassiveSkillBase
             }
         }
 
-        StartCoroutine(BuffSkillCoroutine(buffHeroList,buffAmount));
+        StartCoroutine(BuffSkillCoroutine(buffHeroList,buffAmount));*/
     }
 
     private IEnumerator BuffSkillCoroutine(List<Hero> heroes,float buffAmount)

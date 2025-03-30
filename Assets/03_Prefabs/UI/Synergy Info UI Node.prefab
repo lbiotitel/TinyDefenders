@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8019260130748859997}
   - component: {fileID: 8862844771044404334}
   - component: {fileID: 3718527615646975105}
+  - component: {fileID: 7057377532407348785}
   m_Layer: 5
   m_Name: Synergy Info UI Node
   m_TagString: Untagged
@@ -107,8 +108,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   synergyNameText: {fileID: 888107808167134247}
   synergyLevelText: {fileID: 1104000781664482227}
-  synergyImage: {fileID: 0}
   heroSynergySO: {fileID: 0}
+--- !u!95 &7057377532407348785
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101640332088951913}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 97f9976545e59574faa055d4999ad54a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2431423494063005349
 GameObject:
   m_ObjectHideFlags: 0
