@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4f6592722b314d45abea3e658de0156, type: 3}
+  m_Name: Combine OrcWargRider
+  m_EditorClassIdentifier: 
+  mainHeroData: {fileID: 11400000, guid: 478fcab043cdb6b45b56fafdf283f8a6, type: 2}
+  subHeroDatas:
+  - {fileID: 11400000, guid: 74b911e9cdf7b7848a41f14f76613efd, type: 2}
+  - {fileID: 11400000, guid: 59ee31da575db384a9f530a6b68bec04, type: 2}

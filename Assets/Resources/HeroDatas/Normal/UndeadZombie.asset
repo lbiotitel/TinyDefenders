@@ -15,25 +15,39 @@ MonoBehaviour:
   heroName: UndeadZombie
   rarity: 0
   atk:
-    baseValue: 10
+    <baseValue>k__BackingField: 0
+    modifiers: []
   damage:
-    baseValue: 0
-  criticalRate:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
+    modifiers: []
   atkSpeed:
-    baseValue: 2
+    <baseValue>k__BackingField: 0
+    modifiers: []
   atkRange:
-    baseValue: 3
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
   heroDesc: "\uC0C1\uB300\uBC29\uC744 \uBB3C\uC5B4 \uB72F\uB294\uB2E4."
+  heroTribe: 2
   heroMainImage: {fileID: -404809712, guid: ec8e1f9b8aa3979458e2c96912cd1518, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 6737b0246e269ca478e095cae76e1246, type: 2}
   projectile: {fileID: 2520410901802840999, guid: ffd89c296473ef74380afa6108f4bde8, type: 3}
   debuffEffects: []
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
+    skillDuration: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0

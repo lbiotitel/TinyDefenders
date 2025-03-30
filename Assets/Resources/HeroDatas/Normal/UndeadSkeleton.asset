@@ -15,25 +15,39 @@ MonoBehaviour:
   heroName: UndeadSkeleton
   rarity: 0
   atk:
-    baseValue: 5
+    <baseValue>k__BackingField: 0
+    modifiers: []
   damage:
-    baseValue: 0
-  criticalRate:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
+    modifiers: []
   atkSpeed:
-    baseValue: 1
+    <baseValue>k__BackingField: 0
+    modifiers: []
   atkRange:
-    baseValue: 2
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
   heroDesc: "\uD574\uACE8\uC774\uB2E4!"
+  heroTribe: 2
   heroMainImage: {fileID: 60813948, guid: bda064f12a6e9824dbe70f1f80314ae3, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 91e2d1c3b74a8534696e009119392626, type: 2}
   projectile: {fileID: 2786315958115145823, guid: 19594b60bc6b4964c81f7f3111ea3352, type: 3}
   debuffEffects: []
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
+    skillDuration: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0

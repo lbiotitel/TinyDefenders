@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4f6592722b314d45abea3e658de0156, type: 3}
+  m_Name: Combine OrcAxeThrower
+  m_EditorClassIdentifier: 
+  mainHeroData: {fileID: 11400000, guid: c918730a69b1c24448f2c4f83dfdb7f3, type: 2}
+  subHeroDatas:
+  - {fileID: 11400000, guid: 59ee31da575db384a9f530a6b68bec04, type: 2}
+  - {fileID: 11400000, guid: a12bb0a0932e97f4ea6e40038458caf5, type: 2}

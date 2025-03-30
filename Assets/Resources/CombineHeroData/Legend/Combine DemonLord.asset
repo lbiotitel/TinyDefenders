@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4f6592722b314d45abea3e658de0156, type: 3}
+  m_Name: Combine DemonLord
+  m_EditorClassIdentifier: 
+  mainHeroData: {fileID: 11400000, guid: 5e68854fa1069ac45bd2d319b91268a4, type: 2}
+  subHeroDatas:
+  - {fileID: 11400000, guid: ce06591e49b7d294e976b2dcf9ff3b21, type: 2}
+  - {fileID: 11400000, guid: 557c6b4a447873f40a6c7b39716ea850, type: 2}
+  - {fileID: 11400000, guid: 557c6b4a447873f40a6c7b39716ea850, type: 2}
