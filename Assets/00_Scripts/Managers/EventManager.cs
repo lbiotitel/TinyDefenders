@@ -18,6 +18,8 @@ public class EventManager : MonoBehaviour
     public UnityAction onHeroSynergyChangedAction;
     public UnityAction onHeroSummonAction;
     public UnityAction onHeroDespawnAction;
+    public UnityAction<Hero,Monster> onHeroAttackToMonsterAction;
+    public UnityAction onDrawCardAction;
 
 
     private void ReleaseHeroAction(ref UnityAction<Hero> unityAction)
@@ -27,6 +29,17 @@ public class EventManager : MonoBehaviour
             foreach (var d in unityAction.GetInvocationList())
             { 
                 unityAction -= (UnityAction<Hero>)d;
+            }
+        }
+    }
+
+    private void ReleaseHeroAction(ref UnityAction<Hero, Monster> unityAction)
+    {
+        if (unityAction != null)
+        {
+            foreach (var d in unityAction.GetInvocationList())
+            {
+                unityAction -= (UnityAction<Hero,Monster>)d;
             }
         }
     }
@@ -48,6 +61,8 @@ public class EventManager : MonoBehaviour
         ReleaseAction(ref onHeroSynergyChangedAction);
         ReleaseAction(ref onHeroSummonAction);
         ReleaseAction(ref onHeroDespawnAction);
+        ReleaseAction(ref onDrawCardAction);
+        ReleaseHeroAction(ref onHeroAttackToMonsterAction);
         onHeroUseSkillAction = null;
         instance = null;
     }

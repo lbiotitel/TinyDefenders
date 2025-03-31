@@ -16,13 +16,13 @@ public partial class Monster : Entity
     [SerializeField] private float hpAnimeSpeed = 2f;
 
     private float speed = 0f;
-    private double maxHp = 0;
-    private double hp = 0;
-    private double defense = 0;
+    public double maxHp { get; private set; }
+    public double hp { get; private set; }
 
 
     int currentMoveTarget = 1;
     List<Transform> movePointList;
+    private double defense = 0;
     private bool isDead = false;
     private MonsterType monsterType = MonsterType.NORMAL;
 
@@ -75,15 +75,15 @@ public partial class Monster : Entity
 
     #region Monster Damage Logic
 
-    public void GetDamage(double damage, bool isServer, ulong heroId)
+    public void GetDamage(double damage, PlayerNetworkType playerNetworkType, ulong heroId)
     {
         if (!IsServer) return;
         if (isDead) return;
 
-        MonsterGetDamage(damage, isServer,heroId);
+        MonsterGetDamage(damage, playerNetworkType, heroId);
     }
 
-    private void MonsterGetDamage(double damage, bool isServer, ulong heroId)
+    private void MonsterGetDamage(double damage, PlayerNetworkType playerNetworkType, ulong heroId)
     {
         if (NetUtils.TryGetSpawnedObject(heroId, out NetworkObject heroObject))
         {
@@ -94,7 +94,10 @@ public partial class Monster : Entity
 
             damage -= defense;
             hp -= ((int)damage);
-            StackDamage(damage, isServer, hero);
+
+            EventManager.instance.onHeroAttackToMonsterAction?.Invoke(hero, this);
+
+            StackDamage(damage, playerNetworkType, hero);
 
             hpImage.fillAmount = ((float)hp / (float)maxHp);
             UpdateClientRpc(hp, damage, isCri);
@@ -104,21 +107,21 @@ public partial class Monster : Entity
     private bool IsCri(Hero hero)
     {
         float cri = Random.Range(0,100f);
-        if (cri < hero.GetHeroCriRate()) return true;
+        if (cri < hero.GetHeroCriticalRate()) return true;
         return false;
     }
 
-    private void StackDamage(double damage, bool isServer, Hero hero)
+    private void StackDamage(double damage, PlayerNetworkType playerNetworkType, Hero hero)
     {
         if (hp <= 0) damage += hp;
 
-        StackPlayerDamage(damage, isServer);
+        StackPlayerDamage(damage, playerNetworkType);
         hero.IncreaseDamageStack(damage);
     }
 
-    private static void StackPlayerDamage(double damage, bool isServer)
+    private static void StackPlayerDamage(double damage, PlayerNetworkType playerNetworkType)
     {
-        if (isServer)
+        if (playerNetworkType == PlayerNetworkType.HOST)
         {
             GameManager.instance.playerDps += damage;
         }
@@ -231,5 +234,6 @@ public partial class Monster : Entity
 
         transform.position = Vector2.MoveTowards(transform.position, movePointList[currentMoveTarget].position, Time.deltaTime * speed);
     }
+
 
 }

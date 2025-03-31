@@ -146,6 +146,41 @@ public class GameManager : NetworkBehaviour
             waveData[currentWave - 1].spawnInterval,
             waveData[currentWave - 1].waveMonsterCount);
     }
+
+    [ClientRpc]
+    private void NotifyTimerClientRpc(float time, int wave, bool waveUI, bool isBoss, string monsterName)
+    {
+        this.timer = time;
+        this.currentWave = wave;
+        if (waveUI)
+        {
+            if (!isBoss)
+                InGameUI.instance.ShowWaveUI();
+            else
+                InGameUI.instance.ShowBossWaveUI(monsterName);
+        }
+        onTimerUp?.Invoke(monsterName);
+    }
+
+    public void BossMonsterDead()
+    {
+        if (timer > 0)
+        {
+            StartWave();
+            NotifyTimerClientRpc(
+                 timer,
+                 currentWave,
+                 true,
+                 waveData[currentWave - 1].bossWave,
+                 waveData[currentWave - 1].spawnMonsterData.monsterName);
+        }
+        else
+        {
+            GameOver();
+        }
+    }
+
+
     #endregion
 
 
@@ -203,61 +238,6 @@ public class GameManager : NetworkBehaviour
         warningAlarmDelay = false;
     }
 
-    #endregion
-
-
-    public void GetGold(int gold, PlayerNetworkType hostType = PlayerNetworkType.ALL)
-    {
-        if (hostType == PlayerNetworkType.ALL)
-        {
-            GiveGoldToAllPlayersClientRpc(gold);
-        }
-        else if (hostType == PlayerNetworkType.CLIENT)
-        {
-            this.gold += gold;
-            onGoldGet?.Invoke();
-        }
-    }
-
-    public void BossMonsterDead()
-    {
-        if (timer > 0)
-        {
-            StartWave();
-            NotifyTimerClientRpc(
-                 timer,
-                 currentWave,
-                 true,
-                 waveData[currentWave - 1].bossWave,
-                 waveData[currentWave - 1].spawnMonsterData.monsterName);
-        }
-        else
-        {
-            GameOver();
-        }
-    }
-
-    [ClientRpc]
-    private void GiveGoldToAllPlayersClientRpc(int gold)
-    {
-        this.gold += gold;
-        onGoldGet?.Invoke();
-    }
-
-    [ClientRpc]
-    private void NotifyTimerClientRpc(float time, int wave, bool waveUI, bool isBoss, string monsterName)
-    {
-        this.timer = time;
-        this.currentWave = wave;
-        if (waveUI)
-        {
-            if (!isBoss)
-                InGameUI.instance.ShowWaveUI();
-            else
-                InGameUI.instance.ShowBossWaveUI(monsterName);
-        }
-        onTimerUp?.Invoke(monsterName);
-    }
 
 
     [ClientRpc]
@@ -265,6 +245,51 @@ public class GameManager : NetworkBehaviour
     {
         currentMonsterCount = count;
     }
+
+
+
+    #endregion
+
+
+
+    #region About Gold
+    public void GetGold(int gold, PlayerNetworkType playerNetworkType = PlayerNetworkType.ALL)
+    {
+        GiveGoldToAllPlayersClientRpc(playerNetworkType, gold);
+    }
+
+    [ClientRpc]
+    private void GiveGoldToAllPlayersClientRpc(PlayerNetworkType playerNetworkType, int gold)
+    {
+        if (playerNetworkType == PlayerNetworkType.ALL)
+        {
+            if (NetUtils.GetPlayerNetworkType() == PlayerNetworkType.HOST) GetGold(gold);
+            if (NetUtils.GetPlayerNetworkType() == PlayerNetworkType.CLIENT) GetGold(gold);
+        }
+        else if (NetUtils.GetPlayerNetworkType() == PlayerNetworkType.CLIENT)
+        {
+            GetGold(gold);
+        }
+        else if (NetUtils.GetPlayerNetworkType() == PlayerNetworkType.HOST)
+        {
+            GetGold(gold);
+        }
+    }
+
+
+    public void GetGold(int gold)
+    {
+        this.gold += (int)(gold + (gold * PlayerStatManager.instance.GetBonusGold(NetUtils.GetPlayerNetworkType())));
+    }
+
+    public bool IsEnoughGold(int gold)
+    {
+        if (this.gold < gold) return false;
+        return true;
+    }
+
+    #endregion
+
 
 
 
@@ -321,6 +346,8 @@ public class GameManager : NetworkBehaviour
     #endregion
 
 
+
+    #region About Hero
     public void AddHero(Hero hero)
     {
         PlayerNetworkType playerNetworkType = NetUtils.GetPlayerNetworkType();
@@ -366,13 +393,7 @@ public class GameManager : NetworkBehaviour
         return null;
     }
 
-    public bool IsEnoughGold(int gold)
-    {
-        if (this.gold < gold) return false;
-        return true;
-    }
-
-
+    #endregion
 
     public void SummonGoldGoblin()
     {

@@ -25,7 +25,7 @@ public class LaserProjectile : BaseProjectile
 
         if (NetUtils.IsHost() && target != null && !target.GetComponent<Monster>().IsDead())
         {
-            NetworkRpcManager.instance.AttackMonster(NetUtils.IsHost(), damage, referenceHero, target.GetComponent<Monster>(),
+            NetworkRpcManager.instance.AttackMonster(NetUtils.GetPlayerNetworkType(), damage, referenceHero, target.GetComponent<Monster>(),
                 referenceHero.GetHeroData().debuffEffects);
         }
 

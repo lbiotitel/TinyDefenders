@@ -17,33 +17,19 @@ public partial class NetManager : MonoBehaviour
     private const string wEncryption = "wss";
 
     [SerializeField] private float heartBeatInterval;
-    private bool heartBeat = true;
+    private Coroutine heartBeatCoroutine = null;
 
 
     #region About Network HeartBeat
 
-    private async void Update()
-    {
-        await NetworkHeartBeat();
-    }
-
-    private async Task NetworkHeartBeat()
-    {
-        if (heartBeat)
-        {
-            if (currentLobby != null)
-            {
-                heartBeat = false;
-                await LobbyService.Instance.SendHeartbeatPingAsync(currentLobby.Id);
-                StartCoroutine(NetworkHeartBeatCoroutine());
-            }
-        }
-    }
 
     private IEnumerator NetworkHeartBeatCoroutine()
-    { 
-        yield return new WaitForSeconds(heartBeatInterval);
-        heartBeat = true;
+    {
+        while (true)
+        {
+            LobbyService.Instance.SendHeartbeatPingAsync(currentLobby.Id);
+            yield return new WaitForSeconds(heartBeatInterval);
+        }
     }
     #endregion
 
@@ -175,13 +161,7 @@ public partial class NetManager : MonoBehaviour
     {
         try
         {
-            if (!string.IsNullOrEmpty(currentLobby.Id))
-            {
-#if UNITY_EDITOR
-                Debug.Log(currentLobby.Id + "·Îºñ ÆÄ±«");
-#endif
-                NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
-            }
+            ReleaseEvent();
             if (NetUtils.IsHost())
             {
                 if (currentLobby == null) return;
@@ -218,6 +198,7 @@ public partial class NetManager : MonoBehaviour
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, dEncryption));
 
+            heartBeatCoroutine = StartCoroutine(NetworkHeartBeatCoroutine());
             StartHost();
         }
         catch (LobbyServiceException e)
@@ -352,6 +333,8 @@ public partial class NetManager : MonoBehaviour
 
             NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
+            if (heartBeatCoroutine != null)
+                StopCoroutine(heartBeatCoroutine);
         }
     }
 

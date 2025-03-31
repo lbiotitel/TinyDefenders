@@ -218,6 +218,8 @@ public class Hero : Entity
 
     #endregion
 
+
+    #region About Hero Atk
     public double GetHeroAtk()
     {
         double atk = heroData.atk.GetValue();
@@ -234,6 +236,10 @@ public class Hero : Entity
     {
         return GetHeroAtk() - GetHeroBaseAtk();
     }
+    #endregion
+
+
+    #region About Hero AtkSpeed
 
     public float GetHeroAtkSpeed()
     {
@@ -251,7 +257,10 @@ public class Hero : Entity
     {
         return GetHeroAtkSpeed() - GetHeroBaseAtkSpeed();
     }
+    #endregion
 
+
+    #region About Hero AtkRange
     public float GetHeroBaseAtkRange()
     {
         return heroData.atkRange.baseValue;
@@ -261,6 +270,14 @@ public class Hero : Entity
     {
         return heroData.atkRange.GetValue();
     }
+
+    public float GetHeroBonusAtkRange()
+    {
+        return GetHeroAtkRange() - GetHeroBaseAtkRange();
+    }
+
+    #endregion
+
 
     public double GetHeroSkillDamage()
     {
@@ -273,10 +290,26 @@ public class Hero : Entity
         return heroData.criticalDamage.GetValue() / 100f;
     }
 
-    public float GetHeroCriRate()
+    #region About Hero Critical Rate
+
+    public float GetHeroBaseCriticalRate()
     {
-        return heroData.criticalRate.GetValue();
+        return heroData.criticalRate.baseValue;
     }
+
+    public float GetHeroBonusCriticalRate()
+    {
+        return GetHeroCriticalRate() - GetHeroBaseCriticalRate();
+    }
+
+    public float GetHeroCriticalRate()
+    {
+        return GetHeroBaseCriticalRate() + heroData.criticalRate.GetModifireValue() + 
+            PlayerStatManager.instance.GetBonusCriticalRate(NetUtils.GetPlayerNetworkType());
+    }
+
+    #endregion
+
 
     public float GetHeroSkillAcc()
     { 

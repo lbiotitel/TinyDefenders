@@ -14,7 +14,7 @@ public class DwarfShielderSkill : AttackSkillBase
         foreach (var monster in monsterList)
         {
             NetworkRpcManager.instance.
-                AttackMonster(NetUtils.IsServerHolder(hero),hero.GetHeroSkillDamage(),hero,monster,heroData.skillDebuffEffects);
+                AttackMonster(NetUtils.GetPlayerNetworkType(),hero.GetHeroSkillDamage(),hero,monster,heroData.skillDebuffEffects);
         }
     }
 }

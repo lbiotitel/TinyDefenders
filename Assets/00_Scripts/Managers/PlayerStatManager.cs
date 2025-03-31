@@ -25,6 +25,7 @@ public class PlayerStatManager : MonoBehaviour
     [Header("Server Bonus Stat")]
     [field: SerializeField] public Stat serverAtk;
     [field: SerializeField] public Stat serverAtkSpeed;
+    [field: SerializeField] public Stat serverAtkRange;
     [field: SerializeField] public Stat serverGoldBonus;
     [field: SerializeField] public Stat serverSkillAcc;
     [field: SerializeField] public Stat serverCriticalRate;
@@ -34,6 +35,7 @@ public class PlayerStatManager : MonoBehaviour
     [Header("Client Bonus Stat")]
     [field: SerializeField] public Stat clientAtk;
     [field: SerializeField] public Stat clientAtkSpeed;
+    [field: SerializeField] public Stat clientAtkRange;
     [field: SerializeField] public Stat clientGoldBouns;
     [field: SerializeField] public Stat clientSkillAcc;
     [field: SerializeField] public Stat clientCriticalRate;
@@ -99,18 +101,14 @@ public class PlayerStatManager : MonoBehaviour
     {
         foreach (var data in serverHeroSynergyDic)
         {
-            if (data.Value.CheckSynergyLevel() > 0)
-            {
-                data.Value.ActiveSynegy();
-            }
+            data.Value.CheckSynergyLevel();
+            data.Value.ActiveSynegy();
         }
 
         foreach (var data in clientHeroSynergyDic)
         {
-            if (data.Value.CheckSynergyLevel() > 0)
-            {
-                data.Value.ActiveSynegy();
-            }
+            data.Value.CheckSynergyLevel();
+            data.Value.ActiveSynegy();
         }
         
         SendSynergyDataToClient();
@@ -141,6 +139,12 @@ public class PlayerStatManager : MonoBehaviour
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         {
             clientHeroSynergyDic[heroTribe].SetCurrentHeroSynergyLevel(synergyLevel);
+            Debug.Log(heroTribe.ToString() + synergyLevel);
+
+            foreach (var data in clientHeroSynergyDic)
+            {
+                data.Value.ActiveSynegy();
+            }
         }
         EventManager.instance.onHeroSynergyChangedAction?.Invoke();
     }
@@ -157,7 +161,6 @@ public class PlayerStatManager : MonoBehaviour
                 break;
             case PlayerNetworkType.CLIENT:
                 referDic = clientHeroSynergyDic;
-
                 break;
         }
 
@@ -172,7 +175,7 @@ public class PlayerStatManager : MonoBehaviour
 
     #endregion
 
-    #region About Player Stat
+    #region About Player Stat Modifier
 
     public void AddAtkModifire(PlayerNetworkType playerNetworkType, float value)
     {
@@ -251,6 +254,89 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
+    public void AddCriticalRateModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverCriticalRate.AddModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientCriticalRate.AddModifire(value);
+                break;
+        }
+    }
+
+    public void RemoveCriticalRateModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverCriticalRate.RemoveModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientCriticalRate.RemoveModifire(value);
+                break;
+        }
+    }
+
+
+    public void AddAtkRangeModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverAtkRange.RemoveModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientAtkRange.RemoveModifire(value);
+                break;
+        }
+    }
+
+    public void RemoveAtkRangeModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverAtkRange.RemoveModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientAtkRange.RemoveModifire(value);
+                break;
+        }
+    }
+
+    public void AddGoudBonusModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverGoldBonus.AddModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientGoldBouns.AddModifire(value);
+                break;
+        }
+    }
+
+    public void RemoveGoldBonusModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverGoldBonus.RemoveModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientGoldBouns.RemoveModifire(value);
+                break;
+        }
+    }
+
+    #endregion
+
+    #region About Get Player Stat
+
     public double GetBonusAtk(PlayerNetworkType playerNetworkType)
     {
         switch (playerNetworkType)
@@ -328,6 +414,32 @@ public class PlayerStatManager : MonoBehaviour
                 return clientSkillAcc.GetModifireValue();
         }
 
+        return 0;
+    }
+
+
+    public float GetBonusCriticalRate(PlayerNetworkType playerNetworkType)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                return serverCriticalRate.GetModifireValue();
+            case PlayerNetworkType.CLIENT:
+                return clientCriticalRate.GetModifireValue();
+        }
+
+        return 0;
+    }
+
+    public float GetBonusGold(PlayerNetworkType playerNetworkType)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                return serverGoldBonus.GetModifireValue();
+            case PlayerNetworkType.CLIENT:
+                return clientGoldBouns.GetModifireValue();
+        }
         return 0;
     }
 

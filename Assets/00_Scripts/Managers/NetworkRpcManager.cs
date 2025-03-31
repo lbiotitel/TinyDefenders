@@ -16,16 +16,16 @@ public class NetworkRpcManager : NetworkBehaviour
     }
 
     #region About Attack and Debuff
-    public void AttackMonster(bool isServer,double damage, Hero hero,Monster monster = null,List<DebuffEffect> debuffList = null)
+    public void AttackMonster(PlayerNetworkType playerNetworkType,double damage, Hero hero,Monster monster = null,List<DebuffEffect> debuffList = null)
     {
         if (monster != null)
         {
-            AttackMonsterServerRpc(monster.NetworkObjectId,hero.NetworkObjectId, isServer, damage);
-            if(debuffList != null)DebuffEffect(isServer, monster, debuffList);
+            AttackMonsterServerRpc(monster.NetworkObjectId,hero.NetworkObjectId, playerNetworkType, damage);
+            if(debuffList != null)DebuffEffect(playerNetworkType, monster, debuffList);
         }
     }
 
-    private void DebuffEffect(bool isServer, Monster monster, List<DebuffEffect> debuffList)
+    private void DebuffEffect(PlayerNetworkType playerNetworkType, Monster monster, List<DebuffEffect> debuffList)
     {
         for (int i = 0; i < debuffList.Count; i++)
         {
@@ -42,14 +42,14 @@ public class NetworkRpcManager : NetworkBehaviour
             {
                 if (monster == null) return;
                 monster.GetComponent<Monster>().DebuffServerRpc(
-                    (int)debuffType, sendValues, isServer
+                    (int)debuffType, sendValues, playerNetworkType
                     );
             }
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void AttackMonsterServerRpc(ulong monsterId,ulong heroId, bool isServer, double damage)
+    private void AttackMonsterServerRpc(ulong monsterId,ulong heroId, PlayerNetworkType playerNetworkType, double damage)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(monsterId, out NetworkObject networkObject))
         {
@@ -57,7 +57,7 @@ public class NetworkRpcManager : NetworkBehaviour
             Monster monster = networkObject.GetComponent<Monster>();
             if (monster != null)
             {
-                monster.GetDamage(damage, isServer,heroId);
+                monster.GetDamage(damage, playerNetworkType, heroId);
             }
         }
     }

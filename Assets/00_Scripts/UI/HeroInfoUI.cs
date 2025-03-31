@@ -81,7 +81,11 @@ public class HeroInfoUI : MonoBehaviour
             string.Format("{0:0}<color=#00FF00>(+{1:0})", hero.GetHeroAtkRange(), hero.GetHeroBaseAtkRange());
 
 
-        this.criRateText.text = heroData.criticalRate.baseValue.ToString();
+        this.criRateText.text = 
+            hero.GetHeroBonusCriticalRate() == 0 ?
+             string.Format("{0:0}%", hero.GetHeroBaseCriticalRate()) :
+            string.Format("{0:0}<color=#00FF00>(+{1:0})%", hero.GetHeroBaseCriticalRate(), hero.GetHeroBonusCriticalRate());
+
 
         this.monsterDamageStack.text = string.Format("가한 데미지 : {0:N0}", hero.GetDamageStack());
     }

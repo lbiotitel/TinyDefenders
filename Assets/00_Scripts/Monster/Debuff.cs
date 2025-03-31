@@ -36,7 +36,7 @@ public partial class Monster : Entity
 
 
     [ServerRpc(RequireOwnership = false)]
-    public void DebuffServerRpc(int debuffType, float[] values, bool isServer)
+    public void DebuffServerRpc(int debuffType, float[] values, PlayerNetworkType playerNetworkType)
     {
         if (isDead) return;
   
@@ -68,7 +68,7 @@ public partial class Monster : Entity
                     if (bleedCoroutine != null) return;
                     float bleedDuration = (float)values[0];
                     float bleedDamagePercent = (float)values[1];
-                    BleedDebuffClientRpc(bleedDamagePercent, bleedDuration, isServer);
+                    BleedDebuffClientRpc(bleedDamagePercent, bleedDuration, playerNetworkType);
                 }
                 break;
             case DebuffType.POISION:
@@ -79,7 +79,7 @@ public partial class Monster : Entity
                     }
                     float poisionDuration = (float)values[0];
                     float poisionTickDamage = (float)values[1];
-                    PoisionDebuffClientRpc(poisionDuration, poisionTickDamage,isServer);
+                    PoisionDebuffClientRpc(poisionDuration, poisionTickDamage, playerNetworkType);
                 }
                 break;
 
@@ -87,7 +87,7 @@ public partial class Monster : Entity
                 {
                     float igniteDuration = (float)values[0];
                     float igniteTickDamage = (float)values[1];
-                    IgniteDebuffClientRpc(igniteDuration,igniteTickDamage,isServer);
+                    IgniteDebuffClientRpc(igniteDuration,igniteTickDamage,playerNetworkType);
                 }
                 break;
         }
@@ -118,7 +118,7 @@ public partial class Monster : Entity
 
     #region About Bleed Effect
     [ClientRpc]
-    private void BleedDebuffClientRpc(float bleedPercent, float bleedDuration, bool isServer)
+    private void BleedDebuffClientRpc(float bleedPercent, float bleedDuration, PlayerNetworkType playerNetworkType)
     {
         CheckAndStopCoroutine(bleedCoroutine);
         Coroutine bleedDamageCoroutine = null;
@@ -128,7 +128,7 @@ public partial class Monster : Entity
               () =>
               {
                   bleedEffect.gameObject.SetActive(true);
-                  bleedDamageCoroutine = StartCoroutine(BleedDamageCoroutine(isServer, bleedPercent));
+                  bleedDamageCoroutine = StartCoroutine(BleedDamageCoroutine(playerNetworkType, bleedPercent));
               },
               () =>
               {
@@ -140,7 +140,7 @@ public partial class Monster : Entity
       );
     }
 
-    private IEnumerator BleedDamageCoroutine(bool isServer, float bleedPercent)
+    private IEnumerator BleedDamageCoroutine(PlayerNetworkType playerNetworkType, float bleedPercent)
     {
         while (true)
         {
@@ -182,7 +182,7 @@ public partial class Monster : Entity
 
     #region About Poision Effect
     [ClientRpc]
-    private void PoisionDebuffClientRpc(float poisionDuration,float poisionTickDamage,bool isServer)
+    private void PoisionDebuffClientRpc(float poisionDuration,float poisionTickDamage,PlayerNetworkType playerNetworkType)
     {
         CheckAndStopCoroutine(poisionCoroutine);
 
@@ -211,7 +211,7 @@ public partial class Monster : Entity
     #region About Ignite Effect
 
     [ClientRpc]
-    private void IgniteDebuffClientRpc(float igniteDuration, float igniteTickDamage, bool isServer)
+    private void IgniteDebuffClientRpc(float igniteDuration, float igniteTickDamage, PlayerNetworkType playerNetworkType)
     {
         CheckAndStopCoroutine(igniteCoroutine);
 

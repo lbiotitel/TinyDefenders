@@ -14,18 +14,7 @@ public class HumanSynergy : HeroSynergyBase
         PlayerStatManager.instance.AddSkillAccModifire(playerNetworkType, skillAcc[level - 1]);
         if (level == 3)
         {
-            EventManager.instance.onHeroUseSkillAction += HeroCoolTimeReset;
-        }
-    }
-
-    private void HeroCoolTimeReset(Hero hero)
-    {
-        float randomValue = Random.Range(0,100f);
-        if (randomValue > skillResetRate) return;
-
-        if (hero.TryGetComponent(out SkillContainer skillContainer))
-        {
-            skillContainer.ResetSkill();
+            EventManager.instance.onHeroUseSkillAction += HeroUseTwiceSkill;
         }
     }
 
@@ -35,7 +24,20 @@ public class HumanSynergy : HeroSynergyBase
         PlayerStatManager.instance.RemoveSkillAccModifire(playerNetworkType, skillAcc[level - 1]);
         if (level == 3)
         {
-            EventManager.instance.onHeroUseSkillAction -= HeroCoolTimeReset;
+            EventManager.instance.onHeroUseSkillAction -= HeroUseTwiceSkill;
         }
     }
+
+
+    private void HeroUseTwiceSkill(Hero hero)
+    {
+        float randomValue = Random.Range(0, 100f);
+        if (randomValue > skillResetRate) return;
+
+        if (hero.TryGetComponent(out SkillContainer skillContainer))
+        {
+            skillContainer.ResetSkill();
+        }
+    }
+
 }

@@ -69,18 +69,18 @@ public class CardManager : MonoBehaviour
         {
             if (!canReroll) return;
             //check gold
-            DrawFiveCards();
+            DrawCardLogic();
             canReroll = false;
             StartCoroutine(CardRerollCoolTimeCoroutine());
         }
         else {
-            DrawFiveCards();
+            DrawCardLogic();
         }
 
         SortCard();
     }
 
-    private void DrawFiveCards()
+    private void DrawCardLogic()
     {
         if (myCardList.Count > 0)
         {
@@ -101,6 +101,8 @@ public class CardManager : MonoBehaviour
         {
             DrawCard(CardType.ATTACK);
         }
+
+        EventManager.instance.onDrawCardAction?.Invoke();
     }
 
     public void DrawCard()
