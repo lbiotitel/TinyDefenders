@@ -14,28 +14,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: ElfArcher
   rarity: 0
+  heroCost: 20
   atk:
-    baseValue: 1
+    <baseValue>k__BackingField: 120
+    modifiers: []
   damage:
-    baseValue: 0
-  criticalRate:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
+    modifiers: []
   atkSpeed:
-    baseValue: 1
+    <baseValue>k__BackingField: 1
+    modifiers: []
   atkRange:
-    baseValue: 1
+    <baseValue>k__BackingField: 3
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
   heroDesc: 
   heroTribe: 4
   heroMainImage: {fileID: -1122966732, guid: 4aba780b643b3184ab692c898b006761, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: f3bce8ead3dfe7f4c9126a632accdcd0, type: 2}
   projectile: {fileID: 7009818753606986678, guid: 696ebd6706cb35e4eb9f0427a92e369d, type: 3}
   debuffEffects: []
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
+    skillDuration: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0
-    debuffEffects: []

@@ -14,28 +14,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: DemonImp
   rarity: 0
+  heroCost: 30
   atk:
-    baseValue: 35
+    <baseValue>k__BackingField: 130
+    modifiers: []
   damage:
-    baseValue: 0
-  criticalRate:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
+    modifiers: []
   atkSpeed:
-    baseValue: 1.5
+    <baseValue>k__BackingField: 1
+    modifiers: []
   atkRange:
-    baseValue: 1.5
+    <baseValue>k__BackingField: 2.5
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
   heroDesc: 
   heroTribe: 3
   heroMainImage: {fileID: 1191374277, guid: 432d180cf8acc3f44968d35619fa751c, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: f0108050ff0e778459a83339e32906d7, type: 2}
   projectile: {fileID: 3241479529911869568, guid: a84cbbb54404c3d499340f02e684aab0, type: 3}
   debuffEffects: []
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
+    skillDuration: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0
-    debuffEffects: []

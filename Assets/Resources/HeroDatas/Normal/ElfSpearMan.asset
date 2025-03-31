@@ -14,28 +14,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: ElfSpearMan
   rarity: 0
+  heroCost: 20
   atk:
-    baseValue: 1
+    <baseValue>k__BackingField: 92
+    modifiers: []
   damage:
-    baseValue: 0
-  criticalRate:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
+    modifiers: []
   atkSpeed:
-    baseValue: 1
+    <baseValue>k__BackingField: 1.3
+    modifiers: []
   atkRange:
-    baseValue: 1
+    <baseValue>k__BackingField: 2.5
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
   heroDesc: 
   heroTribe: 4
   heroMainImage: {fileID: 841996785, guid: ce22f356463e477498e0e84bfbfd0c9a, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 68e3f88f1f44d9c4a86850da63e947b2, type: 2}
   projectile: {fileID: 1372501956992950277, guid: fefa3950d31c35f43bafb749ef9df281, type: 3}
   debuffEffects: []
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
+    skillDuration: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0
-    debuffEffects: []

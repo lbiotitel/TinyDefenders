@@ -64,7 +64,9 @@ public class BattleUI : MonoBehaviour
             friendMatchingCancleButton.interactable = true;
         }
         else {
+            #if UnityEidtor
             Debug.Log("초대 코드 만들기 실패");
+#endif
             waitFriendUI.gameObject.SetActive(false);
         }
     }

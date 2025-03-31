@@ -14,26 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: OrcGoblinThief
   rarity: 0
+  heroCost: 20
   atk:
-    baseValue: 30
+    <baseValue>k__BackingField: 67
     modifiers: []
   damage:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
     modifiers: []
   atkSpeed:
-    baseValue: 2
+    <baseValue>k__BackingField: 1.5
     modifiers: []
   atkRange:
-    baseValue: 2
+    <baseValue>k__BackingField: 2
     modifiers: []
   skillAcc:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
     modifiers: []
   criticalRate:
-    baseValue: 20
+    <baseValue>k__BackingField: 20
     modifiers: []
   criticalDamage:
-    baseValue: 140
+    <baseValue>k__BackingField: 0
     modifiers: []
   heroDesc: 
   heroTribe: 5

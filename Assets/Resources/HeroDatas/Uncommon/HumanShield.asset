@@ -14,26 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: HumanShield
   rarity: 1
+  heroCost: 0
   atk:
-    baseValue: 10
+    <baseValue>k__BackingField: 150
     modifiers: []
   damage:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
     modifiers: []
   atkSpeed:
-    baseValue: 2
+    <baseValue>k__BackingField: 1
     modifiers: []
   atkRange:
-    baseValue: 1.5
+    <baseValue>k__BackingField: 1.5
     modifiers: []
   skillAcc:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
     modifiers: []
   criticalRate:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
     modifiers: []
   criticalDamage:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
     modifiers: []
   heroDesc: "\uC801\uC744 \uACF5\uACA9\uC2DC 30% \uD655\uB960\uB85C 1.5\uCD08\uAC04
     \uAE30\uC808 \uC2DC\uD0A8\uB2E4."

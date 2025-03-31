@@ -14,17 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: ScavengerHarpooner
   rarity: 2
+  heroCost: 75
   atk:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 218
     modifiers: []
   damage:
     <baseValue>k__BackingField: 0
     modifiers: []
   atkSpeed:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 1
     modifiers: []
   atkRange:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 3.5
     modifiers: []
   skillAcc:
     <baseValue>k__BackingField: 0
@@ -36,7 +37,7 @@ MonoBehaviour:
     <baseValue>k__BackingField: 0
     modifiers: []
   heroDesc: 
-  heroTribe: 0
+  heroTribe: 6
   heroMainImage: {fileID: 1557581259, guid: 5cb47b98caec0684cb558c8ee6dc2f9f, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: fa733343479c96741964c3c83dd4c18a, type: 2}
   projectile: {fileID: 2534457697127531987, guid: 3e0368575f030cb4283b3a0c01f4f254, type: 3}

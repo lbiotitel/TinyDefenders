@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CombineNodeUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
+public class CombineNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private TextMeshProUGUI heroName;
     [SerializeField] private Image heroImage;
@@ -25,12 +25,11 @@ public class CombineNodeUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHand
     {
         combineButton.onClick.AddListener(() => { Combine(); });
         EventManager.instance.onHeroSummonAction += CanCombineHero;
-        //EventManager.instance.onHeroDespawnAction += CanCombineHero;
     }
 
-    public void SetHeroData(HeroScriptable mainHero, List<HeroScriptable> subHero,CombineUI combineUI)
-    { 
-        this.mainHero = mainHero;   
+    public void SetHeroData(HeroScriptable mainHero, List<HeroScriptable> subHero, CombineUI combineUI)
+    {
+        this.mainHero = mainHero;
         this.subHeroList = subHero;
         this.heroImage.sprite = mainHero.heroMainImage;
         this.heroName.text = mainHero.heroName;
@@ -62,13 +61,13 @@ public class CombineNodeUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHand
 
         Dictionary<string, int> combineHeroDic = new Dictionary<string, int>();
 
-        foreach(var hero in subHeroList)
+        foreach (var hero in subHeroList)
         {
             if (combineHeroDic.ContainsKey(hero.heroName))
             {
                 combineHeroDic[hero.heroName]++;
             }
-            else { 
+            else {
                 combineHeroDic.Add(hero.heroName, 1);
             }
         }
@@ -106,6 +105,16 @@ public class CombineNodeUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHand
     }
 
 
+    public void FilterNode(HeroTribe filterTribe)
+    {
+        if (mainHero.heroTribe == filterTribe || filterTribe == HeroTribe.LAST)
+        {
+            gameObject.SetActive(true);
+        }
+        else {
+            gameObject.SetActive(false);
+        }
+    } 
 
     public void OnPointerExit(PointerEventData eventData)
     {
@@ -114,6 +123,6 @@ public class CombineNodeUI : MonoBehaviour,IPointerEnterHandler,IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        combineUI.ShowHeroInfoUI(mainHero,transform);
+        combineUI.ShowHeroInfoUI(mainHero,subHeroList,transform);
     }
 }

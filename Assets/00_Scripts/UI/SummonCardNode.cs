@@ -34,6 +34,7 @@ public class SummonCardNode : CardNodeBase
         heroAtkSpeedText.text = heroData.atkSpeed.baseValue.ToString();
         heroAtkRangeText.text = heroData.atkRange.baseValue.ToString();
 
+        cardCostText.text = heroData.heroCost.ToString();
         cardNameText.text = heroData.GetLocalizationName();
         cardDescText.text = heroData.heroDesc;
         tribeImage.sprite = GetTribeImage(heroData.heroTribe);

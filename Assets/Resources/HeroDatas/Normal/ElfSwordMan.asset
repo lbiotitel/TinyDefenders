@@ -14,28 +14,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: ElfSwordMan
   rarity: 0
+  heroCost: 20
   atk:
-    baseValue: 1
+    <baseValue>k__BackingField: 80
+    modifiers: []
   damage:
-    baseValue: 0
-  criticalRate:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
+    modifiers: []
   atkSpeed:
-    baseValue: 1
+    <baseValue>k__BackingField: 1.5
+    modifiers: []
   atkRange:
-    baseValue: 1
+    <baseValue>k__BackingField: 2
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
   heroDesc: 
   heroTribe: 4
   heroMainImage: {fileID: 689403788, guid: f26fb15d49be42748b371f0d82a63c29, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: eaac45d36ee26c14d8dbaa4fde29d974, type: 2}
   projectile: {fileID: 2786315958115145823, guid: 0007f95e1db5c6e4ba43e80bbf4871f3, type: 3}
   debuffEffects: []
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
+    skillDuration: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0
-    debuffEffects: []

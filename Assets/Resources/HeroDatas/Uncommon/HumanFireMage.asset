@@ -14,26 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: HumanFireMage
   rarity: 1
+  heroCost: 0
   atk:
-    baseValue: 2
+    <baseValue>k__BackingField: 115
     modifiers: []
   damage:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
     modifiers: []
   atkSpeed:
-    baseValue: 1
+    <baseValue>k__BackingField: 1.3
     modifiers: []
   atkRange:
-    baseValue: 3
+    <baseValue>k__BackingField: 3
     modifiers: []
   skillAcc:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
     modifiers: []
   criticalRate:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
     modifiers: []
   criticalDamage:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
     modifiers: []
   heroDesc: 
   heroTribe: 0

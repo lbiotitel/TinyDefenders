@@ -23,12 +23,9 @@ public class HumanSynergy : HeroSynergyBase
         float randomValue = Random.Range(0,100f);
         if (randomValue > skillResetRate) return;
 
-        Debug.Log("스킬 사용");
-
         if (hero.TryGetComponent(out SkillContainer skillContainer))
         {
             skillContainer.ResetSkill();
-            Debug.Log("스킬 초기화");
         }
     }
 

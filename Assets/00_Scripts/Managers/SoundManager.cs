@@ -1,8 +1,5 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 
 [System.Serializable]
@@ -12,7 +9,8 @@ public struct Sound
     public AudioClip audioClip;
 }
 
-public enum SFXTYPE { 
+public enum SFXTYPE
+{
     PROJECTILESOUND,
     UISOUND
 }
@@ -73,7 +71,7 @@ public class SoundManager : MonoBehaviour
                 break;
             case SFXTYPE.UISOUND:
                 soundList = uiSfxSoundList;
-                break;  
+                break;
         }
 
         for (int i = 0; i < soundList.Count; i++)
@@ -91,11 +89,13 @@ public class SoundManager : MonoBehaviour
             }
         }
 
+#if UnityEidtor
         Debug.LogError("등록 되지않은 사운드 효과");
+#endif
     }
 
 
-    public void PlayMusicSound(string soundName,bool loop = false)
+    public void PlayMusicSound(string soundName, bool loop = false)
     {
         for (int i = 0; i < musicSoundList.Count; i++)
         {
@@ -104,7 +104,7 @@ public class SoundManager : MonoBehaviour
                 backgroundAudioSource.Stop();
                 backgroundAudioSource.resource = musicSoundList[i].audioClip;
                 backgroundAudioSource.loop = loop;
-                backgroundAudioSource.Play(); 
+                backgroundAudioSource.Play();
             }
         }
     }

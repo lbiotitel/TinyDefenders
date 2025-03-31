@@ -328,7 +328,6 @@ public class Spawner : NetworkBehaviour
             return;
         }
 
-        Debug.Log("여기 실행");
         NetworkObject networkObject = heroHolders[heroHolderId].GetComponent<NetworkObject>();
 
         HeroSpawnClientRpc(networkObject.NetworkObjectId, heroName, value);

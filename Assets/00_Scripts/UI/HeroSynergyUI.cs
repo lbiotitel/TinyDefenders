@@ -14,11 +14,13 @@ public class HeroSynergyUI : MonoBehaviour
     [SerializeField] private GameObject synergyInfoObject;
     [SerializeField] private TextMeshProUGUI synergyNameText;
     [SerializeField] private TextMeshProUGUI synergyDescText;
+    private RectTransform rectTransform;
 
     private void Start()
     {
         InitHeroSynergyUI();
         HideSynergyInfo();
+        rectTransform = synergyInfoObject.GetComponent<RectTransform>();
         EventManager.instance.onHeroSynergyChangedAction += ShowHeroSynergyUI;
     }
 
@@ -73,7 +75,7 @@ public class HeroSynergyUI : MonoBehaviour
 
     public void ShowSynergyInfo(Transform transform, string synergyName, string synergyDesc)
     {
-        synergyInfoObject.transform.position = transform.position;
+        Utils.ModifyTransform(transform,ref rectTransform);
         synergyNameText.text = synergyName;
         synergyDescText.text = synergyDesc;
     }

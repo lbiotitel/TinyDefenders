@@ -14,26 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: HumanSpearMan
   rarity: 0
+  heroCost: 20
   atk:
-    baseValue: 3
+    <baseValue>k__BackingField: 100
     modifiers: []
   damage:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
     modifiers: []
   atkSpeed:
-    baseValue: 2
+    <baseValue>k__BackingField: 1
     modifiers: []
   atkRange:
-    baseValue: 1
+    <baseValue>k__BackingField: 2.5
     modifiers: []
   skillAcc:
-    baseValue: 1
+    <baseValue>k__BackingField: 0
     modifiers: []
   criticalRate:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
     modifiers: []
   criticalDamage:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
     modifiers: []
   heroDesc: 
   heroTribe: 0

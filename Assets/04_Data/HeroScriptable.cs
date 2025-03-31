@@ -35,6 +35,7 @@ public class HeroScriptable : ScriptableObject
     [Header("Stat")]
     public string heroName;
     public HeroRarity rarity;
+    public int heroCost;
     public Stat atk;
     public Stat damage;
     public Stat atkSpeed;

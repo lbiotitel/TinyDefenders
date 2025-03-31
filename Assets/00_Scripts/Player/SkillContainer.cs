@@ -112,7 +112,6 @@ public class SkillContainer : NetworkBehaviour
         if (heroSkill.CheckSkillCanActive())
         {
             ActiveSkillClientRpc();
-            Debug.Log("스킬 한번더!");
         }
     }
 }

@@ -14,23 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: OrcOrcWarrior
   rarity: 2
+  heroCost: 150
   atk:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 250
     modifiers: []
   damage:
     <baseValue>k__BackingField: 0
     modifiers: []
   atkSpeed:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 1
     modifiers: []
   atkRange:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 1.5
     modifiers: []
   skillAcc:
     <baseValue>k__BackingField: 0
     modifiers: []
   criticalRate:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 30
     modifiers: []
   criticalDamage:
     <baseValue>k__BackingField: 0

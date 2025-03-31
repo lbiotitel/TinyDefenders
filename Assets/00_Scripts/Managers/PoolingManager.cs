@@ -1,12 +1,9 @@
-using NUnit.Framework;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Localization.SmartFormat.Utilities;
 
-public enum PoolType { 
+public enum PoolType
+{
     GAMEOBJECT,
     NETWORKOBJECT
 }
@@ -16,7 +13,8 @@ public class PoolingManager : MonoBehaviour
     public static PoolingManager instance;
 
     [Serializable]
-    public class PoolObject {
+    public class PoolObject
+    {
         public string poolTag;
         public GameObject poolPrefab;
         public int size;
@@ -29,7 +27,7 @@ public class PoolingManager : MonoBehaviour
     [SerializeField] private PoolObject[] poolObjects;
     private Dictionary<GameObject, Queue<GameObject>> poolDictionary;
     private Dictionary<GameObject, GameObject> instanceToPrefabMap = new Dictionary<GameObject, GameObject>();
-    private Dictionary<GameObject,DateTime> clearObjectDic = new Dictionary<GameObject, DateTime>();
+    private Dictionary<GameObject, DateTime> clearObjectDic = new Dictionary<GameObject, DateTime>();
 
 
     private void Awake()
@@ -81,7 +79,9 @@ public class PoolingManager : MonoBehaviour
                 while (queue.Count > 0)
                 {
                     GameObject go = queue.Dequeue();
+#if UnityEidtor
                     Debug.Log(go.name + "오브젝트 파괴");
+#endif
                     instanceToPrefabMap.Remove(go);
                     Destroy(go);
                 }
@@ -93,9 +93,9 @@ public class PoolingManager : MonoBehaviour
     {
         poolDictionary = new Dictionary<GameObject, Queue<GameObject>>();
         foreach (var poolData in poolObjects)
-        { 
+        {
             int size = poolData.size;
-            
+
             Queue<GameObject> queue = new Queue<GameObject>();
             poolDictionary[poolData.poolPrefab] = queue;
 
@@ -118,9 +118,10 @@ public class PoolingManager : MonoBehaviour
                 return go;
             }
         }
-        else { 
+        else
+        {
             poolDictionary.Add(gameObject, new Queue<GameObject>());
-            clearObjectDic.Add(gameObject,DateTime.Now);
+            clearObjectDic.Add(gameObject, DateTime.Now);
         }
 
         SpawnObject(gameObject, position);
@@ -148,8 +149,8 @@ public class PoolingManager : MonoBehaviour
 
 
     private T SpawnObject<T>(GameObject gameObject, Vector3 position) where T : Component
-    { 
-        return SpawnObject<T>(gameObject, position,Quaternion.identity);
+    {
+        return SpawnObject<T>(gameObject, position, Quaternion.identity);
     }
 
     private GameObject SpawnObject(GameObject gameObject, Vector3 position)
@@ -160,29 +161,33 @@ public class PoolingManager : MonoBehaviour
 
     private GameObject SpawnObject(GameObject gameObject, Vector3 position, Quaternion quaternion)
     {
-        GameObject go = Instantiate(gameObject, position,quaternion);
+        GameObject go = Instantiate(gameObject, position, quaternion);
 
         go.transform.position = transform.position;
         go.transform.SetParent(transform);
         go.SetActive(false);
 
         poolDictionary[gameObject].Enqueue(go);
-        instanceToPrefabMap[go] = gameObject;   
+        instanceToPrefabMap[go] = gameObject;
 
         return go;
     }
 
-    private T SpawnObject<T>(GameObject gameObject, Vector3 position, Quaternion quaternion)where T : Component {
+    private T SpawnObject<T>(GameObject gameObject, Vector3 position, Quaternion quaternion) where T : Component
+    {
 
-        GameObject go = SpawnObject(gameObject, position,quaternion);
+        GameObject go = SpawnObject(gameObject, position, quaternion);
 
         T component = null;
         if (go.TryGetComponent<T>(out component))
         {
             return component;
         }
-        else {
+        else
+        {
+#if UnityEidtor
             Debug.LogError("오브젝트의 컴포넌트가 존재하지 않음");
+#endif
             return null;
         }
     }
@@ -208,7 +213,9 @@ public class PoolingManager : MonoBehaviour
         }
         else
         {
+#if UnityEidtor
             Debug.LogError("풀링 되지 않은 객체" + gameObject.name);
+#endif
         }
     }
 

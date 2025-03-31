@@ -93,8 +93,9 @@ public class GameSettingSO : ScriptableObject
         {
             Debug.Log(e);
         }
+#if UnityEidtor
         Debug.Log(Application.persistentDataPath + "/GameSettingData.json");
-
+#endif
     }
 
     public void LoadData()

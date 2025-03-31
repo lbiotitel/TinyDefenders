@@ -35,6 +35,29 @@ public class Utils : MonoBehaviour
         return Color.white;
     }
 
+    public static void ModifyTransform(Transform targetTransform, ref RectTransform rectTransform)
+    {
+        Vector3[] corners = new Vector3[4];
+        rectTransform.GetWorldCorners(corners);
+
+        Vector3 newPosition = targetTransform.position;
+        Rect screenRect = new Rect(0, 0, Screen.width, Screen.height);
+
+        if (!screenRect.Contains(Camera.main.WorldToScreenPoint(corners[0])))
+        {
+            newPosition.x = Mathf.Max(newPosition.x, rectTransform.rect.width / 2f);
+            newPosition.y = Mathf.Max(newPosition.y, rectTransform.rect.height / 2f);
+        }
+        if (!screenRect.Contains(Camera.main.WorldToScreenPoint(corners[2])))
+        {
+            newPosition.x = Mathf.Min(newPosition.x, Screen.width - rectTransform.rect.width / 2f);
+            newPosition.y = Mathf.Min(newPosition.y, Screen.height - rectTransform.rect.height / 2f);
+        }
+
+        rectTransform.position = newPosition;
+    }
+
+
 
     public static string Localization_Text(Localize localize, string key)
     {

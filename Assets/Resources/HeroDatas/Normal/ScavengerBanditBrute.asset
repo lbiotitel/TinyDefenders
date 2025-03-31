@@ -14,27 +14,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: ScavengerBanditBrute
   rarity: 0
+  heroCost: 15
   atk:
-    baseValue: 40
+    <baseValue>k__BackingField: 57
+    modifiers: []
   damage:
-    baseValue: 0
-  criticalRate:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
+    modifiers: []
   atkSpeed:
-    baseValue: 1.1
+    <baseValue>k__BackingField: 1.5
+    modifiers: []
   atkRange:
-    baseValue: 3
+    <baseValue>k__BackingField: 2
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
   heroDesc: 
   heroTribe: 6
   heroMainImage: {fileID: 1105376705, guid: 61d6da96a57915a49aa740525a12e87c, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: e1fbcd7de6b3ad44aabf1560e40dc213, type: 2}
   projectile: {fileID: 4354393126220454295, guid: 0139ec90a5031cd489d9487bb62c3e3c, type: 3}
   debuffEffects: []
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
+    skillDuration: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0

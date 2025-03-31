@@ -14,27 +14,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: ScavengerCrew
   rarity: 0
+  heroCost: 15
   atk:
-    baseValue: 35
+    <baseValue>k__BackingField: 65
+    modifiers: []
   damage:
-    baseValue: 0
-  criticalRate:
-    baseValue: 0
+    <baseValue>k__BackingField: 0
+    modifiers: []
   atkSpeed:
-    baseValue: 1.3
+    <baseValue>k__BackingField: 1.3
+    modifiers: []
   atkRange:
-    baseValue: 2
+    <baseValue>k__BackingField: 1.5
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
   heroDesc: 
   heroTribe: 6
   heroMainImage: {fileID: 5068417732311166882, guid: e8eba02aced64184b898026724a2c192, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: cb4c2c912a895104486c78824a1783e5, type: 2}
   projectile: {fileID: 2786315958115145823, guid: 2dcf62291ff0bba4a9021f8b3bd6eea9, type: 3}
   debuffEffects: []
+  skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
+    skillDuration: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0

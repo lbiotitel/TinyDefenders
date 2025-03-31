@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +15,7 @@ public class CombineHeroInfoUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI heroAtkRangeText;
     [SerializeField] private TextMeshProUGUI heroCriticalRateText;
     [SerializeField] private float yOffset;
+    [SerializeField] private List<Image> subHeroImageList;
     private RectTransform rectTransform;
 
     private void Awake()
@@ -21,7 +24,7 @@ public class CombineHeroInfoUI : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
     }
 
-    public void ShowCombineHeroInfoUI(HeroScriptable heroData, Transform targetTransform)
+    public void ShowCombineHeroInfoUI(HeroScriptable heroData,List<HeroScriptable> subHeroList, Transform targetTransform)
     {
         heroNameText.text = heroData.heroName;
         heroRarityText.text = heroData.rarity.ToString();
@@ -31,33 +34,33 @@ public class CombineHeroInfoUI : MonoBehaviour
         heroAtkSpeedText.text = heroData.atkSpeed.baseValue.ToString();
         heroAtkRangeText.text = heroData.atkRange.baseValue.ToString();
         heroCriticalRateText.text = heroData.criticalRate.baseValue.ToString() + "%";
+        ShowSubHeroImageList(subHeroList);
 
-        ModifyTransform(targetTransform);
+        Utils.ModifyTransform(targetTransform,ref rectTransform);
+
+        rectTransform.transform.position += new Vector3(0, yOffset, 0);
 
         gameObject.SetActive(true);
     }
 
-    private void ModifyTransform(Transform targetTransform)
+    private void ShowSubHeroImageList(List<HeroScriptable> subHeroList)
     {
-        Vector3[] corners = new Vector3[4];
-        rectTransform.GetWorldCorners(corners);
-
-        Vector3 newPosition = targetTransform.position;
-        Rect screenRect = new Rect(0, 0, Screen.width, Screen.height);
-
-        if (!screenRect.Contains(Camera.main.WorldToScreenPoint(corners[0])))
+        foreach (var subHeroImage in subHeroImageList)
         {
-            newPosition.x = Mathf.Max(newPosition.x, rectTransform.rect.width / 2f);
-            newPosition.y = Mathf.Max(newPosition.y, rectTransform.rect.height / 2f);
-        }
-        if (!screenRect.Contains(Camera.main.WorldToScreenPoint(corners[2])))
-        {
-            newPosition.x = Mathf.Min(newPosition.x, Screen.width - rectTransform.rect.width / 2f);
-            newPosition.y = Mathf.Min(newPosition.y, Screen.height - rectTransform.rect.height / 2f);
+            subHeroImage.gameObject.SetActive(false);
         }
 
-        rectTransform.position = newPosition + new Vector3(0, yOffset, 0);
+        int imageIndex = 0;
+
+        for (int i = 0; i < subHeroList.Count; i++)
+        {
+            subHeroImageList[imageIndex].sprite = subHeroList[i].heroMainImage;
+            subHeroImageList[imageIndex].gameObject.SetActive(true);
+            imageIndex++;
+        }
     }
+
+
 
     public void HideCombineHeroInfoUI()
     {

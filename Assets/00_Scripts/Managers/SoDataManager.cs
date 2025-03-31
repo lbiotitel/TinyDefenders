@@ -69,8 +69,9 @@ public class SoDataManager : MonoBehaviour
 
         HeroSynergySO[] heroSynergySOs = Resources.LoadAll<HeroSynergySO>("HeroSynergyDatas");
 
+#if UnityEidtor
         Debug.Log(heroSynergySOs.Length);
-
+#endif
         for(int i = 0; i < heroSynergySOs.Length; i++)
         {
             heroSynergySODataDic.Add(heroSynergySOs[i].synergyName, heroSynergySOs[i]);
@@ -98,7 +99,7 @@ public class SoDataManager : MonoBehaviour
 
         return heroSynergySOs;
     }
-    #endregion
+#endregion
 
 
     #region About Hero So Resource Method

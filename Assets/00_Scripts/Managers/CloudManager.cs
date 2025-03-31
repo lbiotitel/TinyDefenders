@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,9 +6,6 @@ using Unity.Services.CloudSave;
 using Unity.Services.CloudSave.Models;
 using Unity.Services.Leaderboards;
 using UnityEngine;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
-
-
 
 [System.Serializable]
 public class UserData
@@ -17,7 +13,6 @@ public class UserData
     [System.Serializable]
     public class HeroStoreData
     {
-
         public int heroLevel;
         public int heroCount;
 
@@ -29,7 +24,8 @@ public class UserData
     }
 
     [System.Serializable]
-    public class SpellCardStoreData {
+    public class SpellCardStoreData
+    {
         public bool isOwned;
 
         public SpellCardStoreData(bool isOwned)
@@ -155,7 +151,6 @@ public class CloudManager : MonoBehaviour
         action?.Invoke();
     }
 
-
     public async void SaveUserData()
     {
         await SaveUserData(userData);
@@ -168,12 +163,16 @@ public class CloudManager : MonoBehaviour
             string jsonData = JsonConvert.SerializeObject(userData);
             var data = new Dictionary<string, object> { { playerDataKey, jsonData } };
             await CloudSaveService.Instance.Data.Player.SaveAsync(data);
+#if UNITY_EDITOR
             Debug.Log(userData.userName + "플레이어 저장 완료");
+#endif
             await UpdateLeaderBoard(userData.rankingPoint);
         }
         catch (System.Exception e)
         {
+#if UNITY_EDITOR
             Debug.LogError("플레이어 저장 실패" + e);
+#endif
         }
     }
 
@@ -193,7 +192,9 @@ public class CloudManager : MonoBehaviour
             }
             else
             {
+#if UNITY_EDITOR
                 Debug.Log("저장된 플레이어가 존재하지 않음");
+#endif
                 MainSceneUI.instance.ShowNickNameUI();
                 this.userData = new UserData("", 1, 1, 0, 0, 0);
                 return this.userData;
@@ -201,12 +202,13 @@ public class CloudManager : MonoBehaviour
         }
         catch (System.Exception e)
         {
+#if UNITY_EDITOR
             Debug.LogError("유저 데이터 불러오기 실패:" + e);
+#endif
         }
 
         return null;
     }
-
 
     #region About LeaderBoard
     private async Task UpdateLeaderBoard(int score)
@@ -217,11 +219,15 @@ public class CloudManager : MonoBehaviour
             metaData["userName"] = userData.userName;
             await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderBoardKey, score,
                 new AddPlayerScoreOptions { Metadata = metaData });
+#if UNITY_EDITOR
             Debug.Log("리더 보드 업데이트 완료");
+#endif
         }
         catch (Exception e)
         {
+#if UNITY_EDITOR
             Debug.LogError("리더보드 저장 실패" + e);
+#endif
         }
     }
 
@@ -231,7 +237,7 @@ public class CloudManager : MonoBehaviour
             new GetPlayerScoreOptions { IncludeMetadata = true });
 
         string metaData = leaderBoard.Metadata;
-        Dictionary<string,string> data = JsonConvert.DeserializeObject<Dictionary<string, string>>(metaData);
+        Dictionary<string, string> data = JsonConvert.DeserializeObject<Dictionary<string, string>>(metaData);
 
         RankData rankData = new RankData
         {
@@ -256,7 +262,8 @@ public class CloudManager : MonoBehaviour
             string metaData = leaderBoard.Results[i].Metadata;
             Dictionary<string, string> data = JsonConvert.DeserializeObject<Dictionary<string, string>>(metaData);
 
-            rankDatas.Add(new RankData { 
+            rankDatas.Add(new RankData
+            {
                 userName = data["userName"],
                 userRankPoint = leaderBoard.Results[i].Score,
                 userRank = leaderBoard.Results[i].Rank,
