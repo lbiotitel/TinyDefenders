@@ -31,6 +31,7 @@ public partial class NetManager : MonoBehaviour
     {
         if (sceneName == SceneName.GameScene)
         {
+            Debug.Log("»£√‚");
             GameManager.instance.SetSpawner();
 
             if (!NetUtils.IsHost())

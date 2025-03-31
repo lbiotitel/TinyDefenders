@@ -21,13 +21,12 @@ public class HeroCollectionUI : MonoBehaviour
             heroCollectionUINodes.Clear();
         }
 
-        Dictionary<string,UserData.HeroStoreData> ownHeroDatas = CloudManager.instance.userData.heroDatas;
+        List<HeroScriptable> heroDatas = SoDataManager.instance.GetAllHeroScriptableData();
 
-        foreach (var data in ownHeroDatas)
+        foreach (var data in heroDatas)
         {
             HeroCollectionUINode node = Instantiate(heroCollectionUINode,contentParent);
-            HeroScriptable heroData = SoDataManager.instance.GetHeroScriptableData(data.Key);
-            node.Init(data.Key,heroData.heroMainImage,heroData.rarity, data.Value.heroCount);
+            node.Init(data.heroName, data.heroMainImage, data.rarity, 1);
 
             heroCollectionUINodes.Add(node);
         }

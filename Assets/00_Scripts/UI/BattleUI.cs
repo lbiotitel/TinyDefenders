@@ -1,15 +1,17 @@
+using System.Collections;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BattleUI : MonoBehaviour
 {
-    [SerializeField] private NetManager netManager;
-
     [Header("Random Matching")]
     [SerializeField] private Button startMatchingButton;
     [SerializeField] private Button randomMatchingCancleButton;
     [SerializeField] private GameObject matchingUI;
+    [SerializeField] private TextMeshProUGUI matchingTimeText;
+    private Coroutine matchingTimeCoroutine = null;
 
     [Header("Friend Matching")]
     [SerializeField] private Button firendMatchingButton;
@@ -23,12 +25,16 @@ public class BattleUI : MonoBehaviour
     [SerializeField] private TMP_InputField displayJoinCode;
     [SerializeField] private TMP_InputField inputJoinCode;
 
+    [Header("DisconnectedUI")]
+    [SerializeField] private GameObject disconnectedUI;
+
 
     private void Awake()
     {
         InitButtons();
         waitFriendUI.SetActive(false);
     }
+
 
     private void InitButtons()
     {
@@ -56,7 +62,7 @@ public class BattleUI : MonoBehaviour
         friendMatchingCancleButton.interactable = false;
         displayJoinCode.text =string.Empty;
 
-        string joinCode = await netManager.CreateFriendMatching();
+        string joinCode = await NetManager.instnace.CreateFriendMatching();
 
         if (joinCode != null)
         {
@@ -73,7 +79,7 @@ public class BattleUI : MonoBehaviour
 
     private void DestroyFriendMatching()
     {
-        if (netManager.DestroyFriendMatching())
+        if (NetManager.instnace.DestroyFriendMatching())
         {
             waitFriendUI.gameObject.SetActive(false);
         }
@@ -89,7 +95,7 @@ public class BattleUI : MonoBehaviour
             joinFriendMatchingButton.interactable = false;  
             createFriendMatchingButton.interactable = false;
 
-            bool canJoin = await netManager.JoinGameWithCode(joinCode);
+            bool canJoin = await NetManager.instnace.JoinGameWithCode(joinCode);
 
             if (canJoin)
             {
@@ -110,20 +116,56 @@ public class BattleUI : MonoBehaviour
     private async void StartRandomMathcing()
     {
         ShowMathcingUI();
+
         randomMatchingCancleButton.interactable = false;
-        bool result = await netManager.StartRandomMatching();
+
+        bool result = await NetManager.instnace.StartRandomMatching();
+
         if (result)
         {
+            matchingTimeCoroutine = StartCoroutine(MatchingTimeCoroutine());
+            InitStopMacthingTimeCallback();
             randomMatchingCancleButton.interactable = true;
         }
-        else {
-            HideMatchingUI();   
+        else
+        {
+            HideMatchingUI();
         }
+    }
+
+    private void InitStopMacthingTimeCallback()
+    {
+        NetworkManager.Singleton.OnClientConnectedCallback += StopMatchingTimer;
+        NetworkManager.Singleton.OnClientDisconnectCallback += StopMatchingTimer;
+    }
+
+    private IEnumerator MatchingTimeCoroutine()
+    {
+        float t = 0f;
+        while (true)
+        {
+            matchingTimeText.text = string.Format("{0:D2}:{1:D2}",(int)(t/60),(int)(t%60));
+            t += 1f;
+            yield return new WaitForSeconds(1f);
+        }    
+    }
+
+    private void StopMatchingTimer(ulong clientId)
+    { 
+        if(matchingTimeCoroutine != null)
+            StopCoroutine(matchingTimeCoroutine);
+        matchingTimeText.text ="00:00";
     }
 
     private void DestroyRandomMatching()
     {
-        netManager.DestroyLobby();
+        NetManager.instnace.DestroyLobby();
+        StopMatchingTimer(0);
+        HideMatchingUI();
+    }
+
+    public void ShowDisconnectedUI(ulong clientId)
+    {
         HideMatchingUI();
     }
 
@@ -136,4 +178,15 @@ public class BattleUI : MonoBehaviour
     {
         matchingUI.SetActive(false);
     }
+
+
+    private void OnDestroy()
+    {
+        if (NetworkManager.Singleton != null)
+        {
+            NetworkManager.Singleton.OnClientConnectedCallback -= StopMatchingTimer;
+            NetworkManager.Singleton.OnClientDisconnectCallback -= StopMatchingTimer;
+        }
+    }
+
 }

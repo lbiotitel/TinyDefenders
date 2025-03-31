@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
@@ -8,12 +9,43 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public partial class NetManager : MonoBehaviour
 {
     private const string dEncryption = "dtls";
     private const string wEncryption = "wss";
 
+    [SerializeField] private float heartBeatInterval;
+    private bool heartBeat = true;
+
+
+    #region About Network HeartBeat
+
+    private async void Update()
+    {
+        await NetworkHeartBeat();
+    }
+
+    private async Task NetworkHeartBeat()
+    {
+        if (heartBeat)
+        {
+            if (currentLobby != null)
+            {
+                heartBeat = false;
+                await LobbyService.Instance.SendHeartbeatPingAsync(currentLobby.Id);
+                StartCoroutine(NetworkHeartBeatCoroutine());
+            }
+        }
+    }
+
+    private IEnumerator NetworkHeartBeatCoroutine()
+    { 
+        yield return new WaitForSeconds(heartBeatInterval);
+        heartBeat = true;
+    }
+    #endregion
 
     #region Friend Matching
     public async Task<bool> JoinGameWithCode(string joinCode)
@@ -78,8 +110,8 @@ public partial class NetManager : MonoBehaviour
     {
         try
         {
+            ReleaseEvent();
             NetworkManager.Singleton.Shutdown();
-            NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
             return true;
         }
         catch (RelayServiceException e)
@@ -259,21 +291,13 @@ public partial class NetManager : MonoBehaviour
         }
     }
 
-    private void StartHost()
-    {
-#if UNITY_EDITOR
-        Debug.Log("호스트 시작");
-#endif
-        NetworkManager.Singleton.StartHost();
-        NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
-        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
-    }
 
     private void OnClientConnected(ulong clientId)
     {
         MainSceneUI.instance.ShowMatchingCompleteUI();
-        Invoke("DelayClientConnect", 1f);
+        NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
+        if(NetUtils.IsHost())
+            Invoke("DelayClientConnect", 1f);
     }
 
     private void DelayClientConnect()
@@ -286,26 +310,56 @@ public partial class NetManager : MonoBehaviour
 
     private void OnClientDisconnected(ulong clientId)
     {
-        if (clientId == NetworkManager.Singleton.LocalClientId && NetworkManager.Singleton.IsHost)
-        {
-            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
-            NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
-        }
+        ReleaseEvent();
+        if(SceneManager.GetActiveScene().name == SceneName.MainScene)
+            MainSceneUI.instance.HideMatchingCompleteUI();
         NetworkManager.Singleton.Shutdown();
     }
 
+    private void StartHost()
+    {
+#if UNITY_EDITOR
+        Debug.Log("호스트 시작");
+#endif
+        ReleaseEvent();
+        NetworkManager.Singleton.StartHost();
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+    }
+
+
     private void StartClient()
     {
+        ReleaseEvent();
         NetworkManager.Singleton.StartClient();
-        NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
-        MainSceneUI.instance.ShowMatchingCompleteUI();
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
 #if UNITY_EDITOR
         Debug.Log("클라이언트 시작");
 #endif
     }
 
+
+    private void ReleaseEvent()
+    {
+        if (NetworkManager.Singleton != null)
+        {
+            if (NetworkManager.Singleton.SceneManager != null)
+            {
+             
+                NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
+            }
+
+            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+            NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
+        }
+    }
+
+
     private void OnDestroy()
     {
-
+        ReleaseEvent();
     }
+
+
 }
