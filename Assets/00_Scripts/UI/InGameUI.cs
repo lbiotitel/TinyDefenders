@@ -25,10 +25,6 @@ public class InGameUI : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI monsterNameText;
 
-    [SerializeField] private Transform alarmBar;
-    [SerializeField] private TextMeshProUGUI alarmTextPrefab;
-    private List<TextMeshProUGUI> alarmTextList = new List<TextMeshProUGUI>();
-
     [Header("Game Start UI")]
     [SerializeField] private Animator profileAnimator;
     [SerializeField] private TextMeshProUGUI playerProfileNameText;
@@ -67,6 +63,10 @@ public class InGameUI : NetworkBehaviour
 
     [Header("Option UI")]
     [SerializeField] private InGameOptionUI optionUI;
+
+    [Header("Gold Text Prefab")]
+    [SerializeField] private Transform getGoldTextTransform;
+    [SerializeField] private GameObject getGoldPrefab;
 
 
     private void Start()
@@ -188,28 +188,12 @@ public class InGameUI : NetworkBehaviour
         heroInfoUI.HideHeroInfoUI();
     }
 
-
-    public void ShowAlarmText(string text)
-    {
-        if (alarmTextList.Count > 7)
-        {
-            Destroy(alarmTextList[0]);
-            alarmTextList.RemoveAt(0);
-        }
-        TextMeshProUGUI alarmObj = Instantiate(alarmTextPrefab);
-        alarmObj.text = text;
-        alarmObj.transform.SetParent(alarmBar);
-        alarmObj.transform.SetAsFirstSibling();
-        alarmTextList.Add(alarmObj);
-        Destroy(alarmObj, 1.5f);
-    }
-
     private void DrawMainUI()
     {
         monsterCountText.text =
             GameManager.instance.currentMonsterCount.ToString() + "/" + GameManager.instance.maxMonsterCount.ToString();
         monsterCountSliderImage.fillAmount = GameManager.instance.currentMonsterCount / 100f;
-        currentGoldText.text = GameManager.instance.gold.ToString();
+        currentGoldText.text = string.Format("{0}G", GameManager.instance.gold);
 
     }
 
@@ -226,6 +210,14 @@ public class InGameUI : NetworkBehaviour
         int seconds = Mathf.FloorToInt(GameManager.instance.timer % 60);
 
         return string.Format("{0:D2}:{1:D2}",minutes,seconds);
+    }
+
+
+    public void ShowGetGoldText(int gold)
+    {
+        GameObject go = PoolingManager.instance.GetObject(getGoldPrefab, getGoldTextTransform.position);
+        go.GetComponent<TextMeshProUGUI>().text = string.Format("+{0}",gold);
+        go.transform.SetParent(getGoldTextTransform);
     }
 
 

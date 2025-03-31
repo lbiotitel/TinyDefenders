@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 public partial class Monster : Entity
@@ -83,24 +84,42 @@ public partial class Monster : Entity
         MonsterGetDamage(damage, playerNetworkType, heroId);
     }
 
+    public void GetDamage(double damage, PlayerNetworkType playerNetworkType)
+    {
+        if (!IsServer) return;
+        if (isDead) return;
+
+        MonsterGetDamage(damage,playerNetworkType);
+    }
+
+    private void MonsterGetDamage(double damage, PlayerNetworkType playerNetworkType)
+    {
+        damage -= defense;
+        hp -= ((int)damage);
+        hpImage.fillAmount = ((float)hp / (float)maxHp);
+        UpdateClientRpc(hp, damage, false);
+    }
+
     private void MonsterGetDamage(double damage, PlayerNetworkType playerNetworkType, ulong heroId)
     {
+        if (isDead) return;
         if (NetUtils.TryGetSpawnedObject(heroId, out NetworkObject heroObject))
         {
             Hero hero = heroObject.GetComponent<Hero>();
 
             bool isCri = IsCri(hero);
-            if (isCri) damage *= hero.GetHeroCriDamage();
+            if (isCri) damage *= 1.5f;
 
             damage -= defense;
             hp -= ((int)damage);
 
-            EventManager.instance.onHeroAttackToMonsterAction?.Invoke(hero, this);
 
             StackDamage(damage, playerNetworkType, hero);
 
             hpImage.fillAmount = ((float)hp / (float)maxHp);
             UpdateClientRpc(hp, damage, isCri);
+
+            EventManager.instance.onHeroAttackToMonsterAction?.Invoke(hero, this);
         }
     }
 
@@ -109,6 +128,20 @@ public partial class Monster : Entity
         float cri = Random.Range(0,100f);
         if (cri < hero.GetHeroCriticalRate()) return true;
         return false;
+    }
+
+    public void ExcutionMonster(PlayerNetworkType playerNetworkType, Hero hero)
+    {
+        if (isDead) return;
+
+        double damage = hp < 0 ? 0 : hp;
+        hp = 0;
+
+        if (damage == 0) return;
+
+        StackDamage(damage,playerNetworkType,hero);
+        StackPlayerDamage(damage, playerNetworkType);
+        UpdateClientRpc(hp, damage, false);
     }
 
     private void StackDamage(double damage, PlayerNetworkType playerNetworkType, Hero hero)
@@ -148,12 +181,12 @@ public partial class Monster : Entity
     {
         if (monsterType == MonsterType.NORMAL)
         {
-            GameManager.instance.GetGold(1);
+            GameManager.instance.GetGold(1,PlayerNetworkType.ALL);
         }
         else if (monsterType == MonsterType.GOLD)
         {
             int rewardGold = GameManager.instance.goldGoblinLevel * GameManager.instance.goldGoblinRewardGold;
-            GameManager.instance.GetGold(rewardGold);
+            GameManager.instance.GetGold(rewardGold, PlayerNetworkType.ALL);
         }
     }
 

@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class CardAbilityBase : MonoBehaviour
+public abstract class CardAbilityBase : MonoBehaviour
 {
     protected CardSO cardSO;
 
@@ -15,8 +15,5 @@ public class CardAbilityBase : MonoBehaviour
         this.cardSO = cardSO;
     }
 
-    public virtual void ActiveAbility()
-    { 
-        
-    }
+    public abstract void ActiveAbility();
 }

@@ -1,7 +1,6 @@
 public class DrawCardAbility : CardAbilityBase
 {
 
-
     public override void ActiveAbility()
     {
         UtilityCardSO utilityCardSO = cardSO as UtilityCardSO;

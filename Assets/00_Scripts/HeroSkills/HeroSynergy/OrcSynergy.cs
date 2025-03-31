@@ -11,7 +11,7 @@ public class OrcSynergy : HeroSynergyBase
         PlayerStatManager.instance.AddCriticalRateModifire(playerNetworkType, criticalRate[level - 1]);
         if (level == 3)
         {
-            //EventManager.instance.onHeroAttackToMonsterAction += OrcExcution;
+            EventManager.instance.onHeroAttackToMonsterAction += OrcExcution;
         }
     }
 
@@ -21,18 +21,19 @@ public class OrcSynergy : HeroSynergyBase
         PlayerStatManager.instance.RemoveCriticalRateModifire(playerNetworkType, criticalRate[level - 1]);
         if (level == 3)
         {
-            //EventManager.instance.onHeroAttackToMonsterAction -= OrcExcution;
+            EventManager.instance.onHeroAttackToMonsterAction -= OrcExcution;
         }
     }
 
     private void OrcExcution(Hero hero, Monster monster)
-    { 
-        double hpPercent = (monster.hp / monster.maxHp) * 100;
-
+    {
+        if (monster.IsDead()) return;
+        double hpPercent = (monster.hp / monster.maxHp) * 100f;
+        Debug.Log(hpPercent);
         if (excutionHpPercent >= hpPercent)
         {
             double damage = monster.hp;
-            NetworkRpcManager.instance.AttackMonster(NetUtils.GetPlayerNetworkType(), damage, hero,monster);
+            monster.ExcutionMonster(playerNetworkType,hero);
         }
     }
 }

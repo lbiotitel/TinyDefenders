@@ -9,7 +9,6 @@ public class HumanSynergy : HeroSynergyBase
 
     public override void HeroSynergyActive(int level)
     {
-        Debug.Log(playerNetworkType);
         if (level < 1) return;
         PlayerStatManager.instance.AddSkillAccModifire(playerNetworkType, skillAcc[level - 1]);
         if (level == 3)

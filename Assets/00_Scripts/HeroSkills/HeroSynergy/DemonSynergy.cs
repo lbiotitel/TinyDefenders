@@ -3,6 +3,8 @@ using UnityEngine;
 public class DemonSynergy : HeroSynergyBase
 {
     [SerializeField] private float[] heroAtk;
+    [SerializeField] private float demonExplosionRange;
+    [SerializeField] private GameObject demonExplosionPrefab;
 
     public override void HeroSynergyActive(int level)
     {
@@ -10,7 +12,7 @@ public class DemonSynergy : HeroSynergyBase
         PlayerStatManager.instance.AddAtkModifire(playerNetworkType,heroAtk[level - 1]);
         if(level == 4)
         {
-            
+            EventManager.instance.onHeroAttackToMonsterAction += DemonExplosion;  
         }
     }
 
@@ -19,13 +21,28 @@ public class DemonSynergy : HeroSynergyBase
         if (level < 1) return;
         PlayerStatManager.instance.RemoveAtkModifire(playerNetworkType, heroAtk[level - 1]);
         if (level == 4)
-        { 
-            
+        {
+            EventManager.instance.onHeroAttackToMonsterAction -= DemonExplosion;
         }
     }
 
-    private void DemonExplosion()
-    { 
-        
+    private void DemonExplosion(Hero hero,Monster monster)
+    {
+        if (hero.GetHeroData().heroTribe != HeroTribe.DEMON) return;
+
+        double heroAtk = hero.GetHeroAtk();
+
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(monster.transform.position, demonExplosionRange);
+
+        PoolingManager.instance.GetObject(demonExplosionPrefab, monster.transform.position);
+        Debug.Log("콜라이더 안에 들어옴" + colliders.Length);
+        foreach (var collider in colliders)
+        {
+            if (collider.TryGetComponent(out Monster targetMonster))
+            {
+                if (targetMonster.IsDead()) continue;
+                targetMonster.GetDamage(heroAtk, playerNetworkType);
+            }
+        }
     }
 }

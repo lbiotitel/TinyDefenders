@@ -5,7 +5,6 @@ using Unity.Netcode;
 using UnityEngine;
 
 
-public delegate void OnGoldGetEventHandler();
 public delegate void OnTimerUpEventHandler(string monsterName);
 public delegate void OnGameOver();
 public class GameManager : NetworkBehaviour
@@ -26,8 +25,6 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public int maxMonsterCount { get; private set; }
     [field: SerializeField] public int maxHeroCount { get; private set; }
     [field: SerializeField] public int gold { get; set; }
-    [field: SerializeField] public int summonGold { get; set; }
-    [field: SerializeField] public int summonGoldInc { get; set; }
 
     public int currentWave = 0;
     public float timer = 100000;
@@ -50,7 +47,6 @@ public class GameManager : NetworkBehaviour
     public double friendDps = 0f;
 
     //event
-    public event OnGoldGetEventHandler onGoldGet;
     public event OnTimerUpEventHandler onTimerUp;
     public event OnGameOver onGameOver;
 
@@ -280,6 +276,7 @@ public class GameManager : NetworkBehaviour
     public void GetGold(int gold)
     {
         this.gold += (int)(gold + (gold * PlayerStatManager.instance.GetBonusGold(NetUtils.GetPlayerNetworkType())));
+        InGameUI.instance.ShowGetGoldText(gold);
     }
 
     public bool IsEnoughGold(int gold)
