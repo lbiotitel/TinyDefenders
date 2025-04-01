@@ -72,13 +72,13 @@ public class HeroInfoUI : MonoBehaviour
 
         this.attackSpeedText.text =
             hero.GetHeroBounusAtkSpeed() == 0 ?
-            string.Format("{0:0}", hero.GetHeroBaseAtkSpeed()) :
-            string.Format("{0:0}<color=#00FF00>(+{1:0})", hero.GetHeroBaseAtkSpeed(),hero.GetHeroBounusAtkSpeed());
+            string.Format("{0:2}", hero.GetHeroBaseAtkSpeed()) :
+            string.Format("{0:F2}<color=#00FF00>(+{1:F2})", hero.GetHeroBaseAtkSpeed(),hero.GetHeroBounusAtkSpeed());
 
         this.attackRangeText.text =
             hero.GetHeroBaseAtkRange() - hero.GetHeroBaseAtkRange() == 0 ?
-            string.Format("{0:0}", hero.GetHeroBaseAtkRange()) :
-            string.Format("{0:0}<color=#00FF00>(+{1:0})", hero.GetHeroAtkRange(), hero.GetHeroBaseAtkRange());
+            string.Format("{0:2}", hero.GetHeroBaseAtkRange()) :
+            string.Format("{0:F2}<color=#00FF00>(+{1:F2})", hero.GetHeroAtkRange(), hero.GetHeroBaseAtkRange());
 
 
         this.criRateText.text = 

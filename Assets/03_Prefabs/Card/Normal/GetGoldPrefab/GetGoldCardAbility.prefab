@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 117168080569487727}
   - component: {fileID: 6190610626537148520}
   m_Layer: 0
-  m_Name: GoldCardAbility
+  m_Name: GetGoldCardAbility
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b143b018e7862e4fafc2ada032d4977, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardParticle: {fileID: 258402628565626318, guid: 5057e9bc6d0301e40919047e17f7438a, type: 3}

@@ -276,9 +276,9 @@ public partial class NetManager : MonoBehaviour
     private void OnClientConnected(ulong clientId)
     {
         MainSceneUI.instance.ShowMatchingCompleteUI();
+        SceneFadeInClientRpc();
         NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
-        if(NetUtils.IsHost())
-            Invoke("DelayClientConnect", 1f);
+        if(NetUtils.IsHost()) Invoke("DelayClientConnect", 2f);
     }
 
     private void DelayClientConnect()

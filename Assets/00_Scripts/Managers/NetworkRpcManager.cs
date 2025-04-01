@@ -16,11 +16,11 @@ public class NetworkRpcManager : NetworkBehaviour
     }
 
     #region About Attack and Debuff
-    public void AttackMonster(PlayerNetworkType playerNetworkType,double damage, Hero hero,Monster monster = null,List<DebuffEffect> debuffList = null)
+    public void AttackMonster(PlayerNetworkType playerNetworkType, double damage, Hero hero, Monster monster = null, List<DebuffEffect> debuffList = null, bool eventCall = true)
     {
         if (monster != null)
         {
-            AttackMonsterServerRpc(monster.NetworkObjectId,hero.NetworkObjectId, playerNetworkType, damage);
+            AttackMonsterServerRpc(monster.NetworkObjectId,hero.NetworkObjectId, playerNetworkType, damage,eventCall);
             if(debuffList != null)DebuffEffect(playerNetworkType, monster, debuffList);
         }
     }
@@ -49,7 +49,7 @@ public class NetworkRpcManager : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void AttackMonsterServerRpc(ulong monsterId,ulong heroId, PlayerNetworkType playerNetworkType, double damage)
+    private void AttackMonsterServerRpc(ulong monsterId,ulong heroId, PlayerNetworkType playerNetworkType, double damage,bool eventCall = true)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(monsterId, out NetworkObject networkObject))
         {
@@ -57,7 +57,7 @@ public class NetworkRpcManager : NetworkBehaviour
             Monster monster = networkObject.GetComponent<Monster>();
             if (monster != null)
             {
-                monster.GetDamage(damage, playerNetworkType, heroId);
+                monster.GetDamage(damage, playerNetworkType, heroId, eventCall);
             }
         }
     }
@@ -162,7 +162,7 @@ public class NetworkRpcManager : NetworkBehaviour
     #endregion
 
 
-    #region About Hero Synergy Data
+    #region About Hero Synergy 
 
     [ClientRpc]
     public void GetHHeroSynergyDatasClientRpc(int[] heroTribe, int[] synergyLevel)
@@ -171,6 +171,17 @@ public class NetworkRpcManager : NetworkBehaviour
         {
             PlayerStatManager.instance.SetClientHeroSynergyData(NetUtils.GetPlayerNetworkType(), (HeroTribe)heroTribe[i], synergyLevel[i]);
         }
+    }
+
+
+    [ClientRpc]
+    public void SpawnDemonExplosionClientRpc(Vector3 targetPos)
+    {
+        HeroSynergySO heroSynergySO = SoDataManager.instance.GetHeroSynergySO(HeroTribe.DEMON);
+        DemonSynergy demonSynergy = heroSynergySO.synergyBase as DemonSynergy;
+        GameObject demonExplosionPrefab = demonSynergy.GetExplosionPrefab();
+
+        GameObject go = PoolingManager.instance.GetObject(demonExplosionPrefab,targetPos);
     }
 
     #endregion

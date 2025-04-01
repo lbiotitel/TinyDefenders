@@ -23,7 +23,7 @@ public class SoDataManager : MonoBehaviour
 
     private Dictionary<string, HeroScriptable> heroSciprtableDataDic;
     private Dictionary<string, CardSO> spellCardScriptableDataDic;
-    private Dictionary<string, HeroSynergySO> heroSynergySODataDic;
+    private Dictionary<HeroTribe, HeroSynergySO> heroSynergySODataDic;
     private Dictionary<string, CombineSciptable> combineSODataDic;
 
 
@@ -65,7 +65,7 @@ public class SoDataManager : MonoBehaviour
     #region About Hero Synergy Data 
     private void InitAllHeroSynergyData()
     {
-        heroSynergySODataDic = new Dictionary<string, HeroSynergySO>();
+        heroSynergySODataDic = new Dictionary<HeroTribe, HeroSynergySO>();
 
         HeroSynergySO[] heroSynergySOs = Resources.LoadAll<HeroSynergySO>("HeroSynergyDatas");
 
@@ -74,15 +74,15 @@ public class SoDataManager : MonoBehaviour
 #endif
         for(int i = 0; i < heroSynergySOs.Length; i++)
         {
-            heroSynergySODataDic.Add(heroSynergySOs[i].synergyName, heroSynergySOs[i]);
+            heroSynergySODataDic.Add(heroSynergySOs[i].synergyTribe, heroSynergySOs[i]);
         }   
     }
 
-    public HeroSynergySO GetHeroSynergySO(string synergyName)
+    public HeroSynergySO GetHeroSynergySO(HeroTribe synergyTribe)
     {
-        if (heroSynergySODataDic.ContainsKey(synergyName))
+        if (heroSynergySODataDic.ContainsKey(synergyTribe))
         {
-            return heroSynergySODataDic[synergyName];
+            return heroSynergySODataDic[synergyTribe];
         }
 
         return null;

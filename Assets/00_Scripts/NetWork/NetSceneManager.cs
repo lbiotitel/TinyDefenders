@@ -27,19 +27,26 @@ public partial class NetManager : MonoBehaviour
         }
     }
 
+    [ClientRpc]
+    private void SceneFadeInClientRpc()
+    {
+        LoadingManager.instance.FadeInOut(true);
+    }
+
     private void OnSceneLoaded(ulong clientId, string sceneName, LoadSceneMode mode)
     {
         if (sceneName == SceneName.GameScene)
         {
             Debug.Log("»£√‚");
-            GameManager.instance.SetSpawner();
 
             if (!NetUtils.IsHost())
             {
                 GameManager.instance.SendUserNameServerRpc(CloudManager.instance.userData.userName);
             }
 
+            GameManager.instance.SetSpawner();
             NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
+            LoadingManager.instance.FadeInOut(false);
         }
     }
 

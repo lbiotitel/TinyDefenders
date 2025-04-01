@@ -112,6 +112,34 @@ public class CardManager : MonoBehaviour
         DrawCard((CardType)random);
     }
 
+    public void DrawCard(string cardName)
+    {
+        CardSO cardSo = SoDataManager.instance.GetSpellCardScirptableObject(cardName);
+
+        InitSpellCard(cardSo);
+    }
+
+    private void InitSpellCard(CardSO cardSo)
+    {
+        CardNodeBase cardNode = null;
+
+        switch (cardSo.cardType)
+        {
+            case CardType.ATTACK:
+                cardNode = Instantiate(attackCardPrefab, transform.position, Quaternion.identity);
+                break;
+            case CardType.UTILITY:
+                cardNode = Instantiate(utilityCardPrefab, transform.position, Quaternion.identity);
+                break;
+        }
+
+        cardNode.InitCardNode(cardSo);
+        cardNode.gameObject.SetActive(true);
+        cardNode.transform.SetParent(myCardPos, false);
+
+        myCardList.Add(cardNode);
+    }
+
     private void DrawCard(CardType cardType)
     {
         switch (cardType)
@@ -132,25 +160,7 @@ public class CardManager : MonoBehaviour
 
         int randomCard = Random.Range(0, cardList.Count);
 
-        CardType cardType = cardList[randomCard].cardType;
-
-        CardNodeBase cardNode = null;
-
-        switch (cardType)
-        {
-            case CardType.ATTACK:
-                cardNode = Instantiate(attackCardPrefab, transform.position, Quaternion.identity);
-                break;
-            case CardType.UTILITY:
-                cardNode = Instantiate(utilityCardPrefab, transform.position, Quaternion.identity);
-                break;
-        }
-       
-        cardNode.InitCardNode(cardList[randomCard]);
-        cardNode.gameObject.SetActive(true);
-        cardNode.transform.SetParent(myCardPos,false);
-
-        myCardList.Add(cardNode);
+        InitSpellCard(cardList[randomCard]);
     }
 
     private void GetSummonCardSO()

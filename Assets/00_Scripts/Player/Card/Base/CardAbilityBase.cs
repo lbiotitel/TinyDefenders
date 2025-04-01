@@ -4,7 +4,6 @@ using UnityEngine;
 public abstract class CardAbilityBase : MonoBehaviour
 {
     protected CardSO cardSO;
-
     protected void OnValidate()
     {
         gameObject.name = GetType().Name;  

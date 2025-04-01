@@ -29,6 +29,7 @@ public class PlayerStatManager : MonoBehaviour
     [field: SerializeField] public Stat serverGoldBonus;
     [field: SerializeField] public Stat serverSkillAcc;
     [field: SerializeField] public Stat serverCriticalRate;
+    [field: SerializeField] public Stat serverDebuffDuration;
 
 
 
@@ -39,6 +40,7 @@ public class PlayerStatManager : MonoBehaviour
     [field: SerializeField] public Stat clientGoldBouns;
     [field: SerializeField] public Stat clientSkillAcc;
     [field: SerializeField] public Stat clientCriticalRate;
+    [field: SerializeField] public Stat clientDebuffDuration;
 
 
     private Dictionary<HeroTribe, HeroSynergySO> clientHeroSynergyDic = new Dictionary<HeroTribe, HeroSynergySO>();
@@ -139,8 +141,6 @@ public class PlayerStatManager : MonoBehaviour
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         {
             clientHeroSynergyDic[heroTribe].SetCurrentHeroSynergyLevel(synergyLevel);
-            Debug.Log(heroTribe.ToString() + synergyLevel);
-
             foreach (var data in clientHeroSynergyDic)
             {
                 data.Value.ActiveSynegy();
@@ -369,9 +369,9 @@ public class PlayerStatManager : MonoBehaviour
         switch (playerNetworkType)
         {
             case PlayerNetworkType.HOST:
-                return serverAtkSpeed.GetValue();
+                return serverAtkSpeed.GetModifireValue();
             case PlayerNetworkType.CLIENT:
-                return clientAtkSpeed.GetValue();
+                return clientAtkSpeed.GetModifireValue();
         }
 
         return 0;

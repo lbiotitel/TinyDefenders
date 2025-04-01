@@ -15,9 +15,9 @@ public class UtilityCardSO : CardSO
     }
 
 
-    public void UseCard()
+    public void UseCard(Vector3 position)
     {
-        CardAbilityBase cardAbilityBase = Instantiate(activePrefab);
+        CardAbilityBase cardAbilityBase = Instantiate(activePrefab,position,Quaternion.identity);
         cardAbilityBase.InitCardAbility(this);
         cardAbilityBase.ActiveAbility();
     }

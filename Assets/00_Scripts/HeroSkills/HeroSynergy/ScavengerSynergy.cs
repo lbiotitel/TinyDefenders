@@ -3,7 +3,8 @@ using UnityEngine;
 public class ScavengerSynergy : HeroSynergyBase
 {
     [SerializeField] private float[] goldBonus;
-
+    [SerializeField] private float getGoldCardRate;
+    [SerializeField] private string getGoldCardName;
     public override void HeroSynergyActive(int level)
     {
         if (level < 1) return;
@@ -26,6 +27,11 @@ public class ScavengerSynergy : HeroSynergyBase
 
     private void ScavengerDrawGoldCard()
     {
-        Debug.Log("골드 카드 드로우");
+        float randomValue = Random.Range(0,100f);
+
+        if (randomValue <= getGoldCardRate)
+        {
+            CardManager.instance.DrawCard(getGoldCardName);
+        }
     }
 }

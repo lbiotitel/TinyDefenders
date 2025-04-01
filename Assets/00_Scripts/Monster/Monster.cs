@@ -76,12 +76,12 @@ public partial class Monster : Entity
 
     #region Monster Damage Logic
 
-    public void GetDamage(double damage, PlayerNetworkType playerNetworkType, ulong heroId)
+    public void GetDamage(double damage, PlayerNetworkType playerNetworkType, ulong heroId, bool eventCall = true)
     {
         if (!IsServer) return;
         if (isDead) return;
 
-        MonsterGetDamage(damage, playerNetworkType, heroId);
+        MonsterGetDamage(damage, playerNetworkType, heroId, eventCall);
     }
 
     public void GetDamage(double damage, PlayerNetworkType playerNetworkType)
@@ -100,7 +100,7 @@ public partial class Monster : Entity
         UpdateClientRpc(hp, damage, false);
     }
 
-    private void MonsterGetDamage(double damage, PlayerNetworkType playerNetworkType, ulong heroId)
+    private void MonsterGetDamage(double damage, PlayerNetworkType playerNetworkType, ulong heroId, bool eventCall = true)
     {
         if (isDead) return;
         if (NetUtils.TryGetSpawnedObject(heroId, out NetworkObject heroObject))
@@ -119,7 +119,7 @@ public partial class Monster : Entity
             hpImage.fillAmount = ((float)hp / (float)maxHp);
             UpdateClientRpc(hp, damage, isCri);
 
-            EventManager.instance.onHeroAttackToMonsterAction?.Invoke(hero, this);
+            if(eventCall)EventManager.instance.onHeroAttackToMonsterAction?.Invoke(hero, this);
         }
     }
 

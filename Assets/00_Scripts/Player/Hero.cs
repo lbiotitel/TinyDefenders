@@ -243,8 +243,8 @@ public class Hero : Entity
 
     public float GetHeroAtkSpeed()
     {
-        float synergyStat = PlayerStatManager.instance.GetBonusAtkSpeed(heroOwner);
-        float atkSpeed = heroData.atkSpeed.GetValue() + (heroData.atkSpeed.GetValue() * synergyStat / 100f);
+        float synergyStat = PlayerStatManager.instance.GetBonusAtkSpeed(NetUtils.GetPlayerNetworkType()) + heroData.atkSpeed.GetModifireValue();
+        float atkSpeed = GetHeroBaseAtkSpeed() + (GetHeroBaseAtkSpeed() * (synergyStat / 100f));
         return atkSpeed;
     }
 

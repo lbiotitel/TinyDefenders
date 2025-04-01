@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public class GoldCardAbility : CardAbilityBase
+public class GetGoldCardAbility : CardAbilityBase
 {
+    [SerializeField] private GameObject cardParticle;
     public override void ActiveAbility()
     {
+        PoolingManager.instance.GetObject(cardParticle, transform.position);
+
         UtilityCardSO utilityCardSO = cardSO as UtilityCardSO;
 
         int minGold = utilityCardSO.values[0];

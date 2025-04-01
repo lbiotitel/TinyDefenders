@@ -275,7 +275,7 @@ public class GameManager : NetworkBehaviour
 
     public void GetGold(int gold)
     {
-        this.gold += (int)(gold + (gold * PlayerStatManager.instance.GetBonusGold(NetUtils.GetPlayerNetworkType())));
+        this.gold += (int)(gold + (gold * (PlayerStatManager.instance.GetBonusGold(NetUtils.GetPlayerNetworkType()) / 100f)));
         InGameUI.instance.ShowGetGoldText(gold);
     }
 

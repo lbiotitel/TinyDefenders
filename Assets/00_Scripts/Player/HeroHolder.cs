@@ -58,8 +58,6 @@ public class HeroHolder : NetworkBehaviour
 
     public void HideHeroRange()
     {
-        if (ownHero == null) return;
-
         heroRange.gameObject.SetActive(false);
         heroRange.localScale = Vector2.zero;
     }
@@ -103,6 +101,7 @@ public class HeroHolder : NetworkBehaviour
         holderName = string.Empty;
         ownHero = null;
         heroData = null;
+
         ClientSetPosition();
         HideOwnMark();
         HideHeroRange();

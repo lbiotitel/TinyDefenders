@@ -14,7 +14,9 @@ public class UtilityCardNode : CardNodeBase
 
     protected override void UseCard()
     {
-        utilityCardSO.UseCard();
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        worldPos.z = 0f;
+        utilityCardSO.UseCard(worldPos);
         base.UseCard();
     }
 }
