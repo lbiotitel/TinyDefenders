@@ -44,13 +44,8 @@ public class InGameUI : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI waveUIText;
     [SerializeField] private TextMeshProUGUI bossNameText;
 
-    [Header("Game Over UI")]
-    [SerializeField] private GameObject gameOverUI;
-    [SerializeField] private TextMeshProUGUI bestWaveText;
-    [SerializeField] private TextMeshProUGUI playerGameOverNameText;
-    [SerializeField] private TextMeshProUGUI friendGameOverNameText;
-    [SerializeField] private TextMeshProUGUI playerDpsText;
-    [SerializeField] private TextMeshProUGUI friendDpsText;
+    [Header("Game Finish UI")]
+    [SerializeField] GameFinishUI gameFinishUI;
 
     [Header("Alarm UI")]
     [SerializeField] private AlarmUI alarmUI;
@@ -82,17 +77,14 @@ public class InGameUI : NetworkBehaviour
     public void InitAllUserName(string hostName, string clientName)
     { 
         playerProfileNameText.text = hostName;
-        playerGameOverNameText.text = hostName;
         playerProfileAnimNameText.text = hostName;
         friendProfileNameText.text = clientName;
-        friendGameOverNameText.text = clientName;
         friendProfileAnimNameText.text = clientName;
     }
 
     private void InitEvent()
     {
         GameManager.instance.onTimerUp += DrawWaveAndTime;
-        GameManager.instance.onGameOver += ShowGameOverUI;
     }
 
     public void ShowWaveUI()
@@ -109,20 +101,17 @@ public class InGameUI : NetworkBehaviour
         bossNameText.text = bossName;
     }
 
-  
-    public void ShowGameOverUI()
+
+    #region About GameOver UI
+    public void ShowGameFinishUI(string playerName,string friendName,double playerDamage,double friendDamage,int bestWave)
     {
-        gameOverUI.SetActive(true);
-        StartCoroutine(ShowGameOverDelay());
+        gameFinishUI.gameObject.SetActive(true);
+        gameFinishUI.SetGameFinishUI(playerName,friendName,playerDamage,friendDamage,bestWave);
     }
 
-    private IEnumerator ShowGameOverDelay()
-    {
-        yield return new WaitForSecondsRealtime(0.3f);
-        bestWaveText.text = GameManager.instance.currentWave.ToString();
-        playerDpsText.text = GameManager.instance.playerDps.ToString();
-        friendDpsText.text = GameManager.instance.friendDps.ToString();
-    }
+    
+    #endregion
+
 
 
     [ServerRpc(RequireOwnership = false)]

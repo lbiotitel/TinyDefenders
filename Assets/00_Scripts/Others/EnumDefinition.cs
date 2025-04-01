@@ -11,6 +11,7 @@ public struct SceneName {
     public static string MainScene = "MainScene";
     public static string GameScene = "GamePlayScene";
     public static string IntroScene = "IntroScene";
+    public static string ResultScene = "ResultScene";
 }
 
 public struct LayerName {
@@ -31,6 +32,7 @@ public enum HeroTribe {
     ELF,
     ORC,
     SCAVENGER,
+    FIVEHERO,
     LAST
 }
 

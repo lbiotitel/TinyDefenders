@@ -156,11 +156,11 @@ public partial class Monster : Entity
     {
         if (playerNetworkType == PlayerNetworkType.HOST)
         {
-            GameManager.instance.playerDps += damage;
+            GameManager.instance.playerDamage += damage;
         }
         else
         {
-            GameManager.instance.friendDps += damage;
+            GameManager.instance.friendDamage += damage;
         }
     }
 

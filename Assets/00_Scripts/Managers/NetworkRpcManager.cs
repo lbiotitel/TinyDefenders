@@ -185,4 +185,20 @@ public class NetworkRpcManager : NetworkBehaviour
     }
 
     #endregion
+
+
+
+    #region About Game Over Data
+
+
+
+    [ClientRpc]
+    public void GameFinishClientRpc(string playerName,string friendName,double playerDps, double friendDps,int bestWave)
+    {
+        InGameUI.instance.ShowGameFinishUI(playerName,friendName,playerDps,friendDps,bestWave);
+    }
+
+
+
+#endregion
 }

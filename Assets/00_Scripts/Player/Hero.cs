@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using WebSocketSharp;
 
 public class Hero : Entity
 {
@@ -23,7 +24,7 @@ public class Hero : Entity
     public string heroName { get; set; }
     [HideInInspector] public HeroRarity heroRarity;
     [HideInInspector] public NetworkObject target { get; set; } = null;
-    public NetworkObjectType heroOwner { get; private set; }
+    public PlayerNetworkType heroOwnerNetworkType { get; private set; }
 
 
     public override void Awake()
@@ -49,7 +50,7 @@ public class Hero : Entity
 
         Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
 
-        heroOwner = heroHolder.holderId.Contains("CLIENT") ? NetworkObjectType.CLIENT : NetworkObjectType.HOST;
+        heroOwnerNetworkType = heroHolder.holderId.Contains("CLIENT") ? PlayerNetworkType.CLIENT : PlayerNetworkType.HOST;
 
         if(IsServer)PlayerStatManager.instance.AddHero(this);
     }
@@ -223,7 +224,7 @@ public class Hero : Entity
     public double GetHeroAtk()
     {
         double atk = heroData.atk.GetValue();
-        atk += atk * (PlayerStatManager.instance.GetHeroUpgradeLevel(heroData.heroTribe, heroOwner) * 0.05f);
+        atk += atk * (PlayerStatManager.instance.GetHeroUpgradeLevel(heroData.heroTribe, heroOwnerNetworkType) * 0.05f);
         return atk;
     }
 
@@ -313,7 +314,7 @@ public class Hero : Entity
 
     public float GetHeroSkillAcc()
     { 
-        return heroData.skillAcc.GetModifireValue() + PlayerStatManager.instance.GetBonusSkillAcc(heroOwner);
+        return heroData.skillAcc.GetModifireValue() + PlayerStatManager.instance.GetBonusSkillAcc(heroOwnerNetworkType);
     }
 
     public void AddAtkModifire(float value)

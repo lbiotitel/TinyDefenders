@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
 public delegate void OnTimerUpEventHandler(string monsterName);
-public delegate void OnGameOver();
 public class GameManager : NetworkBehaviour
 {
     public static GameManager instance = null;
@@ -42,13 +42,15 @@ public class GameManager : NetworkBehaviour
     private bool warningAlarmDelay = false;
 
     private bool isGameStart = false;
+    private bool isGameOver = false;
 
-    public double playerDps = 0f;
-    public double friendDps = 0f;
+    private string playerName;
+    private string friendName;
+    public double playerDamage = 0f;
+    public double friendDamage = 0f;
 
     //event
     public event OnTimerUpEventHandler onTimerUp;
-    public event OnGameOver onGameOver;
 
     private List<Monster> monsterList = new List<Monster>();
 
@@ -291,54 +293,45 @@ public class GameManager : NetworkBehaviour
 
 
     #region Game Over Logic
-    private void CleanNetworkObject()
+
+    private void ReleaseNetworkObject<T>(ref List<T> list) where T : Object
+    {
+        NetworkObject[] networkObjectList = new NetworkObject[list.Count];
+
+        int index = 0;
+        foreach (var data in list) networkObjectList[index++] = data.GetComponent<NetworkObject>();
+
+        for(int i = 0; i < networkObjectList.Length; i++)
+        {
+            if (networkObjectList[i] != null && networkObjectList[i].IsSpawned)
+                networkObjectList[i].Despawn(true);
+        }
+    }
+
+    private void ClearNetworkObject()
     {
         if (IsServer)
         {
-            foreach (var obj in FindObjectsByType<NetworkObject>(FindObjectsSortMode.None))
-            {
-                if (obj != null && obj.IsSpawned)
-                {
-                    obj.Despawn(true);
-                }
-            }
+            ReleaseNetworkObject(ref serverHeroList);
+            ReleaseNetworkObject(ref clientHeroList);
+            
+            NetworkPoolingManager.instance.ReleaseAll();
         }
     }
 
     public void GameOver()
     {
-        GameOverClientRpc(playerDps, friendDps);
-        StartCoroutine(ChangeToMainSceneForAllPlayers());
-    }
-
-    [ClientRpc]
-    private void GameOverClientRpc(double playerDps, double friendDps)
-    {
-        CloudManager.instance.userData.bestWave = currentWave;
-        CloudManager.instance.SaveUserData();
-        Time.timeScale = 0f;
-        onGameOver?.Invoke();
-
-        if (!IsServer)
+        if (NetUtils.IsHost())
         {
-            this.playerDps = playerDps;
-            this.friendDps = friendDps;
+            if (!isGameOver)
+            {
+                isGameOver = true;
+                //ClearNetworkObject();
+                NetworkRpcManager.instance.GameFinishClientRpc(playerName, friendName, playerDamage, friendDamage, currentWave);
+            }
         }
     }
 
-    private IEnumerator ChangeToMainSceneForAllPlayers()
-    {
-        yield return new WaitForSecondsRealtime(3f);
-        CleanNetworkObject();
-        Time.timeScale = 1f;
-        if (NetworkManager.Singleton.IsHost)
-        {
-            NetworkManager.Singleton.SceneManager.LoadScene(
-                SceneName.MainScene,
-                UnityEngine.SceneManagement.LoadSceneMode.Single
-            );
-        }
-    }
 
     #endregion
 
@@ -425,6 +418,8 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     private void SendUserNameClientRpc(string hostName, string clientName)
     {
+        playerName = hostName;
+        friendName = clientName;    
         InGameUI.instance.InitAllUserName(hostName, clientName);
     }
     #endregion

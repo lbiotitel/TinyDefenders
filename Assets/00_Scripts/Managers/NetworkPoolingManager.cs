@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class NetworkPoolingManager : NetworkBehaviour
     public static NetworkPoolingManager instance = null;
     [SerializeField] private GameObject networkObjectPrefab;
     [SerializeField] private List<NetworkObject> poolList = new List<NetworkObject>();
+    private NetworkPrefabHandler networkPrefabHandler;
 
     private void Awake()
     {
@@ -19,12 +21,9 @@ public class NetworkPoolingManager : NetworkBehaviour
 
             if (NetworkManager.Singleton != null)
             {
-                NetworkManager.Singleton.PrefabHandler.AddHandler(
-                    networkObjectPrefab, new NetworkPrefabHandler(this));
+                networkPrefabHandler = new NetworkPrefabHandler(this);
+                NetworkManager.Singleton.PrefabHandler.AddHandler(networkObjectPrefab, networkPrefabHandler);
             }
-        }
-        else {
-            Destroy(gameObject);
         }
     }
 
@@ -61,6 +60,29 @@ public class NetworkPoolingManager : NetworkBehaviour
         poolList.Add(networkObject);
     }
 
+    public void ReleaseAll()
+    {
+        NetworkObject[] networkObjectList = new NetworkObject[poolList.Count];
+
+        int index = 0;
+        foreach (var data in poolList) networkObjectList[index++] = data.GetComponent<NetworkObject>();
+
+        for (int i = 0; i < networkObjectList.Length; i++)
+        {
+            if (networkObjectList[i] != null && networkObjectList[i].IsSpawned)
+                networkObjectList[i].Despawn(true);
+        }
+
+        foreach (var obj in FindObjectsByType<Monster>(FindObjectsSortMode.None))
+        {
+            NetworkObject networkObject = obj.GetComponent<NetworkObject>();
+            if (networkObject != null && networkObject.IsSpawned)
+            {
+                networkObject.Despawn(true);
+            }
+        }
+    }
+
     private class NetworkPrefabHandler : INetworkPrefabInstanceHandler
     {
         private NetworkPoolingManager pool;
@@ -79,5 +101,13 @@ public class NetworkPoolingManager : NetworkBehaviour
         {
             return pool.GetObject(position,rotation);
         }
+    }
+
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        if (NetworkManager.Singleton != null) NetworkManager.Singleton.PrefabHandler.RemoveHandler(networkObjectPrefab);
+        instance = null;
     }
 }

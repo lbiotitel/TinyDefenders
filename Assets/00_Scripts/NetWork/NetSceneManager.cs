@@ -37,6 +37,7 @@ public partial class NetManager : MonoBehaviour
     {
         if (sceneName == SceneName.GameScene)
         {
+            ReleaseEvent();
             Debug.Log("»£√‚");
 
             if (!NetUtils.IsHost())
@@ -45,7 +46,6 @@ public partial class NetManager : MonoBehaviour
             }
 
             GameManager.instance.SetSpawner();
-            NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
             LoadingManager.instance.FadeInOut(false);
         }
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-public class GameCamera : NetworkBehaviour
+public class GameCamera : MonoBehaviour
 {
     [SerializeField] private BoxCollider2D cameraClampCollider;
     private Vector2 cameraRange;
@@ -16,14 +16,14 @@ public class GameCamera : NetworkBehaviour
     private Camera cam;
     private HeroHolder heroHolder = null;
     private HeroHolder moveHolder = null;
-    private string hostOrClient;
+    private string hostOrClient = string.Empty;
 
 
     private void Start()
     {
         cam = GetComponent<Camera>();
         hostOrClient = NetUtils.IsHost() ? "HOST" : "CLIENT";
-
+        Debug.Log(hostOrClient);
     }
     //ray cast
     private void Update()
@@ -116,6 +116,7 @@ public class GameCamera : NetworkBehaviour
 
         if (hit.collider != null)
         {
+            Debug.Log("Å¬¸¯");
             if (hit.collider.GetComponent<HeroHolder>() == null)
             {
                 heroHolder = null;
@@ -130,13 +131,7 @@ public class GameCamera : NetworkBehaviour
                 return;
             }
 
-            bool isOwn = false;
-
-            ulong value = NetworkManager.Singleton.LocalClientId;
-            if (value == 0) isOwn = heroHolder.holderId.Contains("HOST");
-            else if (value == 1) isOwn = heroHolder.holderId.Contains("CLIENT");
-
-            if (!isOwn)
+            if (!IsOwnHolder(heroHolder))
             {
                 heroHolder = null;
                 return;
@@ -144,6 +139,17 @@ public class GameCamera : NetworkBehaviour
 
             heroHolder.ShowOwnMark();
         }
+    }
+
+    private bool IsOwnHolder(HeroHolder targetHeroHolder)
+    {
+        bool isOwn = false;
+
+        PlayerNetworkType playerNetworkType = NetUtils.GetPlayerNetworkType();
+        if (playerNetworkType == PlayerNetworkType.HOST) isOwn = targetHeroHolder.holderId.Contains("HOST");
+        else if (playerNetworkType == PlayerNetworkType.CLIENT) isOwn = targetHeroHolder.holderId.Contains("CLIENT");
+
+        return isOwn;
     }
 
     private void MouseButton()

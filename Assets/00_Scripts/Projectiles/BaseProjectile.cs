@@ -101,7 +101,7 @@ public class BaseProjectile : MonoBehaviour
         if (NetUtils.IsHost() && monster != null && !monster.GetComponent<Monster>().IsDead())
         {
             NetworkRpcManager.instance.AttackMonster(
-                NetUtils.GetPlayerNetworkType(),
+                referenceHero.heroOwnerNetworkType,
                 damage,
                 referenceHero,
                 monster.GetComponent<Monster>(),

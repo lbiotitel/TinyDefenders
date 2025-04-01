@@ -73,7 +73,7 @@ public class PlayerStatManager : MonoBehaviour
 
     public void AddHero(Hero hero)
     {
-        if (hero.heroOwner == NetworkObjectType.HOST)
+        if (hero.heroOwnerNetworkType == PlayerNetworkType.HOST)
         {
             serverHeroSynergyDic[hero.GetHeroData().heroTribe]?.IncreaseTribeCount();
         }
@@ -87,7 +87,7 @@ public class PlayerStatManager : MonoBehaviour
 
     public void RemoveHero(Hero hero)
     {
-        if (hero.heroOwner == NetworkObjectType.HOST)
+        if (hero.heroOwnerNetworkType == PlayerNetworkType.HOST)
         {
             serverHeroSynergyDic[hero.GetHeroData().heroTribe]?.DecreaseTribeCount();
         }
@@ -456,9 +456,9 @@ public class PlayerStatManager : MonoBehaviour
             serverUpgrade.GetHeroUpgradeLevel(heroTribe) : clientUpgrade.GetHeroUpgradeLevel(heroTribe);
     }
 
-    public int GetHeroUpgradeLevel(HeroTribe heroTribe, NetworkObjectType heroOwner)
+    public int GetHeroUpgradeLevel(HeroTribe heroTribe, PlayerNetworkType heroOwner)
     {
-        return heroOwner == NetworkObjectType.HOST ?
+        return heroOwner == PlayerNetworkType.HOST ?
             serverUpgrade.GetHeroUpgradeLevel(heroTribe) : clientUpgrade.GetHeroUpgradeLevel(heroTribe);
     }
 
@@ -467,9 +467,9 @@ public class PlayerStatManager : MonoBehaviour
         return NetUtils.IsHost() == true ?
             serverUpgrade.GetHeroUpgradeCost(heroTribe) : clientUpgrade.GetHeroUpgradeCost(heroTribe);
     }
-    public int GetHeroUpgradeCost(HeroTribe heroTribe, NetworkObjectType heroOwner)
+    public int GetHeroUpgradeCost(HeroTribe heroTribe, PlayerNetworkType heroOwner)
     {
-        return heroOwner == NetworkObjectType.HOST ?
+        return heroOwner == PlayerNetworkType.HOST ?
             serverUpgrade.GetHeroUpgradeCost(heroTribe) : clientUpgrade.GetHeroUpgradeCost(heroTribe);
     }
 

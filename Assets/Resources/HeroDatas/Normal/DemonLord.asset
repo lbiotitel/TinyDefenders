@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: DemonLord
+  m_EditorClassIdentifier: 
+  heroName: DemonLord
+  rarity: 0
+  heroCost: 350
+  atk:
+    <baseValue>k__BackingField: 660
+    modifiers: []
+  damage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  atkSpeed:
+    <baseValue>k__BackingField: 1
+    modifiers: []
+  atkRange:
+    <baseValue>k__BackingField: 3
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  heroDesc: 
+  heroTribe: 3
+  heroMainImage: {fileID: 1970677138, guid: 592889d9539f3474c8462294566ff5de, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 789e66a46f4083840a8f3c2c151baf78, type: 2}
+  projectile: {fileID: 8001605297075714691, guid: 1baa2ed0308a3b545a6b76f1b0768e16, type: 3}
+  debuffEffects: []
+  skillDebuffEffects: []
+  skillData:
+    coolTime: 6
+    skillPrefab: {fileID: 3603805084505722815, guid: f8db8c62f6d16594eb8bb0e6f832923a, type: 3}
+    skillDamage: 50
+    targetCount: 8
+    skillDuration: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0

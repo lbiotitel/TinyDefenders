@@ -18,7 +18,7 @@ public class HeroHolder : NetworkBehaviour
 
     [SerializeField] private float circleRadius;    
 
-    [HideInInspector]public string holderName;
+    [HideInInspector] public string holderName;
     [HideInInspector] public string holderId;
     [HideInInspector] public Hero ownHero = null;
     [HideInInspector] public HeroScriptable heroData;
