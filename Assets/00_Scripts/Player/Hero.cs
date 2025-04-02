@@ -34,6 +34,9 @@ public class Hero : Entity
 
     public void InitHeroData(HeroScriptable data, HeroHolder heroHolder)
     {
+        if (GameManager.instance.isGameOver) return;
+        SoundManager.instance.PlaySfxSound("SummonHeroSFX", SFXTYPE.EXTRA);
+
         heroData = data;
 
         heroName = heroData.heroName;
@@ -338,6 +341,7 @@ public class Hero : Entity
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
+        if (GameManager.instance.isGameOver) return;
         if (IsServer) PlayerStatManager.instance.RemoveHero(this);
         GameManager.instance.RemoveHero(this);
     }

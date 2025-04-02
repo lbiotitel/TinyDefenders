@@ -12,7 +12,8 @@ public struct Sound
 public enum SFXTYPE
 {
     PROJECTILESOUND,
-    UISOUND
+    UISOUND,
+    EXTRA
 }
 
 public class SoundManager : MonoBehaviour
@@ -38,6 +39,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private List<Sound> musicSoundList = new List<Sound>();
     [SerializeField] private List<Sound> projectileSfxSoundList = new List<Sound>();
     [SerializeField] private List<Sound> uiSfxSoundList = new List<Sound>();
+    [SerializeField] private List<Sound> extraSfxSoundList = new List<Sound>();
 
 
     public void StopAllMusicSound()
@@ -72,6 +74,9 @@ public class SoundManager : MonoBehaviour
             case SFXTYPE.UISOUND:
                 soundList = uiSfxSoundList;
                 break;
+            case SFXTYPE.EXTRA:
+                soundList = extraSfxSoundList;
+                break;
         }
 
         for (int i = 0; i < soundList.Count; i++)
@@ -89,9 +94,8 @@ public class SoundManager : MonoBehaviour
             }
         }
 
-#if UnityEidtor
+
         Debug.LogError("등록 되지않은 사운드 효과");
-#endif
     }
 
 

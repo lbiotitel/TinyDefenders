@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ProbabilitySetting", menuName = "Scriptable Objects/ProbabilitySetting")]
@@ -10,7 +12,7 @@ public class ProbabilitySetting : ScriptableObject
     }
 
     public ProbabilityNode[] probabilityNode;
-    [HideInInspector]public float totalWeight;
+    private float totalWeight;
 
     private void OnEnable()
     {
@@ -19,11 +21,34 @@ public class ProbabilitySetting : ScriptableObject
 
     private void SumWeight()
     {
-
+        totalWeight = 0;
         for (int i = 0; i < probabilityNode.Length; i++)
         {
             totalWeight += probabilityNode[i].probability;
         }
+    }
+
+    public void SetProbability(int level)
+    {
+        for (int i = 0; i < probabilityNode.Length; i++)
+        {
+            probabilityNode[i].probability += level;
+        }
+    }
+
+    public List<float> GetDrawHeroCardProbability()
+    {
+        SumWeight();
+
+        List <float> heroRarityProbabilityList = new List<float>();
+
+        for (int i = 0; i < probabilityNode.Length; i++)
+        {
+            Debug.Log(probabilityNode[i].probability / totalWeight);
+            heroRarityProbabilityList.Add(probabilityNode[i].probability / totalWeight);
+        }
+
+        return heroRarityProbabilityList;
     }
 
 

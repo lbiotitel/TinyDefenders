@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SummonCard : CardSO
+public class HeroCard : CardSO
 {
     private HeroScriptable heroData;
 
@@ -10,11 +10,12 @@ public class SummonCard : CardSO
         this.heroData = heroData;
         this.cardName = heroData.heroName;
         this.cardImage = heroData.heroMainImage;
+        this.cardCost = heroData.heroCost;
     }
 
     public void Summon(Transform cardTransform)
     {
-        Spawner.instance.SummonHero(heroData,cardTransform);
+        Spawner.instance.SummonHero(heroData.heroName,cardTransform);
     }
 
     public HeroScriptable GetHeroData() 

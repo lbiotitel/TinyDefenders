@@ -18,8 +18,8 @@ public class PlayerStatManager : MonoBehaviour
 
 
     [Header("Hero Upgrade")]
-    [field: SerializeField] public InGameHeroUpgrade clientUpgrade { get; private set; }
-    [field: SerializeField] public InGameHeroUpgrade serverUpgrade { get; private set; }
+    [field: SerializeField] public InGameUpgrade clientUpgrade { get; private set; }
+    [field: SerializeField] public InGameUpgrade serverUpgrade { get; private set; }
 
 
     [Header("Server Bonus Stat")]
@@ -73,6 +73,8 @@ public class PlayerStatManager : MonoBehaviour
 
     public void AddHero(Hero hero)
     {
+        if (GameManager.instance.isGameOver) return;
+
         if (hero.heroOwnerNetworkType == PlayerNetworkType.HOST)
         {
             serverHeroSynergyDic[hero.GetHeroData().heroTribe]?.IncreaseTribeCount();
@@ -87,6 +89,8 @@ public class PlayerStatManager : MonoBehaviour
 
     public void RemoveHero(Hero hero)
     {
+        if (GameManager.instance.isGameOver) return;
+
         if (hero.heroOwnerNetworkType == PlayerNetworkType.HOST)
         {
             serverHeroSynergyDic[hero.GetHeroData().heroTribe]?.DecreaseTribeCount();
@@ -472,6 +476,39 @@ public class PlayerStatManager : MonoBehaviour
         return heroOwner == PlayerNetworkType.HOST ?
             serverUpgrade.GetHeroUpgradeCost(heroTribe) : clientUpgrade.GetHeroUpgradeCost(heroTribe);
     }
+
+    #endregion
+
+
+    #region Card Draw Rate Upgrade
+
+    public int GetcCardDrawRateUpgradeLevel(PlayerNetworkType playerNetworkType)
+    {
+        return playerNetworkType == PlayerNetworkType.HOST ?
+            serverUpgrade.GetDrawCardUpgradeLevel() : clientUpgrade.GetDrawCardUpgradeLevel();
+    }
+
+    public int GetCardDrawRateUpgradeCost(PlayerNetworkType playerNetworkType)
+    { 
+        return playerNetworkType == PlayerNetworkType.HOST ?
+            serverUpgrade.GetDrawCardUpgradeCost() : clientUpgrade.GetDrawCardUpgradeCost();
+    }
+
+
+    public void UpgradeCardDrawRate(PlayerNetworkType playerNetworkType)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverUpgrade.UpgradeCardDrawLevel();
+                break;
+
+            case PlayerNetworkType.CLIENT:
+                clientUpgrade.UpgradeCardDrawLevel();
+                break;
+        }
+    }
+
 
     #endregion
 

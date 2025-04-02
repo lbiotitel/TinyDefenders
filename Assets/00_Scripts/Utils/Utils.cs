@@ -9,16 +9,10 @@ using static UserData;
 public class Utils : MonoBehaviour
 {
     private static ProbabilitySetting shopProbabilitySetting = Resources.Load<ProbabilitySetting>("SettingData/ShopProbabilitySettingData");
-    private static ProbabilitySetting inGameProbabilitySetting = Resources.Load<ProbabilitySetting>("SettingData/InGameProbabilitySettingData");
 
     public static HeroRarity GetShopSummonRarity()
     {
         return shopProbabilitySetting.GetRarity();
-    }
-
-    public static HeroRarity GetIngameSummonRarity()
-    { 
-        return inGameProbabilitySetting.GetRarity();
     }
 
 

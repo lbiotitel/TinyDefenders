@@ -10,7 +10,7 @@ public class CardManager : MonoBehaviour
 {
     public static CardManager instance;
 
-    [SerializeField] private SummonCardNode summonCardPrefab;
+    [SerializeField] private HeroCardNode summonCardPrefab;
     [SerializeField] private AttackCardNode attackCardPrefab;
     [SerializeField] private UtilityCardNode utilityCardPrefab;
 
@@ -166,11 +166,11 @@ public class CardManager : MonoBehaviour
     private void GetSummonCardSO()
     {
         HeroScriptable heroData = SoDataManager.instance.GetRandomHeroScriptiableData();
-        SummonCard cardSO = ScriptableObject.CreateInstance<SummonCard>();
+        HeroCard cardSO = ScriptableObject.CreateInstance<HeroCard>();
         cardSO.cardType = CardType.SUMMON;
         cardSO.InitSummonCard(heroData);
 
-        SummonCardNode cardNode = Instantiate(summonCardPrefab, transform.position, Quaternion.identity);
+        HeroCardNode cardNode = Instantiate(summonCardPrefab, transform.position, Quaternion.identity);
         cardNode.InitCardNode(cardSO);
         cardNode.gameObject.SetActive(true);
         cardNode.transform.SetParent(myCardPos,false);
@@ -224,7 +224,7 @@ public class CardManager : MonoBehaviour
             float y = myCardPos.position.y;
 
             RectTransform cardTransform = myCardList[i].GetComponent<RectTransform>();
-            cardTransform.DOAnchorPos(new Vector2(x, y), 0.1f);
+            cardTransform.DOAnchorPos(new Vector2(x, y), 0.2f);
 
             myCardList[i].transform.SetAsLastSibling();
 

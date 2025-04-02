@@ -127,14 +127,12 @@ public partial class NetManager : MonoBehaviour
 
         if (currentLobby == null)
         {
-            await CreateNewLobby();
+            return await CreateNewLobby();
         }
         else
         {
-            await QuickJoinLobby();
+            return await QuickJoinLobby();
         }
-
-        return true;
     }
 
     private async Task<Lobby> FindAvailableLobby()
@@ -161,12 +159,13 @@ public partial class NetManager : MonoBehaviour
     {
         try
         {
-            ReleaseEvent();
+            if (NetworkManager.Singleton == null) return;
             if (NetUtils.IsHost())
             {
                 if (currentLobby == null) return;
                 await LobbyService.Instance.DeleteLobbyAsync(currentLobby.Id);
-                NetworkManager.Singleton.Shutdown();
+                if (heartBeatCoroutine != null) StopCoroutine(heartBeatCoroutine);
+                currentLobby = null;
             }
         }
         catch (LobbyServiceException e)
@@ -177,7 +176,7 @@ public partial class NetManager : MonoBehaviour
         }
     }
 
-    private async Task CreateNewLobby()
+    private async Task<bool> CreateNewLobby()
     {
         try
         {
@@ -200,16 +199,19 @@ public partial class NetManager : MonoBehaviour
 
             heartBeatCoroutine = StartCoroutine(NetworkHeartBeatCoroutine());
             StartHost();
+
+            return true;
         }
         catch (LobbyServiceException e)
         {
 #if UNITY_EDITOR
             Debug.Log("로비 생성 실패" + e);
 #endif
+            return false;
         }
     }
 
-    private async Task QuickJoinLobby()
+    private async Task<bool> QuickJoinLobby()
     {
         try
         {
@@ -226,12 +228,16 @@ public partial class NetManager : MonoBehaviour
 
             StartClient();
 
+            return true;
         }
         catch (LobbyServiceException e)
         {
 #if UNITY_EDITOR
             Debug.Log("로비 참여 실패" + e);
 #endif
+            ReleaseEvent();
+            NetworkManager.Singleton.Shutdown();
+            return false;
         }
     }
 
@@ -278,7 +284,10 @@ public partial class NetManager : MonoBehaviour
         MainSceneUI.instance.ShowMatchingCompleteUI();
         SceneFadeInClientRpc();
         NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
-        if(NetUtils.IsHost()) Invoke("DelayClientConnect", 2f);
+        if (NetUtils.IsHost()) {
+            DestroyLobby();
+            Invoke("DelayClientConnect", 2f);
+        }
     }
 
     private void DelayClientConnect()
@@ -333,8 +342,6 @@ public partial class NetManager : MonoBehaviour
 
             NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
-            if (heartBeatCoroutine != null)
-                StopCoroutine(heartBeatCoroutine);
         }
     }
 
@@ -342,6 +349,8 @@ public partial class NetManager : MonoBehaviour
     private void OnDestroy()
     {
         ReleaseEvent();
+        DestroyLobby();
+        if(NetworkManager.Singleton != null) NetworkManager.Singleton.Shutdown();
     }
 
 

@@ -36,6 +36,18 @@ public enum HeroTribe {
     LAST
 }
 
+public enum UpgradeNode {
+    HUMAN,
+    DWARF,
+    UNDEAD,
+    DEMON,
+    ELF,
+    ORC,
+    SCAVENGER,
+    SUMMONRATE,
+    LAST
+}
+
 public enum DebuffType { 
     SLOW,
     STUN,

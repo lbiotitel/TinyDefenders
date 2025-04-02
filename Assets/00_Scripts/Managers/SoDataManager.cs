@@ -14,6 +14,7 @@ public class SoDataManager : MonoBehaviour
             InitAllSpellCardSciprtableObject();
             InitAllHeroSynergyData();
             InitAllCombineData();
+            InitDrawHeroCardProbability();
             DontDestroyOnLoad(gameObject);
         }
         else {
@@ -25,7 +26,34 @@ public class SoDataManager : MonoBehaviour
     private Dictionary<string, CardSO> spellCardScriptableDataDic;
     private Dictionary<HeroTribe, HeroSynergySO> heroSynergySODataDic;
     private Dictionary<string, CombineSciptable> combineSODataDic;
+    private ProbabilitySetting inGameDrawHeroCardRarityProbabilitySetting;
 
+
+    #region Draw Hero Card Probability
+
+    private void InitDrawHeroCardProbability()
+    {
+        inGameDrawHeroCardRarityProbabilitySetting = Instantiate(Resources.Load<ProbabilitySetting>("SettingData/InGameProbabilitySettingData"));
+    }
+
+    public HeroRarity GetIngameSummonRarity()
+    {
+        return inGameDrawHeroCardRarityProbabilitySetting.GetRarity();
+    }
+
+    public List<float> GetDrawHeroCardProbability()
+    {
+        return inGameDrawHeroCardRarityProbabilitySetting.GetDrawHeroCardProbability();
+    }
+
+    public void UpgradeIngameSummonRarity(int level)
+    {
+        inGameDrawHeroCardRarityProbabilitySetting.SetProbability(level);
+    }
+
+
+
+    #endregion
 
     #region About Combine Data
 
@@ -146,14 +174,14 @@ public class SoDataManager : MonoBehaviour
     //테스트를 위해 normal로 고정
     public HeroScriptable GetRandomHeroScriptiableData()
     {
-        int random = Random.Range(0,(int)HeroRarity.Legend + 1);
+        HeroRarity heroRarity = GetIngameSummonRarity();
 
         List<HeroScriptable> heroDatas = GetAllHeroScriptableData();
         List<HeroScriptable> heroDatasByRarity = new List<HeroScriptable>();
         
         foreach (var data in heroDatas)
         {
-            if(data.rarity == (HeroRarity.Normal))
+            if(data.rarity == heroRarity)
                 heroDatasByRarity.Add(data);
         }
 

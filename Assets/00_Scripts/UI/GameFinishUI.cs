@@ -15,19 +15,30 @@ public class GameFinishUI : MonoBehaviour
     [SerializeField] private Slider friendAttackContributionSlider;
 
     [SerializeField] private Button exitButton;
+    private GameFinishStatGameObject gameFinishStatGameObject;
 
+    private void Awake()
+    {
+        FindGameFinishStatGameObject();
+    }
 
     private void Start()
     {
         exitButton.onClick.AddListener(Exit);
+        SetGameFinishUI();
     }
 
-    public void SetGameFinishUI(string playerName, string friendName, double playerDamage, double friendDamage, int bestWave) 
+    private void FindGameFinishStatGameObject()
     { 
-        playerNameText.text = playerName;
-        friendNameText.text= friendName;
-        bestWaveText.text = bestWave.ToString();
-        SetAttackContribution(playerDamage, friendDamage);
+        gameFinishStatGameObject = FindAnyObjectByType<GameFinishStatGameObject>();
+    }
+
+    public void SetGameFinishUI() 
+    { 
+        playerNameText.text = gameFinishStatGameObject.playerName;
+        friendNameText.text= gameFinishStatGameObject.friendName;
+        bestWaveText.text = gameFinishStatGameObject.bestWave.ToString();
+        SetAttackContribution(gameFinishStatGameObject.playerDamage, gameFinishStatGameObject.friendDamage);
         Time.timeScale = 0f;
     }
 
@@ -48,17 +59,11 @@ public class GameFinishUI : MonoBehaviour
 
     private void Exit()
     {
-        if (NetworkManager.Singleton != null)
-            NetworkManager.Singleton.Shutdown();
         Time.timeScale = 1f;
-
+        Destroy(gameFinishStatGameObject.gameObject);
         SceneManager.LoadScene(SceneName.MainScene);
     }
 
-    public void HideGameFinishUI()
-    {
-        gameObject.SetActive(false);
-    }
 
     private void OnDestroy()
     {

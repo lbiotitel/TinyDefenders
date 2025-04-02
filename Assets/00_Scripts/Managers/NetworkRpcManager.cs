@@ -15,6 +15,8 @@ public class NetworkRpcManager : NetworkBehaviour
             Destroy(gameObject);
     }
 
+    [SerializeField] private GameFinishStatGameObject gameFinishStatPrefab;
+
     #region About Attack and Debuff
     public void AttackMonster(PlayerNetworkType playerNetworkType, double damage, Hero hero, Monster monster = null, List<DebuffEffect> debuffList = null, bool eventCall = true)
     {
@@ -114,7 +116,7 @@ public class NetworkRpcManager : NetworkBehaviour
     #endregion
 
 
-    #region Hero Upgrade
+    #region About Upgrade
 
 
     [ServerRpc(RequireOwnership = false)]
@@ -134,10 +136,10 @@ public class NetworkRpcManager : NetworkBehaviour
 
                 PlayerStatManager.instance.clientUpgrade.Upgrade(tribe);
 
-                int[] upgradeCosts = new int[(int)HeroTribe.LAST];
-                int[] upgradeLevels = new int[(int)HeroTribe.LAST];
+                int[] upgradeCosts = new int[(int)HeroTribe.SCAVENGER + 1];
+                int[] upgradeLevels = new int[(int)HeroTribe.SCAVENGER + 1];
 
-                for (int tribeIndex = 0; tribeIndex < (int)HeroTribe.LAST; tribeIndex++)
+                for (int tribeIndex = (int)HeroTribe.HUMAN; tribeIndex <= (int)HeroTribe.SCAVENGER; tribeIndex++)
                 {
                     upgradeCosts[tribeIndex] = PlayerStatManager.instance.clientUpgrade.GetHeroUpgradeCost((HeroTribe)tribeIndex);
                     upgradeLevels[tribeIndex] = PlayerStatManager.instance.clientUpgrade.GetHeroUpgradeLevel((HeroTribe)tribeIndex);
@@ -151,13 +153,14 @@ public class NetworkRpcManager : NetworkBehaviour
     [ClientRpc]
     public void SetUpgradeHeroClientRpc(int[] upgradeLevels, int[] upgradeCosts)
     {
-        for (int tribeIndex = 0; tribeIndex < (int)HeroTribe.LAST; tribeIndex++)
+        for (int tribeIndex = (int)HeroTribe.HUMAN; tribeIndex < (int)HeroTribe.SCAVENGER; tribeIndex++)
         {
             PlayerStatManager.instance.clientUpgrade.SetHeroUpgradeLevel((HeroTribe)tribeIndex, upgradeLevels[tribeIndex]);
             PlayerStatManager.instance.clientUpgrade.SetHeroUpgradeCost((HeroTribe)tribeIndex, upgradeCosts[tribeIndex]);
         }
         InGameUI.instance.RedrawUpgradeUI();
     }
+
 
     #endregion
 
@@ -193,9 +196,20 @@ public class NetworkRpcManager : NetworkBehaviour
 
 
     [ClientRpc]
-    public void GameFinishClientRpc(string playerName,string friendName,double playerDps, double friendDps,int bestWave)
+    public void GameFinishClientRpc(string playerName,string friendName,double playerDamage, double friendDamage,int bestWave)
     {
-        InGameUI.instance.ShowGameFinishUI(playerName,friendName,playerDps,friendDps,bestWave);
+        CreateGameResultStateGameObject(playerName,friendName,playerDamage,friendDamage,bestWave);
+        InGameUI.instance.ShowGameOverUI();
+    }
+
+    private void CreateGameResultStateGameObject(string playerName, string friendName, double playerDamage, double friendDamage, int bestWave)
+    {
+        GameFinishStatGameObject gameFinishStatGameObject = Instantiate(gameFinishStatPrefab);
+        gameFinishStatGameObject.playerName = playerName;
+        gameFinishStatGameObject.friendName = friendName;
+        gameFinishStatGameObject.playerDamage = playerDamage;
+        gameFinishStatGameObject.friendDamage = friendDamage;
+        gameFinishStatGameObject.bestWave = bestWave;
     }
 
 

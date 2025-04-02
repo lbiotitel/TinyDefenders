@@ -3,6 +3,7 @@ using UnityEngine;
 public class UpgradeUI : MonoBehaviour
 {
     [SerializeField] private UpgradeUINode[] upgradeUINodes;
+    [SerializeField] private DrawCardRateUINode drawCardRateUINode;    
     private Animator animator;
     private void Awake()
     {
@@ -10,9 +11,14 @@ public class UpgradeUI : MonoBehaviour
     }
 
 
-    public void ClickUpgradeButton(HeroTribe heroTribe)
+    public void ClickHeroUpgradeButton(HeroTribe heroTribe)
     {
         NetworkRpcManager.instance.UpgradeHeroServerRpc((int)heroTribe, NetUtils.IsHost());
+    }
+
+    public void ClickDrawCardRateUpgrade()
+    {
+        PlayerStatManager.instance.UpgradeCardDrawRate(NetUtils.GetPlayerNetworkType());
     }
 
     public void RedrawUpgradeUINodes()
@@ -21,6 +27,8 @@ public class UpgradeUI : MonoBehaviour
         {
             upgradeUINodes[i].InitUpgradeUI();
         }
+
+        drawCardRateUINode.InitUpgradeUI();
     }
 
 

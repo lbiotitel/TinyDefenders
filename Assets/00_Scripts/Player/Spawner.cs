@@ -307,20 +307,13 @@ public class Spawner : NetworkBehaviour
 
     #region Hero spawn
 
-    public HeroScriptable LoadData(string heroName)
+
+    private void HeroSpawn(PlayerNetworkType playerNetworkType, string heroName)
     {
-        HeroScriptable heroData = SoDataManager.instance.GetHeroScriptableData(heroName);
+        int value = playerNetworkType == PlayerNetworkType.HOST ? 0 : 1;
+        string heroHolderId = playerNetworkType + heroHolderValue[value].ToString();
 
-        return heroData;
-    }
-
-    private void HeroSpawn(ulong clientId, string heroName)
-    {
-        string temp = clientId == 0 ? "HOST" : "CLIENT";
-        int value = clientId == 0 ? 0 : 1;
-        string heroHolderId = temp + heroHolderValue[value].ToString();
-
-        HeroHolder findHeroHolder = GetRemainHeroHolder(temp, heroName);
+        HeroHolder findHeroHolder = GetRemainHeroHolder(playerNetworkType);
 
         if (findHeroHolder != null)
         {
@@ -333,13 +326,13 @@ public class Spawner : NetworkBehaviour
         HeroSpawnClientRpc(networkObject.NetworkObjectId, heroName, value);
     }
 
-    public Vector3 GetHolderPosition(HeroScriptable heroData)
+    public Vector3 GetHolderPosition()
     {
-        string temp = NetUtils.GetLocalD() == 0 ? "HOST" : "CLIENT";
-        int value = NetUtils.GetLocalD() == 0 ? 0 : 1;
-        string heroHolderId = temp + heroHolderValue[value].ToString();
+        PlayerNetworkType playerNetworkType = NetUtils.GetPlayerNetworkType();
+        int value = playerNetworkType == PlayerNetworkType.HOST ? 0 : 1;
+        string heroHolderId = playerNetworkType + heroHolderValue[value].ToString();
 
-        HeroHolder findHeroHolder = GetRemainHeroHolder(temp, heroData.heroName);
+        HeroHolder findHeroHolder = GetRemainHeroHolder(playerNetworkType);
 
         if (findHeroHolder != null)
         {
@@ -349,11 +342,11 @@ public class Spawner : NetworkBehaviour
         return heroHolders[heroHolderId].transform.position;
     }
 
-    private HeroHolder GetRemainHeroHolder(string client, string heroName)
+    private HeroHolder GetRemainHeroHolder(PlayerNetworkType playerNetworkType)
     {
         foreach (var holder in heroHolders)
         {
-            if (holder.Key.Contains(client) && holder.Value.ownHero == null)
+            if (holder.Key.Contains(playerNetworkType.ToString()) && holder.Value.ownHero == null)
             {
                 return holder.Value;
             }
@@ -377,39 +370,37 @@ public class Spawner : NetworkBehaviour
 
 
     [ServerRpc(RequireOwnership = false)]
-    private void HeroSpawnServerRpc(ulong cleintId, string dataName)
+    private void HeroSpawnServerRpc(PlayerNetworkType playerNetworkType, string dataName)
     {
-        HeroSpawn(cleintId, dataName);
+        HeroSpawn(playerNetworkType, dataName);
     }
 
     //캐릭터 소환
     public void Summon(string heroName)
     {
-       HeroScriptable heroData = LoadData(heroName);
-
         NetUtils.HostAndClientMethod(
-            () => HeroSpawnServerRpc(NetUtils.GetLocalD(), heroData.name),
-            () => HeroSpawn(NetUtils.GetLocalD(), heroData.name)
+            () => HeroSpawnServerRpc(NetUtils.GetPlayerNetworkType(), heroName),
+            () => HeroSpawn(NetUtils.GetPlayerNetworkType(), heroName)
             );
     }
 
     #endregion
 
-    public void SummonHero(HeroScriptable heroData, Transform cardTransform)
+    public void SummonHero(string heroName, Transform cardTransform)
     {
-        StartCoroutine(SummonCoroutine(heroData, cardTransform));
+        StartCoroutine(SummonCoroutine(heroName, cardTransform));
     }
 
-    private IEnumerator SummonCoroutine(HeroScriptable heroData, Transform cardTransform)
+    private IEnumerator SummonCoroutine(string heroName, Transform cardTransform)
     {
-        Vector3 targetPos = Spawner.instance.GetHolderPosition(heroData);
+        Vector3 targetPos = Spawner.instance.GetHolderPosition();
 
-        Vector3 buttonWorldPosition = Camera.main.ScreenToWorldPoint(cardTransform.position);
+        Vector3 cardWorldPosition = Camera.main.ScreenToWorldPoint(cardTransform.position);
         GameObject effect = Instantiate(summonEffect);
 
-        effect.transform.position = buttonWorldPosition;
+        effect.transform.position = cardWorldPosition;
 
-        Vector3 startPoint = buttonWorldPosition;
+        Vector3 startPoint = cardWorldPosition;
         Vector3 endPoint = targetPos;
 
         Vector3 randomPoint = MathUtils.GenerateRandomPoint(startPoint, endPoint);
@@ -429,6 +420,6 @@ public class Spawner : NetworkBehaviour
         }
 
         Destroy(effect);
-        Spawner.instance.Summon(heroData.heroName);
+        Spawner.instance.Summon(heroName);
     }
 }

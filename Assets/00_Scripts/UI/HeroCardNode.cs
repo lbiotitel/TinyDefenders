@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SummonCardNode : CardNodeBase
+public class HeroCardNode : CardNodeBase
 {
     [System.Serializable]
     public class HeroTribeNode {
@@ -18,13 +18,13 @@ public class SummonCardNode : CardNodeBase
     [SerializeField] protected Image tribeImage;
     [SerializeField] private HeroTribeNode[] heroTribeNodes;
 
-    private SummonCard summonCard;
+    private HeroCard summonCard;
 
     public override void InitCardNode(CardSO cardSO)
     {
         base.InitCardNode(cardSO);
 
-        summonCard = cardSO as SummonCard;
+        summonCard = cardSO as HeroCard;
 
         HeroScriptable heroData = summonCard.GetHeroData();
 

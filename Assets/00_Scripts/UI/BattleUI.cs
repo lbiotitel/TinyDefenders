@@ -11,7 +11,7 @@ public class BattleUI : MonoBehaviour
     [SerializeField] private Button randomMatchingCancleButton;
     [SerializeField] private GameObject matchingUI;
     [SerializeField] private TextMeshProUGUI matchingTimeText;
-    private Coroutine matchingTimeCoroutine = null;
+    private float matchingTime = 0f;
 
     [Header("Friend Matching")]
     [SerializeField] private Button firendMatchingButton;
@@ -35,6 +35,16 @@ public class BattleUI : MonoBehaviour
         waitFriendUI.SetActive(false);
     }
 
+    private void Update()
+    {
+        MathcingTimer();
+    }
+
+    private void MathcingTimer()
+    {
+        matchingTime += Time.deltaTime;
+        matchingTimeText.text = string.Format("{0:D2}:{1:D2}", (int)(matchingTime / 60), (int)(matchingTime % 60));
+    }
 
     private void InitButtons()
     {
@@ -116,52 +126,30 @@ public class BattleUI : MonoBehaviour
     private async void StartRandomMathcing()
     {
         ShowMathcingUI();
-
+        matchingTime = 0f;
         randomMatchingCancleButton.interactable = false;
 
         bool result = await NetManager.instnace.StartRandomMatching();
 
         if (result)
         {
-            matchingTimeCoroutine = StartCoroutine(MatchingTimeCoroutine());
-            InitStopMacthingTimeCallback();
             randomMatchingCancleButton.interactable = true;
         }
         else
         {
-            HideMatchingUI();
+            StartRandomMathcing();
         }
     }
 
-    private void InitStopMacthingTimeCallback()
-    {
-        NetworkManager.Singleton.OnClientConnectedCallback += StopMatchingTimer;
-        NetworkManager.Singleton.OnClientDisconnectCallback += StopMatchingTimer;
-    }
 
-    private IEnumerator MatchingTimeCoroutine()
-    {
-        float t = 0f;
-        while (true)
-        {
-            matchingTimeText.text = string.Format("{0:D2}:{1:D2}",(int)(t/60),(int)(t%60));
-            t += 1f;
-            yield return new WaitForSeconds(1f);
-        }    
-    }
 
-    private void StopMatchingTimer(ulong clientId)
-    { 
-        if(matchingTimeCoroutine != null)
-            StopCoroutine(matchingTimeCoroutine);
-        matchingTimeText.text ="00:00";
-    }
 
     private void DestroyRandomMatching()
     {
-        NetManager.instnace.DestroyLobby();
-        StopMatchingTimer(0);
+        Debug.Log("·Îºñ ÆÄ±«");
         HideMatchingUI();
+        NetManager.instnace.DestroyLobby();
+        NetworkManager.Singleton.Shutdown();
     }
 
     public void ShowDisconnectedUI(ulong clientId)
@@ -182,11 +170,7 @@ public class BattleUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (NetworkManager.Singleton != null)
-        {
-            NetworkManager.Singleton.OnClientConnectedCallback -= StopMatchingTimer;
-            NetworkManager.Singleton.OnClientDisconnectCallback -= StopMatchingTimer;
-        }
+
     }
 
 }

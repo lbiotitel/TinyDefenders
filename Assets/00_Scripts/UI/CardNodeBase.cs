@@ -98,8 +98,15 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
             ReturnOriginalCard();
         }
         else {
-            CheckCost();
-            CardManager.instance.RemoveCard(this);
+            if (CheckCost())
+            {
+                UseCard();
+            }
+            else {
+                parentTransform = transform.parent;
+                transform.position = dragOriginalPosition;
+                transform.localScale = Vector3.one;
+            }
         }
 
         CardManager.instance.OffCardDropZone();
@@ -110,7 +117,6 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
         if (!readyInteract) return;
         isDrag = true;
         parentTransform = transform.parent;
-        transform.rotation = Quaternion.identity;
         transform.SetParent(dragParent);
     }
 
@@ -146,17 +152,17 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
     }
 
 
-    protected void CheckCost()
+    protected bool CheckCost()
     {
-        if (GameManager.instance.gold >= cardSO.cardCost)
-        { 
-            GameManager.instance.gold -= cardSO.cardCost;
-            UseCard();
-        }
-        else
+        if (GameManager.instance.IsEnoughGold(cardSO.cardCost))
         {
-            //재화가 부족하다는 알림
+            GameManager.instance.SpendGold(cardSO.cardCost);
+            UseCard();
+
+            return true;
         }
+
+        return false;
     }
 
 

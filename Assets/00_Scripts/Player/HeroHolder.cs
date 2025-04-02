@@ -90,6 +90,7 @@ public class HeroHolder : NetworkBehaviour
     {
         if (ownHero == null) return;
         ulong heroId = ownHero.NetworkObjectId;
+        GameManager.instance.GetGold((int)(ownHero.GetHeroData().heroCost / 2f), ownHero.heroOwnerNetworkType);
         NetworkObject obj = NetworkManager.SpawnManager.SpawnedObjects[heroId];
         obj.Despawn();
         ClearHeroHolderClientRpc();

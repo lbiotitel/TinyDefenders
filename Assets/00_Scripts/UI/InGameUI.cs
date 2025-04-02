@@ -44,8 +44,8 @@ public class InGameUI : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI waveUIText;
     [SerializeField] private TextMeshProUGUI bossNameText;
 
-    [Header("Game Finish UI")]
-    [SerializeField] GameFinishUI gameFinishUI;
+    [Header("Game Over UI")]
+    [SerializeField] GameObject gameOverUI;
 
     [Header("Alarm UI")]
     [SerializeField] private AlarmUI alarmUI;
@@ -75,7 +75,7 @@ public class InGameUI : NetworkBehaviour
 
 
     public void InitAllUserName(string hostName, string clientName)
-    { 
+    {
         playerProfileNameText.text = hostName;
         playerProfileAnimNameText.text = hostName;
         friendProfileNameText.text = clientName;
@@ -94,7 +94,7 @@ public class InGameUI : NetworkBehaviour
     }
 
     public void ShowBossWaveUI(string bossName)
-    { 
+    {
         waveUI.gameObject.SetActive(true);
         waveUI.GetComponent<Animator>().SetTrigger("BOSS");
         waveUIText.text = string.Format("Wave {0}", GameManager.instance.currentWave.ToString());
@@ -103,13 +103,12 @@ public class InGameUI : NetworkBehaviour
 
 
     #region About GameOver UI
-    public void ShowGameFinishUI(string playerName,string friendName,double playerDamage,double friendDamage,int bestWave)
+    public void ShowGameOverUI()
     {
-        gameFinishUI.gameObject.SetActive(true);
-        gameFinishUI.SetGameFinishUI(playerName,friendName,playerDamage,friendDamage,bestWave);
+        gameOverUI.SetActive(true);
     }
 
-    
+
     #endregion
 
 
@@ -117,14 +116,14 @@ public class InGameUI : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ShowAlarmServerRpc(string alarmText, float duration, string strAlarmType)
     {
-        ShowAlarmClientRpc(alarmText,duration,strAlarmType);
+        ShowAlarmClientRpc(alarmText, duration, strAlarmType);
     }
 
     [ClientRpc]
-    public void ShowAlarmClientRpc(string alarmText, float duration,string strAlarmType)
+    public void ShowAlarmClientRpc(string alarmText, float duration, string strAlarmType)
     {
         AlarmType alarmType = (AlarmType)System.Enum.Parse(typeof(AlarmType), strAlarmType);
-        alarmUI.AddAlarm(alarmText,duration,alarmType);
+        alarmUI.AddAlarm(alarmText, duration, alarmType);
     }
 
     public void HideProfileAnimation()
@@ -144,7 +143,7 @@ public class InGameUI : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(!optionUI.gameObject.activeSelf)optionUI.ShowOptionUI();
+            if (!optionUI.gameObject.activeSelf) optionUI.ShowOptionUI();
             else optionUI.HideOptionUI();
         }
     }
@@ -153,22 +152,22 @@ public class InGameUI : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if(!upgradeUI.gameObject.activeSelf)upgradeUI.ShowUpgradeUI();
+            if (!upgradeUI.gameObject.activeSelf) upgradeUI.ShowUpgradeUI();
             else upgradeUI.HideUpgradeUI();
         }
     }
 
-    private void CheckHeroRecipeKey() 
+    private void CheckHeroRecipeKey()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if(!combineUI.gameObject.activeSelf)combineUI.ShowHeroCombineUI();
+            if (!combineUI.gameObject.activeSelf) combineUI.ShowHeroCombineUI();
             else combineUI.HideHeroCombineUI();
         }
     }
 
     public void ShowHeroInfoUI(Hero hero)
-    { 
+    {
         heroInfoUI.ShowHeroInfoUI(hero);
     }
 
@@ -198,28 +197,28 @@ public class InGameUI : NetworkBehaviour
         int minutes = Mathf.FloorToInt(GameManager.instance.timer / 60);
         int seconds = Mathf.FloorToInt(GameManager.instance.timer % 60);
 
-        return string.Format("{0:D2}:{1:D2}",minutes,seconds);
+        return string.Format("{0:D2}:{1:D2}", minutes, seconds);
     }
 
 
     public void ShowGetGoldText(int gold)
     {
         GameObject go = PoolingManager.instance.GetObject(getGoldPrefab, getGoldTextTransform.position);
-        go.GetComponent<TextMeshProUGUI>().text = string.Format("+{0}",gold);
+        go.GetComponent<TextMeshProUGUI>().text = string.Format("+{0}", gold);
         go.transform.SetParent(getGoldTextTransform);
     }
 
 
     #region About CardRange UI
-    public void ShowCardRangeUI(Vector3 targetPos ,float range)
+    public void ShowCardRangeUI(Vector3 targetPos, float range)
     {
         cardRangeUI.transform.position = targetPos;
         cardRangeUI.transform.localScale = Vector3.one * range;
         cardRangeUI.gameObject.SetActive(true);
     }
 
-    public void HideCardRangeUI() 
-    { 
+    public void HideCardRangeUI()
+    {
         cardRangeUI.gameObject.SetActive(false);
     }
 
@@ -234,7 +233,12 @@ public class InGameUI : NetworkBehaviour
 
     public void ClickUpgradeButton(HeroTribe heroTribe)
     {
-        upgradeUI.ClickUpgradeButton(heroTribe);
+        upgradeUI.ClickHeroUpgradeButton(heroTribe);
+    }
+
+    public void ClickCardRateUpgradeButton()
+    {
+        upgradeUI.ClickDrawCardRateUpgrade();
     }
 
     #endregion
