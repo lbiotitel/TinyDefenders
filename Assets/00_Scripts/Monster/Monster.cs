@@ -15,6 +15,7 @@ public partial class Monster : Entity
     [SerializeField] private Image hpImage;
     [SerializeField] private Image hpImageEffect;
     [SerializeField] private float hpAnimeSpeed = 2f;
+    [SerializeField] private string monsterDeathSFX;
 
     private float speed = 0f;
     public double maxHp { get; private set; }
@@ -215,6 +216,7 @@ public partial class Monster : Entity
             {
                 if (IsServer) GetReward();
 
+                SoundManager.instance.PlaySfxSound(monsterDeathSFX,SFXTYPE.EXTRA);
                 isDead = true;
                 StopAllDebuff();
                 gameObject.layer = LayerMask.NameToLayer(LayerName.Defulat);

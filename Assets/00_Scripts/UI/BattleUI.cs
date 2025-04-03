@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using Unity.Netcode;
+using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class BattleUI : MonoBehaviour
     [SerializeField] private Button randomMatchingCancleButton;
     [SerializeField] private GameObject matchingUI;
     [SerializeField] private TextMeshProUGUI matchingTimeText;
+    [SerializeField] private string startMactchingSFX;
     private float matchingTime = 0f;
 
     [Header("Friend Matching")]
@@ -25,14 +27,28 @@ public class BattleUI : MonoBehaviour
     [SerializeField] private TMP_InputField displayJoinCode;
     [SerializeField] private TMP_InputField inputJoinCode;
 
-    [Header("DisconnectedUI")]
-    [SerializeField] private GameObject disconnectedUI;
+    [Header("User Asset")]
+    [SerializeField] private TextMeshProUGUI userGoldText;
+    [SerializeField] private TextMeshProUGUI userCrystalText;
 
 
     private void Awake()
     {
         InitButtons();
         waitFriendUI.SetActive(false);
+    }
+
+    private void Start()
+    {
+        LoadUserData();
+    }
+
+    private async void LoadUserData()
+    {
+        await NetManager.instnace.SingInUnityService();
+        var loadData = await CloudManager.instance.LoadUserData();
+        userGoldText.text = loadData.gold.ToString();
+        userCrystalText.text = loadData.crystal.ToString();
     }
 
     private void Update()
@@ -125,6 +141,8 @@ public class BattleUI : MonoBehaviour
 
     private async void StartRandomMathcing()
     {
+        SoundManager.instance.PlaySfxSound(startMactchingSFX,SFXTYPE.UISOUND);
+
         ShowMathcingUI();
         matchingTime = 0f;
         randomMatchingCancleButton.interactable = false;
@@ -167,10 +185,5 @@ public class BattleUI : MonoBehaviour
         matchingUI.SetActive(false);
     }
 
-
-    private void OnDestroy()
-    {
-
-    }
 
 }

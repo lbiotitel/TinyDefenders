@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 
 
-public class AlarmUI : MonoBehaviour
+public class NetworkAlarmUI : MonoBehaviour
 {
     private class AlarmData
     {

@@ -28,11 +28,11 @@ public class ProbabilitySetting : ScriptableObject
         }
     }
 
-    public void SetProbability(int level)
+    public void AddProbability(int level)
     {
         for (int i = 0; i < probabilityNode.Length; i++)
         {
-            probabilityNode[i].probability += level;
+            probabilityNode[i].probability += (float)(level / (i + 1));
         }
     }
 

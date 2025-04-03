@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3437514402798480007}
-  - component: {fileID: 5603896263170689350}
+  - component: {fileID: 5019052459322346532}
+  - component: {fileID: 1607067834021560843}
   m_Layer: 0
   m_Name: HeroUpgrade
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5603896263170689350
+--- !u!114 &5019052459322346532
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,29 +42,74 @@ MonoBehaviour:
   m_GameObject: {fileID: 339469861854496795}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70e4a01b1a6d7f04ca7a27d33d0afc7b, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e67a2fe493a42c42a15763862a16c13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroUpgarde:
+  heroUpgrades:
   - heroTribe: 0
     upgradeLevel: 0
-    upgradeCost: 0
+    upgradeCost: 2
   - heroTribe: 1
     upgradeLevel: 0
-    upgradeCost: 0
+    upgradeCost: 2
   - heroTribe: 2
     upgradeLevel: 0
-    upgradeCost: 0
+    upgradeCost: 2
   - heroTribe: 3
     upgradeLevel: 0
-    upgradeCost: 0
+    upgradeCost: 2
   - heroTribe: 4
     upgradeLevel: 0
-    upgradeCost: 0
+    upgradeCost: 2
   - heroTribe: 5
     upgradeLevel: 0
-    upgradeCost: 0
+    upgradeCost: 2
   - heroTribe: 6
     upgradeLevel: 0
-    upgradeCost: 0
-  upgradeIncreaseCost: 0
+    upgradeCost: 2
+  heroUpgradeCostIncrease: 2
+  drawCardUpgrade:
+    upgradeLevel: 0
+    upgradeCost: 10
+  drawCardUpgradeCostIncrease: 0
+  drawCardUpgradeProbabilityAmount: 2
+--- !u!114 &1607067834021560843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339469861854496795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e67a2fe493a42c42a15763862a16c13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heroUpgrades:
+  - heroTribe: 0
+    upgradeLevel: 0
+    upgradeCost: 2
+  - heroTribe: 1
+    upgradeLevel: 0
+    upgradeCost: 2
+  - heroTribe: 2
+    upgradeLevel: 0
+    upgradeCost: 2
+  - heroTribe: 3
+    upgradeLevel: 0
+    upgradeCost: 2
+  - heroTribe: 4
+    upgradeLevel: 0
+    upgradeCost: 2
+  - heroTribe: 5
+    upgradeLevel: 0
+    upgradeCost: 2
+  - heroTribe: 6
+    upgradeLevel: 0
+    upgradeCost: 2
+  heroUpgradeCostIncrease: 2
+  drawCardUpgrade:
+    upgradeLevel: 0
+    upgradeCost: 10
+  drawCardUpgradeCostIncrease: 0
+  drawCardUpgradeProbabilityAmount: 2

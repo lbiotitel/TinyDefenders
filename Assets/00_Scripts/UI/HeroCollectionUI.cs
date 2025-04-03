@@ -26,7 +26,7 @@ public class HeroCollectionUI : MonoBehaviour
         foreach (var data in heroDatas)
         {
             HeroCollectionUINode node = Instantiate(heroCollectionUINode,contentParent);
-            node.Init(data.heroName, data.heroMainImage, data.rarity, 1);
+            node.Init(data.GetLocalizationName(), data.heroMainImage, data.rarity, 1);
 
             heroCollectionUINodes.Add(node);
         }

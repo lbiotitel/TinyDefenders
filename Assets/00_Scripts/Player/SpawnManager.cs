@@ -8,9 +8,9 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using static UnityEngine.Rendering.DebugUI;
 
-public class Spawner : NetworkBehaviour
+public class SpawnManager : NetworkBehaviour
 {
-    public static Spawner instance = null;
+    public static SpawnManager instance = null;
     private void Awake()
     {
         if (instance == null)
@@ -32,10 +32,9 @@ public class Spawner : NetworkBehaviour
         }
     };
 
+
     [SerializeField] private GameObject summonEffect;
     [SerializeField] private float effectSpeed;
-
-    [SerializeField] private float spawnTime;
 
     [SerializeField] private HeroHolder heroHolderPrefab;
     [SerializeField] private Monster monsterPrefab;
@@ -45,22 +44,28 @@ public class Spawner : NetworkBehaviour
 
     [SerializeField] private Transform monsterSpawnPos;
 
-    private List<Transform> ServerMonsterMovePosition = new List<Transform>();
-    private List<Transform> ClientMonsterMovePosition = new List<Transform>();  
+    [SerializeField] private string summonHeroSFX;
 
-    public List<SpawnNode> hostSpawnList = new List<SpawnNode>();
-    public List<SpawnNode> clientSpawnList = new List<SpawnNode>();
+    private List<Transform> ServerMonsterMovePosition = new List<Transform>();
+    private List<Transform> ClientMonsterMovePosition = new List<Transform>();
+
+    private List<SpawnNode> hostSpawnPositionList = new List<SpawnNode>();
+    private List<SpawnNode> clientSpawnPositionList = new List<SpawnNode>();
+
+    private List<Hero> clientHeroList = new List<Hero>();
+    private List<Hero> serverHeroList = new List<Hero>();
+    private int maxHeroCount;
+
 
     public Dictionary<string, HeroHolder> heroHolders = new Dictionary<string, HeroHolder>();
     private int[] heroHolderValue = new int[2];
-    HeroScriptable heroData;
 
     private int serverClientHolderReadyValue = 0;
 
     public void SetSpawner()
     {
-        DrawGrid(hostTileMap, ref hostSpawnList, "HOST", 0);
-        DrawGrid(clientTimeMap, ref clientSpawnList, "CLIENT", 1);
+        DrawGrid(hostTileMap, ref hostSpawnPositionList, "HOST", 0);
+        DrawGrid(clientTimeMap, ref clientSpawnPositionList, "CLIENT", 1);
 
         InitMonsterSpawnPosition();
     }
@@ -104,11 +109,11 @@ public class Spawner : NetworkBehaviour
             }
         }
 
-        int count = spawnList.Count;
+        maxHeroCount = spawnList.Count;
 
         if (id == "CLIENT") spawnList.Reverse();
 
-        SetHeroHolders(count, id, value);
+        SetHeroHolders(maxHeroCount, id, value);
 
         heroHolderValue[value] = 0;
     }
@@ -150,11 +155,11 @@ public class Spawner : NetworkBehaviour
             List<SpawnNode> spawnList = null;
             if (heroHolderId.Contains("HOST"))
             {
-                spawnList = hostSpawnList;
+                spawnList = hostSpawnPositionList;
             }
             else if (heroHolderId.Contains("CLIENT"))
             {
-                spawnList = clientSpawnList;
+                spawnList = clientSpawnPositionList;
             }
 
             HeroHolder heroHolder = networkObject.GetComponent<HeroHolder>();
@@ -378,6 +383,8 @@ public class Spawner : NetworkBehaviour
     //캐릭터 소환
     public void Summon(string heroName)
     {
+        SoundManager.instance.PlaySfxSound(summonHeroSFX, SFXTYPE.EXTRA);
+
         NetUtils.HostAndClientMethod(
             () => HeroSpawnServerRpc(NetUtils.GetPlayerNetworkType(), heroName),
             () => HeroSpawn(NetUtils.GetPlayerNetworkType(), heroName)
@@ -393,7 +400,7 @@ public class Spawner : NetworkBehaviour
 
     private IEnumerator SummonCoroutine(string heroName, Transform cardTransform)
     {
-        Vector3 targetPos = Spawner.instance.GetHolderPosition();
+        Vector3 targetPos = SpawnManager.instance.GetHolderPosition();
 
         Vector3 cardWorldPosition = Camera.main.ScreenToWorldPoint(cardTransform.position);
         GameObject effect = Instantiate(summonEffect);
@@ -420,6 +427,66 @@ public class Spawner : NetworkBehaviour
         }
 
         Destroy(effect);
-        Spawner.instance.Summon(heroName);
+        SpawnManager.instance.Summon(heroName);
     }
+
+
+
+
+    #region About Hero Management
+    public void AddHero(Hero hero)
+    {
+        PlayerNetworkType playerNetworkType = hero.heroOwnerNetworkType;
+
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverHeroList.Add(hero);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientHeroList.Add(hero);
+                break;
+        }
+        EventManager.instance.onHeroSummonAction?.Invoke(hero);
+    }
+
+    public void RemoveHero(Hero hero)
+    {
+        PlayerNetworkType playerNetworkType = hero.heroOwnerNetworkType;
+
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverHeroList.Remove(hero);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientHeroList.Remove(hero);
+                break;
+        }
+        EventManager.instance.onHeroDespawnAction?.Invoke(hero);
+    }
+
+    public bool CanSpawn(PlayerNetworkType playerNetworkType)
+    {
+        int currentHeroCount = GetHeroList(playerNetworkType).Count;
+
+        if (currentHeroCount >= maxHeroCount) return false;
+        return true;
+    }
+
+
+    public List<Hero> GetHeroList(PlayerNetworkType playerNetworkType)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                return serverHeroList;
+            case PlayerNetworkType.CLIENT:
+                return clientHeroList;
+        }
+
+        return null;
+    }
+
+    #endregion
 }

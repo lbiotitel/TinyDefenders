@@ -24,7 +24,7 @@ public class DwarfSynergy : HeroSynergyBase
         }
     }
 
-    private void DwarfDrawCard() 
+    private void DwarfDrawCard(Hero hero) 
     {
         CardManager.instance.DrawCard();
     }

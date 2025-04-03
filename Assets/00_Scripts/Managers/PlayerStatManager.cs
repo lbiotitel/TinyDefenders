@@ -49,6 +49,11 @@ public class PlayerStatManager : MonoBehaviour
     private void Start()
     {
         InitHeroSynergy();
+        if (NetUtils.IsHost())
+        {
+            EventManager.instance.onHeroSummonAction += AddHero;
+            EventManager.instance.onHeroDespawnAction += RemoveHero;
+        }
     }
 
 

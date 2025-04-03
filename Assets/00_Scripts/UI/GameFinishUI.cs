@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -13,6 +14,10 @@ public class GameFinishUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI friendAttackContributionText;
     [SerializeField] private Slider playerAttackContributionSlider;
     [SerializeField] private Slider friendAttackContributionSlider;
+
+    [SerializeField] private TextMeshProUGUI crystalRewardText;
+    [SerializeField] private TextMeshProUGUI goldRewardText;
+    [SerializeField] private TextMeshProUGUI rpRewardText;
 
     [SerializeField] private Button exitButton;
     private GameFinishStatGameObject gameFinishStatGameObject;
@@ -38,8 +43,8 @@ public class GameFinishUI : MonoBehaviour
         playerNameText.text = gameFinishStatGameObject.playerName;
         friendNameText.text= gameFinishStatGameObject.friendName;
         bestWaveText.text = gameFinishStatGameObject.bestWave.ToString();
+        GetReward(gameFinishStatGameObject.bestWave);
         SetAttackContribution(gameFinishStatGameObject.playerDamage, gameFinishStatGameObject.friendDamage);
-        Time.timeScale = 0f;
     }
 
     private void SetAttackContribution(double playerDamage,double friendDamage)
@@ -56,6 +61,28 @@ public class GameFinishUI : MonoBehaviour
         friendAttackContributionSlider.value = (float)(friendPrecent);
     }
 
+    private void GetReward(int bestWave)
+    {
+
+        int crystalReward = Mathf.FloorToInt(Mathf.Pow(bestWave, 1.5f) * 10);
+        int goldReward = Mathf.FloorToInt(Mathf.Pow(bestWave, 1.5f) * 100);
+        int rpReward = Mathf.FloorToInt(Mathf.Pow(bestWave, 1.5f) * 5);
+
+        GetUserReward(crystalReward, goldReward, rpReward);
+
+        crystalRewardText.text = string.Format("+{0}", crystalReward);
+        goldRewardText.text = string.Format("+{0}", goldReward);
+        rpRewardText.text = string.Format("+{0}", rpReward);
+    }
+
+    private void GetUserReward(int crystalReward, int goldReward, int rpReward)
+    {
+        UserData userData = CloudManager.instance.GetUserData();
+        userData.gold += goldReward;
+        userData.crystal += crystalReward;
+        userData.rankingPoint += rpReward;
+        CloudManager.instance.SaveUserData();
+    }
 
     private void Exit()
     {

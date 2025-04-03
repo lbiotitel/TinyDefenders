@@ -1,6 +1,7 @@
  using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.PointerEventData;
 
 public class MainSceneUI : MonoBehaviour
 {
@@ -34,69 +35,44 @@ public class MainSceneUI : MonoBehaviour
     [SerializeField] private GameObject rankingUI;
 
     [Header("Battle UI")]
-    [SerializeField] private TextMeshProUGUI bestWaveText;
     [SerializeField] private GameObject matchingCompleteUI;
 
     [Header("Extra")]
     [SerializeField] private Color activeButtonColor;
 
-
+    [Header("Menu Button SFX")]
+    [SerializeField] private string mainSceneBGM;
+    [SerializeField] private string menuButtonSFX;
 
     private void Start()
     {
         nickNameSetButton.onClick.AddListener(() => SetNickName());
         InitButtoons();
         HideMatchingCompleteUI();
-        SoundManager.instance.PlayMusicSound("MainBgm",true);
-    }
-
-    public void InitMainScene()
-    {
-        bestWaveText.text = CloudManager.instance.userData.bestWave.ToString();
+        SoundManager.instance.PlayMusicSound(mainSceneBGM, true);
     }
 
     private void InitButtoons()
     {
-        battleButton.onClick.AddListener(() => {
-            if (battleUI.activeSelf) return;
-            HideAllMenu(); 
-            battleUI.SetActive(true);
-            battleButton.GetComponent<Image>().color = activeButtonColor;
-        });
-
-        heroButton.onClick.AddListener(() =>
-        {
-            if (heroCollectionUI.activeSelf) return;
-            HideAllMenu();
-            heroCollectionUI.SetActive(true);
-            heroButton.GetComponent<Image>().color = activeButtonColor;
-        });
-
-        shopButton.onClick.AddListener(() => {
-            if (shopUI.activeSelf) return;
-            HideAllMenu();
-            shopUI.SetActive(true);
-            shopButton.GetComponent<Image>().color = activeButtonColor;
-        });
-
-        rankingButton.onClick.AddListener(() =>
-        {
-            if (rankingUI.activeSelf) return;
-            HideAllMenu();
-            rankingUI.SetActive(true);
-            rankingButton.GetComponent<Image>().color = activeButtonColor;
-        });
-
-        spellCardButton.onClick.AddListener(() =>
-        {
-            if (cardCollectionUI.activeSelf) return;
-            HideAllMenu();
-            cardCollectionUI.SetActive(true);
-            spellCardButton.GetComponent<Image>().color = activeButtonColor;
-        });
+        InitButton(battleButton,battleUI);
+        InitButton(heroButton, heroCollectionUI);
+        InitButton(shopButton,shopUI);
+        InitButton(rankingButton,rankingUI);
+        InitButton(spellCardButton,cardCollectionUI);
 
         HideAllMenu();
         battleButton.onClick?.Invoke();
+    }
+
+    private void InitButton(Button button,GameObject buttonUI)
+    {
+        button.onClick.AddListener(() => {
+            if (buttonUI.activeSelf) return;
+            SoundManager.instance.PlaySfxSound(menuButtonSFX,SFXTYPE.UISOUND);
+            HideAllMenu();
+            buttonUI.SetActive(true);
+            button.GetComponent<Image>().color = activeButtonColor;
+        });
     }
 
     private void HideAllMenu()
@@ -126,7 +102,7 @@ public class MainSceneUI : MonoBehaviour
         if (string.IsNullOrEmpty(nickName)) return;
         if (nickName.Length < 1 || nickName.Length >= 8) return;
 
-        CloudManager.instance.userData.userName = nickName;
+        CloudManager.instance.GetUserData().userName = nickName;
 
         CloudManager.instance.SaveUserData();
         nickNameUI.SetActive(false);

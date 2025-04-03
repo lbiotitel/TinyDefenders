@@ -35,7 +35,6 @@ public class Hero : Entity
     public void InitHeroData(HeroScriptable data, HeroHolder heroHolder)
     {
         if (GameManager.instance.isGameOver) return;
-        SoundManager.instance.PlaySfxSound("SummonHeroSFX", SFXTYPE.EXTRA);
 
         heroData = data;
 
@@ -49,13 +48,12 @@ public class Hero : Entity
 
         InitRarityCircleColor();
 
-        GameManager.instance.AddHero(this);
 
         Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
 
         heroOwnerNetworkType = heroHolder.holderId.Contains("CLIENT") ? PlayerNetworkType.CLIENT : PlayerNetworkType.HOST;
 
-        if(IsServer)PlayerStatManager.instance.AddHero(this);
+        SpawnManager.instance.AddHero(this);
     }
 
 
@@ -342,7 +340,6 @@ public class Hero : Entity
     {
         base.OnNetworkDespawn();
         if (GameManager.instance.isGameOver) return;
-        if (IsServer) PlayerStatManager.instance.RemoveHero(this);
-        GameManager.instance.RemoveHero(this);
+        SpawnManager.instance.RemoveHero(this);
     }
 }

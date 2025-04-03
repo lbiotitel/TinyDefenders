@@ -224,7 +224,7 @@ public class CardManager : MonoBehaviour
             float y = myCardPos.position.y;
 
             RectTransform cardTransform = myCardList[i].GetComponent<RectTransform>();
-            cardTransform.DOAnchorPos(new Vector2(x, y), 0.2f);
+            cardTransform.DOAnchorPos(new Vector2(x, y), 0.1f);
 
             myCardList[i].transform.SetAsLastSibling();
 

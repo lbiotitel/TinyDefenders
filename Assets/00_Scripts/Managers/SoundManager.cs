@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,7 +41,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private List<Sound> projectileSfxSoundList = new List<Sound>();
     [SerializeField] private List<Sound> uiSfxSoundList = new List<Sound>();
     [SerializeField] private List<Sound> extraSfxSoundList = new List<Sound>();
-
+    [SerializeField] private float fadeOutTime;
 
     public void StopAllMusicSound()
     {
@@ -110,6 +111,45 @@ public class SoundManager : MonoBehaviour
                 backgroundAudioSource.loop = loop;
                 backgroundAudioSource.Play();
             }
+        }
+    }
+
+    public void FadeOutSound()
+    {
+        StartCoroutine(FadeOutSoundCoroutine());
+    }
+
+    private IEnumerator FadeOutSoundCoroutine()
+    {
+        float prevBackgroundVolume = backgroundAudioSource.volume;
+        float[] prevSfxVolume = new float[sfxAudioSource.Length];
+
+        for(int i = 0;  i < prevSfxVolume.Length; i++) prevSfxVolume[i] = sfxAudioSource[i].volume;
+
+        float elapsedTime = 0;
+
+        while(elapsedTime <= fadeOutTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / fadeOutTime;
+
+            backgroundAudioSource.volume = Mathf.Lerp(backgroundAudioSource.volume, 0, t);
+            backgroundAudioSource.pitch = Mathf.Lerp(backgroundAudioSource.pitch, 0, t);
+            for (int i = 0; i < sfxAudioSource.Length; i++) sfxAudioSource[i].volume = Mathf.Lerp(sfxAudioSource[i].volume,0, t);
+            for (int i = 0; i < sfxAudioSource.Length; i++) sfxAudioSource[i].pitch = Mathf.Lerp(sfxAudioSource[i].pitch, 0, t);
+
+            yield return null;
+        }
+
+        StopAllMusicSound();
+        StopAllSfxSound();
+
+        backgroundAudioSource.volume = prevBackgroundVolume;
+        backgroundAudioSource.pitch = 1f;
+        for (int i = 0; i < prevSfxVolume.Length; i++)
+        {
+            sfxAudioSource[i].volume = prevSfxVolume[i];
+            sfxAudioSource[i].pitch = 1f;
         }
     }
 

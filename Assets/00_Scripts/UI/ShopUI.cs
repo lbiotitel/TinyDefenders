@@ -33,7 +33,7 @@ public class ShopUI : MonoBehaviour
 
     private void GetCurrentUserAsset()
     {
-        UserData userData = CloudManager.instance.userData;
+        UserData userData = CloudManager.instance.GetUserData();
         goldText.text = userData.gold.ToString();
         crystalText.text = userData.crystal.ToString();
     }
@@ -48,7 +48,7 @@ public class ShopUI : MonoBehaviour
     private void Summon(int value)
     {
         int price = value == 1 ? 150 : 1500;
-        int currentCrystal = CloudManager.instance.userData.crystal;
+        int currentCrystal = CloudManager.instance.GetUserData().crystal;
 
         if (currentCrystal < price)
         {
@@ -124,12 +124,12 @@ public class ShopUI : MonoBehaviour
 
     private void ChangeGoldText()
     {
-        goldText.text = CloudManager.instance.userData.gold.ToString();
+        goldText.text = CloudManager.instance.GetUserData().gold.ToString();
     }
 
     private void ChangeCrystalText()
     {
-        crystalText.text = CloudManager.instance.userData.crystal.ToString();
+        crystalText.text = CloudManager.instance.GetUserData().crystal.ToString();
     }
 
     public void BuyCrystal(int value)

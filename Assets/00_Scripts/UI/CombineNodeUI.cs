@@ -46,18 +46,18 @@ public class CombineNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 combineHeroHolderList[i].Sell();
             }
 
-            Spawner.instance.Summon(mainHero.heroName);
+            SpawnManager.instance.Summon(mainHero.heroName);
 
-            CanCombineHero();
+            CanCombineHero(null);
         }
     }
 
-    public void CanCombineHero()
+    public void CanCombineHero(Hero summonHero)
     {
 
         combineHeroHolderList.Clear();
 
-        List<Hero> currentHeroList = GameManager.instance.GetHeroList(NetUtils.GetPlayerNetworkType());
+        List<Hero> currentHeroList = SpawnManager.instance.GetHeroList(NetUtils.GetPlayerNetworkType());
 
         Dictionary<string, int> combineHeroDic = new Dictionary<string, int>();
 

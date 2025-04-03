@@ -6,6 +6,7 @@ using Unity.Services.CloudSave;
 using Unity.Services.CloudSave.Models;
 using Unity.Services.Leaderboards;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class UserData
@@ -36,18 +37,16 @@ public class UserData
 
     public string userName;
     public int userLevel;
-    public int bestWave = 1;
     public int crystal;
     public int gold;
     public int rankingPoint;
     public Dictionary<string, HeroStoreData> heroDatas;
     public Dictionary<string, SpellCardStoreData> spellCardDatas;
 
-    public UserData(string userName, int userLevel, int bestWave, int crystal, int gold, int rakingPoint)
+    public UserData(string userName, int userLevel, int crystal, int gold, int rakingPoint)
     {
         this.userName = userName;
         this.userLevel = userLevel;
-        this.bestWave = bestWave;
         this.crystal = crystal;
         this.gold = gold;
         this.rankingPoint = rakingPoint;
@@ -85,7 +84,7 @@ public delegate void OnGoldValueChange();
 public class CloudManager : MonoBehaviour
 {
     public static CloudManager instance = null;
-    public UserData userData = null;
+    private UserData userData = null;
     private const string playerDataKey = "PlayerData";
     private const string leaderBoardKey = "TinyDefenceRank";
 
@@ -114,6 +113,8 @@ public class CloudManager : MonoBehaviour
         IntervalSaveUserData();
     }
 
+    public UserData GetUserData() { return userData; }
+
     #region About User Asset Method
 
     public void CrystalChangeValue(int newValue)
@@ -133,13 +134,16 @@ public class CloudManager : MonoBehaviour
 
     private void IntervalSaveUserData()
     {
-        if (!isSave)
+        if (SceneName.MainScene == SceneManager.GetActiveScene().name)
         {
-            saveTime += Time.deltaTime;
-            if (saveTime >= saveInterval)
+            if (!isSave)
             {
-                saveTime = 0f;
-                IntervalSaveUserData(() => { isSave = false; });
+                saveTime += Time.deltaTime;
+                if (saveTime >= saveInterval)
+                {
+                    saveTime = 0f;
+                    IntervalSaveUserData(() => { isSave = false; });
+                }
             }
         }
     }
@@ -196,7 +200,7 @@ public class CloudManager : MonoBehaviour
                 Debug.Log("저장된 플레이어가 존재하지 않음");
 #endif
                 MainSceneUI.instance.ShowNickNameUI();
-                this.userData = new UserData("", 1, 1, 0, 0, 0);
+                this.userData = new UserData("", 1, 0, 0, 0);
                 return this.userData;
             }
         }

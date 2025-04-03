@@ -38,7 +38,7 @@ public class CombineUI : MonoBehaviour
     {
         foreach (var nodeUI in combineNodeUIs)
         {
-            nodeUI.CanCombineHero();
+            nodeUI.CanCombineHero(null);
         }
     }
 

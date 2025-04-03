@@ -180,7 +180,7 @@ public class GameCamera : MonoBehaviour
             moveHolder.HideHeroMoveTargetMark();
             heroHolder.HideHeroRange();
             heroHolder.HideOwnMark();
-            Spawner.instance.HeroHolderSwap(heroHolder.holderId, moveHolder.holderId);
+            SpawnManager.instance.HeroHolderSwap(heroHolder.holderId, moveHolder.holderId);
         }
         else
         {

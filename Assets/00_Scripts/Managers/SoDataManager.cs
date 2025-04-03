@@ -48,7 +48,7 @@ public class SoDataManager : MonoBehaviour
 
     public void UpgradeIngameSummonRarity(int level)
     {
-        inGameDrawHeroCardRarityProbabilitySetting.SetProbability(level);
+        inGameDrawHeroCardRarityProbabilitySetting.AddProbability(level);
     }
 
 

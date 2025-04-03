@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 
 public partial class NetManager : MonoBehaviour
 {
-    public static NetManager instnace = null;
+    public static NetManager instnace { get; private set; }
 
     private void Awake()
     {
@@ -27,18 +28,13 @@ public partial class NetManager : MonoBehaviour
 
     private const int maxPlayers = 2;
 
-    private async void Start()
+
+    public async Task SingInUnityService()
     {
         await UnityServices.InitializeAsync();
         if (!AuthenticationService.Instance.IsSignedIn)
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            var loadData = await CloudManager.instance.LoadUserData();
-            CloudManager.instance.userData = loadData;
-
-            MainSceneUI.instance.InitMainScene();
         }
     }
-
-
 }

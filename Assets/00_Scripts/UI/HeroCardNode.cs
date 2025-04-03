@@ -57,8 +57,14 @@ public class HeroCardNode : CardNodeBase
 
     protected override void UseCard()
     {
-        summonCard.Summon(transform);
-        base.UseCard();
+        if (SpawnManager.instance.CanSpawn(NetUtils.GetPlayerNetworkType()))
+        {
+            summonCard.Summon(transform);
+            base.UseCard();
+        }
+        else {
+            ResetCardTransform();
+        }
     }
 
 }

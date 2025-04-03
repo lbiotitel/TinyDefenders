@@ -55,7 +55,9 @@ public class RankingUI : MonoBehaviour
 
     private void ClearData()
     {
-        rankDataList.Clear();
+        if(rankDataList != null)
+            rankDataList.Clear();
+
         userRankData = null;
 
         if (rankUINodeList.Count > 0)

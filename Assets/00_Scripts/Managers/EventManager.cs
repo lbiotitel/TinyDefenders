@@ -16,8 +16,8 @@ public class EventManager : MonoBehaviour
 
     public UnityAction<Hero> onHeroUseSkillAction;
     public UnityAction onHeroSynergyChangedAction;
-    public UnityAction onHeroSummonAction;
-    public UnityAction onHeroDespawnAction;
+    public UnityAction<Hero> onHeroSummonAction;
+    public UnityAction<Hero> onHeroDespawnAction;
     public UnityAction<Hero,Monster> onHeroAttackToMonsterAction;
     public UnityAction onDrawCardAction;
 
@@ -59,8 +59,8 @@ public class EventManager : MonoBehaviour
     {
         ReleaseHeroAction(ref onHeroUseSkillAction);
         ReleaseAction(ref onHeroSynergyChangedAction);
-        ReleaseAction(ref onHeroSummonAction);
-        ReleaseAction(ref onHeroDespawnAction);
+        ReleaseHeroAction(ref onHeroSummonAction);
+        ReleaseHeroAction(ref onHeroDespawnAction);
         ReleaseAction(ref onDrawCardAction);
         ReleaseHeroAction(ref onHeroAttackToMonsterAction);
         onHeroUseSkillAction = null;

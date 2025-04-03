@@ -47,8 +47,8 @@ public class InGameUI : NetworkBehaviour
     [Header("Game Over UI")]
     [SerializeField] GameObject gameOverUI;
 
-    [Header("Alarm UI")]
-    [SerializeField] private AlarmUI alarmUI;
+    [Header("NetWorkAlarm UI")]
+    [SerializeField] private NetworkAlarmUI networkAlramUI;
 
     [Header("Hero Info")]
     [SerializeField] private HeroInfoUI heroInfoUI;
@@ -123,7 +123,7 @@ public class InGameUI : NetworkBehaviour
     public void ShowAlarmClientRpc(string alarmText, float duration, string strAlarmType)
     {
         AlarmType alarmType = (AlarmType)System.Enum.Parse(typeof(AlarmType), strAlarmType);
-        alarmUI.AddAlarm(alarmText, duration, alarmType);
+        networkAlramUI.AddAlarm(alarmText, duration, alarmType);
     }
 
     public void HideProfileAnimation()

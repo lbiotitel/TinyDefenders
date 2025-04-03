@@ -16,13 +16,15 @@ public class HeroHolder : NetworkBehaviour
     [SerializeField] private Color[] circleColors;
     [SerializeField] private SpriteRenderer circleSpriteRenderer;
 
-    [SerializeField] private float circleRadius;    
+    [SerializeField] private float circleRadius;
+    public string heroSellSFX;
 
     [HideInInspector] public string holderName;
     [HideInInspector] public string holderId;
     [HideInInspector] public Hero ownHero = null;
     [HideInInspector] public HeroScriptable heroData;
     [HideInInspector] public int holderIndex;
+    
     private NetworkObjectType networkObjectType;
 
 
@@ -74,6 +76,8 @@ public class HeroHolder : NetworkBehaviour
     #region About Sell Hero
     public void Sell()
     {
+        SoundManager.instance.PlaySfxSound(heroSellSFX,SFXTYPE.EXTRA);
+
         NetUtils.HostAndClientMethod(
             () => SellServerRpc(),
             () => SellHero()

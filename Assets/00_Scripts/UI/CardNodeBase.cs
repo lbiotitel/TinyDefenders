@@ -63,11 +63,8 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
     public void InitReadyInteract(bool interact)
     { 
         readyInteract = interact;
-        if (readyInteract)
-        {
-            dragOriginalPosition = transform.position;
-            enlargementOriginalPosition = transform.position;
-        }
+        dragOriginalPosition = transform.position;
+        enlargementOriginalPosition = transform.position;
     }
 
 
@@ -95,22 +92,23 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
         {
             transform.position = dragOriginalPosition;
             transform.SetParent(parentTransform);
-            ReturnOriginalCard();
+            ReturnOriginalCardPosition();
         }
         else {
             if (CheckCost())
             {
                 UseCard();
             }
-            else {
-                parentTransform = transform.parent;
-                transform.position = dragOriginalPosition;
-                transform.localScale = Vector3.one;
+            else
+            {
+                ResetCardTransform();
             }
         }
 
         CardManager.instance.OffCardDropZone();
     }
+
+
 
     public virtual void OnBeginDrag(PointerEventData evenData)
     {
@@ -122,6 +120,17 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
 
 
     #endregion
+
+    protected void ResetCardTransform()
+    {
+        transform.SetParent(parentTransform);
+        transform.position = dragOriginalPosition;
+        transform.localScale = Vector3.one;
+        isEnlargement = false;
+        isDrag = false;
+
+        CardManager.instance.SortCard();
+    }
 
 
     protected bool IsInDropZone()
@@ -147,21 +156,14 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
 
     protected virtual void UseCard()
     {
+        GameManager.instance.SpendGold(cardSO.cardCost);
         CardManager.instance.RemoveCard(this);
         CardManager.instance.SortCard();
     }
 
-
     protected bool CheckCost()
     {
-        if (GameManager.instance.IsEnoughGold(cardSO.cardCost))
-        {
-            GameManager.instance.SpendGold(cardSO.cardCost);
-            UseCard();
-
-            return true;
-        }
-
+        if (GameManager.instance.IsEnoughGold(cardSO.cardCost)) return true;
         return false;
     }
 
@@ -186,14 +188,15 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (!readyInteract) return;
         if (isDrag) return;
         if (isEnlargement)
         {
-            ReturnOriginalCard();
+            ReturnOriginalCardPosition();
         }
     }
 
-    protected void ReturnOriginalCard()
+    protected void ReturnOriginalCardPosition()
     {
         transform.DOMove(enlargementOriginalPosition, 0.2f).OnComplete(() => {
             isEnlargement = false;

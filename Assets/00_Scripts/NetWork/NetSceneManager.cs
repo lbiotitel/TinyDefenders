@@ -42,7 +42,7 @@ public partial class NetManager : MonoBehaviour
 
             if (!NetUtils.IsHost())
             {
-                GameManager.instance.SendUserNameServerRpc(CloudManager.instance.userData.userName);
+                GameManager.instance.SendUserNameServerRpc(CloudManager.instance.GetUserData().userName);
             }
 
             GameManager.instance.SetSpawner();

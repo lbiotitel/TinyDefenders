@@ -56,15 +56,11 @@ public class GameManager : NetworkBehaviour
 
     private WaveScriptable[] waveData = null;
 
-    private List<Hero> clientHeroList = new List<Hero>();
-    private List<Hero> serverHeroList = new List<Hero>();
-
-
 
     private void Update()
     {
         CheckEndProfileAnimation();
-        UpdateTime();
+        WaveLogic();
     }
 
     #region Game Start Logic
@@ -81,7 +77,7 @@ public class GameManager : NetworkBehaviour
 
     public void SetSpawner()
     {
-        Spawner.instance.SetSpawner();
+        SpawnManager.instance.SetSpawner();
     }
 
     public void StartGame()
@@ -108,7 +104,7 @@ public class GameManager : NetworkBehaviour
 
 
     #region Game Wave Logic
-    private void UpdateTime()
+    private void WaveLogic()
     {
         if (!isGameStart) return;
         if (waveData == null) return;
@@ -139,7 +135,7 @@ public class GameManager : NetworkBehaviour
         currentWave = Mathf.Min(++currentWave, waveData.Length);
 
         timer = waveData[currentWave - 1].waveTime;
-        Spawner.instance.StartMonsterSpawn(
+        SpawnManager.instance.StartMonsterSpawn(
             waveData[currentWave - 1].spawnMonsterData.monsterName,
             waveData[currentWave - 1].spawnInterval,
             waveData[currentWave - 1].waveMonsterCount);
@@ -304,19 +300,39 @@ public class GameManager : NetworkBehaviour
 
     public void GameOver()
     {
-        if (NetUtils.IsHost())
+        if (!isGameOver)
         {
-            if (!isGameOver)
+            isGameOver = true;
+            if (NetUtils.IsHost())
             {
-                isGameOver = true;
-                Time.timeScale = 0f;
+                GameStopClientRpc();
                 //나중에 playerstatemanager로 뺌
                 NetworkRpcManager.instance.GameFinishClientRpc(playerName, friendName, playerDamage, friendDamage, currentWave);
             }
         }
     }
 
-    public void ChangeAllPlayerScene()
+    [ClientRpc]
+    private void GameStopClientRpc()
+    {
+        SoundManager.instance.FadeOutSound();
+        StartCoroutine(GameStopCoroutine());
+    }
+
+    private IEnumerator GameStopCoroutine()
+    {
+        float elapsedTime = 0f;
+        float gameStopTime = 2f;
+        while (elapsedTime < gameStopTime)
+        {
+            elapsedTime -= Time.deltaTime;
+            float t = elapsedTime / gameStopTime;
+            Time.timeScale = Mathf.Lerp(Time.timeScale,0,t);
+            yield return null;
+        }
+    }
+
+    public void ChangeAllPlayerToResultScene()
     {
         NetworkManager.Singleton.Shutdown();
         SceneManager.LoadScene(SceneName.ResultScene);
@@ -326,54 +342,6 @@ public class GameManager : NetworkBehaviour
     #endregion
 
 
-
-    #region About Hero
-    public void AddHero(Hero hero)
-    {
-        PlayerNetworkType playerNetworkType = NetUtils.GetPlayerNetworkType();
-
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverHeroList.Add(hero);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientHeroList.Add(hero);
-                break;
-        }
-        EventManager.instance.onHeroSummonAction?.Invoke();
-    }
-
-    public void RemoveHero(Hero hero)
-    {
-        PlayerNetworkType playerNetworkType = NetUtils.GetPlayerNetworkType();
-
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverHeroList.Remove(hero);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientHeroList.Remove(hero);
-                break;
-        }
-        EventManager.instance.onHeroDespawnAction?.Invoke();
-    }
-
-    public List<Hero> GetHeroList(PlayerNetworkType playerNetworkType)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                return serverHeroList;
-            case PlayerNetworkType.CLIENT:
-                return clientHeroList;
-        }
-
-        return null;
-    }
-
-    #endregion
 
     public void SummonGoldGoblin()
     {
@@ -385,11 +353,11 @@ public class GameManager : NetworkBehaviour
             NetUtils.HostAndClientMethod(() =>
             {
                 InGameUI.instance.ShowAlarmServerRpc("황금 고블린 소환!", 3f, AlarmType.GOOD.ToString());
-                Spawner.instance.StartMonsterSpawnServerRpc("GoldGoblin", 0, 1);
+                SpawnManager.instance.StartMonsterSpawnServerRpc("GoldGoblin", 0, 1);
             }, () =>
             {
                 InGameUI.instance.ShowAlarmClientRpc("황금 고블린 소환!", 3f, AlarmType.GOOD.ToString());
-                Spawner.instance.StartMonsterSpawn("GoldGoblin", 0, 1);
+                SpawnManager.instance.StartMonsterSpawn("GoldGoblin", 0, 1);
             });
         }
     }
@@ -401,7 +369,7 @@ public class GameManager : NetworkBehaviour
     {
         if (IsServer)
         {
-            SendUserNameClientRpc(CloudManager.instance.userData.userName, userName);
+            SendUserNameClientRpc(CloudManager.instance.GetUserData().userName, userName);
         }
     }
 
