@@ -224,7 +224,8 @@ public class Hero : Entity
     #region About Hero Atk
     public double GetHeroAtk()
     {
-        double atk = heroData.atk.GetValue();
+        double atk = heroData.atk.GetValue(); 
+        atk = atk + (atk * (PlayerStatManager.instance.GetBonusAtk(NetUtils.GetPlayerNetworkType()) / 100f));
         atk += atk * (PlayerStatManager.instance.GetHeroUpgradeLevel(heroData.heroTribe, heroOwnerNetworkType) * 0.05f);
         return atk;
     }

@@ -282,7 +282,6 @@ public partial class NetManager : MonoBehaviour
     private void OnClientConnected(ulong clientId)
     {
         MainSceneUI.instance.ShowMatchingCompleteUI();
-        SceneFadeInClientRpc();
         NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
         if (NetUtils.IsHost()) {
             DestroyLobby();
@@ -334,12 +333,7 @@ public partial class NetManager : MonoBehaviour
     {
         if (NetworkManager.Singleton != null)
         {
-            if (NetworkManager.Singleton.SceneManager != null)
-            {
-             
-                NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
-            }
-
+            if (NetworkManager.Singleton.SceneManager != null) NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
             NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
         }

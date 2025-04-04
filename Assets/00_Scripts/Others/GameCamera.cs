@@ -23,7 +23,6 @@ public class GameCamera : MonoBehaviour
     {
         cam = GetComponent<Camera>();
         hostOrClient = NetUtils.IsHost() ? "HOST" : "CLIENT";
-        Debug.Log(hostOrClient);
     }
     //ray cast
     private void Update()
@@ -116,7 +115,6 @@ public class GameCamera : MonoBehaviour
 
         if (hit.collider != null)
         {
-            Debug.Log("Å¬¸¯");
             if (hit.collider.GetComponent<HeroHolder>() == null)
             {
                 heroHolder = null;

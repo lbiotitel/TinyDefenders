@@ -37,7 +37,7 @@ public class DrawCardRateUINode : MonoBehaviour
 
         for(int i = 0; i < probabilityText.Length; i++)
         {
-            probabilityText[i].text = string.Format("{0:D0}%", (int)(probabilityList[i] * 100f));
+            probabilityText[i].text = string.Format("{0:F2}%", (probabilityList[i] * 100f));
         }
     }
 

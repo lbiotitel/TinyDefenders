@@ -18,6 +18,7 @@ public class BaseProjectile : MonoBehaviour
     protected Transform target;
     protected bool isAttack = false;
     protected double damage;
+    protected bool isReferenceHeroExist = true;    
 
     private List<DebuffEffect> debuffEffects = new List<DebuffEffect>();
 
@@ -33,6 +34,14 @@ public class BaseProjectile : MonoBehaviour
     protected virtual void Update()
     {
         if (target == null) return;
+        if (referenceHero == null)
+        {
+            if (isReferenceHeroExist)
+            {
+                isReferenceHeroExist = false;
+                DisableObject(0.1f);
+            }
+        }
         ProjectileLogic();
     }
 

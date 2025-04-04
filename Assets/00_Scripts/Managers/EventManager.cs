@@ -20,6 +20,7 @@ public class EventManager : MonoBehaviour
     public UnityAction<Hero> onHeroDespawnAction;
     public UnityAction<Hero,Monster> onHeroAttackToMonsterAction;
     public UnityAction onDrawCardAction;
+    public UnityAction onGameStartAction;
 
 
     private void ReleaseHeroAction(ref UnityAction<Hero> unityAction)
@@ -62,6 +63,7 @@ public class EventManager : MonoBehaviour
         ReleaseHeroAction(ref onHeroSummonAction);
         ReleaseHeroAction(ref onHeroDespawnAction);
         ReleaseAction(ref onDrawCardAction);
+        ReleaseAction(ref onGameStartAction);
         ReleaseHeroAction(ref onHeroAttackToMonsterAction);
         onHeroUseSkillAction = null;
         instance = null;

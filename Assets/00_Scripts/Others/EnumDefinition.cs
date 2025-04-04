@@ -49,7 +49,8 @@ public enum AlarmType {
     NORMAL,
     GOOD,
     BAD,
-    WARNING
+    WARNING,
+    QUEST
 }
 
 public enum MonsterType { 

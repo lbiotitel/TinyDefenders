@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SoDataManager : MonoBehaviour
 {
@@ -12,9 +13,6 @@ public class SoDataManager : MonoBehaviour
             instance = this;
             InitAllHeroScriptableObject();
             InitAllSpellCardSciprtableObject();
-            InitAllHeroSynergyData();
-            InitAllCombineData();
-            InitDrawHeroCardProbability();
             DontDestroyOnLoad(gameObject);
         }
         else {
@@ -26,13 +24,14 @@ public class SoDataManager : MonoBehaviour
     private Dictionary<string, CardSO> spellCardScriptableDataDic;
     private Dictionary<HeroTribe, HeroSynergySO> heroSynergySODataDic;
     private Dictionary<string, CombineSciptable> combineSODataDic;
+    private Dictionary<string, InGameQuestSO> inGameQuestDic;
     private ProbabilitySetting inGameDrawHeroCardRarityProbabilitySetting;
-
 
     #region Draw Hero Card Probability
 
-    private void InitDrawHeroCardProbability()
+    public void InitDrawHeroCardProbability()
     {
+        if (inGameDrawHeroCardRarityProbabilitySetting != null) Destroy(inGameDrawHeroCardRarityProbabilitySetting);
         inGameDrawHeroCardRarityProbabilitySetting = Instantiate(Resources.Load<ProbabilitySetting>("SettingData/InGameProbabilitySettingData"));
     }
 
@@ -46,18 +45,47 @@ public class SoDataManager : MonoBehaviour
         return inGameDrawHeroCardRarityProbabilitySetting.GetDrawHeroCardProbability();
     }
 
-    public void UpgradeIngameSummonRarity(int level)
+    public void UpgradeIngameSummonRarity(float amount)
     {
-        inGameDrawHeroCardRarityProbabilitySetting.AddProbability(level);
+        inGameDrawHeroCardRarityProbabilitySetting.AddProbability(amount);
     }
 
+    #endregion
+
+
+    #region About InGame Quest Data
+
+    public void InitInGameQuestData()
+    {
+        inGameQuestDic = new Dictionary<string, InGameQuestSO>();
+
+        InGameQuestSO[] inGameQuestSOs = Resources.LoadAll<InGameQuestSO>("QuestDatas");
+
+        for (int i = 0; i < inGameQuestSOs.Length; i++)
+        { 
+            inGameQuestDic.Add(inGameQuestSOs[i].questName, Instantiate(inGameQuestSOs[i]));
+        }
+    }
+
+    public List<InGameQuestSO> GetAllInGameQuest()
+    { 
+        List<InGameQuestSO> inGameQuestSOs = new List<InGameQuestSO>();
+
+        foreach (var data in inGameQuestDic)
+        {
+            inGameQuestSOs.Add(data.Value);
+        }
+
+        return inGameQuestSOs;
+    }
 
 
     #endregion
 
+
     #region About Combine Data
 
-    private void InitAllCombineData()
+    public void InitAllCombineData()
     {
         combineSODataDic = new Dictionary<string, CombineSciptable>();
 
@@ -91,7 +119,7 @@ public class SoDataManager : MonoBehaviour
 
 
     #region About Hero Synergy Data 
-    private void InitAllHeroSynergyData()
+    public void InitAllHeroSynergyData()
     {
         heroSynergySODataDic = new Dictionary<HeroTribe, HeroSynergySO>();
 

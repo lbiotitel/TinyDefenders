@@ -85,6 +85,7 @@ public class GameManager : NetworkBehaviour
         isGameStart = true;
         CardManager.instance.RerollCard(true);
         SoundManager.instance.PlayMusicSound("InGameBgm", true);
+        EventManager.instance.onGameStartAction?.Invoke();
     }
 
 
@@ -287,7 +288,6 @@ public class GameManager : NetworkBehaviour
 
     public void SpendGold(int gold)
     {
-        Debug.Log(this.gold);
         this.gold -= gold;
     }
 
@@ -323,11 +323,12 @@ public class GameManager : NetworkBehaviour
     {
         float elapsedTime = 0f;
         float gameStopTime = 2f;
-        while (elapsedTime < gameStopTime)
+        float percent = 0f;
+        while (percent < 1f)
         {
             elapsedTime -= Time.deltaTime;
-            float t = elapsedTime / gameStopTime;
-            Time.timeScale = Mathf.Lerp(Time.timeScale,0,t);
+            percent = elapsedTime / gameStopTime;
+            Time.timeScale = Mathf.Lerp(Time.timeScale,0,percent);
             yield return null;
         }
     }
@@ -361,26 +362,6 @@ public class GameManager : NetworkBehaviour
             });
         }
     }
-
-    #region Send Name
-    //send users name
-    [ServerRpc(RequireOwnership = false)]
-    public void SendUserNameServerRpc(string userName)
-    {
-        if (IsServer)
-        {
-            SendUserNameClientRpc(CloudManager.instance.GetUserData().userName, userName);
-        }
-    }
-
-    [ClientRpc]
-    private void SendUserNameClientRpc(string hostName, string clientName)
-    {
-        playerName = hostName;
-        friendName = clientName;
-        InGameUI.instance.InitAllUserName(hostName, clientName);
-    }
-    #endregion
 
 
 }

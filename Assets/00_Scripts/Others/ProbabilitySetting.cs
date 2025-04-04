@@ -28,11 +28,11 @@ public class ProbabilitySetting : ScriptableObject
         }
     }
 
-    public void AddProbability(int level)
+    public void AddProbability(float amount)
     {
         for (int i = 0; i < probabilityNode.Length; i++)
         {
-            probabilityNode[i].probability += (float)(level / (i + 1));
+            probabilityNode[i].probability += (float)(amount / (i + 1));
         }
     }
 
@@ -44,7 +44,6 @@ public class ProbabilitySetting : ScriptableObject
 
         for (int i = 0; i < probabilityNode.Length; i++)
         {
-            Debug.Log(probabilityNode[i].probability / totalWeight);
             heroRarityProbabilityList.Add(probabilityNode[i].probability / totalWeight);
         }
 
@@ -54,6 +53,8 @@ public class ProbabilitySetting : ScriptableObject
 
     public HeroRarity GetRarity()
     {
+        SumWeight();
+
         float random = Random.Range(0, totalWeight);
 
         for (int i = 0; i < probabilityNode.Length; i++)

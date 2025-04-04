@@ -80,10 +80,13 @@ public class SoundManager : MonoBehaviour
                 break;
         }
 
+        bool find = false;
+
         for (int i = 0; i < soundList.Count; i++)
         {
             if (sfxName == soundList[i].soundName)
             {
+                find = true;
                 for (int j = 0; j < sfxAudioSource.Length; j++)
                 {
                     if (!sfxAudioSource[j].isPlaying)
@@ -95,8 +98,7 @@ public class SoundManager : MonoBehaviour
             }
         }
 
-
-        Debug.LogError("등록 되지않은 사운드 효과");
+        if(!find)Debug.LogError("등록 되지않은 사운드 효과");
     }
 
 
@@ -127,16 +129,17 @@ public class SoundManager : MonoBehaviour
         for(int i = 0;  i < prevSfxVolume.Length; i++) prevSfxVolume[i] = sfxAudioSource[i].volume;
 
         float elapsedTime = 0;
+        float percent = 0;
 
-        while(elapsedTime <= fadeOutTime)
+        while(elapsedTime < 1f)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / fadeOutTime;
+            percent = elapsedTime / fadeOutTime;
 
-            backgroundAudioSource.volume = Mathf.Lerp(backgroundAudioSource.volume, 0, t);
-            backgroundAudioSource.pitch = Mathf.Lerp(backgroundAudioSource.pitch, 0, t);
-            for (int i = 0; i < sfxAudioSource.Length; i++) sfxAudioSource[i].volume = Mathf.Lerp(sfxAudioSource[i].volume,0, t);
-            for (int i = 0; i < sfxAudioSource.Length; i++) sfxAudioSource[i].pitch = Mathf.Lerp(sfxAudioSource[i].pitch, 0, t);
+            backgroundAudioSource.volume = Mathf.Lerp(backgroundAudioSource.volume, 0, percent);
+            backgroundAudioSource.pitch = Mathf.Lerp(backgroundAudioSource.pitch, 0, percent);
+            for (int i = 0; i < sfxAudioSource.Length; i++) sfxAudioSource[i].volume = Mathf.Lerp(sfxAudioSource[i].volume,0, percent);
+            for (int i = 0; i < sfxAudioSource.Length; i++) sfxAudioSource[i].pitch = Mathf.Lerp(sfxAudioSource[i].pitch, 0, percent);
 
             yield return null;
         }

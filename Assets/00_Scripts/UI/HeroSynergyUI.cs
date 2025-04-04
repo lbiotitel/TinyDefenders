@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 
@@ -9,12 +10,12 @@ public class HeroSynergyUI : MonoBehaviour
     [SerializeField] private List<HeroSynergyUINode> synergyUINodes;
     [SerializeField] private HeroSynergyUINode heroSynergyUIPrefab;
     [SerializeField] private Transform contentParent;
+    private RectTransform rectTransform;
 
     [Header("Synergy Info UI")]
     [SerializeField] private GameObject synergyInfoObject;
     [SerializeField] private TextMeshProUGUI synergyNameText;
     [SerializeField] private TextMeshProUGUI synergyDescText;
-    private RectTransform rectTransform;
 
     private void Start()
     {
@@ -78,6 +79,7 @@ public class HeroSynergyUI : MonoBehaviour
         Utils.ModifyTransform(transform,ref rectTransform);
         synergyNameText.text = synergyName;
         synergyDescText.text = synergyDesc;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(synergyInfoObject.GetComponent<RectTransform>());
     }
 
     public void HideSynergyInfo()

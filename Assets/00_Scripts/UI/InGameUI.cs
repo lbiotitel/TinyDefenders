@@ -39,6 +39,9 @@ public class InGameUI : NetworkBehaviour
     [Header("Hero Combine UI")]
     [SerializeField] private CombineUI combineUI;
 
+    [Header("Quest UI")]
+    [SerializeField] private InGameQuestUI inGameQuestUI;
+
     [Header("Wave UI")]
     [SerializeField] private GameObject waveUI;
     [SerializeField] private TextMeshProUGUI waveUIText;
@@ -63,7 +66,7 @@ public class InGameUI : NetworkBehaviour
     [SerializeField] private Transform getGoldTextTransform;
     [SerializeField] private GameObject getGoldPrefab;
 
-
+  
     private void Start()
     {
         InitEvent();
@@ -120,10 +123,15 @@ public class InGameUI : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void ShowAlarmClientRpc(string alarmText, float duration, string strAlarmType)
+    public void ShowAlarmClientRpc(string alarmText, float duration ,string strAlarmType)
     {
         AlarmType alarmType = (AlarmType)System.Enum.Parse(typeof(AlarmType), strAlarmType);
         networkAlramUI.AddAlarm(alarmText, duration, alarmType);
+    }
+
+    public void ShowAlarm(string alarmText, float duration, AlarmType alarmType)
+    {
+        networkAlramUI.AddAlarm(alarmText,duration, alarmType);
     }
 
     public void HideProfileAnimation()

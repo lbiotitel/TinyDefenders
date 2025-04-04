@@ -5,6 +5,7 @@ public struct SceneName
     public static string GameScene = "GamePlayScene";
     public static string IntroScene = "IntroScene";
     public static string ResultScene = "ResultScene";
+    public static string LoadingScene = "LoadingScene";
 }
 
 public struct LayerName

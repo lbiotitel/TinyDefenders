@@ -68,13 +68,13 @@ public class RankingUI : MonoBehaviour
     private async void GetUserLeaderBoard()
     {
         userRankData = await CloudManager.instance.GetUserLeaderBoard();
-        ShowUserRankData();
+        if(gameObject.activeSelf) ShowUserRankData();
     }
 
     private async void GetLeaderBoard()
     {
         rankDataList = await CloudManager.instance.GetLeaderBoard();
-        ShowLeaderBoard();
+        if (gameObject.activeSelf) ShowLeaderBoard();
     }
 
     private void ShowUserRankData()

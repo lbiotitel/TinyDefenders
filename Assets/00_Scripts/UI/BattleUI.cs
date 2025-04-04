@@ -31,6 +31,10 @@ public class BattleUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI userGoldText;
     [SerializeField] private TextMeshProUGUI userCrystalText;
 
+    [Header("User Profile")]
+    [SerializeField] private TextMeshProUGUI userNameText;
+    [SerializeField] private TextMeshProUGUI userLevelText;
+
 
     private void Awake()
     {
@@ -49,6 +53,8 @@ public class BattleUI : MonoBehaviour
         var loadData = await CloudManager.instance.LoadUserData();
         userGoldText.text = loadData.gold.ToString();
         userCrystalText.text = loadData.crystal.ToString();
+        userNameText.text = loadData.userName;
+        userLevelText.text = string.Format("LV.{0}",loadData.userLevel);
     }
 
     private void Update()

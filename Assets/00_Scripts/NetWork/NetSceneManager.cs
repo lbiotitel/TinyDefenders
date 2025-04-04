@@ -1,3 +1,4 @@
+using Unity.Multiplayer.Playmode;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,33 +22,19 @@ public partial class NetManager : MonoBehaviour
         if (NetworkManager.Singleton.IsHost)
         {
             NetworkManager.Singleton.SceneManager.LoadScene(
-                SceneName.GameScene,
+                SceneName.LoadingScene,
                 UnityEngine.SceneManagement.LoadSceneMode.Single
-                );
+            );
         }
-    }
-
-    [ClientRpc]
-    private void SceneFadeInClientRpc()
-    {
-        LoadingManager.instance.FadeInOut(true);
     }
 
     private void OnSceneLoaded(ulong clientId, string sceneName, LoadSceneMode mode)
     {
-        if (sceneName == SceneName.GameScene)
+        if (sceneName == SceneName.LoadingScene)
         {
-            ReleaseEvent();
-            Debug.Log("»£√‚");
-
-            if (!NetUtils.IsHost())
-            {
-                GameManager.instance.SendUserNameServerRpc(CloudManager.instance.GetUserData().userName);
-            }
-
-            GameManager.instance.SetSpawner();
-            LoadingManager.instance.FadeInOut(false);
+            NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
+            LoadingScene loadingScene = FindFirstObjectByType<LoadingScene>();
+            loadingScene.StartLoadingScene();
         }
     }
-
 }

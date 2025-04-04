@@ -229,7 +229,7 @@ public partial class Monster : Entity
 
     IEnumerator DeadCoroutine()
     {
-        GameObject deadParticle = PoolingManager.instance.GetObject(deadParticlePrefab, transform.position);
+        PoolingManager.instance.GetObject(deadParticlePrefab, transform.position);
         float alpha = 1.0f;
 
         while (spriteRenderer.color.a > 0.0f)
@@ -239,8 +239,6 @@ public partial class Monster : Entity
                 alpha);
             yield return null;
         }
-
-        PoolingManager.instance.ReturnObject(deadParticle);
 
         GetComponent<NetworkTransform>().Interpolate = false;
 

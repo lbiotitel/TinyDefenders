@@ -28,6 +28,7 @@ public class NetworkAlarmUI : MonoBehaviour
         public Sprite alarmImage;
     }
 
+    [SerializeField] private RectTransform horizontalRectTransform;
     [SerializeField] private TextMeshProUGUI alarmText;
     [SerializeField] private Image alarmImage;
     [SerializeField] private List<AlarmSprite> alarmSprites;
@@ -45,6 +46,7 @@ public class NetworkAlarmUI : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         alarmImage.preserveAspect = true;
+        HideAlarm(0.1f);
     }
 
     private void Update()
@@ -65,12 +67,13 @@ public class NetworkAlarmUI : MonoBehaviour
         if (alarmDatas.Count <= 0) return;
         
         AlarmData alarmData = alarmDatas.Dequeue();
-        
+
         animator.SetTrigger("SHOW");
+
         alarmText.text = alarmData.alarmText;
         canShowAlarm = false;
-
         AlarmTypeLogic(alarmData.alarmType);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(horizontalRectTransform);
 
         StartCoroutine(HideAlarm(alarmData.alarmDuration));
     }
@@ -90,6 +93,10 @@ public class NetworkAlarmUI : MonoBehaviour
                 break;
             case AlarmType.WARNING:
                 alarmImage.sprite = alarmSprites[(int)AlarmType.WARNING].alarmImage;
+                alarmImage.gameObject.SetActive(true);
+                break;
+            case AlarmType.QUEST:
+                alarmImage.sprite = alarmSprites[(int)AlarmType.QUEST].alarmImage;
                 alarmImage.gameObject.SetActive(true);
                 break;
         }
