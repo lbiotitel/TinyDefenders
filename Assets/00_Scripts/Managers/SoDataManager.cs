@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SoDataManager : MonoBehaviour
 {
@@ -15,7 +15,8 @@ public class SoDataManager : MonoBehaviour
             InitAllSpellCardSciprtableObject();
             DontDestroyOnLoad(gameObject);
         }
-        else {
+        else
+        {
             Destroy(gameObject);
         }
     }
@@ -29,10 +30,17 @@ public class SoDataManager : MonoBehaviour
 
     #region Draw Hero Card Probability
 
-    public void InitDrawHeroCardProbability()
+    public async Task<bool> InitDrawHeroCardProbability()
     {
-        if (inGameDrawHeroCardRarityProbabilitySetting != null) Destroy(inGameDrawHeroCardRarityProbabilitySetting);
-        inGameDrawHeroCardRarityProbabilitySetting = Instantiate(Resources.Load<ProbabilitySetting>("SettingData/InGameProbabilitySettingData"));
+        if (inGameDrawHeroCardRarityProbabilitySetting != null) DestroyImmediate(inGameDrawHeroCardRarityProbabilitySetting,true);
+
+        ResourceRequest resourceRequest = Resources.LoadAsync<ProbabilitySetting>(Path.inGameProbabilitySettingPath);
+
+        await resourceRequest;
+
+        inGameDrawHeroCardRarityProbabilitySetting = resourceRequest.asset as ProbabilitySetting;
+
+        return true;
     }
 
     public HeroRarity GetIngameSummonRarity()
@@ -55,20 +63,25 @@ public class SoDataManager : MonoBehaviour
 
     #region About InGame Quest Data
 
-    public void InitInGameQuestData()
+    public async Task<bool> InitInGameQuestData()
     {
         inGameQuestDic = new Dictionary<string, InGameQuestSO>();
 
-        InGameQuestSO[] inGameQuestSOs = Resources.LoadAll<InGameQuestSO>("QuestDatas");
+        InGameQuestSO[] inGameQuestSOs = Resources.LoadAll<InGameQuestSO>(Path.questDataPath);
 
-        for (int i = 0; i < inGameQuestSOs.Length; i++)
-        { 
-            inGameQuestDic.Add(inGameQuestSOs[i].questName, Instantiate(inGameQuestSOs[i]));
-        }
+        await Task.Run(() =>
+        {
+            for (int i = 0; i < inGameQuestSOs.Length; i++)
+            {
+                inGameQuestDic.Add(inGameQuestSOs[i].questName, inGameQuestSOs[i]);
+            }
+        });
+
+        return true;
     }
 
     public List<InGameQuestSO> GetAllInGameQuest()
-    { 
+    {
         List<InGameQuestSO> inGameQuestSOs = new List<InGameQuestSO>();
 
         foreach (var data in inGameQuestDic)
@@ -85,24 +98,35 @@ public class SoDataManager : MonoBehaviour
 
     #region About Combine Data
 
-    public void InitAllCombineData()
+    public async Task<bool> InitAllCombineData()
     {
         combineSODataDic = new Dictionary<string, CombineSciptable>();
+
+        List<CombineSciptable> combineDatas = new List<CombineSciptable>();
 
         for (int rarity = (int)HeroRarity.Uncommon; rarity <= (int)HeroRarity.Legend; rarity++)
         {
             string rare = ((HeroRarity)rarity).ToString();
-            CombineSciptable[] combineDatas = Resources.LoadAll<CombineSciptable>($"CombineHeroData/{rare}");
+            CombineSciptable[] combineData = Resources.LoadAll<CombineSciptable>($"CombineHeroData/{rare}");
+            foreach (var data in combineData)
+            {
+                combineDatas.Add(data);
+            }
+        }
 
-            for (int i = 0; i < combineDatas.Length; i++)
+        await Task.Run(() =>
+        {
+            for (int i = 0; i < combineDatas.Count; i++)
             {
                 combineSODataDic.Add(combineDatas[i].mainHeroData.heroName, combineDatas[i]);
             }
-        }
+        });
+
+        return true;
     }
 
     public List<CombineSciptable> GetAllCombineData()
-    { 
+    {
         List<CombineSciptable> combineList = new List<CombineSciptable>();
 
         foreach (var data in combineSODataDic)
@@ -119,19 +143,21 @@ public class SoDataManager : MonoBehaviour
 
 
     #region About Hero Synergy Data 
-    public void InitAllHeroSynergyData()
+    public async Task<bool> InitAllHeroSynergyData()
     {
         heroSynergySODataDic = new Dictionary<HeroTribe, HeroSynergySO>();
 
-        HeroSynergySO[] heroSynergySOs = Resources.LoadAll<HeroSynergySO>("HeroSynergyDatas");
+        HeroSynergySO[] heroSynergySOs = Resources.LoadAll<HeroSynergySO>(Path.heroSynergyDataPath);
 
-#if UnityEidtor
-        Debug.Log(heroSynergySOs.Length);
-#endif
-        for(int i = 0; i < heroSynergySOs.Length; i++)
+        await Task.Run(() =>
         {
-            heroSynergySODataDic.Add(heroSynergySOs[i].synergyTribe, heroSynergySOs[i]);
-        }   
+            foreach (var heroSynergySO in heroSynergySOs)
+            {
+                heroSynergySODataDic.Add(heroSynergySO.synergyTribe, heroSynergySO);
+            }
+        });
+
+        return true;
     }
 
     public HeroSynergySO GetHeroSynergySO(HeroTribe synergyTribe)
@@ -155,7 +181,7 @@ public class SoDataManager : MonoBehaviour
 
         return heroSynergySOs;
     }
-#endregion
+    #endregion
 
 
     #region About Hero So Resource Method
@@ -206,14 +232,14 @@ public class SoDataManager : MonoBehaviour
 
         List<HeroScriptable> heroDatas = GetAllHeroScriptableData();
         List<HeroScriptable> heroDatasByRarity = new List<HeroScriptable>();
-        
+
         foreach (var data in heroDatas)
         {
-            if(data.rarity == heroRarity)
+            if (data.rarity == heroRarity)
                 heroDatasByRarity.Add(data);
         }
 
-        int selectHero = Random.Range(0,heroDatasByRarity.Count);
+        int selectHero = Random.Range(0, heroDatasByRarity.Count);
 
         return heroDatasByRarity[selectHero];
     }
@@ -224,7 +250,7 @@ public class SoDataManager : MonoBehaviour
 
     private void InitAllSpellCardSciprtableObject()
     {
-        spellCardScriptableDataDic = new Dictionary<string,  CardSO>();
+        spellCardScriptableDataDic = new Dictionary<string, CardSO>();
 
         for (int rarity = 0; rarity <= (int)CardRarity.Rare; rarity++)
         {
@@ -241,7 +267,7 @@ public class SoDataManager : MonoBehaviour
     public CardSO GetSpellCardScirptableObject(string spellName)
     {
         if (spellCardScriptableDataDic.ContainsKey(spellName))
-        { 
+        {
             return spellCardScriptableDataDic[spellName];
         }
 
@@ -278,4 +304,12 @@ public class SoDataManager : MonoBehaviour
 
     #endregion
 
+    private void OnApplicationQuit()
+    {
+        if (instance != null)
+        {
+            Resources.UnloadUnusedAssets();
+            instance = null;
+        }
+    }
 }

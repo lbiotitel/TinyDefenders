@@ -53,6 +53,8 @@ public class UserData
     {
         List<HeroScriptable> heroDataList = SoDataManager.instance.GetAllHeroScriptableData();
 
+        if (heroDataList == null) return;
+
         for (int i = 0; i < heroDataList.Count; i++)
         {
             heroDatas.Add(heroDataList[i].heroName, new HeroStoreData(0, 0));

@@ -13,18 +13,19 @@ MonoBehaviour:
   m_Name: UndeadLichKing
   m_EditorClassIdentifier: 
   heroName: UndeadLichKing
-  rarity: 3
+  rarity: 0
+  heroCost: 0
   atk:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 444
     modifiers: []
   damage:
     <baseValue>k__BackingField: 0
     modifiers: []
   atkSpeed:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 1.5
     modifiers: []
   atkRange:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 3.5
     modifiers: []
   skillAcc:
     <baseValue>k__BackingField: 0
@@ -41,12 +42,17 @@ MonoBehaviour:
   runtimeAnimatorController: {fileID: 9100000, guid: b0c4bb6bf5227f44c9b8de366d464fb9, type: 2}
   projectile: {fileID: 7047840311217393306, guid: 2f2481a3c84c06148940ccaefe764870, type: 3}
   debuffEffects: []
-  skillDebuffEffects: []
+  skillDebuffEffects:
+  - debuffType: 3
+    values:
+    - 100
+    - 10
+    - 10
   skillData:
-    coolTime: 0
-    skillPrefab: {fileID: 0}
-    skillDamage: 0
-    targetCount: 0
+    coolTime: 10
+    skillPrefab: {fileID: 962637631272231507, guid: cbd76d315c872204385fb0b82061b820, type: 3}
+    skillDamage: 30
+    targetCount: 12
     skillDuration: 0
     buffTime: 0
     buffAmount: 0

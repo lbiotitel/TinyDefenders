@@ -90,6 +90,7 @@ public class HeroInfoUI : MonoBehaviour
 
     public void HideHeroInfoUI()
     {
+        if (!gameObject.activeSelf) return;
         this.hero = null;
         animator.SetTrigger("HIDE");
     }

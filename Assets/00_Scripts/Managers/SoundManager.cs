@@ -91,6 +91,7 @@ public class SoundManager : MonoBehaviour
                 {
                     if (!sfxAudioSource[j].isPlaying)
                     {
+                        sfxAudioSource[j].pitch = Random.Range(0.9f,1.1f);
                         sfxAudioSource[j].PlayOneShot(soundList[i].audioClip);
                         return;
                     }

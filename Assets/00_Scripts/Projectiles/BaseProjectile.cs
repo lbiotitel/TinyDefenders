@@ -12,6 +12,7 @@ public class BaseProjectile : MonoBehaviour
     [SerializeField] protected ProjectileType projectileType = ProjectileType.NORMAL;
     [SerializeField][Range(0f,10f)] protected float lifeTime = 0.2f;
     [SerializeField] protected GameObject destroyParticlePrefab;
+    [SerializeField] protected string projectileSFX;
     
     protected GameObject destroyParticle;
     protected Hero referenceHero;
@@ -24,6 +25,8 @@ public class BaseProjectile : MonoBehaviour
 
     public virtual void Init(Transform target, Hero referenceHero,double damage,List<DebuffEffect> debuffEffects = null)
     {
+        SoundManager.instance.PlaySfxSound(projectileSFX,SFXTYPE.PROJECTILESOUND);
+
         this.referenceHero = referenceHero;
         this.target = target;
         this.debuffEffects = debuffEffects;

@@ -14,17 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: UndeadDreadKnight
   rarity: 3
+  heroCost: 300
   atk:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 444
     modifiers: []
   damage:
     <baseValue>k__BackingField: 0
     modifiers: []
   atkSpeed:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 2
     modifiers: []
   atkRange:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 3
     modifiers: []
   skillAcc:
     <baseValue>k__BackingField: 0
@@ -35,18 +36,24 @@ MonoBehaviour:
   criticalDamage:
     <baseValue>k__BackingField: 0
     modifiers: []
-  heroDesc: 
+  heroDesc: "\uC8FD\uC74C\uC758 \uAE30\uC0AC\uAC00 \uC654\uB2E4."
   heroTribe: 2
   heroMainImage: {fileID: -2006785342, guid: 8cff7b2edb804794f8d3cd8e40bb1afe, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 665d3d5fc4d44934d8aa23c71ac62835, type: 2}
-  projectile: {fileID: 8640581903350312122, guid: 79dbb42659e3bcc4abdf9776023a0938, type: 3}
+  projectile: {fileID: -1974673794690869974, guid: 86f389508fc07e8409ae7f6b1085508e, type: 3}
   debuffEffects: []
-  skillDebuffEffects: []
+  skillDebuffEffects:
+  - debuffType: 0
+    values:
+    - 50
+    - 2
+    - 40
+    - 4
   skillData:
-    coolTime: 0
-    skillPrefab: {fileID: 0}
-    skillDamage: 0
-    targetCount: 0
+    coolTime: 7
+    skillPrefab: {fileID: 7380436595467382618, guid: 4b6c1f9340994704e86bc5834b2d32d8, type: 3}
+    skillDamage: 120
+    targetCount: 6
     skillDuration: 0
     buffTime: 0
     buffAmount: 0

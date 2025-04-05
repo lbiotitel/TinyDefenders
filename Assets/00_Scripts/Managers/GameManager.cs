@@ -20,7 +20,6 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-
     //config
     [field: SerializeField] public int maxMonsterCount { get; private set; }
     [field: SerializeField] public int maxHeroCount { get; private set; }
@@ -29,13 +28,6 @@ public class GameManager : NetworkBehaviour
     public int currentWave = 0;
     public float timer = 100000;
     public int currentMonsterCount = 0;
-
-    public int currentHeroCount = 0;
-    public int[] upgarde = new int[4];
-    public int goldGoblinLevel = 1;
-    public int goldGoblinRewardGold = 100;
-    public float goldGoblinDelayTime = 0f;
-    private bool goldGoblinDelay = false;
 
     public int warningMonsterCount;
     public float warningAlarmDelayTime = 30f;
@@ -88,6 +80,12 @@ public class GameManager : NetworkBehaviour
         EventManager.instance.onGameStartAction?.Invoke();
     }
 
+    public void InitAllUserName(string hostName, string clientName)
+    {
+        playerName = hostName;
+        friendName = clientName;
+        InGameUI.instance.InitAllUserName(hostName, clientName);
+    }
 
 
     private void CheckEndProfileAnimation()
@@ -97,8 +95,43 @@ public class GameManager : NetworkBehaviour
         {
             InGameUI.instance.profileAnimationReady = false;
             InGameUI.instance.HideProfileAnimation();
-            if (IsServer) InitGameManager();
+            CheckEndProfileAnimationServerRpc((int)NetUtils.GetPlayerNetworkType());
         }
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void CheckEndProfileAnimationServerRpc(int networkType)
+    {
+        PlayerNetworkType playerNetworkType = (PlayerNetworkType)networkType;
+
+        if (playerNetworkType == PlayerNetworkType.CLIENT)
+        {
+            if(NetUtils.IsHost())StartCoroutine(ShowCountDown());
+        }
+    }
+
+    private IEnumerator ShowCountDown()
+    {
+        yield return new WaitForSeconds(1f);
+
+        for (int i = 3; i >= 1; i--)
+        {
+            ShowCountDownClientRpc(i);
+            if(i == 1)yield return new WaitForSeconds(0.7f);
+            else yield return new WaitForSeconds(1f);
+        }
+
+        ShowCountDownClientRpc(0);
+
+        if (NetUtils.IsHost()) InitGameManager();
+    }
+
+    [ClientRpc]
+    private void ShowCountDownClientRpc(int count)
+    {
+        InGameUI.instance.ShowCountDownText(count);
+        if(count == 0)InGameUI.instance.HideCountDownText();
     }
 
     #endregion
@@ -341,27 +374,5 @@ public class GameManager : NetworkBehaviour
 
 
     #endregion
-
-
-
-    public void SummonGoldGoblin()
-    {
-        if (!goldGoblinDelay)
-        {
-            goldGoblinDelay = true;
-            goldGoblinLevel++;
-
-            NetUtils.HostAndClientMethod(() =>
-            {
-                InGameUI.instance.ShowAlarmServerRpc("황금 고블린 소환!", 3f, AlarmType.GOOD.ToString());
-                SpawnManager.instance.StartMonsterSpawnServerRpc("GoldGoblin", 0, 1);
-            }, () =>
-            {
-                InGameUI.instance.ShowAlarmClientRpc("황금 고블린 소환!", 3f, AlarmType.GOOD.ToString());
-                SpawnManager.instance.StartMonsterSpawn("GoldGoblin", 0, 1);
-            });
-        }
-    }
-
 
 }

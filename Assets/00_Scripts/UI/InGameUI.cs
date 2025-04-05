@@ -31,6 +31,7 @@ public class InGameUI : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI friendProfileNameText;
     [SerializeField] private TextMeshProUGUI playerProfileAnimNameText;
     [SerializeField] private TextMeshProUGUI friendProfileAnimNameText;
+    [SerializeField] private TextMeshProUGUI countDownText;
     public bool profileAnimationReady = false;
 
     [Header("Upgarde UI")]
@@ -84,6 +85,18 @@ public class InGameUI : NetworkBehaviour
         friendProfileNameText.text = clientName;
         friendProfileAnimNameText.text = clientName;
     }
+
+    public void ShowCountDownText(int count)
+    {
+        countDownText.transform.parent.gameObject.SetActive(true);
+        countDownText.text = count.ToString();
+    }
+
+    public void HideCountDownText()
+    {
+        countDownText.transform.parent.gameObject.SetActive(false);
+    }
+
 
     private void InitEvent()
     {
@@ -212,7 +225,7 @@ public class InGameUI : NetworkBehaviour
     public void ShowGetGoldText(int gold)
     {
         GameObject go = PoolingManager.instance.GetObject(getGoldPrefab, getGoldTextTransform.position);
-        go.GetComponent<TextMeshProUGUI>().text = string.Format("+{0}", gold);
+        go.GetComponent<TextMeshProUGUI>().text = string.Format("+{0}G", gold);
         go.transform.SetParent(getGoldTextTransform);
     }
 

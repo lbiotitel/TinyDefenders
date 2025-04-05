@@ -31,7 +31,10 @@ public partial class NetManager : MonoBehaviour
 
     public async Task SingInUnityService()
     {
-        await UnityServices.InitializeAsync();
+        if (UnityServices.State == ServicesInitializationState.Uninitialized)
+        {
+            await UnityServices.InitializeAsync();
+        }
         if (!AuthenticationService.Instance.IsSignedIn)
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();

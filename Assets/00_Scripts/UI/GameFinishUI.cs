@@ -20,6 +20,8 @@ public class GameFinishUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI rpRewardText;
 
     [SerializeField] private Button exitButton;
+
+    [SerializeField] private string showGameResultSFX;
     private GameFinishStatGameObject gameFinishStatGameObject;
 
     private void Awake()
@@ -39,7 +41,9 @@ public class GameFinishUI : MonoBehaviour
     }
 
     public void SetGameFinishUI() 
-    { 
+    {
+        SoundManager.instance.PlaySfxSound(showGameResultSFX,SFXTYPE.UISOUND);  
+
         playerNameText.text = gameFinishStatGameObject.playerName;
         friendNameText.text= gameFinishStatGameObject.friendName;
         bestWaveText.text = gameFinishStatGameObject.bestWave.ToString();

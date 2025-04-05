@@ -184,11 +184,6 @@ public partial class Monster : Entity
         {
             GameManager.instance.GetGold(1,PlayerNetworkType.ALL);
         }
-        else if (monsterType == MonsterType.GOLD)
-        {
-            int rewardGold = GameManager.instance.goldGoblinLevel * GameManager.instance.goldGoblinRewardGold;
-            GameManager.instance.GetGold(rewardGold, PlayerNetworkType.ALL);
-        }
     }
 
     private void Update()

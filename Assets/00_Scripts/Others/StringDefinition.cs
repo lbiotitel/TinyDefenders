@@ -14,3 +14,9 @@ public struct LayerName
     public static string Hero = "Hero";
     public static string Defulat = "Default";
 }
+
+public struct Path { 
+    public static string inGameProbabilitySettingPath = "SettingData/InGameProbabilitySettingData";
+    public static string heroSynergyDataPath = "HeroSynergyDatas";
+    public static string questDataPath = "QuestDatas";
+}
