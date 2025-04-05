@@ -94,7 +94,7 @@ public class InGameUI : NetworkBehaviour
 
     public void HideCountDownText()
     {
-        countDownText.transform.parent.gameObject.SetActive(false);
+        countDownText.transform.parent.GetComponent<Animator>().SetTrigger("HIDE");
     }
 
 
@@ -106,14 +106,14 @@ public class InGameUI : NetworkBehaviour
     public void ShowWaveUI()
     {
         waveUI.gameObject.SetActive(true);
-        waveUIText.text = string.Format("Wave {0}", GameManager.instance.currentWave.ToString());
+        waveUIText.text = string.Format("Wave {0}", GameManager.instance.GetCurrentWave().ToString());
     }
 
     public void ShowBossWaveUI(string bossName)
     {
         waveUI.gameObject.SetActive(true);
         waveUI.GetComponent<Animator>().SetTrigger("BOSS");
-        waveUIText.text = string.Format("Wave {0}", GameManager.instance.currentWave.ToString());
+        waveUIText.text = string.Format("Wave {0}", GameManager.instance.GetCurrentWave().ToString());
         bossNameText.text = bossName;
     }
 
@@ -209,7 +209,7 @@ public class InGameUI : NetworkBehaviour
     private void DrawWaveAndTime(string monsterName)
     {
         timerText.text = GetTimeString();
-        waveText.text = "WAVE " + GameManager.instance.currentWave.ToString();
+        waveText.text = "WAVE " + GameManager.instance.GetCurrentWave().ToString();
         monsterNameText.text = monsterName;
     }
 

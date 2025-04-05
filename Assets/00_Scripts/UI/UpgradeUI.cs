@@ -14,6 +14,7 @@ public class UpgradeUI : MonoBehaviour
     public void ClickHeroUpgradeButton(HeroTribe heroTribe)
     {
         NetworkRpcManager.instance.UpgradeHeroServerRpc((int)heroTribe, NetUtils.IsHost());
+        EventManager.instance.onUpgradeAction?.Invoke(heroTribe,NetUtils.GetPlayerNetworkType());
     }
 
     public void ClickDrawCardRateUpgrade()

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5593ab5fb91b12f4d86c0531302753f7, type: 3}
+  m_Name: Warrior Assemble
+  m_EditorClassIdentifier: 
+  questName: Warrior Assemble
+  questGold: 400
+  requireHeroes:
+  - {fileID: 11400000, guid: 2b806e62cfee3ce49a6253f02b178b14, type: 2}
+  - {fileID: 11400000, guid: 85b6c02daf9defe4b8e68caac280e20c, type: 2}
+  - {fileID: 11400000, guid: 74b911e9cdf7b7848a41f14f76613efd, type: 2}
+  requireRarity: 

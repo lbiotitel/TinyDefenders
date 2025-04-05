@@ -17,11 +17,12 @@ public class DrawCardUpgradeNode
 
 public class InGameUpgrade : MonoBehaviour
 {
-    [SerializeField] private HeroUpgradeNode[] heroUpgrades; // heroUpgarde -> heroUpgrades
-    [SerializeField] private int heroUpgradeCostIncrease; // heroUpgradeIncreaseCost -> heroUpgradeCostIncrease
-    [SerializeField] private DrawCardUpgradeNode drawCardUpgrade; // drawHeroCardUpgrade -> drawCardUpgrade
-    [SerializeField] private int drawCardUpgradeCostIncrease = 0; // drawCardUpgradeIncreaseCost -> drawCardUpgradeCostIncrease
-    [SerializeField] private int drawCardUpgradeProbabilityAmount = 5; // drawHeroCardUpgradeProbabilityAmount -> drawCardUpgradeProbabilityAmount
+    [SerializeField] private HeroUpgradeNode[] heroUpgrades;
+    [SerializeField] private int heroUpgradeCostIncrease; 
+    [SerializeField] private DrawCardUpgradeNode drawCardUpgrade;
+    [SerializeField] private int drawCardUpgradeCostIncrease = 0; 
+    [SerializeField] private int drawCardUpgradeProbabilityAmount = 5;
+
 
     public void Upgrade(HeroTribe heroTribe)
     {

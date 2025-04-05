@@ -10,6 +10,7 @@ public class Hero : Entity
     [SerializeField] private GameObject spawnParticle;
     [SerializeField] private ParticleSystem rarityParticle;
     [SerializeField] private PolygonCollider2D heroRangeCollider;
+    [SerializeField] private ParticleSystem upgradeParticle;
 
     private HeroScriptable heroData;
     private HeroHolder heroHolder;
@@ -53,6 +54,7 @@ public class Hero : Entity
 
         heroOwnerNetworkType = heroHolder.holderId.Contains("CLIENT") ? PlayerNetworkType.CLIENT : PlayerNetworkType.HOST;
 
+        EventManager.instance.onUpgradeAction += PlayUpgradeParticle;
         SpawnManager.instance.AddHero(this);
     }
 
@@ -199,6 +201,12 @@ public class Hero : Entity
         }
     }
 
+    public void PlayUpgradeParticle(HeroTribe heroTribe,PlayerNetworkType playerNetworkType)
+    {
+        if(heroTribe == heroData.heroTribe && playerNetworkType == heroOwnerNetworkType)
+            upgradeParticle.Play();
+    }
+
 
     #region Collision Check
 
@@ -340,6 +348,7 @@ public class Hero : Entity
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
+        EventManager.instance.onUpgradeAction -= PlayUpgradeParticle;
         if (GameManager.instance.isGameOver) return;
         SpawnManager.instance.RemoveHero(this);
     }

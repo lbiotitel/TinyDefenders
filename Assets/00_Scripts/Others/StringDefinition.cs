@@ -2,7 +2,7 @@
 public struct SceneName
 {
     public static string MainScene = "MainScene";
-    public static string GameScene = "GamePlayScene";
+    public static string ForestScene = "Forest";
     public static string IntroScene = "IntroScene";
     public static string ResultScene = "ResultScene";
     public static string LoadingScene = "LoadingScene";
@@ -19,4 +19,6 @@ public struct Path {
     public static string inGameProbabilitySettingPath = "SettingData/InGameProbabilitySettingData";
     public static string heroSynergyDataPath = "HeroSynergyDatas";
     public static string questDataPath = "QuestDatas";
+    public static string forestWavePath = "WaveDatas/Forest";
+    public static string forestMonsterPath = "MonsterDatas/Forest/";
 }

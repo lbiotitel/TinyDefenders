@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5593ab5fb91b12f4d86c0531302753f7, type: 3}
+  m_Name: AssAssain
+  m_EditorClassIdentifier: 
+  questName: AssAssain
+  questGold: 400
+  requireHeroes:
+  - {fileID: 11400000, guid: 1f90428871881aa499a787d1bc8185df, type: 2}
+  - {fileID: 11400000, guid: a12bb0a0932e97f4ea6e40038458caf5, type: 2}
+  - {fileID: 11400000, guid: ef357dc81414ae94088286d009d5de2c, type: 2}
+  requireRarity: 

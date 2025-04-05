@@ -41,7 +41,7 @@ public class LoadingScene : NetworkBehaviour
 
     private void Update()
     {
-        loadingSlider.value = 1f / (float)loadIndex;
+        loadingSlider.value = loadIndex * (1f / 4f);
         LoadingTextLogic();
         CheckAllPlayerReady();
     }
@@ -55,7 +55,7 @@ public class LoadingScene : NetworkBehaviour
                 if (!gameStart)
                 {
                     gameStart = true;
-                    NetworkManager.SceneManager.LoadScene(SceneName.GameScene, LoadSceneMode.Single);
+                    NetworkManager.SceneManager.LoadScene(SceneName.ForestScene, LoadSceneMode.Single);
                 }
             }
         }
@@ -112,7 +112,7 @@ public class LoadingScene : NetworkBehaviour
 
     private void OnInGameSceneLoaded(ulong clientId, string sceneName, LoadSceneMode mode)
     {
-        if (sceneName == SceneName.GameScene)
+        if (sceneName == SceneName.ForestScene)
         {
             GameManager.instance.SetSpawner();
             GameManager.instance.InitAllUserName(hostName, clientName);

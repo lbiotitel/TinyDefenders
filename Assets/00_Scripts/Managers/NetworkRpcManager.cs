@@ -153,7 +153,7 @@ public class NetworkRpcManager : NetworkBehaviour
     [ClientRpc]
     public void SetUpgradeHeroClientRpc(int[] upgradeLevels, int[] upgradeCosts)
     {
-        for (int tribeIndex = (int)HeroTribe.HUMAN; tribeIndex < (int)HeroTribe.SCAVENGER; tribeIndex++)
+        for (int tribeIndex = (int)HeroTribe.HUMAN; tribeIndex <= (int)HeroTribe.SCAVENGER; tribeIndex++)
         {
             PlayerStatManager.instance.clientUpgrade.SetHeroUpgradeLevel((HeroTribe)tribeIndex, upgradeLevels[tribeIndex]);
             PlayerStatManager.instance.clientUpgrade.SetHeroUpgradeCost((HeroTribe)tribeIndex, upgradeCosts[tribeIndex]);

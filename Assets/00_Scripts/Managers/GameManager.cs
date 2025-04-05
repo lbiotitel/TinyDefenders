@@ -25,7 +25,7 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public int maxHeroCount { get; private set; }
     [field: SerializeField] public int gold { get; set; }
 
-    public int currentWave = 0;
+    private int currentWave = 0;
     public float timer = 100000;
     public int currentMonsterCount = 0;
 
@@ -60,7 +60,7 @@ public class GameManager : NetworkBehaviour
     {
         if (IsServer)
         {
-            waveData = Resources.LoadAll<WaveScriptable>("WaveDatas");
+            waveData = Resources.LoadAll<WaveScriptable>(Path.forestWavePath);
             waveData = waveData.OrderBy(wave => int.Parse(wave.name)).ToArray();
             StartWave();
         }
@@ -130,8 +130,8 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     private void ShowCountDownClientRpc(int count)
     {
-        InGameUI.instance.ShowCountDownText(count);
         if(count == 0)InGameUI.instance.HideCountDownText();
+        InGameUI.instance.ShowCountDownText(count);
     }
 
     #endregion
@@ -167,7 +167,6 @@ public class GameManager : NetworkBehaviour
     private void StartWave()
     {
         currentWave = Mathf.Min(++currentWave, waveData.Length);
-
         timer = waveData[currentWave - 1].waveTime;
         SpawnManager.instance.StartMonsterSpawn(
             waveData[currentWave - 1].spawnMonsterData.monsterName,
@@ -206,6 +205,11 @@ public class GameManager : NetworkBehaviour
         {
             GameOver();
         }
+    }
+
+    public int GetCurrentWave()
+    { 
+        return currentWave;
     }
 
 

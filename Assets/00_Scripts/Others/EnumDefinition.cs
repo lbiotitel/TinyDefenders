@@ -1,6 +1,14 @@
 using UnityEngine;
 
 
+public enum NetworkMessageType
+{
+    HOST_SHUT_DOWN,
+    CLIENT_DISCONNECT,
+}
+
+
+
 public enum CardType{
     SUMMON,
     ATTACK,
@@ -20,18 +28,6 @@ public enum HeroTribe {
     ORC,
     SCAVENGER,
     FIVEHERO,
-    LAST
-}
-
-public enum UpgradeNode {
-    HUMAN,
-    DWARF,
-    UNDEAD,
-    DEMON,
-    ELF,
-    ORC,
-    SCAVENGER,
-    SUMMONRATE,
     LAST
 }
 

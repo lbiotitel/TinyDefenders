@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -21,26 +22,28 @@ public class EventManager : MonoBehaviour
     public UnityAction<Hero,Monster> onHeroAttackToMonsterAction;
     public UnityAction onDrawCardAction;
     public UnityAction onGameStartAction;
+    public UnityAction<HeroTribe,PlayerNetworkType> onUpgradeAction;
 
 
-    private void ReleaseHeroAction(ref UnityAction<Hero> unityAction)
+    private void ReleaseAction<T>(ref UnityAction<T> unityAction) 
     {
         if (unityAction != null)
         {
             foreach (var d in unityAction.GetInvocationList())
             { 
-                unityAction -= (UnityAction<Hero>)d;
+                unityAction -= (UnityAction<T>)d;
             }
         }
     }
 
-    private void ReleaseHeroAction(ref UnityAction<Hero, Monster> unityAction)
+
+    private void ReleaseAction<T1,T2>(ref UnityAction<T1, T2> unityAction)
     {
         if (unityAction != null)
         {
             foreach (var d in unityAction.GetInvocationList())
             {
-                unityAction -= (UnityAction<Hero,Monster>)d;
+                unityAction -= (UnityAction<T1,T2>)d;
             }
         }
     }
@@ -58,13 +61,14 @@ public class EventManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        ReleaseHeroAction(ref onHeroUseSkillAction);
+        ReleaseAction(ref onHeroUseSkillAction);
         ReleaseAction(ref onHeroSynergyChangedAction);
-        ReleaseHeroAction(ref onHeroSummonAction);
-        ReleaseHeroAction(ref onHeroDespawnAction);
+        ReleaseAction(ref onHeroSummonAction);
+        ReleaseAction(ref onHeroDespawnAction);
         ReleaseAction(ref onDrawCardAction);
         ReleaseAction(ref onGameStartAction);
-        ReleaseHeroAction(ref onHeroAttackToMonsterAction);
+        ReleaseAction(ref onHeroAttackToMonsterAction);
+        ReleaseAction(ref onUpgradeAction);
         onHeroUseSkillAction = null;
         instance = null;
     }

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: ElfArcaneArcher
   m_EditorClassIdentifier: 
   heroName: ElfArcaneArcher
-  rarity: 3
+  rarity: 0
   heroCost: 300
   atk:
-    <baseValue>k__BackingField: 413
+    <baseValue>k__BackingField: 50
     modifiers: []
   damage:
     <baseValue>k__BackingField: 0
@@ -44,10 +44,10 @@ MonoBehaviour:
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
-    coolTime: 0
-    skillPrefab: {fileID: 0}
-    skillDamage: 0
-    targetCount: 0
+    coolTime: 3
+    skillPrefab: {fileID: 2453419028436582038, guid: 2d1777f685f0f7d49807f560dba25fae, type: 3}
+    skillDamage: 120
+    targetCount: 1
     skillDuration: 0
     buffTime: 0
     buffAmount: 0
