@@ -4,12 +4,13 @@ using UnityEngine.UI;
 
 public class UpgradeUINode : MonoBehaviour
 {
-    public TextMeshProUGUI upgradeLevelText;
-    public TextMeshProUGUI upgradeCostText;
-    public Button upgradeButton;
+    [SerializeField] private TextMeshProUGUI upgradeLevelText;
+    [SerializeField] private TextMeshProUGUI upgradeCostText;
+    [SerializeField] private Button upgradeButton;
+    [SerializeField] private string upgradeSFX;
     public HeroTribe upgradeTribe;
     private int level;
-    private int cost;   
+    private int cost;
 
     private void Awake()
     {
@@ -29,6 +30,7 @@ public class UpgradeUINode : MonoBehaviour
     {
         if (GameManager.instance.IsEnoughGold(cost))
         {
+            SoundManager.instance.PlaySfxSound(upgradeSFX,SFXTYPE.UISOUND);
             InGameUI.instance.ClickUpgradeButton(upgradeTribe);
         }
     }

@@ -32,6 +32,9 @@ public class UserData
     public int crystal;
     public int gold;
     public int rankingPoint;
+    public int userExp;
+    public int totalPlayCount;
+    public int stopPlayCount;
     public Dictionary<string, HeroStoreData> heroDatas;
     public Dictionary<string, SpellCardStoreData> spellCardDatas;
 
@@ -44,6 +47,9 @@ public class UserData
         this.rankingPoint = rakingPoint;
         this.heroDatas = new Dictionary<string, HeroStoreData>();
         this.spellCardDatas = new Dictionary<string, SpellCardStoreData>();
+        this.userExp = 0;
+        this.totalPlayCount = 0;
+        this.stopPlayCount = 0;
 
         InitHeroDatas();
         InitSpellCardDatas();

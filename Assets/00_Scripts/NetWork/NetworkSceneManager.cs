@@ -1,4 +1,7 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class NetworkSceneManager : MonoBehaviour
@@ -18,28 +21,57 @@ public class NetworkSceneManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private GameObject hostShutDownMessage;
-    [SerializeField] private GameObject clientDisconnectMessage;
+    [SerializeField] private GameObject messageBox;
+    [SerializeField] private TextMeshProUGUI messageText;
+    [SerializeField] private Button exitButton;
+
+    private void Start()
+    {
+        exitButton.onClick.AddListener(ClickExitButton);
+    }
 
     public void ShowNetworkMessage(NetworkMessageType networkMessageType)
     {
+
+        if (SceneManager.GetActiveScene().name == SceneName.MainScene)
+        {
+            MainSceneUI.instance.HideMatchingCompleteUI();
+            return;
+        }
+
+        Time.timeScale = 0f;
+        messageBox.SetActive(true);
         switch (networkMessageType)
         {
             case NetworkMessageType.HOST_SHUT_DOWN:
-                hostShutDownMessage.SetActive(true);
+                messageText.text = "È£½ºÆ®¿Í ¿¬°áÀÌ ²÷±è";
                 break;
             case NetworkMessageType.CLIENT_DISCONNECT:
-                clientDisconnectMessage.SetActive(true);
+                messageText.text = "Å¬¶óÀÌ¾ðÆ®¿Í ¿¬°áÀÌ ²÷±è";
                 break;
         }
     }
 
 
+    private void ClickExitButton()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneName.MainScene);
+        HideNetworkMessage();
+    }
+
+    private void HideNetworkMessage()
+    {
+        gameObject.SetActive(false);
+    }
+
 
     private void OnApplicationQuit()
     {
         if (instance != null)
+        {
+            exitButton.onClick.RemoveAllListeners();
             instance = null;
-
+        }
     }
 }

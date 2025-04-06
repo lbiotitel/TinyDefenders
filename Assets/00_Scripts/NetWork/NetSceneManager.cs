@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public partial class NetManager : MonoBehaviour
+public partial class NetworkLobbyManager : MonoBehaviour
 {
 
     private void OnPlayerJoined()

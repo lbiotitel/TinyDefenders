@@ -32,6 +32,8 @@ public class BattleUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI userCrystalText;
 
     [Header("User Profile")]
+    [SerializeField] private ProfileUI profileUI;
+    [SerializeField] private Button profileButton;
     [SerializeField] private TextMeshProUGUI userNameText;
     [SerializeField] private TextMeshProUGUI userLevelText;
 
@@ -49,7 +51,8 @@ public class BattleUI : MonoBehaviour
 
     private async void LoadUserData()
     {
-        await NetManager.instnace.SingInUnityService();
+        await NetworkLobbyManager.instance.SingInUnityService();
+
         var loadData = await CloudManager.instance.LoadUserData();
         userGoldText.text = loadData.gold.ToString();
         userCrystalText.text = loadData.crystal.ToString();
@@ -81,6 +84,8 @@ public class BattleUI : MonoBehaviour
         friendMatchingCancleButton.onClick.AddListener(DestroyFriendMatching);
 
         joinFriendMatchingButton.onClick.AddListener(JoinFriendMatching);
+
+        profileButton.onClick.AddListener(() => profileUI.ShowProfile());
     }
 
     public void ShowFriendMatchingUI()
@@ -94,7 +99,7 @@ public class BattleUI : MonoBehaviour
         friendMatchingCancleButton.interactable = false;
         displayJoinCode.text =string.Empty;
 
-        string joinCode = await NetManager.instnace.CreateFriendMatching();
+        string joinCode = await NetworkLobbyManager.instance.CreateFriendMatching();
 
         if (joinCode != null)
         {
@@ -111,7 +116,7 @@ public class BattleUI : MonoBehaviour
 
     private void DestroyFriendMatching()
     {
-        if (NetManager.instnace.DestroyFriendMatching())
+        if (NetworkLobbyManager.instance.DestroyFriendMatching())
         {
             waitFriendUI.gameObject.SetActive(false);
         }
@@ -127,7 +132,7 @@ public class BattleUI : MonoBehaviour
             joinFriendMatchingButton.interactable = false;  
             createFriendMatchingButton.interactable = false;
 
-            bool canJoin = await NetManager.instnace.JoinGameWithCode(joinCode);
+            bool canJoin = await NetworkLobbyManager.instance.JoinGameWithCode(joinCode);
 
             if (canJoin)
             {
@@ -153,11 +158,13 @@ public class BattleUI : MonoBehaviour
         matchingTime = 0f;
         randomMatchingCancleButton.interactable = false;
 
-        bool result = await NetManager.instnace.StartRandomMatching();
+        bool result = await NetworkLobbyManager.instance.StartRandomMatching();
 
         if (result)
         {
             randomMatchingCancleButton.interactable = true;
+            startMatchingButton.interactable = false;
+            NetworkManager.Singleton.OnClientDisconnectCallback += HideMatchingUIOnDisconnect;
         }
         else
         {
@@ -165,21 +172,25 @@ public class BattleUI : MonoBehaviour
         }
     }
 
+    private void HideMatchingUIOnDisconnect(ulong clientId)
+    {
+        HideMatchingUI();
+    }
 
 
-
-    private void DestroyRandomMatching()
+    private async void DestroyRandomMatching()
     {
         Debug.Log("·Îºñ ÆÄ±«");
         HideMatchingUI();
-        NetManager.instnace.DestroyLobby();
-        NetworkManager.Singleton.Shutdown();
+        bool result = await NetworkLobbyManager.instance.DestroyLobby();
+
+        if (result)
+        {
+            NetworkManager.Singleton.Shutdown();
+            startMatchingButton.interactable = true;
+        }
     }
 
-    public void ShowDisconnectedUI(ulong clientId)
-    {
-        HideMatchingUI();
-    }
 
     private void ShowMathcingUI()
     { 
@@ -191,5 +202,19 @@ public class BattleUI : MonoBehaviour
         matchingUI.SetActive(false);
     }
 
+    private void OnDestroy()
+    {
+        startMatchingButton.onClick.RemoveAllListeners();
+        randomMatchingCancleButton.onClick.RemoveAllListeners();
+        firendMatchingButton.onClick.RemoveAllListeners();
+        createFriendMatchingButton.onClick.RemoveAllListeners();
+        friendMatchingCancleButton.onClick.RemoveAllListeners();
+        joinFriendMatchingButton.onClick.RemoveAllListeners();
+        profileButton.onClick.RemoveAllListeners();
 
+        if (NetworkManager.Singleton != null)
+        {
+            NetworkManager.Singleton.OnClientDisconnectCallback -= HideMatchingUIOnDisconnect;
+        }
+    }
 }

@@ -1,6 +1,4 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "InGameQuestSO", menuName = "Scriptable Objects/InGameQuestSO")]
@@ -29,7 +27,7 @@ public class InGameQuestSO : ScriptableObject
 
         for (int i = 0; i < isExist.Length; i++) isExist[i] = false;
 
-        CheckQuestRecur(0,ref heroList,ref isExist);
+        CheckQuestRecur(0, ref heroList, ref isExist);
 
         for (int i = 0; i < isExist.Length; i++)
         {
@@ -44,7 +42,7 @@ public class InGameQuestSO : ScriptableObject
         return true;
     }
 
-    private void CheckQuestRecur(int index, ref List<Hero> heroList,ref bool[] isExist)
+    private void CheckQuestRecur(int index, ref List<Hero> heroList, ref bool[] isExist)
     {
         if (index == requireHeroes.Length) return;
 
@@ -56,7 +54,7 @@ public class InGameQuestSO : ScriptableObject
             {
                 visited[i] = true;
                 isExist[index] = true;
-                CheckQuestRecur(index + 1,ref heroList, ref isExist);
+                CheckQuestRecur(index + 1, ref heroList, ref isExist);
                 visited[i] = false;
             }
         }

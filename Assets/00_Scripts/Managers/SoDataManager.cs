@@ -13,6 +13,7 @@ public class SoDataManager : MonoBehaviour
             instance = this;
             InitAllHeroScriptableObject();
             InitAllSpellCardSciprtableObject();
+            InitUserExpData();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -27,12 +28,34 @@ public class SoDataManager : MonoBehaviour
     private Dictionary<string, CombineSciptable> combineSODataDic;
     private Dictionary<string, InGameQuestSO> inGameQuestDic;
     private ProbabilitySetting inGameDrawHeroCardRarityProbabilitySetting;
+    private UserRequireExpSO userExpData;
+
+    #region User Require Exp Data
+
+    public void InitUserExpData()
+    {
+        userExpData = Resources.Load<UserRequireExpSO>(Path.userExpDataPath);
+    }
+
+    public int GetUserRequireExp(int level)
+    {
+        if (userExpData != null)
+        {
+            return userExpData.GetUserRequireExp(level);
+        }
+
+        return 0;
+    }
+
+    #endregion
+
 
     #region Draw Hero Card Probability
 
     public async Task<bool> InitDrawHeroCardProbability()
     {
-        if (inGameDrawHeroCardRarityProbabilitySetting != null) DestroyImmediate(inGameDrawHeroCardRarityProbabilitySetting,true);
+        if (inGameDrawHeroCardRarityProbabilitySetting != null)
+            Resources.UnloadAsset(inGameDrawHeroCardRarityProbabilitySetting);
 
         ResourceRequest resourceRequest = Resources.LoadAsync<ProbabilitySetting>(Path.inGameProbabilitySettingPath);
 

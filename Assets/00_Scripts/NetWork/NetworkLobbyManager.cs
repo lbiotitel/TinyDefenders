@@ -7,26 +7,24 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public partial class NetManager : MonoBehaviour
+public partial class NetworkLobbyManager : MonoBehaviour
 {
-    public static NetManager instnace { get; private set; }
+    public static NetworkLobbyManager instance { get; private set; }
+    private Lobby currentLobby = null;
+    private const int maxPlayers = 2;
 
     private void Awake()
     {
-        if (instnace == null)
+        if (instance == null)
         {
-            instnace = this;
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else { 
             Destroy(gameObject);
         }
     }
-    //Lobby -> 원하는 게임을 찾거나 새 게임을 만들고 대기할 수 있다.
-    //Relay -> 매칭된 플레이어들의 relay의 join code로 연결되어, 호스트-클라이언트 방식으로 실시간 멀티환경을 유지
-    private Lobby currentLobby;
 
-    private const int maxPlayers = 2;
 
 
     public async Task SingInUnityService()
@@ -38,6 +36,18 @@ public partial class NetManager : MonoBehaviour
         if (!AuthenticationService.Instance.IsSignedIn)
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
+    }
+
+    private async void OnApplicationQuit()
+    {
+        if (instance != null)
+        {
+            ReleaseEvent();
+            await DestroyLobby();
+            if (NetworkManager.Singleton != null) 
+                NetworkManager.Singleton.Shutdown();
+            instance = null;
         }
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ElfQueen
   m_EditorClassIdentifier: 
   heroName: ElfQueen
-  rarity: 3
+  rarity: 0
   heroCost: 300
   atk:
     <baseValue>k__BackingField: 620
@@ -44,10 +44,10 @@ MonoBehaviour:
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
-    coolTime: 0
-    skillPrefab: {fileID: 0}
-    skillDamage: 0
-    targetCount: 0
+    coolTime: 15
+    skillPrefab: {fileID: 1570872226364829990, guid: c1a29e57fbc3a0240a2c37cf316a2238, type: 3}
+    skillDamage: 300
+    targetCount: 2
     skillDuration: 0
     buffTime: 0
     buffAmount: 0

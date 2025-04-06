@@ -8,6 +8,14 @@ public enum NetworkMessageType
 }
 
 
+public enum RANK
+{
+    BRONZE,
+    SILVER,
+    GOLD,
+    PLATINUM,
+    DIAMOND
+}
 
 public enum CardType{
     SUMMON,

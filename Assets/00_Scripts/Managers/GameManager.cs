@@ -372,6 +372,7 @@ public class GameManager : NetworkBehaviour
 
     public void ChangeAllPlayerToResultScene()
     {
+        NetworkLobbyManager.instance.ReleaseEvent();
         NetworkManager.Singleton.Shutdown();
         SceneManager.LoadScene(SceneName.ResultScene);
     }

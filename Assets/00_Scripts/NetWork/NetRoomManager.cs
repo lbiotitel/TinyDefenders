@@ -11,18 +11,13 @@ using Unity.Services.Relay.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public partial class NetManager : MonoBehaviour
+public partial class NetworkLobbyManager : MonoBehaviour
 {
-    private const string dEncryption = "dtls";
-    private const string wEncryption = "wss";
 
     [SerializeField] private float heartBeatInterval;
     private Coroutine heartBeatCoroutine = null;
 
-
     #region About Network HeartBeat
-
-
     private IEnumerator NetworkHeartBeatCoroutine()
     {
         while (true)
@@ -48,7 +43,7 @@ public partial class NetManager : MonoBehaviour
         {
             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
 
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(joinAllocation, dEncryption));
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(joinAllocation, EncryptionType.dEncryption));
 
             StartClient();
 #if UNITY_EDITOR
@@ -75,7 +70,7 @@ public partial class NetManager : MonoBehaviour
             Allocation allocation = await AllocateRelay();
             string joinCode = await GetRelayJoinCode(allocation);
 
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, dEncryption));
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, EncryptionType.dEncryption));
 
             StartHost();
 
@@ -155,24 +150,24 @@ public partial class NetManager : MonoBehaviour
         return null;
     }
 
-    public async void DestroyLobby()
+    public async Task<bool> DestroyLobby()
     {
         try
         {
-            if (NetworkManager.Singleton == null) return;
-            if (NetUtils.IsHost())
-            {
-                if (currentLobby == null) return;
-                await LobbyService.Instance.DeleteLobbyAsync(currentLobby.Id);
-                if (heartBeatCoroutine != null) StopCoroutine(heartBeatCoroutine);
-                currentLobby = null;
-            }
+            if (NetworkManager.Singleton == null) return false;
+            if (currentLobby == null) return false;
+            await LobbyService.Instance.DeleteLobbyAsync(currentLobby.Id);
+            if (heartBeatCoroutine != null) StopCoroutine(heartBeatCoroutine);
+            currentLobby = null;
+
+            return true;
         }
         catch (LobbyServiceException e)
         {
 #if UNITY_EDITOR
             Debug.Log("로비 파괴 실패" + e);
 #endif
+            return false;
         }
     }
 
@@ -195,7 +190,7 @@ public partial class NetManager : MonoBehaviour
                 }
             });
 
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, dEncryption));
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, EncryptionType.dEncryption));
 
             heartBeatCoroutine = StartCoroutine(NetworkHeartBeatCoroutine());
             StartHost();
@@ -224,7 +219,7 @@ public partial class NetManager : MonoBehaviour
 
             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
 
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(joinAllocation, dEncryption));
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(joinAllocation, EncryptionType.dEncryption));
 
             StartClient();
 
@@ -279,12 +274,12 @@ public partial class NetManager : MonoBehaviour
     }
 
 
-    private void OnClientConnected(ulong clientId)
+    private async void OnClientConnected(ulong clientId)
     {
         MainSceneUI.instance.ShowMatchingCompleteUI();
         NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
         if (NetUtils.IsHost()) {
-            DestroyLobby();
+            await DestroyLobby();
             Invoke("DelayClientConnect", 2f);
         }
     }
@@ -299,9 +294,16 @@ public partial class NetManager : MonoBehaviour
 
     private void OnClientDisconnected(ulong clientId)
     {
+        if (NetUtils.GetPlayerNetworkType() == PlayerNetworkType.HOST)
+        {
+            NetworkSceneManager.instance.ShowNetworkMessage(NetworkMessageType.CLIENT_DISCONNECT);
+        }
+        else
+        {
+            NetworkSceneManager.instance.ShowNetworkMessage(NetworkMessageType.HOST_SHUT_DOWN);
+        }
+
         ReleaseEvent();
-        if(SceneManager.GetActiveScene().name == SceneName.MainScene)
-            MainSceneUI.instance.HideMatchingCompleteUI();
         NetworkManager.Singleton.Shutdown();
     }
 
@@ -329,7 +331,7 @@ public partial class NetManager : MonoBehaviour
     }
 
 
-    private void ReleaseEvent()
+    public void ReleaseEvent()
     {
         if (NetworkManager.Singleton != null)
         {
@@ -337,14 +339,6 @@ public partial class NetManager : MonoBehaviour
             NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
         }
-    }
-
-
-    private void OnDestroy()
-    {
-        ReleaseEvent();
-        DestroyLobby();
-        if(NetworkManager.Singleton != null) NetworkManager.Singleton.Shutdown();
     }
 
 

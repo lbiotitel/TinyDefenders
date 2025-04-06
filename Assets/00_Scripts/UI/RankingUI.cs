@@ -4,14 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public enum RANK
-{
-    BRONZE,
-    SILVER,
-    GOLD,
-    PLATINUM,
-    DIAMOND
-}
 
 [System.Serializable]
 public class RankNode
@@ -89,7 +81,6 @@ public class RankingUI : MonoBehaviour
         {
             case "Bronze":
                 return rankSprite[0].rankSprite;
-
             case "Silver":
                 return rankSprite[1].rankSprite;
             case "Gold":

@@ -1,4 +1,10 @@
 
+public struct EncryptionType
+{
+    public static string dEncryption = "dtls";
+    public static string wEncryption = "wss";
+}
+
 public struct SceneName
 {
     public static string MainScene = "MainScene";
@@ -19,6 +25,8 @@ public struct Path {
     public static string inGameProbabilitySettingPath = "SettingData/InGameProbabilitySettingData";
     public static string heroSynergyDataPath = "HeroSynergyDatas";
     public static string questDataPath = "QuestDatas";
+    public static string userExpDataPath = "SettingData/UserExpData";    
     public static string forestWavePath = "WaveDatas/Forest";
     public static string forestMonsterPath = "MonsterDatas/Forest/";
+
 }

@@ -16,13 +16,17 @@ public class GameFinishUI : MonoBehaviour
     [SerializeField] private Slider friendAttackContributionSlider;
 
     [SerializeField] private TextMeshProUGUI crystalRewardText;
-    [SerializeField] private TextMeshProUGUI goldRewardText;
+    [SerializeField] private TextMeshProUGUI expRewardText;
     [SerializeField] private TextMeshProUGUI rpRewardText;
 
+    [SerializeField] private GameObject levelUpObject;
     [SerializeField] private Button exitButton;
 
     [SerializeField] private string showGameResultSFX;
     private GameFinishStatGameObject gameFinishStatGameObject;
+
+    private bool levelUp = false;
+
 
     private void Awake()
     {
@@ -67,26 +71,54 @@ public class GameFinishUI : MonoBehaviour
 
     private void GetReward(int bestWave)
     {
-
         int crystalReward = Mathf.FloorToInt(Mathf.Pow(bestWave, 1.5f) * 10);
-        int goldReward = Mathf.FloorToInt(Mathf.Pow(bestWave, 1.5f) * 100);
+        int expReward = Mathf.FloorToInt(Mathf.Pow(bestWave, 1.5f) * 1);
         int rpReward = Mathf.FloorToInt(Mathf.Pow(bestWave, 1.5f) * 5);
 
-        GetUserReward(crystalReward, goldReward, rpReward);
+        GetUserReward(crystalReward, expReward, rpReward);
 
         crystalRewardText.text = string.Format("+{0}", crystalReward);
-        goldRewardText.text = string.Format("+{0}", goldReward);
+        expRewardText.text = string.Format("+{0}", expReward);
         rpRewardText.text = string.Format("+{0}", rpReward);
     }
 
-    private void GetUserReward(int crystalReward, int goldReward, int rpReward)
+    private void GetUserReward(int crystalReward, int expReward, int rpReward)
     {
         UserData userData = CloudManager.instance.GetUserData();
-        userData.gold += goldReward;
+        userData.userExp += expReward;
+        CheckUserLevelUp(userData);
         userData.crystal += crystalReward;
         userData.rankingPoint += rpReward;
+
+        userData.totalPlayCount++;
         CloudManager.instance.SaveUserData();
     }
+
+    private void CheckUserLevelUp(UserData userData)
+    {
+        int currentUserExp = userData.userExp;
+
+        while (true)
+        {
+            int requireExp = SoDataManager.instance.GetUserRequireExp(userData.userLevel);
+            if (currentUserExp >= requireExp)
+            {
+                userData.userLevel++;
+                currentUserExp -= requireExp;
+                userData.userExp = currentUserExp;
+                levelUp = true;
+            }
+            else break;
+        }
+
+    }
+
+    public void ShowLevelUpObject()
+    {
+        if (levelUp)
+            levelUpObject.gameObject.SetActive(true);
+    }
+
 
     private void Exit()
     {
