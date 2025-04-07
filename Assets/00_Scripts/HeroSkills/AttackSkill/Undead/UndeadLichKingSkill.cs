@@ -12,7 +12,7 @@ public class UndeadLichKingSkill : AttackSkillBase
         {
             if (monster.IsDead()) continue;
             PoolingManager.instance.GetObject(heroData.skillData.skillPrefab, transform.position);
-            NetworkRpcManager.instance.AttackMonster(NetUtils.GetPlayerNetworkType(),hero.GetHeroSkillDamage(),hero,monster,heroData.skillDebuffEffects);
+            NetworkRpcManager.instance.AttackMonster(NetUtils.GetPlayerNetworkType(),heroData.GetHeroSkillDamage(),hero,monster,heroData.skillDebuffEffects);
         }
     }
 }

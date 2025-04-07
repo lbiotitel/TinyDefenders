@@ -25,13 +25,13 @@ public class MainSceneUI : MonoBehaviour
     [SerializeField] private Button heroButton; 
     [SerializeField] private Button spellCardButton; 
     [SerializeField] private Button rankingButton; 
-    [SerializeField] private Button shopButton;
+    [SerializeField] private Button playerSkillButton;
 
     [Header("Menu UI")]
     [SerializeField] private GameObject battleUI;
     [SerializeField] private GameObject heroCollectionUI;
     [SerializeField] private GameObject cardCollectionUI;
-    [SerializeField] private GameObject shopUI;
+    [SerializeField] private GameObject playerSkillUI;
     [SerializeField] private GameObject rankingUI;
 
     [Header("Battle UI")]
@@ -56,7 +56,7 @@ public class MainSceneUI : MonoBehaviour
     {
         InitButton(battleButton,battleUI);
         InitButton(heroButton, heroCollectionUI);
-        InitButton(shopButton,shopUI);
+        InitButton(playerSkillButton,playerSkillUI);
         InitButton(rankingButton,rankingUI);
         InitButton(spellCardButton,cardCollectionUI);
 
@@ -79,13 +79,13 @@ public class MainSceneUI : MonoBehaviour
     {
         battleUI.SetActive(false);
         heroCollectionUI.SetActive(false);
-        shopUI.SetActive(false);
+        playerSkillUI.SetActive(false);
         rankingUI.SetActive(false);
         cardCollectionUI.SetActive(false);
 
         battleButton.GetComponent<Image>().color = Color.white;
         heroButton.GetComponent<Image>().color = Color.white;
-        shopButton.GetComponent<Image>().color = Color.white;
+        playerSkillButton.GetComponent<Image>().color = Color.white;
         rankingButton.GetComponent<Image>().color = Color.white;
         spellCardButton.GetComponent<Image>().color = Color.white;
     }

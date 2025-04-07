@@ -7,7 +7,7 @@ public class DwarfArmoredBearRiderSkill : AttackSkillBase
     {
         base.SkillLogic();
         GameObject go = PoolingManager.instance.GetObject(heroData.skillData.skillPrefab, transform.position);
-        go.GetComponent<BaseProjectile>().Init(null, hero, hero.GetHeroSkillDamage());
+        go.GetComponent<BaseProjectile>().Init(null, hero, heroData.GetHeroSkillDamage());
     }
 
     public override bool CheckSkillCanActive()

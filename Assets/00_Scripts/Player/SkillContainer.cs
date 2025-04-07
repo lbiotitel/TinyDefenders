@@ -83,7 +83,7 @@ public class SkillContainer : NetworkBehaviour
         if (IsServer)
         {
             float t = 0f;
-            float coolTime = heroData.skillData.coolTime - (heroData.skillData.coolTime * hero.GetHeroSkillAcc() / 100f);
+            float coolTime = heroData.skillData.coolTime - (heroData.skillData.coolTime * heroData.GetHeroSkillAcc() / 100f);
 
             while (t < coolTime)
             {

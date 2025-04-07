@@ -216,7 +216,7 @@ public class CloudManager : MonoBehaviour
     #region About User HeroData Method
     public void SetHeroCountValue(string heroName, int count)
     {
-        userData.heroDatas[heroName].heroCount += count;
+        userData.heroDataDic[heroName].heroCount += count;
     }
     #endregion
 }

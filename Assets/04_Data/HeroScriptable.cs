@@ -44,6 +44,7 @@ public class HeroScriptable : ScriptableObject
     public Stat criticalRate;
     public Stat criticalDamage;
     [TextArea] public string heroDesc;
+    private PlayerNetworkType heroNetworkType;
 
     [Header("Extra")]
     public HeroTribe heroTribe;
@@ -70,6 +71,11 @@ public class HeroScriptable : ScriptableObject
         heroName = this.name;
     }
 
+    public void InitHeroNetworkType(PlayerNetworkType playerNetworkType)
+    {
+        heroNetworkType = playerNetworkType;
+    }
+
     public string GetLocalizationName()
     {
         return Utils.Localization_Text(Localize.Hero, heroName);
@@ -87,4 +93,118 @@ public class HeroScriptable : ScriptableObject
         return "";
     }
 
+
+
+    #region Hero Stat
+
+    #region About Hero Atk
+    public double GetHeroAtk()
+    {
+        double atk = this.atk.GetValue();
+        atk = atk + (atk * (PlayerStatManager.instance.GetBonusAtk(NetUtils.GetPlayerNetworkType()) / 100f));
+        atk += atk * (PlayerStatManager.instance.GetHeroUpgradeLevel(heroTribe, heroNetworkType) * 0.05f);
+        return atk;
+    }
+
+    public double GetHeroBaseAtk()
+    {
+        return atk.baseValue;
+    }
+
+    public double GetHeroBonusAtk()
+    {
+        return GetHeroAtk() - GetHeroBaseAtk();
+    }
+    #endregion
+
+
+    #region About Hero AtkSpeed
+
+    public float GetHeroAtkSpeed()
+    {
+        float synergyStat = PlayerStatManager.instance.GetBonusAtkSpeed(NetUtils.GetPlayerNetworkType()) + this.atkSpeed.GetModifireValue();
+        float atkSpeed = GetHeroBaseAtkSpeed() + (GetHeroBaseAtkSpeed() * (synergyStat / 100f));
+        return atkSpeed;
+    }
+
+    public float GetHeroBaseAtkSpeed()
+    {
+        return atkSpeed.baseValue;
+    }
+
+    public float GetHeroBounusAtkSpeed()
+    {
+        return GetHeroAtkSpeed() - GetHeroBaseAtkSpeed();
+    }
+    #endregion
+
+
+    #region About Hero AtkRange
+    public float GetHeroBaseAtkRange()
+    {
+        return atkRange.baseValue;
+    }
+
+    public float GetHeroAtkRange()
+    {
+        return atkRange.GetValue();
+    }
+
+    public float GetHeroBonusAtkRange()
+    {
+        return GetHeroAtkRange() - GetHeroBaseAtkRange();
+    }
+
+    #endregion
+
+
+    public double GetHeroSkillDamage()
+    {
+        double damage = GetHeroAtk() * (skillData.skillDamage / 100f);
+        return damage;
+    }
+
+    public float GetHeroCriDamage()
+    {
+        return criticalDamage.GetValue() / 100f;
+    }
+
+    #region About Hero Critical Rate
+
+    public float GetHeroBaseCriticalRate()
+    {
+        return criticalRate.baseValue;
+    }
+
+    public float GetHeroBonusCriticalRate()
+    {
+        return GetHeroCriticalRate() - GetHeroBaseCriticalRate();
+    }
+
+    public float GetHeroCriticalRate()
+    {
+        return GetHeroBaseCriticalRate() + criticalRate.GetModifireValue() +
+            PlayerStatManager.instance.GetBonusCriticalRate(NetUtils.GetPlayerNetworkType());
+    }
+
+    #endregion
+
+
+    public float GetHeroSkillAcc()
+    {
+        return skillAcc.GetModifireValue() + PlayerStatManager.instance.GetBonusSkillAcc(heroNetworkType);
+    }
+
+    public void AddAtkModifire(float value)
+    {
+        atk.AddModifire(value);
+    }
+
+    public void RemovAtkModifire(float value)
+    {
+        atk.RemoveModifire(value);
+    }
+
+
+    #endregion
 }

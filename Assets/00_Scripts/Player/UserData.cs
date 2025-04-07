@@ -27,6 +27,7 @@ public class UserData
         }
     }
 
+
     public string userName;
     public int userLevel;
     public int crystal;
@@ -35,8 +36,10 @@ public class UserData
     public int userExp;
     public int totalPlayCount;
     public int stopPlayCount;
-    public Dictionary<string, HeroStoreData> heroDatas;
-    public Dictionary<string, SpellCardStoreData> spellCardDatas;
+    public int remainSkillPoint;
+    public Dictionary<string, HeroStoreData> heroDataDic;
+    public Dictionary<string, SpellCardStoreData> spellCardDataDic;
+    public Dictionary<PlayerSkillType, int> playerSkillDataDic;
 
     public UserData(string userName, int userLevel, int crystal, int gold, int rakingPoint)
     {
@@ -45,14 +48,16 @@ public class UserData
         this.crystal = crystal;
         this.gold = gold;
         this.rankingPoint = rakingPoint;
-        this.heroDatas = new Dictionary<string, HeroStoreData>();
-        this.spellCardDatas = new Dictionary<string, SpellCardStoreData>();
+        this.heroDataDic = new Dictionary<string, HeroStoreData>();
+        this.spellCardDataDic = new Dictionary<string, SpellCardStoreData>();
         this.userExp = 0;
         this.totalPlayCount = 0;
         this.stopPlayCount = 0;
+        this.remainSkillPoint = 0;
 
         InitHeroDatas();
         InitSpellCardDatas();
+        InitPlayerSkillDatas();
     }
 
     private void InitHeroDatas()
@@ -63,7 +68,7 @@ public class UserData
 
         for (int i = 0; i < heroDataList.Count; i++)
         {
-            heroDatas.Add(heroDataList[i].heroName, new HeroStoreData(0, 0));
+            heroDataDic.Add(heroDataList[i].heroName, new HeroStoreData(0, 0));
         }
     }
 
@@ -73,7 +78,18 @@ public class UserData
 
         for (int i = 0; i < spellCardList.Count; i++)
         {
-            spellCardDatas.Add(spellCardList[i].cardName, new SpellCardStoreData(false));
+            spellCardDataDic.Add(spellCardList[i].cardName, new SpellCardStoreData(false));
+        }
+    }
+
+
+    private void InitPlayerSkillDatas()
+    {
+        List<PlayerSkillSO> playerSkillList = SoDataManager.instance.GetAllPlayerSkillData();
+
+        for (int i = 0; i < playerSkillList.Count; i++)
+        {
+            playerSkillDataDic.Add(playerSkillList[i].playerSkillType, 0);
         }
     }
 }

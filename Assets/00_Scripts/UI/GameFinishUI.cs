@@ -78,8 +78,8 @@ public class GameFinishUI : MonoBehaviour
         GetUserReward(crystalReward, expReward, rpReward);
 
         crystalRewardText.text = string.Format("+{0}", crystalReward);
-        expRewardText.text = string.Format("+{0}", expReward);
-        rpRewardText.text = string.Format("+{0}", rpReward);
+        expRewardText.text = string.Format("+{0}Exp", expReward);
+        rpRewardText.text = string.Format("+{0}Rp", rpReward);
     }
 
     private void GetUserReward(int crystalReward, int expReward, int rpReward)

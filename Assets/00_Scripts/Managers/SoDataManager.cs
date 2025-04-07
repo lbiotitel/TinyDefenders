@@ -14,6 +14,7 @@ public class SoDataManager : MonoBehaviour
             InitAllHeroScriptableObject();
             InitAllSpellCardSciprtableObject();
             InitUserExpData();
+            InitPlayerSkill();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -27,8 +28,38 @@ public class SoDataManager : MonoBehaviour
     private Dictionary<HeroTribe, HeroSynergySO> heroSynergySODataDic;
     private Dictionary<string, CombineSciptable> combineSODataDic;
     private Dictionary<string, InGameQuestSO> inGameQuestDic;
+    private Dictionary<PlayerSkillType, PlayerSkillSO> playerSkillDataDic;
     private ProbabilitySetting inGameDrawHeroCardRarityProbabilitySetting;
     private UserRequireExpSO userExpData;
+
+    #region About Player Skill Data
+
+    private void InitPlayerSkill()
+    {
+        playerSkillDataDic = new Dictionary<PlayerSkillType, PlayerSkillSO>();
+
+        PlayerSkillSO[] playerSkillSOs = Resources.LoadAll<PlayerSkillSO>(Path.playerSkillDataPath);
+
+        foreach (var playerSkillSO in playerSkillSOs)
+        {
+            playerSkillDataDic.Add(playerSkillSO.playerSkillType,Instantiate(playerSkillSO));
+        }
+    }
+
+    public List<PlayerSkillSO> GetAllPlayerSkillData()
+    { 
+        List<PlayerSkillSO> playerSkillSOs = new List<PlayerSkillSO>();
+
+        foreach (var data in playerSkillDataDic)
+        {
+            playerSkillSOs.Add(data.Value);
+        }
+
+        return playerSkillSOs;
+    }
+
+
+    #endregion
 
     #region User Require Exp Data
 

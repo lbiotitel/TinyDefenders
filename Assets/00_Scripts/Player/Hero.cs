@@ -52,7 +52,10 @@ public class Hero : Entity
 
         Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
 
-        heroOwnerNetworkType = heroHolder.holderId.Contains("CLIENT") ? PlayerNetworkType.CLIENT : PlayerNetworkType.HOST;
+        heroOwnerNetworkType = 
+            heroHolder.holderId.Contains("CLIENT") ? PlayerNetworkType.CLIENT : PlayerNetworkType.HOST;
+
+        heroData.InitHeroNetworkType(heroOwnerNetworkType);
 
         EventManager.instance.onUpgradeAction += PlayUpgradeParticle;
         SpawnManager.instance.AddHero(this);
@@ -170,7 +173,7 @@ public class Hero : Entity
 
     private IEnumerator AttackDelayCoroutine()
     {
-        yield return new WaitForSeconds(1f / GetHeroAtkSpeed());
+        yield return new WaitForSeconds(1f / heroData.GetHeroAtkSpeed());
         attackDelay = false;
     }
 
@@ -183,7 +186,7 @@ public class Hero : Entity
             AnimatorChange("ATTACK", true);
             BaseProjectile go =
                 PoolingManager.instance.GetObject<BaseProjectile>(heroData.projectile.gameObject, transform.position);
-            go.Init(targetObject.transform,this, GetHeroAtk());
+            go.Init(targetObject.transform,this, heroData.GetHeroAtk());
             LooKTarget(targetObject.gameObject);
         }
     }
@@ -229,114 +232,7 @@ public class Hero : Entity
     #endregion
 
 
-    #region About Hero Atk
-    public double GetHeroAtk()
-    {
-        double atk = heroData.atk.GetValue(); 
-        atk = atk + (atk * (PlayerStatManager.instance.GetBonusAtk(NetUtils.GetPlayerNetworkType()) / 100f));
-        atk += atk * (PlayerStatManager.instance.GetHeroUpgradeLevel(heroData.heroTribe, heroOwnerNetworkType) * 0.05f);
-        return atk;
-    }
-
-    public double GetHeroBaseAtk()
-    {
-        return heroData.atk.baseValue;
-    }
-
-    public double GetHeroBonusAtk()
-    {
-        return GetHeroAtk() - GetHeroBaseAtk();
-    }
-    #endregion
-
-
-    #region About Hero AtkSpeed
-
-    public float GetHeroAtkSpeed()
-    {
-        float synergyStat = PlayerStatManager.instance.GetBonusAtkSpeed(NetUtils.GetPlayerNetworkType()) + heroData.atkSpeed.GetModifireValue();
-        float atkSpeed = GetHeroBaseAtkSpeed() + (GetHeroBaseAtkSpeed() * (synergyStat / 100f));
-        return atkSpeed;
-    }
-
-    public float GetHeroBaseAtkSpeed()
-    {
-        return heroData.atkSpeed.baseValue;
-    }
-
-    public float GetHeroBounusAtkSpeed()
-    {
-        return GetHeroAtkSpeed() - GetHeroBaseAtkSpeed();
-    }
-    #endregion
-
-
-    #region About Hero AtkRange
-    public float GetHeroBaseAtkRange()
-    {
-        return heroData.atkRange.baseValue;
-    }
-
-    public float GetHeroAtkRange()
-    {
-        return heroData.atkRange.GetValue();
-    }
-
-    public float GetHeroBonusAtkRange()
-    {
-        return GetHeroAtkRange() - GetHeroBaseAtkRange();
-    }
-
-    #endregion
-
-
-    public double GetHeroSkillDamage()
-    {
-        double damage = GetHeroAtk() * (heroData.skillData.skillDamage / 100f);
-        return damage;
-    }
-
-    public float GetHeroCriDamage()
-    {
-        return heroData.criticalDamage.GetValue() / 100f;
-    }
-
-    #region About Hero Critical Rate
-
-    public float GetHeroBaseCriticalRate()
-    {
-        return heroData.criticalRate.baseValue;
-    }
-
-    public float GetHeroBonusCriticalRate()
-    {
-        return GetHeroCriticalRate() - GetHeroBaseCriticalRate();
-    }
-
-    public float GetHeroCriticalRate()
-    {
-        return GetHeroBaseCriticalRate() + heroData.criticalRate.GetModifireValue() + 
-            PlayerStatManager.instance.GetBonusCriticalRate(NetUtils.GetPlayerNetworkType());
-    }
-
-    #endregion
-
-
-    public float GetHeroSkillAcc()
-    { 
-        return heroData.skillAcc.GetModifireValue() + PlayerStatManager.instance.GetBonusSkillAcc(heroOwnerNetworkType);
-    }
-
-    public void AddAtkModifire(float value)
-    {
-        heroData.atk.AddModifire(value);    
-    }
-
-    public void RemovAtkModifire(float value)
-    {
-        heroData.atk.RemoveModifire(value);
-    }
-
+  
     public HeroScriptable GetHeroData() { return heroData; }
     public HeroHolder GetHeroHolder() { return heroHolder; }
     public void IncreaseDamageStack(double damage) { damageStack += damage; }

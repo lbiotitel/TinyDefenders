@@ -7,6 +7,14 @@ public enum NetworkMessageType
     CLIENT_DISCONNECT,
 }
 
+public enum PlayerSkillType { 
+    FURY,
+    FLASH,
+    FATAL,
+    WEALTH,
+    SPREAD,
+    CHAOS
+}
 
 public enum RANK
 {

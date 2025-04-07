@@ -54,7 +54,7 @@ public class HeroHolder : NetworkBehaviour
     {
         if (ownHero == null) return;
 
-        heroRange.localScale = Vector2.one * ownHero.GetHeroAtkRange();
+        heroRange.localScale = Vector2.one * heroData.GetHeroAtkRange();
         heroRange.gameObject.SetActive(true);
     }
 

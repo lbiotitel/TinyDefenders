@@ -127,7 +127,7 @@ public partial class Monster : Entity
     private bool IsCri(Hero hero)
     {
         float cri = Random.Range(0,100f);
-        if (cri < hero.GetHeroCriticalRate()) return true;
+        if (cri < hero.GetHeroData().GetHeroCriticalRate()) return true;
         return false;
     }
 

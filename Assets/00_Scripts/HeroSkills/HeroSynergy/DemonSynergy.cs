@@ -30,10 +30,10 @@ public class DemonSynergy : HeroSynergyBase
     {
 
         if (NetUtils.GetPlayerNetworkType() != PlayerNetworkType.HOST) return;
-        
-        if (hero.GetHeroData().heroTribe != HeroTribe.DEMON) return;
+        HeroScriptable heroData = hero.GetHeroData();
+        if (heroData.heroTribe != HeroTribe.DEMON) return;
 
-        double heroAtk = hero.GetHeroAtk() / 2f;
+        double heroAtk = heroData.GetHeroAtk() / 2f;
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(monster.transform.position, demonExplosionRange, LayerMask.GetMask(LayerName.Monster));
 

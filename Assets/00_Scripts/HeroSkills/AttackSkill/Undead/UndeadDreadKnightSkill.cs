@@ -13,7 +13,7 @@ public class UndeadDreadKnightSkill : AttackSkillBase
         {
             if (monster.IsDead()) continue;
             GameObject go = PoolingManager.instance.GetObject(heroData.skillData.skillPrefab, monster.transform.position);
-            go.GetComponent<BaseProjectile>().Init(monster.transform, hero, hero.GetHeroSkillDamage());
+            go.GetComponent<BaseProjectile>().Init(monster.transform, hero, heroData.GetHeroSkillDamage());
         }
     }
 }

@@ -69,20 +69,20 @@ public class HeroInfoUI : MonoBehaviour
         this.heroDesc.text = heroData.GetLocalizationDesc();
         this.heroRarity.text = heroData.rarity.ToString();
 
-        this.attackText.text = string.Format("{0:N0}", hero.GetHeroBaseAtk());
-        if (hero.GetHeroBonusAtk() != 0) this.attkackBounusText.text = string.Format("<color=#00FF00>(+{0:N0})", hero.GetHeroBonusAtk());
+        this.attackText.text = string.Format("{0:N0}", heroData.GetHeroBaseAtk());
+        if (heroData.GetHeroBonusAtk() != 0) this.attkackBounusText.text = string.Format("<color=#00FF00>(+{0:N0})", heroData.GetHeroBonusAtk());
         else this.attkackBounusText.text = string.Empty;
 
-        this.attackSpeedText.text = string.Format("{0:2}", hero.GetHeroBaseAtkSpeed());
-        if (hero.GetHeroBounusAtkSpeed() != 0) this.attackSpeedBounusText.text = string.Format("<color=#00FF00>(+{0:F2})",hero.GetHeroBounusAtkSpeed());
+        this.attackSpeedText.text = string.Format("{0:2}", heroData.GetHeroBaseAtkSpeed());
+        if (heroData.GetHeroBounusAtkSpeed() != 0) this.attackSpeedBounusText.text = string.Format("<color=#00FF00>(+{0:F2})", heroData.GetHeroBounusAtkSpeed());
         else this.attackSpeedBounusText.text = string.Empty;
 
-        this.attackRangeText.text = string.Format("{0:2}", hero.GetHeroBaseAtkRange());
-        if (hero.GetHeroBonusAtkRange() != 0) this.attackRangeBonusText.text = string.Format("<color=#00FF00>(+{0:F2})", hero.GetHeroBaseAtkRange());
+        this.attackRangeText.text = string.Format("{0:2}", heroData.GetHeroBaseAtkRange());
+        if (heroData.GetHeroBonusAtkRange() != 0) this.attackRangeBonusText.text = string.Format("<color=#00FF00>(+{0:F2})", heroData.GetHeroBaseAtkRange());
         else this.attackRangeBonusText.text = string.Empty;
 
-        this.criRateText.text = string.Format("{0:0}%", hero.GetHeroBaseCriticalRate());
-        if (hero.GetHeroBonusCriticalRate() != 0) this.criRateBounusText.text = string.Format("<color=#00FF00>(+{0:0})%", hero.GetHeroBonusCriticalRate());
+        this.criRateText.text = string.Format("{0:0}%", heroData.GetHeroBaseCriticalRate());
+        if (heroData.GetHeroBonusCriticalRate() != 0) this.criRateBounusText.text = string.Format("<color=#00FF00>(+{0:0})%", heroData.GetHeroBonusCriticalRate());
         else this.criRateBounusText.text = string.Empty;
 
         this.monsterDamageStack.text = string.Format("가한 데미지 : {0:N0}", hero.GetDamageStack());
