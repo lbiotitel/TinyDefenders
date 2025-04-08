@@ -26,7 +26,7 @@ public struct Path {
     public static string heroSynergyDataPath = "HeroSynergyDatas";
     public static string questDataPath = "QuestDatas";
     public static string userExpDataPath = "SettingData/UserExpData";
-    public static string playerSkillDataPath = "PlayerSkillDatas";
+    public static string relicDataPath = "RelicDatas";
     public static string forestWavePath = "WaveDatas/Forest";
     public static string forestMonsterPath = "MonsterDatas/Forest/";
 }

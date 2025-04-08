@@ -22,7 +22,6 @@ public class GameManager : NetworkBehaviour
 
     //config
     [field: SerializeField] public int maxMonsterCount { get; private set; }
-    [field: SerializeField] public int maxHeroCount { get; private set; }
     [field: SerializeField] public int gold { get; set; }
 
     private int currentWave = 0;
@@ -85,6 +84,23 @@ public class GameManager : NetworkBehaviour
         playerName = hostName;
         friendName = clientName;
         InGameUI.instance.InitAllUserName(hostName, clientName);
+    }
+
+    public void InitRelicDatas(Dictionary<string,bool> ownRelicData)
+    {
+        List<RelicSO> relicList = SoDataManager.instance.GetAllRelicData();
+
+        foreach (var relic in relicList)
+        {
+            if (ownRelicData.ContainsKey(relic.relicName))
+            { 
+                bool isActive = ownRelicData[relic.relicName];
+                if (isActive)
+                {
+                    relic.InitRelicSO(NetUtils.GetPlayerNetworkType());
+                }
+            }
+        }
     }
 
 

@@ -101,7 +101,7 @@ public class HeroScriptable : ScriptableObject
     public double GetHeroAtk()
     {
         double atk = this.atk.GetValue();
-        atk = atk + (atk * (PlayerStatManager.instance.GetBonusAtk(NetUtils.GetPlayerNetworkType()) / 100f));
+        atk = atk + (atk * (PlayerStatManager.instance.GetBonusAtk(heroNetworkType) / 100f));
         atk += atk * (PlayerStatManager.instance.GetHeroUpgradeLevel(heroTribe, heroNetworkType) * 0.05f);
         return atk;
     }

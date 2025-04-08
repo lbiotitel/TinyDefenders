@@ -10,8 +10,6 @@ using UnityEngine.SceneManagement;
 
 
 
-public delegate void OnCrystalValueChage();
-public delegate void OnGoldValueChange();
 
 public class CloudManager : MonoBehaviour
 {
@@ -23,9 +21,6 @@ public class CloudManager : MonoBehaviour
     [SerializeField] private float saveInterval = 10f;
     private float saveTime = 0f;
     private bool isSave = false;
-
-    public OnCrystalValueChage onCrystalValueChange;
-    public OnGoldValueChange onGoldValueChange;
 
     private void Awake()
     {
@@ -46,21 +41,8 @@ public class CloudManager : MonoBehaviour
     }
 
 
-    #region About User Asset Method
     public UserData GetUserData() { return userData; }
 
-    public void CrystalChangeValue(int newValue)
-    {
-        userData.crystal = newValue;
-        onCrystalValueChange?.Invoke();
-    }
-
-    public void GoldChangeValue(int newValue)
-    {
-        userData.gold = newValue;
-        onGoldValueChange?.Invoke();
-    }
-    #endregion
 
     #region About User Basic Data Method
 
@@ -132,7 +114,7 @@ public class CloudManager : MonoBehaviour
                 Debug.Log("저장된 플레이어가 존재하지 않음");
 #endif
                 MainSceneUI.instance.ShowNickNameUI();
-                this.userData = new UserData("", 1, 0, 0, 0);
+                this.userData = new UserData("", 0, 0);
                 return this.userData;
             }
         }
@@ -219,4 +201,9 @@ public class CloudManager : MonoBehaviour
         userData.heroDataDic[heroName].heroCount += count;
     }
     #endregion
+
+    public void SetRelicState(string relicName, bool isOn)
+    {
+        userData.relicDataDic[relicName] = isOn;
+    }
 }

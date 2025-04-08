@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.Services.Multiplayer;
 using UnityEngine;
 
@@ -185,10 +186,13 @@ public class PlayerStatManager : MonoBehaviour
     #endregion
 
     #region About Player Stat Modifier
-
-    public void AddAtkModifire(PlayerNetworkType playerNetworkType, float value)
+    [ServerRpc(RequireOwnership = false)]
+    public void AddAtkModifireServerRpc(int playerNetworkType, float value)
     {
-        switch (playerNetworkType)
+        PlayerNetworkType networkType = (PlayerNetworkType)playerNetworkType;
+        Debug.Log("»£√‚2");
+
+        switch (networkType)
         {
             case PlayerNetworkType.HOST:
                 serverAtk.AddModifire(value);
@@ -351,9 +355,9 @@ public class PlayerStatManager : MonoBehaviour
         switch (playerNetworkType)
         {
             case PlayerNetworkType.HOST:
-                return serverAtk.GetValue();
+                return serverAtk.GetModifireValue();
             case PlayerNetworkType.CLIENT:
-                return clientAtk.GetValue();
+                return clientAtk.GetModifireValue();
         }
 
         return 0;
@@ -365,9 +369,9 @@ public class PlayerStatManager : MonoBehaviour
         switch (heroNetworkType)
         {
             case NetworkObjectType.HOST:
-                return serverAtk.GetValue();
+                return serverAtk.GetModifireValue();
             case NetworkObjectType.CLIENT:
-                return clientAtk.GetValue();
+                return clientAtk.GetModifireValue();
         }
 
         return 0;

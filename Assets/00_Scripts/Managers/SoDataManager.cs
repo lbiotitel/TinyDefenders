@@ -14,7 +14,7 @@ public class SoDataManager : MonoBehaviour
             InitAllHeroScriptableObject();
             InitAllSpellCardSciprtableObject();
             InitUserExpData();
-            InitPlayerSkill();
+            InitRelic();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -28,34 +28,34 @@ public class SoDataManager : MonoBehaviour
     private Dictionary<HeroTribe, HeroSynergySO> heroSynergySODataDic;
     private Dictionary<string, CombineSciptable> combineSODataDic;
     private Dictionary<string, InGameQuestSO> inGameQuestDic;
-    private Dictionary<PlayerSkillType, PlayerSkillSO> playerSkillDataDic;
+    private Dictionary<string, RelicSO> relicDataDic;
     private ProbabilitySetting inGameDrawHeroCardRarityProbabilitySetting;
     private UserRequireExpSO userExpData;
 
     #region About Player Skill Data
 
-    private void InitPlayerSkill()
+    private void InitRelic()
     {
-        playerSkillDataDic = new Dictionary<PlayerSkillType, PlayerSkillSO>();
+        relicDataDic = new Dictionary<string, RelicSO>();
 
-        PlayerSkillSO[] playerSkillSOs = Resources.LoadAll<PlayerSkillSO>(Path.playerSkillDataPath);
+        RelicSO[] relicSOs = Resources.LoadAll<RelicSO>(Path.relicDataPath);
 
-        foreach (var playerSkillSO in playerSkillSOs)
+        foreach (var relicSO in relicSOs)
         {
-            playerSkillDataDic.Add(playerSkillSO.playerSkillType,Instantiate(playerSkillSO));
+            relicDataDic.Add(relicSO.relicName,Instantiate(relicSO));
         }
     }
 
-    public List<PlayerSkillSO> GetAllPlayerSkillData()
+    public List<RelicSO> GetAllRelicData()
     { 
-        List<PlayerSkillSO> playerSkillSOs = new List<PlayerSkillSO>();
+        List<RelicSO> relicDataSOs = new List<RelicSO>();
 
-        foreach (var data in playerSkillDataDic)
+        foreach (var data in relicDataDic)
         {
-            playerSkillSOs.Add(data.Value);
+            relicDataSOs.Add(data.Value);
         }
 
-        return playerSkillSOs;
+        return relicDataSOs;
     }
 
 

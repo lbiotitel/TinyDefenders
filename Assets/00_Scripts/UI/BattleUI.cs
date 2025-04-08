@@ -27,10 +27,6 @@ public class BattleUI : MonoBehaviour
     [SerializeField] private TMP_InputField displayJoinCode;
     [SerializeField] private TMP_InputField inputJoinCode;
 
-    [Header("User Asset")]
-    [SerializeField] private TextMeshProUGUI userGoldText;
-    [SerializeField] private TextMeshProUGUI userCrystalText;
-
     [Header("User Profile")]
     [SerializeField] private ProfileUI profileUI;
     [SerializeField] private Button profileButton;
@@ -54,8 +50,6 @@ public class BattleUI : MonoBehaviour
         await NetworkLobbyManager.instance.SingInUnityService();
 
         var loadData = await CloudManager.instance.LoadUserData();
-        userGoldText.text = loadData.gold.ToString();
-        userCrystalText.text = loadData.crystal.ToString();
         userNameText.text = loadData.userName;
         userLevelText.text = string.Format("LV.{0}",loadData.userLevel);
     }

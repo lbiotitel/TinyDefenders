@@ -87,7 +87,6 @@ public class GameFinishUI : MonoBehaviour
         UserData userData = CloudManager.instance.GetUserData();
         userData.userExp += expReward;
         CheckUserLevelUp(userData);
-        userData.crystal += crystalReward;
         userData.rankingPoint += rpReward;
 
         userData.totalPlayCount++;
@@ -104,6 +103,7 @@ public class GameFinishUI : MonoBehaviour
             if (currentUserExp >= requireExp)
             {
                 userData.userLevel++;
+                userData.relicPoint++;
                 currentUserExp -= requireExp;
                 userData.userExp = currentUserExp;
                 levelUp = true;

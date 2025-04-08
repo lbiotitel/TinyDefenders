@@ -13,6 +13,7 @@ public class CardManager : MonoBehaviour
     [SerializeField] private HeroCardNode summonCardPrefab;
     [SerializeField] private AttackCardNode attackCardPrefab;
     [SerializeField] private UtilityCardNode utilityCardPrefab;
+    [SerializeField] private string cardDrawSFX;
 
     [SerializeField] private Transform myCardPos;
     
@@ -142,6 +143,7 @@ public class CardManager : MonoBehaviour
 
     private void DrawCard(CardType cardType)
     {
+        SoundManager.instance.PlaySfxSound(cardDrawSFX, SFXTYPE.UISOUND);
         switch (cardType)
         {
             case CardType.SUMMON:
@@ -214,7 +216,6 @@ public class CardManager : MonoBehaviour
 
         for (int i = 0; i < myCardList.Count; i++)
         {
-            //SoundManager.instance.PlaySfxSound("CardDrawSFX");
 
             float pos = (float)i / (myCardList.Count - 1);
             if (myCardList.Count == 1)

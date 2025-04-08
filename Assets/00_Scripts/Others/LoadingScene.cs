@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
@@ -16,6 +17,7 @@ public class LoadingScene : NetworkBehaviour
     private int loadIndex = 0;
     private string hostName;
     private string clientName;
+    private Dictionary<string, bool> ownRelicSODic;
 
     private void Awake()
     {
@@ -32,6 +34,8 @@ public class LoadingScene : NetworkBehaviour
 
     private async void LoadResource()
     {
+        UserData userData = await CloudManager.instance.LoadUserData();
+        ownRelicSODic = userData.relicDataDic;
         loadIndex += await SoDataManager.instance.InitDrawHeroCardProbability() == true ? 1 : 0;
         loadIndex += await SoDataManager.instance.InitAllHeroSynergyData() == true ? 1 : 0;
         loadIndex += await SoDataManager.instance.InitAllCombineData() == true ? 1 : 0;
@@ -116,6 +120,7 @@ public class LoadingScene : NetworkBehaviour
         {
             GameManager.instance.SetSpawner();
             GameManager.instance.InitAllUserName(hostName, clientName);
+            GameManager.instance.InitRelicDatas(ownRelicSODic);
             NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnInGameSceneLoaded;
         }
     }

@@ -28,36 +28,35 @@ public class UserData
     }
 
 
+
     public string userName;
     public int userLevel;
-    public int crystal;
-    public int gold;
     public int rankingPoint;
     public int userExp;
     public int totalPlayCount;
     public int stopPlayCount;
-    public int remainSkillPoint;
+    public int relicPoint;
     public Dictionary<string, HeroStoreData> heroDataDic;
     public Dictionary<string, SpellCardStoreData> spellCardDataDic;
-    public Dictionary<PlayerSkillType, int> playerSkillDataDic;
+    public Dictionary<string, bool> relicDataDic;
 
-    public UserData(string userName, int userLevel, int crystal, int gold, int rakingPoint)
+    public UserData(string userName, int userLevel, int rakingPoint)
     {
         this.userName = userName;
         this.userLevel = userLevel;
-        this.crystal = crystal;
-        this.gold = gold;
         this.rankingPoint = rakingPoint;
-        this.heroDataDic = new Dictionary<string, HeroStoreData>();
-        this.spellCardDataDic = new Dictionary<string, SpellCardStoreData>();
         this.userExp = 0;
         this.totalPlayCount = 0;
         this.stopPlayCount = 0;
-        this.remainSkillPoint = 0;
+        this.relicPoint = 0;
+
+        this.heroDataDic = new Dictionary<string, HeroStoreData>();
+        this.spellCardDataDic = new Dictionary<string, SpellCardStoreData>();
+        this.relicDataDic = new Dictionary<string, bool>();
 
         InitHeroDatas();
         InitSpellCardDatas();
-        InitPlayerSkillDatas();
+        InitRelicDatas();
     }
 
     private void InitHeroDatas()
@@ -83,13 +82,13 @@ public class UserData
     }
 
 
-    private void InitPlayerSkillDatas()
+    private void InitRelicDatas()
     {
-        List<PlayerSkillSO> playerSkillList = SoDataManager.instance.GetAllPlayerSkillData();
+        List<RelicSO> relicDataList = SoDataManager.instance.GetAllRelicData();
 
-        for (int i = 0; i < playerSkillList.Count; i++)
+        for (int i = 0; i < relicDataList.Count; i++)
         {
-            playerSkillDataDic.Add(playerSkillList[i].playerSkillType, 0);
+            relicDataDic.Add(relicDataList[i].relicName, relicDataList[i].IsRelicOn());
         }
     }
 }
