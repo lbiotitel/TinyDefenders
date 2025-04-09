@@ -37,18 +37,15 @@ public class Hero : Entity
     {
         if (GameManager.instance.isGameOver) return;
 
-        heroData = data;
+        heroData = Instantiate(data);
 
         heroName = heroData.heroName;
         heroRarity = heroData.rarity;
         this.heroHolder = heroHolder;
-
-        InitHeroRangeCollider();
-
         animator.runtimeAnimatorController = data.runtimeAnimatorController;
 
+        InitHeroRangeCollider();
         InitRarityCircleColor();
-
 
         Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
 
@@ -57,8 +54,8 @@ public class Hero : Entity
 
         heroData.InitHeroNetworkType(heroOwnerNetworkType);
 
-        EventManager.instance.onUpgradeAction += PlayUpgradeParticle;
         SpawnManager.instance.AddHero(this);
+        EventManager.instance.onUpgradeAction += PlayUpgradeParticle;
     }
 
 
@@ -247,5 +244,6 @@ public class Hero : Entity
         EventManager.instance.onUpgradeAction -= PlayUpgradeParticle;
         if (GameManager.instance.isGameOver) return;
         SpawnManager.instance.RemoveHero(this);
+        Destroy(heroData);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -18,6 +19,16 @@ public class NetworkRpcManager : NetworkBehaviour
     [SerializeField] private GameFinishStatGameObject gameFinishStatPrefab;
 
     #region About Attack and Debuff
+
+    public void AttackMonster(PlayerNetworkType playerNetworkType, double damage,Monster monster,List<DebuffEffect> debuffList = null)
+    {
+        if (monster != null)
+        {
+            AttackMonsterServerRpc(playerNetworkType,monster.NetworkObjectId,damage);
+            if (debuffList != null) DebuffEffect(playerNetworkType, monster, debuffList);
+        }
+    }
+
     public void AttackMonster(PlayerNetworkType playerNetworkType, double damage, Hero hero, Monster monster = null, List<DebuffEffect> debuffList = null, bool eventCall = true)
     {
         if (monster != null)
@@ -63,6 +74,21 @@ public class NetworkRpcManager : NetworkBehaviour
             }
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void AttackMonsterServerRpc(PlayerNetworkType playerNetworkType,ulong monsterId,double damage)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(monsterId, out NetworkObject networkObject))
+        {
+            if (networkObject == null) return;
+            Monster monster = networkObject.GetComponent<Monster>();
+            if (monster != null)
+            {
+                monster.GetDamage(damage, playerNetworkType);
+            }
+        }
+    }
+
 
     #endregion
 
@@ -194,7 +220,6 @@ public class NetworkRpcManager : NetworkBehaviour
     #region About Game Over Data
 
 
-
     [ClientRpc]
     public void GameFinishClientRpc(string playerName,string friendName,double playerDamage, double friendDamage,int bestWave)
     {
@@ -212,7 +237,42 @@ public class NetworkRpcManager : NetworkBehaviour
         gameFinishStatGameObject.bestWave = bestWave;
     }
 
+    #endregion
 
 
-#endregion
+    #region About Player Stat Data
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddAtkModifireServerRpc(int playerNetworkType, float value)
+    { 
+        PlayerStatManager.instance.AddAtkModifire((PlayerNetworkType)playerNetworkType, value);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddAtkSpeedModifireServerRpc(int playerNetworkType, float value)
+    {
+        PlayerStatManager.instance.AddAtkSpeedModifire((PlayerNetworkType)playerNetworkType, value);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddAtkRangeServerRpc(int playerNetworkType, float value)
+    {
+        PlayerStatManager.instance.AddAtkRangeModifire((PlayerNetworkType)playerNetworkType, value);
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddCriticalRateModifireServerRpc(int playerNetworkType, float value)
+    {
+        PlayerStatManager.instance.AddCriticalRateModifire((PlayerNetworkType)playerNetworkType, value);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddCriDamageModifireServerRpc(int playerNetworkType, float value)
+    {
+        PlayerStatManager.instance.AddCriDamageModifire((PlayerNetworkType)playerNetworkType, value);
+    }
+
+
+    #endregion
 }

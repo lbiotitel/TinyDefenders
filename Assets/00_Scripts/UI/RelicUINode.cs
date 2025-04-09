@@ -38,7 +38,7 @@ public class RelicUINode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandle
     {
         if (!relicSO.IsUnlock()) return;
 
-        int relicPoint = CloudManager.instance.GetUserData().relicPoint;
+        int relicPoint = playerRelicUI.relicPoint;
 
         if (!relicSO.IsRelicOn())
         {
@@ -46,18 +46,17 @@ public class RelicUINode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandle
             {
                 SoundManager.instance.PlaySfxSound(relicOnSFX, SFXTYPE.UISOUND);
                 relicPoint -= relicSO.requirePoint;
-                CloudManager.instance.GetUserData().relicPoint = relicPoint;
-                playerRelicUI.onRelicPointChanged?.Invoke(relicPoint);
                 RelicOn();
             }
         }
         else
         {
             relicPoint += relicSO.requirePoint;
-            CloudManager.instance.GetUserData().relicPoint = relicPoint;
-            playerRelicUI.onRelicPointChanged?.Invoke(relicPoint);
             RelicOff();
         }
+
+        playerRelicUI.onRelicPointChanged?.Invoke(relicPoint);
+        playerRelicUI.relicPoint = relicPoint;
     }
 
     public void RelicOn()

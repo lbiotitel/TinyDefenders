@@ -326,9 +326,9 @@ public class SpawnManager : NetworkBehaviour
             return;
         }
 
-        NetworkObject networkObject = heroHolders[heroHolderId].GetComponent<NetworkObject>();
+     /*   NetworkObject networkObject = heroHolders[heroHolderId].GetComponent<NetworkObject>();
 
-        HeroSpawnClientRpc(networkObject.NetworkObjectId, heroName, value);
+        HeroSpawnClientRpc(networkObject.NetworkObjectId, heroName, value);*/
     }
 
     public Vector3 GetHolderPosition()
@@ -393,7 +393,7 @@ public class SpawnManager : NetworkBehaviour
 
     #endregion
 
-    public void SummonHero(string heroName, Transform cardTransform)
+    public void Summon(string heroName, Transform cardTransform)
     {
         StartCoroutine(SummonCoroutine(heroName, cardTransform));
     }

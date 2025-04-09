@@ -98,7 +98,7 @@ public class SoundManager : MonoBehaviour
             }
         }
 
-        if(!find)Debug.LogError("등록 되지않은 사운드 효과");
+        //if(!find)Debug.LogError("등록 되지않은 사운드 효과");
     }
 
 

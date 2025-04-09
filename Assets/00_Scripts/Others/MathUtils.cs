@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MathUtils : MonoBehaviour
 {
@@ -9,6 +10,13 @@ public class MathUtils : MonoBehaviour
             return true;
         return false;
     }
+
+    public static void RandomChanceAction(float chance, UnityAction action)
+    {
+        if (Random.Range(0.0f, 100.0f) <= chance)
+            action?.Invoke();
+    }
+
 
     public static Vector3 GenerateBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
     {

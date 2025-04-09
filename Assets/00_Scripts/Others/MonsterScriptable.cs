@@ -14,4 +14,5 @@ public class MonsterScriptable : ScriptableObject
     {
         monsterName = name;
     }
+
 }

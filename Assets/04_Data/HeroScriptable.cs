@@ -43,6 +43,8 @@ public class HeroScriptable : ScriptableObject
     public Stat skillAcc;
     public Stat criticalRate;
     public Stat criticalDamage;
+    private const float baseCriticalDamage = 120;
+
     [TextArea] public string heroDesc;
     private PlayerNetworkType heroNetworkType;
 
@@ -61,12 +63,10 @@ public class HeroScriptable : ScriptableObject
     [Header("Skill Debuff")]
     public List<DebuffEffect> skillDebuffEffects;
 
-
-
     [Header("Skill")]
     public SkillData skillData;
 
-    private void OnEnable()
+    private void OnValidate()
     {
         heroName = this.name;
     }
@@ -74,6 +74,7 @@ public class HeroScriptable : ScriptableObject
     public void InitHeroNetworkType(PlayerNetworkType playerNetworkType)
     {
         heroNetworkType = playerNetworkType;
+        criticalDamage.AddModifire(baseCriticalDamage);
     }
 
     public string GetLocalizationName()
@@ -122,7 +123,7 @@ public class HeroScriptable : ScriptableObject
 
     public float GetHeroAtkSpeed()
     {
-        float synergyStat = PlayerStatManager.instance.GetBonusAtkSpeed(NetUtils.GetPlayerNetworkType()) + this.atkSpeed.GetModifireValue();
+        float synergyStat = PlayerStatManager.instance.GetBonusAtkSpeed(heroNetworkType) + this.atkSpeed.GetModifireValue();
         float atkSpeed = GetHeroBaseAtkSpeed() + (GetHeroBaseAtkSpeed() * (synergyStat / 100f));
         return atkSpeed;
     }
@@ -147,7 +148,8 @@ public class HeroScriptable : ScriptableObject
 
     public float GetHeroAtkRange()
     {
-        return atkRange.GetValue();
+        float atkRange = GetHeroBaseAtkRange() + this.atkRange.GetModifireValue() + PlayerStatManager.instance.GetBonusAtkRange(heroNetworkType);
+        return atkRange;
     }
 
     public float GetHeroBonusAtkRange()
@@ -166,7 +168,8 @@ public class HeroScriptable : ScriptableObject
 
     public float GetHeroCriDamage()
     {
-        return criticalDamage.GetValue() / 100f;
+        float criDamage = criticalDamage.GetModifireValue() + PlayerStatManager.instance.GetBonusCriDamage(heroNetworkType);
+        return criDamage / 100f;
     }
 
     #region About Hero Critical Rate
@@ -184,7 +187,7 @@ public class HeroScriptable : ScriptableObject
     public float GetHeroCriticalRate()
     {
         return GetHeroBaseCriticalRate() + criticalRate.GetModifireValue() +
-            PlayerStatManager.instance.GetBonusCriticalRate(NetUtils.GetPlayerNetworkType());
+            PlayerStatManager.instance.GetBonusCriticalRate(heroNetworkType);
     }
 
     #endregion

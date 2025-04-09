@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 public partial class Monster : Entity
@@ -38,12 +37,20 @@ public partial class Monster : Entity
     public void InitData(MonsterScriptable data, List<Transform> targetLists)
     {
         StartCoroutine(ResetObject());
-        hp = maxHp = data.monsterHp;
+        CalcMonsterHp(data);
         defense = data.defense;
         speed = originalSpeed = data.monsterSpeed;
         animator.runtimeAnimatorController = data.animatorController;
         monsterType = data.monsterType;
         this.movePointList = targetLists;
+    }
+
+    private void CalcMonsterHp(MonsterScriptable data)
+    {
+        int currentWave = GameManager.instance.GetCurrentWave();
+        maxHp = data.monsterHp;
+        maxHp = maxHp + (maxHp * (currentWave / 2f));
+        hp = maxHp;
     }
 
     private void SyncMonsterPosition()
@@ -90,13 +97,12 @@ public partial class Monster : Entity
         if (!IsServer) return;
         if (isDead) return;
 
-        MonsterGetDamage(damage,playerNetworkType);
+        MonsterGetDamage(damage, playerNetworkType);
     }
 
     private void MonsterGetDamage(double damage, PlayerNetworkType playerNetworkType)
     {
-        damage -= defense;
-        hp -= ((int)damage);
+        GetDamage(ref damage, null);
         hpImage.fillAmount = ((float)hp / (float)maxHp);
         UpdateClientRpc(hp, damage, false);
     }
@@ -108,25 +114,34 @@ public partial class Monster : Entity
         {
             Hero hero = heroObject.GetComponent<Hero>();
 
-            bool isCri = IsCri(hero);
-            if (isCri) damage *= 1.5f;
-
-            damage -= defense;
-            hp -= ((int)damage);
-
+            bool isCri = GetDamage(ref damage, hero);
 
             StackDamage(damage, playerNetworkType, hero);
 
             hpImage.fillAmount = ((float)hp / (float)maxHp);
             UpdateClientRpc(hp, damage, isCri);
 
-            if(eventCall)EventManager.instance.onHeroAttackToMonsterAction?.Invoke(hero, this);
+            if (eventCall) EventManager.instance.onHeroAttackToMonsterAction?.Invoke(hero, this);
         }
+    }
+
+    private bool GetDamage(ref double damage, Hero hero)
+    {
+        bool isCri = false;
+        if (hero != null)
+        {
+            isCri = IsCri(hero);
+            if (isCri) damage *= hero.GetHeroData().GetHeroCriDamage();
+        }
+
+        damage -= defense;
+        hp -= Mathf.RoundToInt((float)damage);
+        return isCri;
     }
 
     private bool IsCri(Hero hero)
     {
-        float cri = Random.Range(0,100f);
+        float cri = Random.Range(0, 100f);
         if (cri < hero.GetHeroData().GetHeroCriticalRate()) return true;
         return false;
     }
@@ -140,7 +155,7 @@ public partial class Monster : Entity
 
         if (damage == 0) return;
 
-        StackDamage(damage,playerNetworkType,hero);
+        StackDamage(damage, playerNetworkType, hero);
         StackPlayerDamage(damage, playerNetworkType);
         UpdateClientRpc(hp, damage, false);
     }
@@ -166,7 +181,7 @@ public partial class Monster : Entity
     }
 
     [ClientRpc]
-    private void UpdateClientRpc(double remainHp, double damage,bool isCri)
+    private void UpdateClientRpc(double remainHp, double damage, bool isCri)
     {
         hp = remainHp;
         hpImage.fillAmount = ((float)hp / (float)maxHp);
@@ -182,7 +197,7 @@ public partial class Monster : Entity
     {
         if (monsterType == MonsterType.NORMAL)
         {
-            GameManager.instance.GetGold(1,PlayerNetworkType.ALL);
+            GameManager.instance.GetGold(1, PlayerNetworkType.ALL);
         }
     }
 
@@ -211,13 +226,15 @@ public partial class Monster : Entity
             {
                 if (IsServer) GetReward();
 
-                SoundManager.instance.PlaySfxSound(monsterDeathSFX,SFXTYPE.EXTRA);
+                SoundManager.instance.PlaySfxSound(monsterDeathSFX, SFXTYPE.EXTRA);
                 isDead = true;
                 StopAllDebuff();
                 gameObject.layer = LayerMask.NameToLayer(LayerName.Defulat);
                 StartCoroutine(DeadCoroutine());
                 AnimatorChange("DEAD", true);
                 movePointList = null;
+
+                EventManager.instance.onMonsterDeadAction?.Invoke(this);
             }
         }
     }

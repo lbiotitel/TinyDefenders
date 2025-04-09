@@ -250,7 +250,7 @@ public class SoDataManager : MonoBehaviour
 
             for (int heroIndex = 0; heroIndex < datas.Length; heroIndex++)
             {
-                heroSciprtableDataDic.Add(datas[heroIndex].heroName, datas[heroIndex]);
+                heroSciprtableDataDic.Add(datas[heroIndex].heroName, Instantiate(datas[heroIndex]));
             }
         }
     }

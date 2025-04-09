@@ -78,7 +78,7 @@ public class HeroInfoUI : MonoBehaviour
         else this.attackSpeedBounusText.text = string.Empty;
 
         this.attackRangeText.text = string.Format("{0:2}", heroData.GetHeroBaseAtkRange());
-        if (heroData.GetHeroBonusAtkRange() != 0) this.attackRangeBonusText.text = string.Format("<color=#00FF00>(+{0:F2})", heroData.GetHeroBaseAtkRange());
+        if (heroData.GetHeroBonusAtkRange() != 0) this.attackRangeBonusText.text = string.Format("<color=#00FF00>(+{0:F2})", heroData.GetHeroBonusAtkRange());
         else this.attackRangeBonusText.text = string.Empty;
 
         this.criRateText.text = string.Format("{0:0}%", heroData.GetHeroBaseCriticalRate());

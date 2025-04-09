@@ -12,7 +12,7 @@ public class PlayerRelicUI : MonoBehaviour
     [SerializeField] private TMP_Text relicPointText;
     [SerializeField] private Button saveRelicButton;
     [SerializeField] private RelicInfoUI relicInfoUI;
-    private int relicPoint;
+    public int relicPoint { get; set; }
     public UnityAction<int> onRelicPointChanged;
     private List<GameObject> relicUINodes = new List<GameObject>();
     private List<RelicSO> relicList = new List<RelicSO>();
@@ -36,7 +36,7 @@ public class PlayerRelicUI : MonoBehaviour
         {
             CloudManager.instance.SetRelicState(relic.relicName,relic.IsRelicOn());
         }
-
+        CloudManager.instance.GetUserData().relicPoint = relicPoint;    
         CloudManager.instance.SaveUserData();
     }
 

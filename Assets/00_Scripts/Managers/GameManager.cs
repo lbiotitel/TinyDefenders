@@ -134,7 +134,7 @@ public class GameManager : NetworkBehaviour
         for (int i = 3; i >= 1; i--)
         {
             ShowCountDownClientRpc(i);
-            if(i == 1)yield return new WaitForSeconds(0.7f);
+            if(i == 1)yield return new WaitForSeconds(0.8f);
             else yield return new WaitForSeconds(1f);
         }
 
@@ -146,7 +146,11 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     private void ShowCountDownClientRpc(int count)
     {
-        if(count == 0)InGameUI.instance.HideCountDownText();
+        if (count == 0)
+        {
+            InGameUI.instance.HideCountDownText();
+            return;
+        }
         InGameUI.instance.ShowCountDownText(count);
     }
 

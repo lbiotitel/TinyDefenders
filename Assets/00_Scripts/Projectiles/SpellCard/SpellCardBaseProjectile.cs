@@ -1,4 +1,4 @@
-using System.Threading;
+using System.Collections;
 using UnityEngine;
 
 public class SpellCardBaseProjectile : MonoBehaviour
@@ -8,7 +8,7 @@ public class SpellCardBaseProjectile : MonoBehaviour
     [SerializeField] protected ProjectileType projectileType = ProjectileType.NORMAL;
     [SerializeField][Range(0.2f, 10f)] protected float lifeTime = 0.2f;
 
-    protected GameObject destroyParticle;
+    protected GameObject destroyParticlePrefab;
     protected AttackCardSO referenceCard;
     protected Transform target;
     protected bool isAttack = false;
@@ -80,21 +80,37 @@ public class SpellCardBaseProjectile : MonoBehaviour
     //상속 받아 구현
     protected virtual void HitMonster() { }
 
-    protected void AttackMonster(GameObject monster,double damage)
+    protected void AttackMonster(GameObject monster, double damage)
     {
         if (NetUtils.IsHost() && monster != null && !monster.GetComponent<Monster>().IsDead())
         {
-            NetworkRpcManager.instance.AttackMonster(NetUtils.GetPlayerNetworkType(), damage,null,monster.GetComponent<Monster>(),
-                referenceCard.debuffEffects);
+            NetworkRpcManager.instance.AttackMonster(
+                NetUtils.GetPlayerNetworkType(),
+               damage,
+                monster.GetComponent<Monster>());
         }
-    } 
+    }
 
-    protected virtual void OnDestroy()
+
+    protected void DisableObject(float time)
     {
-        if (destroyParticle != null)
+        StartCoroutine(DisableObjectCoroutine(lifeTime));
+    }
+
+    private IEnumerator DisableObjectCoroutine(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        target = null;
+        isAttack = false;
+        referenceCard = null;
+
+
+        if (PoolingManager.instance != null)
         {
-            PoolingManager.instance.ReturnObject(destroyParticle);
-            Destroy(target.gameObject);
+            if (destroyParticlePrefab != null)
+                PoolingManager.instance.ReturnObject(destroyParticlePrefab);
+            PoolingManager.instance.ReturnObject(gameObject);
         }
     }
 }

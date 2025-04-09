@@ -10,7 +10,7 @@ public class FireBallAbility : CardAbilityBase
 
     public override void ActiveAbility()
     {
-        SpellCardBaseProjectile projectile = Instantiate(fireBallPrefab, transform.position + new Vector3(0, 5), Quaternion.identity);
+        SpellCardBaseProjectile projectile = PoolingManager.instance.GetObject<SpellCardBaseProjectile>(fireBallPrefab.gameObject, transform.position + new Vector3(0, 5));
         projectile.Init(transform, cardSO as AttackCardSO);
     }
 

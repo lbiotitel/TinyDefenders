@@ -17,12 +17,17 @@ public class EventManager : MonoBehaviour
 
     public UnityAction<Hero> onHeroUseSkillAction;
     public UnityAction onHeroSynergyChangedAction;
+
     public UnityAction<Hero> onHeroSummonAction;
+    public UnityAction<Hero> onHeroStartSummonAction;
+    public UnityAction onHeroEndSummonAction;
+
     public UnityAction<Hero> onHeroDespawnAction;
     public UnityAction<Hero,Monster> onHeroAttackToMonsterAction;
     public UnityAction onDrawCardAction;
     public UnityAction onGameStartAction;
-    public UnityAction<HeroTribe,PlayerNetworkType> onUpgradeAction;
+    public UnityAction<HeroTribe, PlayerNetworkType> onUpgradeAction;
+    public UnityAction<Monster> onMonsterDeadAction;
 
 
     private void ReleaseAction<T>(ref UnityAction<T> unityAction) 
@@ -69,6 +74,9 @@ public class EventManager : MonoBehaviour
         ReleaseAction(ref onGameStartAction);
         ReleaseAction(ref onHeroAttackToMonsterAction);
         ReleaseAction(ref onUpgradeAction);
+        ReleaseAction(ref onMonsterDeadAction);
+        ReleaseAction(ref onHeroStartSummonAction);
+        ReleaseAction(ref onHeroEndSummonAction);
         onHeroUseSkillAction = null;
         instance = null;
     }

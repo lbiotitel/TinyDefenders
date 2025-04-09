@@ -30,6 +30,7 @@ public class PlayerStatManager : MonoBehaviour
     [field: SerializeField] public Stat serverGoldBonus;
     [field: SerializeField] public Stat serverSkillAcc;
     [field: SerializeField] public Stat serverCriticalRate;
+    [field: SerializeField] public Stat serverCriDamage;
     [field: SerializeField] public Stat serverDebuffDuration;
 
 
@@ -41,6 +42,7 @@ public class PlayerStatManager : MonoBehaviour
     [field: SerializeField] public Stat clientGoldBouns;
     [field: SerializeField] public Stat clientSkillAcc;
     [field: SerializeField] public Stat clientCriticalRate;
+    [field: SerializeField] public Stat clientCriDamage;
     [field: SerializeField] public Stat clientDebuffDuration;
 
 
@@ -186,13 +188,10 @@ public class PlayerStatManager : MonoBehaviour
     #endregion
 
     #region About Player Stat Modifier
-    [ServerRpc(RequireOwnership = false)]
-    public void AddAtkModifireServerRpc(int playerNetworkType, float value)
+    public void AddAtkModifire(PlayerNetworkType playerNetworkType, float value)
     {
-        PlayerNetworkType networkType = (PlayerNetworkType)playerNetworkType;
-        Debug.Log("»£√‚2");
 
-        switch (networkType)
+        switch (playerNetworkType)
         {
             case PlayerNetworkType.HOST:
                 serverAtk.AddModifire(value);
@@ -216,8 +215,10 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
+
     public void AddAtkSpeedModifire(PlayerNetworkType playerNetworkType, float value)
     {
+
         switch (playerNetworkType)
         {
             case PlayerNetworkType.HOST:
@@ -293,16 +294,42 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
+    public void AddCriDamageModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverCriDamage.AddModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientCriDamage.AddModifire(value);
+                break;
+        }
+    }
+
+    public void RemoveCriDamageModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverCriDamage.RemoveModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientCriDamage.RemoveModifire(value);
+                break;
+        }
+    }
+
 
     public void AddAtkRangeModifire(PlayerNetworkType playerNetworkType, float value)
     {
         switch (playerNetworkType)
         {
             case PlayerNetworkType.HOST:
-                serverAtkRange.RemoveModifire(value);
+                serverAtkRange.AddModifire(value);
                 break;
             case PlayerNetworkType.CLIENT:
-                clientAtkRange.RemoveModifire(value);
+                clientAtkRange.AddModifire(value);
                 break;
         }
     }
@@ -404,6 +431,19 @@ public class PlayerStatManager : MonoBehaviour
         return 0;
     }
 
+    public float GetBonusAtkRange(PlayerNetworkType playerNetworkType)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                return serverAtkRange.GetModifireValue();
+            case PlayerNetworkType.CLIENT:
+                return clientAtkRange.GetModifireValue();
+        }
+
+        return 0;
+    }
+
     public float GetBonusSkillAcc(PlayerNetworkType playerNetworkType)
     {
         switch (playerNetworkType)
@@ -439,6 +479,19 @@ public class PlayerStatManager : MonoBehaviour
                 return serverCriticalRate.GetModifireValue();
             case PlayerNetworkType.CLIENT:
                 return clientCriticalRate.GetModifireValue();
+        }
+
+        return 0;
+    }
+
+    public float GetBonusCriDamage(PlayerNetworkType playerNetworkType)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                return serverCriDamage.GetModifireValue();
+            case PlayerNetworkType.CLIENT:
+                return clientCriDamage.GetModifireValue();
         }
 
         return 0;

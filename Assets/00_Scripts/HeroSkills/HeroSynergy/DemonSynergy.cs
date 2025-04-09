@@ -9,7 +9,7 @@ public class DemonSynergy : HeroSynergyBase
     public override void HeroSynergyActive(int level)
     {
         if (level < 1) return;
-        PlayerStatManager.instance.AddAtkModifireServerRpc((int)playerNetworkType, heroAtk[level - 1]);
+        PlayerStatManager.instance.AddAtkModifire(playerNetworkType, heroAtk[level - 1]);
         if (level == 4)
         {
             EventManager.instance.onHeroAttackToMonsterAction += DemonExplosion;

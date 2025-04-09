@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a78405da8f84d34982305c01ccdb690, type: 3}
-  m_Name: Coin Bag
+  m_Name: Gold Bag
   m_EditorClassIdentifier: 
-  relicName: Red Axe 1
+  relicName: Gold Bag
   relicDesc: 'Blunt Sword Desc
 
 '
   relicImage: {fileID: 3098197364691191566, guid: 2a7fe33f11ad8224580250354500c07e, type: 3}
   requireLevel: 0
   requirePoint: 0
+  relicBasePrefab: {fileID: -7865730079362404164, guid: d2e20710797245f4bab5607bf51837c6, type: 3}

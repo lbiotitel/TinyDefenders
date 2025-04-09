@@ -17,10 +17,15 @@ public class DamageText : MonoBehaviour
     {
         damageText.text = string.Format("{0:0}", damage);
         Color color = damageText.color;
+        color = Color.white;
         color.a = 1f;
         damageText.color = color;
         textColor = damageText.color;
-        if (cri) criticalParticle.SetActive(true);
+        if (cri)
+        {
+            damageText.color = Color.red;
+            criticalParticle.SetActive(true);
+        }
         StartCoroutine(ShowAndFade());
     }
 

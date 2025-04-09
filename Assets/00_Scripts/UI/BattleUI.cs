@@ -30,6 +30,7 @@ public class BattleUI : MonoBehaviour
     [Header("User Profile")]
     [SerializeField] private ProfileUI profileUI;
     [SerializeField] private Button profileButton;
+    [SerializeField] private Slider userExpSlider;
     [SerializeField] private TextMeshProUGUI userNameText;
     [SerializeField] private TextMeshProUGUI userLevelText;
 
@@ -49,9 +50,13 @@ public class BattleUI : MonoBehaviour
     {
         await NetworkLobbyManager.instance.SingInUnityService();
 
-        var loadData = await CloudManager.instance.LoadUserData();
-        userNameText.text = loadData.userName;
-        userLevelText.text = string.Format("LV.{0}",loadData.userLevel);
+        var userData = await CloudManager.instance.LoadUserData();
+        userNameText.text = userData.userName;
+        userLevelText.text = string.Format("LV.{0}",userData.userLevel);
+
+        int requireExp = SoDataManager.instance.GetUserRequireExp(userData.userLevel);
+        userExpSlider.maxValue = requireExp;
+        userExpSlider.value = userData.userExp;
     }
 
     private void Update()

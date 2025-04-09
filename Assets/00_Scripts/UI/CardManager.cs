@@ -113,6 +113,7 @@ public class CardManager : MonoBehaviour
         DrawCard((CardType)random);
     }
 
+
     public void DrawCard(string cardName)
     {
         CardSO cardSo = SoDataManager.instance.GetSpellCardScirptableObject(cardName);
@@ -141,7 +142,7 @@ public class CardManager : MonoBehaviour
         myCardList.Add(cardNode);
     }
 
-    private void DrawCard(CardType cardType)
+    public void DrawCard(CardType cardType)
     {
         SoundManager.instance.PlaySfxSound(cardDrawSFX, SFXTYPE.UISOUND);
         switch (cardType)
