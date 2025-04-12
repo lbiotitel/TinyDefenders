@@ -9,7 +9,7 @@ public class Hero : Entity
 {
     [SerializeField] private GameObject spawnParticle;
     [SerializeField] private ParticleSystem rarityParticle;
-    [SerializeField] private PolygonCollider2D heroRangeCollider;
+    [SerializeField] private CircleCollider2D heroRangeCollider;
     [SerializeField] private ParticleSystem upgradeParticle;
 
     private HeroScriptable heroData;
@@ -61,14 +61,8 @@ public class Hero : Entity
 
     private void InitHeroRangeCollider()
     {
-        Vector2[] points = heroRangeCollider.points;
-
-        for (int i = 0; i < points.Length; i++)
-        {
-            points[i] *= heroData.atkRange.baseValue;
-        }
-
-        heroRangeCollider.points = points;
+        float rad = heroRangeCollider.radius;
+        heroRangeCollider.radius = heroData.GetHeroAtkRange();
     }
 
     private void InitRarityCircleColor()

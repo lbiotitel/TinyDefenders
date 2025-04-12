@@ -39,7 +39,6 @@ public class HeroHolder : NetworkBehaviour
     {
         CircleCollider2D collider = transform.AddComponent<CircleCollider2D>();
         collider.isTrigger = true;
-        collider.radius = circleRadius;
         heroTargetMark.GetComponent<SpriteRenderer>().size = new Vector2(circleRadius, circleRadius);
     }
 

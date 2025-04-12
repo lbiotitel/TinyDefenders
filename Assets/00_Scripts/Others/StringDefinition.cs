@@ -1,4 +1,11 @@
 
+
+public struct LobbyInfo
+{
+    public static string LobbyName = "Tiny Defence";
+}
+
+
 public struct EncryptionType
 {
     public static string dEncryption = "dtls";
@@ -9,9 +16,29 @@ public struct SceneName
 {
     public static string MainScene = "MainScene";
     public static string ForestScene = "Forest";
+    public static string DesertScene = "Desert";
+    public static string CaveScene = "Cave";
+    public static string LavaScene = "Lava";
     public static string IntroScene = "IntroScene";
     public static string ResultScene = "ResultScene";
     public static string LoadingScene = "LoadingScene";
+
+    public static string GetMapName(MapType mapType)
+    {
+        switch (mapType)
+        {
+            case MapType.FOREST:
+                return ForestScene;
+            case MapType.DESERT:
+                return DesertScene;
+            case MapType.CAVE:
+                return CaveScene;
+            case MapType.LAVA:
+                return LavaScene;
+        }
+
+        return null;
+    }
 }
 
 public struct LayerName
@@ -27,6 +54,8 @@ public struct Path {
     public static string questDataPath = "QuestDatas";
     public static string userExpDataPath = "SettingData/UserExpData";
     public static string relicDataPath = "RelicDatas";
-    public static string forestWavePath = "WaveDatas/Forest";
-    public static string forestMonsterPath = "MonsterDatas/Forest/";
+
+    public static string wavePath = "WaveDatas/";
+    public static string monsterPath = "MonsterDatas/";
+
 }

@@ -9,12 +9,12 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public partial class NetworkLobbyManager : MonoBehaviour
 {
 
     [SerializeField] private float heartBeatInterval;
+    private MapType mapType;
     private Coroutine heartBeatCoroutine = null;
 
     #region About Network HeartBeat
@@ -108,7 +108,7 @@ public partial class NetworkLobbyManager : MonoBehaviour
 
     #region About Random Matching
 
-    public async Task<bool> StartRandomMatching()
+    public async Task<bool> StartRandomMatching(MapType mapType)
     {
         if (!AuthenticationService.Instance.IsSignedIn)
         {
@@ -117,16 +117,16 @@ public partial class NetworkLobbyManager : MonoBehaviour
 #endif
             return false;
         }
-
+        Debug.Log(mapType);
         currentLobby = await FindAvailableLobby();
 
         if (currentLobby == null)
         {
-            return await CreateNewLobby();
+            return await CreateNewLobby(mapType);
         }
         else
         {
-            return await QuickJoinLobby();
+            return await QuickJoinLobby(mapType);
         }
     }
 
@@ -171,14 +171,14 @@ public partial class NetworkLobbyManager : MonoBehaviour
         }
     }
 
-    private async Task<bool> CreateNewLobby()
+    private async Task<bool> CreateNewLobby(MapType mapType)
     {
         try
         {
             Allocation allocation = await AllocateRelay();
             string joinCode = await GetRelayJoinCode(allocation);
 
-            currentLobby = await LobbyService.Instance.CreateLobbyAsync("랜덤 매칭방", maxPlayers);
+            currentLobby = await LobbyService.Instance.CreateLobbyAsync(LobbyInfo.LobbyName + mapType.ToString(), maxPlayers);
 #if UNITY_EDITOR
             Debug.Log("로비 생성" + currentLobby.Id);
 #endif
@@ -193,6 +193,7 @@ public partial class NetworkLobbyManager : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, EncryptionType.dEncryption));
 
             heartBeatCoroutine = StartCoroutine(NetworkHeartBeatCoroutine());
+            this.mapType = mapType;
             StartHost();
 
             return true;
@@ -206,11 +207,21 @@ public partial class NetworkLobbyManager : MonoBehaviour
         }
     }
 
-    private async Task<bool> QuickJoinLobby()
+    private async Task<bool> QuickJoinLobby(MapType mapType)
     {
         try
         {
-            currentLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
+            QuickJoinLobbyOptions options = new QuickJoinLobbyOptions();
+
+            options.Filter = new List<QueryFilter>()
+            {
+                new QueryFilter(
+                    field: QueryFilter.FieldOptions.Name,
+                    op: QueryFilter.OpOptions.EQ,
+                    value: LobbyInfo.LobbyName + mapType.ToString())
+            };
+
+            currentLobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
 #if UNITY_EDITOR
             Debug.Log("로비 참여" + currentLobby.Id);
 #endif
@@ -278,7 +289,8 @@ public partial class NetworkLobbyManager : MonoBehaviour
     {
         MainSceneUI.instance.ShowMatchingCompleteUI();
         NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
-        if (NetUtils.IsHost()) {
+        if (NetUtils.IsHost())
+        {
             await DestroyLobby();
             Invoke("DelayClientConnect", 2f);
         }

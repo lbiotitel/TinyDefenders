@@ -114,7 +114,7 @@ Transform:
   m_GameObject: {fileID: 702601511872342521}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.08573281}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -172,7 +172,6 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0.83993816, a: 0.7058824}
   - {r: 1, g: 0.46568146, b: 0, a: 0.7058824}
   circleSpriteRenderer: {fileID: 5237867395512623736}
-  upgradeParticle: {fileID: 0}
   circleRadius: 0.25
   heroSellSFX: HeroSellSFX
   holderName: 
@@ -379,13 +378,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7294984788876019758}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.23344536, y: 0, z: 0, w: 0.97236997}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6608001366468357054}
-  m_LocalEulerAnglesHint: {x: 27, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &690464248760740023
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -431,7 +430,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 670338f3ec3102f429e500412516960a, type: 3}
-  m_Color: {r: 0.24954997, g: 0.9622642, b: 0.24056605, a: 0.74509805}
+  m_Color: {r: 0.09338968, g: 0.9811321, b: 0.0786757, a: 0.21960784}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

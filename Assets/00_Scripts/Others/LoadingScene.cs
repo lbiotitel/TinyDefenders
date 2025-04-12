@@ -17,6 +17,7 @@ public class LoadingScene : NetworkBehaviour
     private int loadIndex = 0;
     private string hostName;
     private string clientName;
+    private string mapName;
     private Dictionary<string, bool> ownRelicSODic;
 
     private void Awake()
@@ -24,8 +25,9 @@ public class LoadingScene : NetworkBehaviour
         loadingSlider.value = 0f;
     }
 
-    public void StartLoadingScene()
+    public void StartLoadingScene(string mapName)
     {
+        this.mapName = mapName;
         if (!NetUtils.IsHost()) SendUserNameServerRpc(CloudManager.instance.GetUserData().userName);
         NetworkManager.Singleton.SceneManager.OnLoadComplete += OnInGameSceneLoaded;
         LoadResource();
@@ -59,7 +61,7 @@ public class LoadingScene : NetworkBehaviour
                 if (!gameStart)
                 {
                     gameStart = true;
-                    NetworkManager.SceneManager.LoadScene(SceneName.ForestScene, LoadSceneMode.Single);
+                    NetworkManager.SceneManager.LoadScene(mapName, LoadSceneMode.Single);
                 }
             }
         }
@@ -116,8 +118,9 @@ public class LoadingScene : NetworkBehaviour
 
     private void OnInGameSceneLoaded(ulong clientId, string sceneName, LoadSceneMode mode)
     {
-        if (sceneName == SceneName.ForestScene)
+        if (sceneName == mapName)
         {
+            GameManager.instance.InitMap(mapName);
             GameManager.instance.SetSpawner();
             GameManager.instance.InitAllUserName(hostName, clientName);
             GameManager.instance.InitRelicDatas(ownRelicSODic);

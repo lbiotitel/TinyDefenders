@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,7 @@ public class GameManager : NetworkBehaviour
     private List<Monster> monsterList = new List<Monster>();
 
     private WaveScriptable[] waveData = null;
+    private string mapName;
 
 
     private void Update()
@@ -59,11 +61,18 @@ public class GameManager : NetworkBehaviour
     {
         if (IsServer)
         {
-            waveData = Resources.LoadAll<WaveScriptable>(Path.forestWavePath);
+            waveData = Resources.LoadAll<WaveScriptable>(Path.wavePath + mapName);
             waveData = waveData.OrderBy(wave => int.Parse(wave.name)).ToArray();
             StartWave();
         }
     }
+
+    public void InitMap(string mapName)
+    {
+        this.mapName = mapName;
+    }
+
+    public string GetMapName() { return mapName; }
 
 
     public void SetSpawner()
@@ -396,6 +405,7 @@ public class GameManager : NetworkBehaviour
         NetworkManager.Singleton.Shutdown();
         SceneManager.LoadScene(SceneName.ResultScene);
     }
+
 
 
     #endregion

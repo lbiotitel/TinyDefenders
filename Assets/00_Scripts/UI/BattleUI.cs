@@ -34,6 +34,9 @@ public class BattleUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI userNameText;
     [SerializeField] private TextMeshProUGUI userLevelText;
 
+    [Header("Map UI")]
+    [SerializeField] private MapUI mapUI;
+
 
     private void Awake()
     {
@@ -156,8 +159,9 @@ public class BattleUI : MonoBehaviour
         ShowMathcingUI();
         matchingTime = 0f;
         randomMatchingCancleButton.interactable = false;
+        MapType mapType = mapUI.GetMapType();    
 
-        bool result = await NetworkLobbyManager.instance.StartRandomMatching();
+        bool result = await NetworkLobbyManager.instance.StartRandomMatching(mapType);
 
         if (result)
         {

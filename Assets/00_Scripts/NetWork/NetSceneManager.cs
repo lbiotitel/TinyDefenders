@@ -34,7 +34,8 @@ public partial class NetworkLobbyManager : MonoBehaviour
         {
             NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
             LoadingScene loadingScene = FindFirstObjectByType<LoadingScene>();
-            loadingScene.StartLoadingScene();
+            string mapName = SceneName.GetMapName(mapType);
+            loadingScene.StartLoadingScene(mapName);
         }
     }
 }

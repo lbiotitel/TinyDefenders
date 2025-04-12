@@ -1,5 +1,11 @@
 using UnityEngine;
 
+public enum MapType { 
+    FOREST,
+    DESERT,
+    CAVE,
+    LAVA
+}
 
 public enum NetworkMessageType
 {

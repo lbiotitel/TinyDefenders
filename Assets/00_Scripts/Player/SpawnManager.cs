@@ -95,6 +95,9 @@ public class SpawnManager : NetworkBehaviour
     {
 
         BoundsInt bounds = tileMap.cellBounds;
+        
+        float cellWidth = tileMap.cellSize.x / 2f;
+        float cellHeight = tileMap.cellSize.y / 2f;
 
         for (int row = bounds.yMax; row >= bounds.yMin; row--)
         {
@@ -105,7 +108,7 @@ public class SpawnManager : NetworkBehaviour
 
                 Vector3 worldPos = tileMap.CellToWorld(tilePosition);
 
-                spawnList.Add(new SpawnNode(worldPos + new Vector3(0, 0.30f, 0), false));
+                spawnList.Add(new SpawnNode(worldPos + new Vector3(cellWidth,cellHeight,0), false));
             }
         }
 
@@ -297,7 +300,8 @@ public class SpawnManager : NetworkBehaviour
     {
         if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject monsterNetworkObject))
         {
-            MonsterScriptable monsterData = Resources.Load<MonsterScriptable>(Path.forestMonsterPath + monsterName);
+            string monsterPath = Path.monsterPath + GameManager.instance.GetMapName() + "/" + monsterName;
+            MonsterScriptable monsterData = Resources.Load<MonsterScriptable>(monsterPath);
 
             List<Transform> movePoints = isServer ? ServerMonsterMovePosition : ClientMonsterMovePosition;
 
