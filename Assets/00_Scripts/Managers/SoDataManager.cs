@@ -161,7 +161,7 @@ public class SoDataManager : MonoBehaviour
         for (int rarity = (int)HeroRarity.Uncommon; rarity <= (int)HeroRarity.Legend; rarity++)
         {
             string rare = ((HeroRarity)rarity).ToString();
-            CombineSciptable[] combineData = Resources.LoadAll<CombineSciptable>($"CombineHeroData/{rare}");
+            CombineSciptable[] combineData = Resources.LoadAll<CombineSciptable>($"02CombineHeroData/{rare}");
             foreach (var data in combineData)
             {
                 combineDatas.Add(data);
@@ -246,7 +246,7 @@ public class SoDataManager : MonoBehaviour
         for (int rarity = 0; rarity <= (int)HeroRarity.Legend; rarity++)
         {
             string rare = ((HeroRarity)rarity).ToString();
-            HeroScriptable[] datas = Resources.LoadAll<HeroScriptable>($"HeroDatas/{rare}");
+            HeroScriptable[] datas = Resources.LoadAll<HeroScriptable>($"01HeroDatas/{rare}");
 
             for (int heroIndex = 0; heroIndex < datas.Length; heroIndex++)
             {
@@ -309,7 +309,7 @@ public class SoDataManager : MonoBehaviour
         for (int rarity = 0; rarity <= (int)CardRarity.Rare; rarity++)
         {
             string rare = ((CardRarity)rarity).ToString();
-            CardSO[] datas = Resources.LoadAll<CardSO>($"Card/{rare}");
+            CardSO[] datas = Resources.LoadAll<CardSO>($"04Card/{rare}");
 
             for (int cardIndex = 0; cardIndex < datas.Length; cardIndex++)
             {

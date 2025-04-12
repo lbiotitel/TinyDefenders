@@ -193,7 +193,9 @@ public partial class NetworkLobbyManager : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, EncryptionType.dEncryption));
 
             heartBeatCoroutine = StartCoroutine(NetworkHeartBeatCoroutine());
+
             this.mapType = mapType;
+            
             StartHost();
 
             return true;
@@ -231,6 +233,8 @@ public partial class NetworkLobbyManager : MonoBehaviour
             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(joinAllocation, EncryptionType.dEncryption));
+
+            this.mapType = mapType;
 
             StartClient();
 

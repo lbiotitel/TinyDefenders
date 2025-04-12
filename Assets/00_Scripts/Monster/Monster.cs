@@ -49,7 +49,7 @@ public partial class Monster : Entity
     {
         int currentWave = GameManager.instance.GetCurrentWave();
         maxHp = data.monsterHp;
-        maxHp = maxHp + (maxHp * (currentWave / 2f));
+        maxHp = maxHp + (maxHp * (currentWave / 4f));
         hp = maxHp;
     }
 

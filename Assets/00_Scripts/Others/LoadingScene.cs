@@ -13,6 +13,9 @@ public class LoadingScene : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI loadingText;
     private bool hostReady = false; 
     private bool clientReady = false;
+    private bool hostNameReady = false;
+    private bool clientNameReady = false;
+
     private bool gameStart = false;
     private int loadIndex = 0;
     private string hostName;
@@ -54,7 +57,7 @@ public class LoadingScene : NetworkBehaviour
 
     private void CheckAllPlayerReady()
     {
-        if (hostReady && clientReady)
+        if (hostReady && clientReady && hostNameReady && clientNameReady)
         {
             if (NetUtils.GetPlayerNetworkType() == PlayerNetworkType.HOST)
             {
@@ -110,6 +113,8 @@ public class LoadingScene : NetworkBehaviour
     {
         this.hostName = hostName;
         this.clientName = clientName;
+        hostNameReady = true;
+        clientNameReady = true;
     }
 
 

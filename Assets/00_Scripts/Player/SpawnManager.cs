@@ -404,7 +404,7 @@ public class SpawnManager : NetworkBehaviour
 
     private IEnumerator SummonCoroutine(string heroName, Transform cardTransform)
     {
-        Vector3 targetPos = SpawnManager.instance.GetHolderPosition();
+        Vector3 targetPos = GetHolderPosition();
 
         Vector3 cardWorldPosition = Camera.main.ScreenToWorldPoint(cardTransform.position);
         GameObject effect = Instantiate(summonEffect);
@@ -431,7 +431,7 @@ public class SpawnManager : NetworkBehaviour
         }
 
         Destroy(effect);
-        SpawnManager.instance.Summon(heroName);
+        Summon(heroName);
     }
 
 

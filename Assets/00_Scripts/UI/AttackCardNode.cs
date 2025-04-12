@@ -39,9 +39,8 @@ public class AttackCardNode : CardNodeBase
     protected void ShowRange()
     {
         AttackCardSO attackCardSO = cardSO as AttackCardSO;
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        worldPos.z = 0f;
-        InGameUI.instance.ShowCardRangeUI(worldPos, attackCardSO.atkRange);
+        Vector2 mousePos = Input.mousePosition;
+        InGameUI.instance.ShowCardRangeUI(mousePos, attackCardSO.atkRange);
     }
 
     protected void HideRange()

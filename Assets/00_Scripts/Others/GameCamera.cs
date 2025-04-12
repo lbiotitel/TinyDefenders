@@ -28,51 +28,8 @@ public class GameCamera : MonoBehaviour
     private void Update()
     {
         CheckClickHero();
-        CheckCameraRange();
-        CameraZoom();
     }
 
-    private void FixedUpdate()
-    {
-        CameraMovement();
-    }
-
-
-    private void CameraMovement()
-    {
-        Vector2 newCameraPos = Vector3.zero;
-        if (Input.GetKey(KeyCode.W))
-            newCameraPos.y = 1;
-        if (Input.GetKey(KeyCode.S))
-            newCameraPos.y = -1;
-        if (Input.GetKey(KeyCode.D))
-            newCameraPos.x = 1;
-        if (Input.GetKey(KeyCode.A))
-            newCameraPos.x = -1;
-
-        Vector3 moveDir = newCameraPos.normalized;
-        Vector3 newPos = transform.position + moveDir * cameraSpeed;
-
-        transform.position = Vector3.Lerp(transform.position, newPos, Time.deltaTime * 2f);
-    }
-
-    private void CameraZoom()
-    {
-        float zoomDir = Input.mouseScrollDelta.y;
-        float destination = cam.orthographicSize + (zoomDir * zoomSpeed);
-        destination = Mathf.Clamp(destination, minZoomValue, maxZoomValue);
-        cam.orthographicSize = destination;
-    }
-
-    private void CheckCameraRange()
-    {
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, cameraClampCollider.bounds.min.x,
-            cameraClampCollider.bounds.max.x),
-            Mathf.Clamp(transform.position.y, cameraClampCollider.bounds.min.y,
-            cameraClampCollider.bounds.max.y),
-            transform.position.z);
-
-    }
 
     private void CheckClickHero()
     {

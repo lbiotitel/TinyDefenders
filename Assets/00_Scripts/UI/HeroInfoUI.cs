@@ -64,6 +64,9 @@ public class HeroInfoUI : MonoBehaviour
 
         this.hero = hero;
 
+        Debug.Log(heroData.GetHeroBaseAtkRange());
+        Debug.Log(heroData.GetHeroAtkSpeed());
+
         this.heroImage.sprite = heroData.heroMainImage;
         this.heroNameText.text = heroData.GetLocalizationName();
         this.heroDesc.text = heroData.GetLocalizationDesc();
@@ -73,11 +76,11 @@ public class HeroInfoUI : MonoBehaviour
         if (heroData.GetHeroBonusAtk() != 0) this.attkackBounusText.text = string.Format("<color=#00FF00>(+{0:N0})", heroData.GetHeroBonusAtk());
         else this.attkackBounusText.text = string.Empty;
 
-        this.attackSpeedText.text = string.Format("{0:2}", heroData.GetHeroBaseAtkSpeed());
+        this.attackSpeedText.text = string.Format("{0:F2}", heroData.GetHeroBaseAtkSpeed());
         if (heroData.GetHeroBounusAtkSpeed() != 0) this.attackSpeedBounusText.text = string.Format("<color=#00FF00>(+{0:F2})", heroData.GetHeroBounusAtkSpeed());
         else this.attackSpeedBounusText.text = string.Empty;
 
-        this.attackRangeText.text = string.Format("{0:2}", heroData.GetHeroBaseAtkRange());
+        this.attackRangeText.text = string.Format("{0:F2}", heroData.GetHeroBaseAtkRange());
         if (heroData.GetHeroBonusAtkRange() != 0) this.attackRangeBonusText.text = string.Format("<color=#00FF00>(+{0:F2})", heroData.GetHeroBonusAtkRange());
         else this.attackRangeBonusText.text = string.Empty;
 

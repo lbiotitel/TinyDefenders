@@ -49,13 +49,14 @@ public struct LayerName
 }
 
 public struct Path { 
-    public static string inGameProbabilitySettingPath = "SettingData/InGameProbabilitySettingData";
-    public static string heroSynergyDataPath = "HeroSynergyDatas";
-    public static string questDataPath = "QuestDatas";
-    public static string userExpDataPath = "SettingData/UserExpData";
-    public static string relicDataPath = "RelicDatas";
+    public static string inGameProbabilitySettingPath = "09SettingData/InGameProbabilitySettingData";
+    public static string heroSynergyDataPath = "03HeroSynergyDatas";
+    public static string questDataPath = "07QuestDatas";
+    public static string userExpDataPath = "09SettingData/UserExpData";
+    public static string relicDataPath = "08RelicDatas";
+    public static string gameSettingDataPath = "09SettingData/GameSettingSO";   
 
-    public static string wavePath = "WaveDatas/";
-    public static string monsterPath = "MonsterDatas/";
+    public static string wavePath = "06WaveDatas/";
+    public static string monsterPath = "05MonsterDatas/";
 
 }

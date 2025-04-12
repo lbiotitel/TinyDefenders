@@ -27,7 +27,7 @@ public class GameSettingManager : MonoBehaviour
 
     private void InitGameSetting()
     {
-        gameSettingData = Resources.Load<GameSettingSO>("SettingData/GameSettingSO");
+        gameSettingData = Resources.Load<GameSettingSO>(Path.gameSettingDataPath);
         gameSettingData.LoadData();
 
         Application.runInBackground = true;

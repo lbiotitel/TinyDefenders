@@ -231,7 +231,7 @@ public class InGameUI : NetworkBehaviour
 
 
     #region About CardRange UI
-    public void ShowCardRangeUI(Vector3 targetPos, float range)
+    public void ShowCardRangeUI(Vector2 targetPos, float range)
     {
         cardRangeUI.transform.position = targetPos;
         cardRangeUI.transform.localScale = Vector3.one * range;
