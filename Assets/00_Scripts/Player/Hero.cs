@@ -235,8 +235,8 @@ public class Hero : Entity
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
-        EventManager.instance.onUpgradeAction -= PlayUpgradeParticle;
         if (GameManager.instance.isGameOver) return;
+        EventManager.instance.onUpgradeAction -= PlayUpgradeParticle;
         SpawnManager.instance.RemoveHero(this);
         Destroy(heroData);
     }

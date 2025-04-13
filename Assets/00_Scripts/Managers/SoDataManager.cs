@@ -28,6 +28,7 @@ public class SoDataManager : MonoBehaviour
     private Dictionary<HeroTribe, HeroSynergySO> heroSynergySODataDic;
     private Dictionary<string, CombineSciptable> combineSODataDic;
     private Dictionary<string, InGameQuestSO> inGameQuestDic;
+    private Dictionary<string, MonsterScriptable> monsterDataDic;
     private Dictionary<string, RelicSO> relicDataDic;
     private ProbabilitySetting inGameDrawHeroCardRarityProbabilitySetting;
     private UserRequireExpSO userExpData;
@@ -191,6 +192,46 @@ public class SoDataManager : MonoBehaviour
         return combineList;
     }
 
+
+
+    #endregion
+
+    #region About Monster Data
+
+    public async Task<bool> InitAllMonsterData(string mapName)
+    {
+        if (monsterDataDic != null)
+        {
+            foreach (var data in monsterDataDic)
+            {
+                Resources.UnloadAsset(data.Value);
+            }
+            monsterDataDic.Clear();
+        }
+
+        monsterDataDic = new Dictionary<string, MonsterScriptable>();
+
+        MonsterScriptable[] monsterDatas = Resources.LoadAll<MonsterScriptable>(Path.monsterPath + mapName);
+
+        await Task.Run(() => {
+            foreach (var data in monsterDatas)
+            {
+                monsterDataDic.Add(data.monsterName, data);
+            }
+        });
+
+        return true;
+    }
+
+    public MonsterScriptable GetMonsterData(string monsterName)
+    {
+        if (monsterDataDic.ContainsKey(monsterName))
+        { 
+            return monsterDataDic[monsterName];
+        }
+
+        return null;
+    }
 
 
     #endregion

@@ -15,6 +15,8 @@ public partial class Monster : Entity
     [SerializeField] private Image hpImageEffect;
     [SerializeField] private float hpAnimeSpeed = 2f;
     [SerializeField] private string monsterDeathSFX;
+    [SerializeField] private AnimationCurve monsterHpCurve;
+
 
     private float speed = 0f;
     public double maxHp { get; private set; }
@@ -34,7 +36,7 @@ public partial class Monster : Entity
 
     #region Monster Init Logic
 
-    public void InitData(MonsterScriptable data, List<Transform> targetLists)
+    public void InitData(MonsterScriptable data, List<Transform> movePointList)
     {
         StartCoroutine(ResetObject());
         CalcMonsterHp(data);
@@ -42,14 +44,15 @@ public partial class Monster : Entity
         speed = originalSpeed = data.monsterSpeed;
         animator.runtimeAnimatorController = data.animatorController;
         monsterType = data.monsterType;
-        this.movePointList = targetLists;
+        this.movePointList = movePointList;
     }
 
     private void CalcMonsterHp(MonsterScriptable data)
     {
         int currentWave = GameManager.instance.GetCurrentWave();
+        float result = monsterHpCurve.Evaluate(currentWave/50f);
         maxHp = data.monsterHp;
-        maxHp = maxHp + (maxHp * (currentWave / 4f));
+        maxHp = maxHp + (maxHp * (result * 1.3f));
         hp = maxHp;
     }
 
