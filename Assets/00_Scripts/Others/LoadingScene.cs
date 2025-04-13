@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,15 +9,21 @@ public class LoadingScene : NetworkBehaviour
 {
     [SerializeField] private Slider loadingSlider;
     [SerializeField] private TextMeshProUGUI loadingText;
-    private bool hostReady = false; 
+    private bool hostReady = false;
     private bool clientReady = false;
     private bool hostNameReady = false;
     private bool clientNameReady = false;
 
     private bool gameStart = false;
     private int loadIndex = 0;
+
     private string hostName;
+    private int hostLevel;
+    private int hostProfileImageIndex;
     private string clientName;
+    private int clientLevel;
+    private int clientProfileImageIndex;
+
     private string mapName;
     private Dictionary<string, bool> ownRelicSODic;
 
@@ -73,7 +77,7 @@ public class LoadingScene : NetworkBehaviour
     private void LoadingTextLogic()
     {
         switch (loadIndex)
-        { 
+        {
             case 0:
                 loadingText.text = "리소스 로드중...";
                 break;
@@ -87,14 +91,15 @@ public class LoadingScene : NetworkBehaviour
 
     [ServerRpc(RequireOwnership = false)]
     private void LoadCompleteServerRpc(int networkType)
-    { 
+    {
         PlayerNetworkType playerNetworkType = (PlayerNetworkType)networkType;
 
         if (playerNetworkType == PlayerNetworkType.HOST)
         {
             hostReady = true;
         }
-        else {
+        else
+        {
             clientReady = true;
         }
     }
@@ -125,13 +130,12 @@ public class LoadingScene : NetworkBehaviour
     {
         if (sceneName == mapName)
         {
-            GameManager.instance.InitMap(mapName);
             GameManager.instance.SetSpawner();
+            GameManager.instance.InitMap(mapName);
             GameManager.instance.InitAllUserName(hostName, clientName);
             GameManager.instance.InitRelicDatas(ownRelicSODic);
             NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnInGameSceneLoaded;
         }
     }
-
 
 }
