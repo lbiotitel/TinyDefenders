@@ -30,6 +30,7 @@ public class InGameQuestUINode : MonoBehaviour
     private void CheckQuest(Hero hero)
     {
         List<Hero> heroList = SpawnManager.instance.GetHeroList(NetUtils.GetPlayerNetworkType());
+
         bool isClear = inGameQuestSO.CheckQuest(ref heroList);
 
         if (isClear)

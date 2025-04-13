@@ -5,13 +5,6 @@ using UnityEngine.EventSystems;
 
 public class GameCamera : MonoBehaviour
 {
-    [SerializeField] private BoxCollider2D cameraClampCollider;
-    private Vector2 cameraRange;
-    [SerializeField] private float cameraSpeed;
-
-    [SerializeField] private float maxZoomValue;
-    [SerializeField] private float minZoomValue;
-    [SerializeField] private float zoomSpeed;
 
     private Camera cam;
     private HeroHolder heroHolder = null;
@@ -47,6 +40,18 @@ public class GameCamera : MonoBehaviour
         {
             MouseButtonUp();
         }
+
+#if UNITY_EDITOR
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            Time.timeScale += 0.5f;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            Time.timeScale -= 0.5f;
+        }
+#endif
     }
 
     private RaycastHit2D GetRayObject()

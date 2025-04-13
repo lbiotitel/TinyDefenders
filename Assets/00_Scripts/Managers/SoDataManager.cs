@@ -47,6 +47,38 @@ public class SoDataManager : MonoBehaviour
         }
     }
 
+    public RelicSO GetRelicData(string relicName)
+    {
+        if (relicDataDic.ContainsKey(relicName))
+        {
+            return relicDataDic[relicName];
+        }
+
+        return null;
+    }
+
+    public RelicSO GetRelicDataByRarity(RelicRarity relicRarity)
+    {
+        List<RelicSO> relicRarityList = new List<RelicSO>();
+
+        foreach (var data in relicDataDic)
+        {
+            if (data.Value.relicRarity == relicRarity)
+            {
+                relicRarityList.Add(data.Value);
+            }
+        }
+
+        if (relicRarityList.Count > 0)
+        {
+            int selectRelic = Random.Range(0, relicRarityList.Count);
+            return relicRarityList[selectRelic];
+        }
+
+        return null;
+    }
+
+
     public List<RelicSO> GetAllRelicData()
     { 
         List<RelicSO> relicDataSOs = new List<RelicSO>();

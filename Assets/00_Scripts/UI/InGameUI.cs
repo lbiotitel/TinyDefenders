@@ -23,7 +23,6 @@ public class InGameUI : NetworkBehaviour
 
     [SerializeField] private TextMeshProUGUI waveText;
     [SerializeField] private TextMeshProUGUI timerText;
-    [SerializeField] private TextMeshProUGUI monsterNameText;
 
     [Header("Game Start UI")]
     [SerializeField] private Animator profileAnimator;
@@ -39,6 +38,9 @@ public class InGameUI : NetworkBehaviour
 
     [Header("Hero Combine UI")]
     [SerializeField] private CombineUI combineUI;
+
+    [Header("Select Relic UI")]
+    [SerializeField] private SelectRelicCardUI selectRelicCardUI;
 
     [Header("Quest UI")]
     [SerializeField] private InGameQuestUI inGameQuestUI;
@@ -66,6 +68,7 @@ public class InGameUI : NetworkBehaviour
     [Header("Gold Text Prefab")]
     [SerializeField] private Transform getGoldTextTransform;
     [SerializeField] private GameObject getGoldPrefab;
+
 
   
     private void Start()
@@ -100,7 +103,8 @@ public class InGameUI : NetworkBehaviour
 
     private void InitEvent()
     {
-        GameManager.instance.onTimerUp += DrawWaveAndTime;
+        EventManager.instance.onTimerTickAction+= DrawWaveAndTime;
+        EventManager.instance.onBossWaveClear += ShowSelectRelicUI;
     }
 
     public void ShowWaveUI()
@@ -206,17 +210,16 @@ public class InGameUI : NetworkBehaviour
 
     }
 
-    private void DrawWaveAndTime(string monsterName)
+    private void DrawWaveAndTime(float time)
     {
-        timerText.text = GetTimeString();
+        timerText.text = GetTimeString(time);
         waveText.text = "WAVE " + GameManager.instance.GetCurrentWave().ToString();
-        monsterNameText.text = monsterName;
     }
 
-    private string GetTimeString()
+    private string GetTimeString(float time)
     {
-        int minutes = Mathf.FloorToInt(GameManager.instance.timer / 60);
-        int seconds = Mathf.FloorToInt(GameManager.instance.timer % 60);
+        int minutes = Mathf.FloorToInt(time / 60);
+        int seconds = Mathf.FloorToInt(time % 60);
 
         return string.Format("{0:D2}:{1:D2}", minutes, seconds);
     }
@@ -264,4 +267,16 @@ public class InGameUI : NetworkBehaviour
 
     #endregion
 
+
+    #region Select Relic Card UI
+    private void ShowSelectRelicUI()
+    { 
+        selectRelicCardUI.ShowSelectRelicCardUI();
+    }
+
+    private void HideSelectRelicUI()
+    {
+        selectRelicCardUI.HideSelectRelicUI();
+    }
+    #endregion
 }

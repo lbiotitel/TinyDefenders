@@ -92,7 +92,8 @@ public class PlayerStatManager : MonoBehaviour
             clientHeroSynergyDic[hero.GetHeroData().heroTribe]?.IncreaseTribeCount();
         }
 
-        CheckSynergy();
+        if(NetUtils.IsHost())
+            CheckSynergy();
     }
 
     public void RemoveHero(Hero hero)

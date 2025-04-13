@@ -9,6 +9,7 @@ public class RelicSO : ScriptableObject
     public Sprite relicImage;
     public int requireLevel;
     public int requirePoint;
+    public RelicRarity relicRarity = RelicRarity.Normal;
     [SerializeField] private RelicBase relicBasePrefab;
 
     private bool relicUnlock = false;

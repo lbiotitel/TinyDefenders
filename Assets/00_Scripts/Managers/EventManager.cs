@@ -22,10 +22,13 @@ public class EventManager : MonoBehaviour
     public UnityAction<Hero> onHeroStartSummonAction;
     public UnityAction onHeroEndSummonAction;
 
+    public UnityAction<float> onTimerTickAction;
+
     public UnityAction<Hero> onHeroDespawnAction;
     public UnityAction<Hero,Monster> onHeroAttackToMonsterAction;
     public UnityAction onDrawCardAction;
     public UnityAction onGameStartAction;
+    public UnityAction onBossWaveClear;
     public UnityAction<HeroTribe, PlayerNetworkType> onUpgradeAction;
     public UnityAction<Monster> onMonsterDeadAction;
 
@@ -77,6 +80,8 @@ public class EventManager : MonoBehaviour
         ReleaseAction(ref onMonsterDeadAction);
         ReleaseAction(ref onHeroStartSummonAction);
         ReleaseAction(ref onHeroEndSummonAction);
+        ReleaseAction(ref onBossWaveClear);
+        ReleaseAction(ref onTimerTickAction);
         onHeroUseSkillAction = null;
         instance = null;
     }

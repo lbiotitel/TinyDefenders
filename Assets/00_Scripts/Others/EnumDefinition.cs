@@ -97,6 +97,15 @@ public enum CardRarity {
     Legend
 }
 
+public enum RelicRarity
+{
+    Normal,
+    Uncommon,
+    Rare,
+    Legend
+}
+
+
 public enum HeroRarity { 
     Normal,
     Uncommon,

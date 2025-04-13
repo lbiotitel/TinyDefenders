@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public delegate void OnTimerUpEventHandler(string monsterName);
 public class GameManager : NetworkBehaviour
 {
     public static GameManager instance = null;
@@ -27,6 +25,7 @@ public class GameManager : NetworkBehaviour
 
     private int currentWave = 0;
     public float timer = 100000;
+    public float selectRelicTime = 20f;
     public int currentMonsterCount = 0;
 
     public int warningMonsterCount;
@@ -42,18 +41,25 @@ public class GameManager : NetworkBehaviour
     public double friendDamage = 0f;
 
     //event
-    public event OnTimerUpEventHandler onTimerUp;
 
     private List<Monster> monsterList = new List<Monster>();
 
     private WaveScriptable[] waveData = null;
+    private WaveScriptable currentWaveData = null;
+    private const int bossKillCount = 2;
+    private int currentbossKillCount = 0;
     private string mapName;
+
+
+    private void Start()
+    {
+        InitGameManager();
+    }
 
 
     private void Update()
     {
         CheckEndProfileAnimation();
-        WaveLogic();
     }
 
     #region Game Start Logic
@@ -63,7 +69,7 @@ public class GameManager : NetworkBehaviour
         {
             waveData = Resources.LoadAll<WaveScriptable>(Path.wavePath + mapName);
             waveData = waveData.OrderBy(wave => int.Parse(wave.name)).ToArray();
-            StartWave();
+
         }
     }
 
@@ -95,14 +101,14 @@ public class GameManager : NetworkBehaviour
         InGameUI.instance.InitAllUserName(hostName, clientName);
     }
 
-    public void InitRelicDatas(Dictionary<string,bool> ownRelicData)
+    public void InitRelicDatas(Dictionary<string, bool> ownRelicData)
     {
         List<RelicSO> relicList = SoDataManager.instance.GetAllRelicData();
 
         foreach (var relic in relicList)
         {
             if (ownRelicData.ContainsKey(relic.relicName))
-            { 
+            {
                 bool isActive = ownRelicData[relic.relicName];
                 if (isActive)
                 {
@@ -132,7 +138,7 @@ public class GameManager : NetworkBehaviour
 
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         {
-            if(NetUtils.IsHost())StartCoroutine(ShowCountDown());
+            if (NetUtils.IsHost()) StartCoroutine(ShowCountDown());
         }
     }
 
@@ -143,13 +149,13 @@ public class GameManager : NetworkBehaviour
         for (int i = 3; i >= 1; i--)
         {
             ShowCountDownClientRpc(i);
-            if(i == 1)yield return new WaitForSeconds(0.8f);
+            if (i == 1) yield return new WaitForSeconds(0.8f);
             else yield return new WaitForSeconds(1f);
         }
 
         ShowCountDownClientRpc(0);
 
-        if (NetUtils.IsHost()) InitGameManager();
+        if (NetUtils.IsHost()) StartWave();
     }
 
     [ClientRpc]
@@ -167,77 +173,82 @@ public class GameManager : NetworkBehaviour
 
 
     #region Game Wave Logic
-    private void WaveLogic()
-    {
-        if (!isGameStart) return;
-        if (waveData == null) return;
-        if (IsServer)
-        {
-            bool waveUI = false;
-            if (timer > 0)
-            {
-                timer -= Time.deltaTime;
-                timer = Mathf.Max(timer, 0);
-            }
-            else
-            {
-                waveUI = true;
-                StartWave();
-            }
-            NotifyTimerClientRpc(
-                timer,
-                currentWave,
-                waveUI,
-                waveData[currentWave - 1].bossWave,
-                waveData[currentWave - 1].spawnMonsterData.monsterName);
-        }
-    }
+
 
     private void StartWave()
     {
         currentWave = Mathf.Min(++currentWave, waveData.Length);
-        timer = waveData[currentWave - 1].waveTime;
+        currentWaveData = waveData[currentWave - 1];
+        float waveTime = currentWaveData.waveTime;
+
         SpawnManager.instance.StartMonsterSpawn(
-            waveData[currentWave - 1].spawnMonsterData.monsterName,
-            waveData[currentWave - 1].spawnInterval,
-            waveData[currentWave - 1].waveMonsterCount);
+            currentWaveData.spawnMonsterData.monsterName,
+            currentWaveData.spawnInterval,
+            currentWaveData.waveMonsterCount);
+
+        StartCoroutine(WaveTimeCoroutine(waveTime));
     }
 
+    private IEnumerator WaveTimeCoroutine(float waveTime)
+    {
+        timer = waveTime;
+        NotifyTimerClientRpc(timer, currentWave);
+        ShowWaveUIClientRpc(currentWaveData.bossWave, currentWaveData.spawnMonsterData.monsterName);
+
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            NotifyTimerClientRpc(timer, currentWave);
+
+            yield return null;
+        }
+
+        StartWave();
+    }
+
+
     [ClientRpc]
-    private void NotifyTimerClientRpc(float time, int wave, bool waveUI, bool isBoss, string monsterName)
+    private void NotifyTimerClientRpc(float time, int wave)
     {
         this.timer = time;
         this.currentWave = wave;
-        if (waveUI)
-        {
-            if (!isBoss)
-                InGameUI.instance.ShowWaveUI();
-            else
-                InGameUI.instance.ShowBossWaveUI(monsterName);
-        }
-        onTimerUp?.Invoke(monsterName);
+        EventManager.instance.onTimerTickAction?.Invoke(time);
     }
+
+    [ClientRpc]
+    private void ShowWaveUIClientRpc(bool isBoss, string monsterName)
+    {
+        if (!isBoss)
+            InGameUI.instance.ShowWaveUI();
+        else
+            InGameUI.instance.ShowBossWaveUI(monsterName);
+    }
+
 
     public void BossMonsterDead()
     {
-        if (timer > 0)
+        currentbossKillCount++;
+        if (currentbossKillCount == bossKillCount)
         {
-            StartWave();
-            NotifyTimerClientRpc(
-                 timer,
-                 currentWave,
-                 true,
-                 waveData[currentWave - 1].bossWave,
-                 waveData[currentWave - 1].spawnMonsterData.monsterName);
-        }
-        else
-        {
-            GameOver();
+            NetworkRpcManager.instance.BossClearEventClientRpc();
+            StartCoroutine(SelectRelicCoroutine());
         }
     }
 
+
+    private IEnumerator SelectRelicCoroutine()
+    {
+        yield return new WaitForSeconds(selectRelicTime);
+
+        StartWave();
+        NotifyTimerClientRpc(timer, currentWave);
+
+        currentbossKillCount = 0;
+    }
+
+
     public int GetCurrentWave()
-    { 
+    {
         return currentWave;
     }
 
@@ -394,7 +405,7 @@ public class GameManager : NetworkBehaviour
         {
             elapsedTime -= Time.deltaTime;
             percent = elapsedTime / gameStopTime;
-            Time.timeScale = Mathf.Lerp(Time.timeScale,0,percent);
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 0, percent);
             yield return null;
         }
     }

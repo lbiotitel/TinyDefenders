@@ -274,5 +274,21 @@ public class NetworkRpcManager : NetworkBehaviour
     }
 
 
+
+    #endregion
+
+
+    #region Game Progress
+
+    [ClientRpc]
+    public void BossClearEventClientRpc()
+    {
+        EventManager.instance.onBossWaveClear?.Invoke();
+        Time.timeScale = 0f;
+    }
+
+
+
+
     #endregion
 }

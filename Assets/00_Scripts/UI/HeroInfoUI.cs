@@ -5,18 +5,19 @@ using UnityEngine.UI;
 public class HeroInfoUI : MonoBehaviour
 {
     [SerializeField] private Image heroImage;
-    [SerializeField] private TextMeshProUGUI heroNameText;
-    [SerializeField] private TextMeshProUGUI heroRarity;
-    [SerializeField] private TextMeshProUGUI heroDesc;
-    [SerializeField] private TextMeshProUGUI attackText;
-    [SerializeField] private TextMeshProUGUI attkackBounusText;
-    [SerializeField] private TextMeshProUGUI attackSpeedText;
-    [SerializeField] private TextMeshProUGUI attackSpeedBounusText;
-    [SerializeField] private TextMeshProUGUI attackRangeText;
-    [SerializeField] private TextMeshProUGUI attackRangeBonusText;
-    [SerializeField] private TextMeshProUGUI criRateText;
-    [SerializeField] private TextMeshProUGUI criRateBounusText;
-    [SerializeField] private TextMeshProUGUI monsterDamageStack;
+    [SerializeField] private TMP_Text heroNameText;
+    [SerializeField] private TMP_Text heroRarity;
+    [SerializeField] private TMP_Text heroDesc;
+    [SerializeField] private TMP_Text attackText;
+    [SerializeField] private TMP_Text attkackBounusText;
+    [SerializeField] private TMP_Text attackSpeedText;
+    [SerializeField] private TMP_Text attackSpeedBounusText;
+    [SerializeField] private TMP_Text attackRangeText;
+    [SerializeField] private TMP_Text attackRangeBonusText;
+    [SerializeField] private TMP_Text criRateText;
+    [SerializeField] private TMP_Text criRateBounusText;
+    [SerializeField] private TMP_Text monsterDamageStack;
+    [SerializeField] private TMP_Text sellCostText;
     [SerializeField] private Button sellButton;
 
     [SerializeField] private GameObject parentObject;
@@ -89,6 +90,7 @@ public class HeroInfoUI : MonoBehaviour
         else this.criRateBounusText.text = string.Empty;
 
         this.monsterDamageStack.text = string.Format("가한 데미지 : {0:N0}", hero.GetDamageStack());
+        this.sellCostText.text = string.Format("판매 가격 : {0:N0}", heroData.heroCost / 2);
     }
 
     public void HideHeroInfoUI()
@@ -98,4 +100,8 @@ public class HeroInfoUI : MonoBehaviour
         animator.SetTrigger("HIDE");
     }
 
+    private void OnDestroy()
+    {
+        sellButton.onClick.RemoveAllListeners();
+    }
 }
