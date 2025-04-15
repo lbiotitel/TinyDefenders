@@ -1,3 +1,4 @@
+using Coffee.UIExtensions;
 using DG.Tweening;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
 {
     [Header("Basic Card Info")]
     [SerializeField] protected Image backgroundCardImage;
+    [SerializeField] protected ParticleSystem cardRarityParticle;
     [SerializeField] protected TextMeshProUGUI cardNameText;
     [SerializeField] protected TextMeshProUGUI cardDescText;
     [SerializeField] protected TextMeshProUGUI cardCostText;
@@ -34,6 +36,7 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
     protected Transform dragParent;
     protected bool isEnlargement = false;
     protected bool isDrag = false;
+    protected float originParticleScale;
 
     protected CardSO cardSO;
 
@@ -48,6 +51,10 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
     {
         cardImage.preserveAspect = true;
         this.cardSO = cardSO;
+
+        var particle = cardRarityParticle.main;
+        particle.startColor = Utils.GetRarityColor(cardSO.cardRarity);
+        originParticleScale = cardRarityParticle.GetComponent<UIParticle>().scale;
 
         cardImage.sprite = cardSO.cardImage;
         cardNameText.text = cardSO.cardName;
@@ -77,9 +84,11 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
         if (IsInDropZone())
         {
             transform.localScale = Vector3.one * 0.5f;
+            cardRarityParticle.GetComponent<UIParticle>().scale = originParticleScale / 2f;
         }
         else {
             transform.localScale = Vector3.one;
+            cardRarityParticle.GetComponent<UIParticle>().scale = originParticleScale;
         }
     }
 

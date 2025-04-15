@@ -16,7 +16,7 @@ public class Utils : MonoBehaviour
     }
 
 
-    public static Color GetRarityColor(HeroRarity rarity)
+    public static Color GetRarityColor(HeroRarity rarity) 
     {
         switch (rarity)
         {
@@ -24,6 +24,19 @@ public class Utils : MonoBehaviour
             case HeroRarity.Uncommon: return new Color(0.16f, 0.47f, 1.0f, 0.7f);
             case HeroRarity.Rare: return new Color(0.56f, 0.14f, 0.66f, 0.7f);
             case HeroRarity.Legend: return new Color(1.0f, 0.84f, 0.0f, 0.7f);
+        }
+
+        return Color.white;
+    }
+
+    public static Color GetRarityColor(CardRarity rarity)
+    {
+        switch (rarity)
+        {
+            case CardRarity.Normal: return new Color(0.69f, 0.69f, 0.69f, 0.7f);
+            case CardRarity.Uncommon: return new Color(0.16f, 0.47f, 1.0f, 0.7f);
+            case CardRarity.Rare: return new Color(0.56f, 0.14f, 0.66f, 0.7f);
+            case CardRarity.Legend: return new Color(1.0f, 0.84f, 0.0f, 0.7f);
         }
 
         return Color.white;
