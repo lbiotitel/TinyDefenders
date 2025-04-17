@@ -64,10 +64,6 @@ public class HeroInfoUI : MonoBehaviour
 
 
         this.hero = hero;
-
-        Debug.Log(heroData.GetHeroBaseAtkRange());
-        Debug.Log(heroData.GetHeroAtkSpeed());
-
         this.heroImage.sprite = heroData.heroMainImage;
         this.heroNameText.text = heroData.GetLocalizationName();
         this.heroDesc.text = heroData.GetLocalizationDesc();

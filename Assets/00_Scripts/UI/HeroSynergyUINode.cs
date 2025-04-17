@@ -29,8 +29,9 @@ public class HeroSynergyUINode : MonoBehaviour,IPointerEnterHandler,IPointerExit
 
         for (int i = 1; i < heroSynergySO.synergyRequireCount.Length; i++) 
         {
-            if(synergyLevel == i) synergyLevelString += string.Format("<color=#00FF00>{0}/", heroSynergySO.synergyRequireCount[i]);
-            else synergyLevelString += string.Format("<color=#FFFFFF>{0}/", heroSynergySO.synergyRequireCount[i]);
+            if(synergyLevel == i) synergyLevelString += string.Format("<color=#00FF00>{0}", heroSynergySO.synergyRequireCount[i]);
+            else synergyLevelString += string.Format("<color=#FFFFFF>{0}", heroSynergySO.synergyRequireCount[i]);
+            synergyLevelString += string.Format("<color=#FFFFFF>/"); ;
         }
 
         synergyLevelString = synergyLevelString.Remove(synergyLevelString.Length - 1, 1);

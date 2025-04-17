@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class HeroSynergyUI : MonoBehaviour
 {
+    [Header("Synergy Info UI Node")]
     [SerializeField] private List<HeroSynergyUINode> synergyUINodes;
     [SerializeField] private HeroSynergyUINode heroSynergyUIPrefab;
     [SerializeField] private Transform contentParent;
