@@ -5,25 +5,38 @@ using UnityEngine.UI;
 
 public class HeroSynergyUINode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 {
-    public TextMeshProUGUI synergyNameText;
-    public TextMeshProUGUI synergyLevelText;
-    [HideInInspector]public HeroSynergySO heroSynergySO;
+    public Image synergyImage;
+    public TMP_Text synergyLevelText;
+    [HideInInspector]public HeroSynergySOBase heroSynergySO;
     private HeroSynergyUI heroSynergyUI;
     private int synergyLevel;
 
-    public void InitSynergyUINode(HeroSynergySO heroSynergySO,HeroSynergyUI heroSynergyUI)
+    public void InitSynergyUINode(HeroSynergySOBase heroSynergySO,HeroSynergyUI heroSynergyUI)
     {
-        this.synergyNameText.text = heroSynergySO.synergyName;
-        this.synergyLevelText.text = "0";
         this.heroSynergySO = heroSynergySO;
         this.heroSynergyUI = heroSynergyUI;
+        this.synergyImage.sprite = heroSynergySO.GetSynergyImage();
+
         gameObject.SetActive(false);
     }
 
     public void ShowSynergyUINode(int synergyLevel)
     {
         this.heroSynergySO.SetCurrentHeroSynergyLevel(synergyLevel);
-        this.synergyLevelText.text = string.Format("LV.{0}", synergyLevel);
+
+        synergyLevelText.text = string.Empty;
+        string synergyLevelString = string.Empty;
+
+        for (int i = 1; i < heroSynergySO.synergyRequireCount.Length; i++) 
+        {
+            if(synergyLevel == i) synergyLevelString += string.Format("<color=#00FF00>{0}/", heroSynergySO.synergyRequireCount[i]);
+            else synergyLevelString += string.Format("<color=#FFFFFF>{0}/", heroSynergySO.synergyRequireCount[i]);
+        }
+
+        synergyLevelString = synergyLevelString.Remove(synergyLevelString.Length - 1, 1);
+
+        synergyLevelText.text = synergyLevelString;
+
         gameObject.SetActive(true);
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -104,7 +105,7 @@ public class NetworkRpcManager : NetworkBehaviour
     [ClientRpc]
     private void SpawnCardAblilityClientRpc(Vector3 targetPos, string cardName)
     {
-        AttackCardSO cardSO = SoDataManager.instance.GetSpellCardScirptableObject(cardName) as AttackCardSO;
+        AttackCardSO cardSO = GameResourceManager.instance.GetSpellCardScirptableObject(cardName) as AttackCardSO;
         CardAbilityBase cardAbilityBase = Instantiate(cardSO.activePrefab, targetPos, Quaternion.identity);
         cardAbilityBase.InitCardAbility(cardSO);
         cardAbilityBase.ActiveAbility();
@@ -194,11 +195,12 @@ public class NetworkRpcManager : NetworkBehaviour
     #region About Hero Synergy 
 
     [ClientRpc]
-    public void GetHHeroSynergyDatasClientRpc(int[] heroTribe, int[] synergyLevel)
+    public void GetHeroSynergyDatasClientRpc(FixedString32Bytes[] synergyName, int[] synergyLevel)
     {
-        for (int i = 0; i < heroTribe.Length; i++)
+        for (int i = 0; i < synergyName.Length; i++)
         {
-            PlayerStatManager.instance.SetClientHeroSynergyData(NetUtils.GetPlayerNetworkType(), (HeroTribe)heroTribe[i], synergyLevel[i]);
+            string synergyNameString = synergyName[i].ToString();   
+            PlayerStatManager.instance.SetClientHeroSynergyData(NetUtils.GetPlayerNetworkType(), synergyNameString, synergyLevel[i]);
         }
     }
 
@@ -206,7 +208,7 @@ public class NetworkRpcManager : NetworkBehaviour
     [ClientRpc]
     public void SpawnDemonExplosionClientRpc(Vector3 targetPos)
     {
-        HeroSynergySO heroSynergySO = SoDataManager.instance.GetHeroSynergySO(HeroTribe.DEMON);
+        HeroSynergySOBase heroSynergySO = GameResourceManager.instance.GetHeroSynergySO(HeroTribe.DEMON.ToString());
         DemonSynergy demonSynergy = heroSynergySO.synergyBase as DemonSynergy;
         GameObject demonExplosionPrefab = demonSynergy.GetExplosionPrefab();
 

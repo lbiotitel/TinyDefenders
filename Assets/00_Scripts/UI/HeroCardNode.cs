@@ -5,18 +5,14 @@ using UnityEngine.UI;
 
 public class HeroCardNode : CardNodeBase
 {
-    [System.Serializable]
-    public class HeroTribeNode {
-        public HeroTribe tribe;
-        public Sprite heroTribeImage;
-    }
-
     [Header("HeroCard Info")]
     [SerializeField] protected TextMeshProUGUI heroAtkText;
     [SerializeField] protected TextMeshProUGUI heroAtkSpeedText;
     [SerializeField] protected TextMeshProUGUI heroAtkRangeText;
+
     [SerializeField] protected Image tribeImage;
-    [SerializeField] private HeroTribeNode[] heroTribeNodes;
+    [SerializeField] protected Image classImage;
+
 
     private HeroCard summonCard;
 
@@ -37,24 +33,14 @@ public class HeroCardNode : CardNodeBase
         cardCostText.text = heroData.heroCost.ToString();
         cardNameText.text = heroData.GetLocalizationName();
         cardDescText.text = heroData.heroDesc;
-        tribeImage.sprite = GetTribeImage(heroData.heroTribe);
+
+        tribeImage.sprite = GameResourceManager.instance.GetTribeImage(heroData.heroTribe);
+        classImage.sprite = GameResourceManager.instance.GetClassImage(heroData.heroClass);
 
         InitCardRarityBackgroundImage((CardRarity)((int)heroData.rarity));
     }
 
-    private Sprite GetTribeImage(HeroTribe heroTribe)
-    {
-        for (int i = 0; i < heroTribeNodes.Length; i++)
-        {
-            if (heroTribeNodes[i].tribe == heroTribe)
-            {
-                return heroTribeNodes[i].heroTribeImage;
-            }
-        }
-
-        return null;
-    }
-
+ 
     protected override void UseCard()
     {
         if (SpawnManager.instance.CanSpawn(NetUtils.GetPlayerNetworkType()))

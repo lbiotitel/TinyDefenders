@@ -1,18 +1,16 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "HeroSynergySO", menuName = "Scriptable Objects/HeroSynergySO")]
-public class HeroSynergySO : ScriptableObject
+public abstract class HeroSynergySOBase : ScriptableObject
 {
-    public HeroTribe synergyTribe;
     public string synergyName;
     [TextArea] public string[] synergyDescription;
 
-    public int[] synergyRequireTribeCount;
+    public int[] synergyRequireCount;
     public HeroSynergyBase synergyBase;
 
-    private int currentTribeCount = 0;
-    private int currentSynergyLevel = 0;
-    private int prevSynergyLevel = 0;
+    protected int currentHeroCount = 0;
+    protected int currentSynergyLevel = 0;
+    protected int prevSynergyLevel = 0;
 
     public void InitSynergy(PlayerNetworkType playerNetworkType)
     {
@@ -23,9 +21,9 @@ public class HeroSynergySO : ScriptableObject
 
     public int CheckSynergyLevel()
     {
-        for (int i = 0; i < synergyRequireTribeCount.Length; i++)
+        for (int i = 1; i < synergyRequireCount.Length; i++)
         {
-            if (currentTribeCount < synergyRequireTribeCount[i]) break;
+            if (currentHeroCount < synergyRequireCount[i]) break;
             currentSynergyLevel = i;
         }
 
@@ -49,8 +47,9 @@ public class HeroSynergySO : ScriptableObject
     }
 
 
+    public abstract Sprite GetSynergyImage();
+    public abstract void IncreaseHeroCount(HeroScriptable heroData);
+    public abstract void DecreaseHeroCount(HeroScriptable heroData);
     public void SetCurrentHeroSynergyLevel(int level) { currentSynergyLevel = level; }
-    public int GetCurrentSynergyLevel() { return currentSynergyLevel; } 
-    public void IncreaseTribeCount() { currentTribeCount++; }
-    public void DecreaseTribeCount() { currentTribeCount = Mathf.Max(--currentTribeCount, 0); }
+    public int GetCurrentSynergyLevel() { return currentSynergyLevel; }
 }

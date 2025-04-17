@@ -2,9 +2,23 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class SoDataManager : MonoBehaviour
+[System.Serializable]
+public class HeroTribeNode
 {
-    public static SoDataManager instance = null;
+    public HeroTribe tribe;
+    public Sprite heroTribeImage;
+}
+
+[System.Serializable]
+public class HeroClassNode
+{
+    public HeroClass heroClass;
+    public Sprite heroClassImage;
+}
+
+public class GameResourceManager : MonoBehaviour
+{
+    public static GameResourceManager instance = null;
 
     private void Awake()
     {
@@ -23,15 +37,53 @@ public class SoDataManager : MonoBehaviour
         }
     }
 
+
+    [SerializeField] private HeroTribeNode[] heroTribeNodes;
+    [SerializeField] private HeroClassNode[] heroClassNodes;
+
     private Dictionary<string, HeroScriptable> heroSciprtableDataDic;
     private Dictionary<string, CardSO> spellCardScriptableDataDic;
-    private Dictionary<HeroTribe, HeroSynergySO> heroSynergySODataDic;
+    private Dictionary<string, HeroSynergySOBase> heroSynergySODataDic;
     private Dictionary<string, CombineSciptable> combineSODataDic;
     private Dictionary<string, InGameQuestSO> inGameQuestDic;
     private Dictionary<string, MonsterScriptable> monsterDataDic;
     private Dictionary<string, RelicSO> relicDataDic;
     private ProbabilitySetting inGameDrawHeroCardRarityProbabilitySetting;
     private UserRequireExpSO userExpData;
+
+
+
+    #region About Icon Image Data
+
+    public Sprite GetTribeImage(HeroTribe heroTribe)
+    {
+        for (int i = 0; i < heroTribeNodes.Length; i++)
+        {
+            if (heroTribeNodes[i].tribe == heroTribe)
+            {
+                return heroTribeNodes[i].heroTribeImage;
+            }
+        }
+
+        return null;
+    }
+
+    public Sprite GetClassImage(HeroClass heroClass)
+    {
+        for (int i = 0; i < heroClassNodes.Length; i++)
+        {
+            if (heroClassNodes[i].heroClass == heroClass)
+            {
+                return heroClassNodes[i].heroClassImage;
+            }
+        }
+
+        return null;
+    }
+
+
+
+    #endregion
 
     #region About Player Skill Data
 
@@ -272,35 +324,35 @@ public class SoDataManager : MonoBehaviour
     #region About Hero Synergy Data 
     public async Task<bool> InitAllHeroSynergyData()
     {
-        heroSynergySODataDic = new Dictionary<HeroTribe, HeroSynergySO>();
+        heroSynergySODataDic = new Dictionary<string, HeroSynergySOBase>();
 
-        HeroSynergySO[] heroSynergySOs = Resources.LoadAll<HeroSynergySO>(Path.heroSynergyDataPath);
+        HeroSynergySOBase[] heroSynergySOs = Resources.LoadAll<HeroSynergySOBase>(Path.heroSynergyDataPath);
 
         await Task.Run(() =>
         {
             foreach (var heroSynergySO in heroSynergySOs)
             {
-                heroSynergySODataDic.Add(heroSynergySO.synergyTribe, heroSynergySO);
+                heroSynergySODataDic.Add(heroSynergySO.synergyName, heroSynergySO);
             }
         });
 
         return true;
     }
 
-    public HeroSynergySO GetHeroSynergySO(HeroTribe synergyTribe)
+    public HeroSynergySOBase GetHeroSynergySO(string synergyName)
     {
-        if (heroSynergySODataDic.ContainsKey(synergyTribe))
+        if (heroSynergySODataDic.ContainsKey(synergyName))
         {
-            return heroSynergySODataDic[synergyTribe];
+            return heroSynergySODataDic[synergyName];
         }
 
         return null;
     }
 
-    public List<HeroSynergySO> GetHeroSynergySOs()
+    public List<HeroSynergySOBase> GetHeroSynergySOs()
     {
-        List<HeroSynergySO> heroSynergySOs = new List<HeroSynergySO>();
-
+        List<HeroSynergySOBase> heroSynergySOs = new List<HeroSynergySOBase>();
+        Debug.Log(heroSynergySODataDic.Count);
         foreach (var data in heroSynergySODataDic)
         {
             heroSynergySOs.Add(data.Value);

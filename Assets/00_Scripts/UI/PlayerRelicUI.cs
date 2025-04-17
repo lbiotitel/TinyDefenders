@@ -46,7 +46,7 @@ public class PlayerRelicUI : MonoBehaviour
         if (relicUINodes.Count > 0)
             relicUINodes.ForEach(x => Destroy(x));
 
-        relicList = SoDataManager.instance.GetAllRelicData();
+        relicList = GameResourceManager.instance.GetAllRelicData();
         Dictionary<string,bool> ownRelicData = CloudManager.instance.GetUserData().relicDataDic;
 
         foreach (var relic in relicList)

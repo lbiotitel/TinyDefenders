@@ -16,7 +16,7 @@ public class InGameQuestUI : MonoBehaviour
 
     private void InitInGameQuestUI()
     { 
-        List<InGameQuestSO> questList = SoDataManager.instance.GetAllInGameQuest();
+        List<InGameQuestSO> questList = GameResourceManager.instance.GetAllInGameQuest();
 
         foreach (var quest in questList)
         {

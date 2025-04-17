@@ -44,6 +44,20 @@ public enum HeroTribe {
     LAST
 }
 
+public enum HeroClass { 
+    WARRIOR,
+    MAGE,
+    ROGUE,
+    TANKER,
+    SUPPROTER,
+    RANGER
+}
+
+public enum SynergyType { 
+    TRIBE,
+    CLASS
+}
+
 public enum DebuffType { 
     SLOW,
     STUN,

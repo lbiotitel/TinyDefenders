@@ -27,7 +27,7 @@ public class HeroSynergyUI : MonoBehaviour
 
     private void InitHeroSynergyUI()
     {
-        List<HeroSynergySO> heroSynergySos = SoDataManager.instance.GetHeroSynergySOs();
+        List<HeroSynergySOBase> heroSynergySos = GameResourceManager.instance.GetHeroSynergySOs();
 
         for (int i = 0; i < heroSynergySos.Count; i++)
         {
@@ -44,21 +44,21 @@ public class HeroSynergyUI : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        List<HeroSynergySO> heroSynergySOs = PlayerStatManager.instance.GetHeroSynergyData(NetUtils.GetPlayerNetworkType());
+        List<HeroSynergySOBase> heroSynergySOs = PlayerStatManager.instance.GetHeroSynergyData(NetUtils.GetPlayerNetworkType());
 
         foreach (var data in heroSynergySOs)
         {
-            ShowHeroSynergyUI(data.synergyTribe, data.GetCurrentSynergyLevel());
+            ShowHeroSynergyUI(data.synergyName, data.GetCurrentSynergyLevel());
         }
     }
 
 
-    private void ShowHeroSynergyUI(HeroTribe heroTribe, int synergyLevel)
+    private void ShowHeroSynergyUI(string synergyName, int synergyLevel)
     {
 
         for (int i = 0; i < synergyUINodes.Count; i++)
         {
-            if (synergyUINodes[i].heroSynergySO.synergyTribe == heroTribe)
+            if (synergyUINodes[i].heroSynergySO.synergyName == synergyName)
             {
                 if (synergyLevel > 0)
                 {

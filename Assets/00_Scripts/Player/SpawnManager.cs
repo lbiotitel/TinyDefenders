@@ -300,7 +300,7 @@ public class SpawnManager : NetworkBehaviour
     {
         if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject monsterNetworkObject))
         {
-            MonsterScriptable monsterData = SoDataManager.instance.GetMonsterData(monsterName);
+            MonsterScriptable monsterData = GameResourceManager.instance.GetMonsterData(monsterName);
 
             List<Transform> movePoints = isServer ? ServerMonsterMovePosition : ClientMonsterMovePosition;
 

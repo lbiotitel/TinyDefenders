@@ -36,9 +36,6 @@ public class InGameUI : NetworkBehaviour
     [Header("Upgarde UI")]
     [SerializeField] private UpgradeUI upgradeUI;
 
-    [Header("Hero Combine UI")]
-    [SerializeField] private CombineUI combineUI;
-
     [Header("Select Relic UI")]
     [SerializeField] private SelectRelicCardUI selectRelicCardUI;
 
@@ -160,7 +157,6 @@ public class InGameUI : NetworkBehaviour
     {
         DrawMainUI();
         CheckOptionKey();
-        CheckHeroRecipeKey();
         CheckHeroUpgradeKey();
     }
 
@@ -179,15 +175,6 @@ public class InGameUI : NetworkBehaviour
         {
             if (!upgradeUI.gameObject.activeSelf) upgradeUI.ShowUpgradeUI();
             else upgradeUI.HideUpgradeUI();
-        }
-    }
-
-    private void CheckHeroRecipeKey()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (!combineUI.gameObject.activeSelf) combineUI.ShowHeroCombineUI();
-            else combineUI.HideHeroCombineUI();
         }
     }
 

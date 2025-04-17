@@ -61,7 +61,7 @@ public class UserData
 
     private void InitHeroDatas()
     {
-        List<HeroScriptable> heroDataList = SoDataManager.instance.GetAllHeroScriptableData();
+        List<HeroScriptable> heroDataList = GameResourceManager.instance.GetAllHeroScriptableData();
 
         if (heroDataList == null) return;
 
@@ -73,7 +73,7 @@ public class UserData
 
     private void InitSpellCardDatas()
     {
-        List<CardSO> spellCardList = SoDataManager.instance.GetAllCardScriptableObjectData();
+        List<CardSO> spellCardList = GameResourceManager.instance.GetAllCardScriptableObjectData();
 
         for (int i = 0; i < spellCardList.Count; i++)
         {
@@ -84,7 +84,7 @@ public class UserData
 
     private void InitRelicDatas()
     {
-        List<RelicSO> relicDataList = SoDataManager.instance.GetAllRelicData();
+        List<RelicSO> relicDataList = GameResourceManager.instance.GetAllRelicData();
 
         for (int i = 0; i < relicDataList.Count; i++)
         {

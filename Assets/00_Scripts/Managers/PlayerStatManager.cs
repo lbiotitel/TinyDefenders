@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Netcode;
 using Unity.Services.Multiplayer;
 using UnityEngine;
@@ -45,9 +46,8 @@ public class PlayerStatManager : MonoBehaviour
     [field: SerializeField] public Stat clientCriDamage;
     [field: SerializeField] public Stat clientDebuffDuration;
 
-
-    private Dictionary<HeroTribe, HeroSynergySO> clientHeroSynergyDic = new Dictionary<HeroTribe, HeroSynergySO>();
-    private Dictionary<HeroTribe, HeroSynergySO> serverHeroSynergyDic = new Dictionary<HeroTribe, HeroSynergySO>();
+    private Dictionary<string, HeroSynergySOBase> clientHeroSynergyDic = new Dictionary<string, HeroSynergySOBase>();
+    private Dictionary<string, HeroSynergySOBase> serverHeroSynergyDic = new Dictionary<string, HeroSynergySOBase>();
 
     private void Start()
     {
@@ -65,17 +65,17 @@ public class PlayerStatManager : MonoBehaviour
     private void InitHeroSynergy()
     {
 
-        List<HeroSynergySO> heroSynergySOs = SoDataManager.instance.GetHeroSynergySOs();
+        List<HeroSynergySOBase> heroSynergySOs = GameResourceManager.instance.GetHeroSynergySOs();
 
         foreach (var heroSynergy in heroSynergySOs)
         {
-            HeroSynergySO clientSynergySos = Instantiate(heroSynergy);
+            HeroSynergySOBase clientSynergySos = Instantiate(heroSynergy);
             clientSynergySos.InitSynergy(PlayerNetworkType.CLIENT);
-            clientHeroSynergyDic.Add(clientSynergySos.synergyTribe, clientSynergySos);
+            clientHeroSynergyDic.Add(clientSynergySos.synergyName, clientSynergySos);
 
-            HeroSynergySO serverHeroSynergySOs = Instantiate(heroSynergy);
+            HeroSynergySOBase serverHeroSynergySOs = Instantiate(heroSynergy);
             serverHeroSynergySOs.InitSynergy(PlayerNetworkType.HOST);
-            serverHeroSynergyDic.Add(serverHeroSynergySOs.synergyTribe, serverHeroSynergySOs);
+            serverHeroSynergyDic.Add(serverHeroSynergySOs.synergyName, serverHeroSynergySOs);
         }
     }
 
@@ -83,13 +83,21 @@ public class PlayerStatManager : MonoBehaviour
     {
         if (GameManager.instance.isGameOver) return;
 
+        HeroScriptable heroData = hero.GetHeroData();
+
         if (hero.heroOwnerNetworkType == PlayerNetworkType.HOST)
         {
-            serverHeroSynergyDic[hero.GetHeroData().heroTribe]?.IncreaseTribeCount();
+            foreach (var synergy in serverHeroSynergyDic)
+            { 
+                synergy.Value.IncreaseHeroCount(heroData);
+            }
         }
         else
         {
-            clientHeroSynergyDic[hero.GetHeroData().heroTribe]?.IncreaseTribeCount();
+            foreach (var synergy in clientHeroSynergyDic)
+            {
+                synergy.Value.IncreaseHeroCount(heroData);
+            }
         }
 
         if(NetUtils.IsHost())
@@ -100,13 +108,21 @@ public class PlayerStatManager : MonoBehaviour
     {
         if (GameManager.instance.isGameOver) return;
 
+        HeroScriptable heroData = hero.GetHeroData();
+
         if (hero.heroOwnerNetworkType == PlayerNetworkType.HOST)
         {
-            serverHeroSynergyDic[hero.GetHeroData().heroTribe]?.DecreaseTribeCount();
+            foreach (var synergy in serverHeroSynergyDic)
+            {
+                synergy.Value.DecreaseHeroCount(heroData);
+            }
         }
         else
         {
-            clientHeroSynergyDic[hero.GetHeroData().heroTribe]?.DecreaseTribeCount();
+            foreach (var synergy in clientHeroSynergyDic)
+            {
+                synergy.Value.DecreaseHeroCount(heroData);
+            }
         }
 
         if(NetUtils.IsHost())
@@ -134,27 +150,28 @@ public class PlayerStatManager : MonoBehaviour
     {
         if (NetUtils.IsHost())
         {
-            int[] heroTribe = new int[(int)HeroTribe.LAST];
+            FixedString32Bytes[] synergyName = new FixedString32Bytes[clientHeroSynergyDic.Count];
             int[] heroSynergyLevel = new int[(int)HeroTribe.LAST];
 
             int index = 0;
             foreach (var data in clientHeroSynergyDic)
             {
-                heroTribe[index] = (int)data.Key;
+                synergyName[index] = data.Key;
                 heroSynergyLevel[index] = data.Value.GetCurrentSynergyLevel();
                 index++;
             }
 
-            NetworkRpcManager.instance.GetHHeroSynergyDatasClientRpc(heroTribe, heroSynergyLevel);
+            NetworkRpcManager.instance.GetHeroSynergyDatasClientRpc(synergyName, heroSynergyLevel);
         }
     }
 
 
-    public void SetClientHeroSynergyData(PlayerNetworkType playerNetworkType, HeroTribe heroTribe, int synergyLevel)
+    public void SetClientHeroSynergyData(PlayerNetworkType playerNetworkType, string synergyName, int synergyLevel)
     {
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         {
-            clientHeroSynergyDic[heroTribe].SetCurrentHeroSynergyLevel(synergyLevel);
+            clientHeroSynergyDic[synergyName].SetCurrentHeroSynergyLevel(synergyLevel);
+
             foreach (var data in clientHeroSynergyDic)
             {
                 data.Value.ActiveSynegy();
@@ -163,11 +180,12 @@ public class PlayerStatManager : MonoBehaviour
         EventManager.instance.onHeroSynergyChangedAction?.Invoke();
     }
 
-    public List<HeroSynergySO> GetHeroSynergyData(PlayerNetworkType playerNetworkType)
+    public List<HeroSynergySOBase> GetHeroSynergyData(PlayerNetworkType playerNetworkType)
     {
-        List<HeroSynergySO> heroSynergySOs = new List<HeroSynergySO>();
+        List<HeroSynergySOBase> heroSynergySOs = new List<HeroSynergySOBase>();
 
-        Dictionary<HeroTribe, HeroSynergySO> referDic = null;
+        Dictionary<string, HeroSynergySOBase> referDic = null;
+
         switch (playerNetworkType)
         {
             case PlayerNetworkType.HOST:

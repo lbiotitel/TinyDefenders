@@ -33,7 +33,7 @@ public class DrawCardRateUINode : MonoBehaviour
 
     private void InitDrawCardProbability()
     {
-        List<float> probabilityList = SoDataManager.instance.GetDrawHeroCardProbability();
+        List<float> probabilityList = GameResourceManager.instance.GetDrawHeroCardProbability();
 
         for(int i = 0; i < probabilityText.Length; i++)
         {

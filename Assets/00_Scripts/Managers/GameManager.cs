@@ -103,7 +103,7 @@ public class GameManager : NetworkBehaviour
 
     public void InitRelicDatas(Dictionary<string, bool> ownRelicData)
     {
-        List<RelicSO> relicList = SoDataManager.instance.GetAllRelicData();
+        List<RelicSO> relicList = GameResourceManager.instance.GetAllRelicData();
 
         foreach (var relic in relicList)
         {

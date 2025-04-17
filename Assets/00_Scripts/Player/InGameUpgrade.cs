@@ -41,7 +41,7 @@ public class InGameUpgrade : MonoBehaviour
     {
         drawCardUpgrade.upgradeLevel++;
         drawCardUpgrade.upgradeCost += drawCardUpgradeCostIncrease;
-        SoDataManager.instance.UpgradeIngameSummonRarity(drawCardUpgradeProbabilityAmount);
+        GameResourceManager.instance.UpgradeIngameSummonRarity(drawCardUpgradeProbabilityAmount);
         InGameUI.instance.RedrawUpgradeUI();
     }
 

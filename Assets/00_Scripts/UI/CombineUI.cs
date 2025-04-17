@@ -64,7 +64,7 @@ public class CombineUI : MonoBehaviour
 
     private void SetAllCombineUI()
     {
-        List<CombineSciptable> combineDatas = SoDataManager.instance.GetAllCombineData();
+        List<CombineSciptable> combineDatas = GameResourceManager.instance.GetAllCombineData();
 
         foreach (var combineData in combineDatas)
         {

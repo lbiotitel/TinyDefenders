@@ -242,6 +242,7 @@ public class HeroEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("heroMainImage"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("heroDesc"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("heroTribe"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("heroClass"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("runtimeAnimatorController"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("atk"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("atkSpeed"));

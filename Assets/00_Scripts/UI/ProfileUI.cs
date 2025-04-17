@@ -39,7 +39,7 @@ public class ProfileUI : MonoBehaviour
         userNameText.text = userData.userName;
         userLevelText.text = string.Format("LV.{0}",userData.userLevel);
 
-        int requireExp = SoDataManager.instance.GetUserRequireExp(userData.userLevel);
+        int requireExp = GameResourceManager.instance.GetUserRequireExp(userData.userLevel);
         userExpText.text = string.Format("Exp : {0}/{1}", userData.userExp, requireExp);
         userExpSlider.maxValue = requireExp;
         userExpSlider.value = userData.userExp;

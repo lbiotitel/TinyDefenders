@@ -10,7 +10,7 @@ public class SelectRelicCardUI : MonoBehaviour
 
         for (int i = 0; i < selectRelicCardNodeUIs.Length; i++)
         {
-            RelicSO relicData = SoDataManager.instance.GetRelicDataByRarity(RelicRarity.Normal);
+            RelicSO relicData = GameResourceManager.instance.GetRelicDataByRarity(RelicRarity.Normal);
             selectRelicCardNodeUIs[i].InitRelic(relicData);
         }
     }

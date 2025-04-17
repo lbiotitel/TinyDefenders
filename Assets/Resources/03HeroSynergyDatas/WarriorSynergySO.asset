@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c733565a5c01a641bdc3a74f7fbce7a, type: 3}
-  m_Name: FiveHeroSynergySO
+  m_Script: {fileID: 11500000, guid: 9f347d494dc78c84791b5b33a50d36ab, type: 3}
+  m_Name: WarriorSynergySO
   m_EditorClassIdentifier: 
-  synergyTribe: 7
-  synergyName: FiveHero
+  synergyName: Warrior
   synergyDescription:
   - 
   - 
   - 
-  synergyRequireTribeCount: 00000000010000000500000005000000
-  synergyBase: {fileID: 1958112646295327792, guid: 867c905ad37d3984686ddd07a812d222, type: 3}
+  synergyRequireCount: 00000000020000000400000006000000
+  synergyBase: {fileID: 2950547405534379270, guid: 10e2e011607770445b0f75a250149bfa, type: 3}
+  syneryClass: 0

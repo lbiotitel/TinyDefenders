@@ -156,7 +156,7 @@ public class HeroHolder : NetworkBehaviour
         {
             Hero hero = networkObject.GetComponent<Hero>();
 
-            HeroScriptable heroData = SoDataManager.instance.GetHeroScriptableData(heroName);
+            HeroScriptable heroData = GameResourceManager.instance.GetHeroScriptableData(heroName);
 
             this.ownHero = hero;
             this.holderName = heroData.heroName;

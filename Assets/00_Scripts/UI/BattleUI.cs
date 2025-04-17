@@ -57,7 +57,7 @@ public class BattleUI : MonoBehaviour
         userNameText.text = userData.userName;
         userLevelText.text = string.Format("LV.{0}",userData.userLevel);
 
-        int requireExp = SoDataManager.instance.GetUserRequireExp(userData.userLevel);
+        int requireExp = GameResourceManager.instance.GetUserRequireExp(userData.userLevel);
         userExpSlider.maxValue = requireExp;
         userExpSlider.value = userData.userExp;
     }

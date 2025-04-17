@@ -21,7 +21,7 @@ public class HeroCollectionUI : MonoBehaviour
             heroCollectionUINodes.Clear();
         }
 
-        List<HeroScriptable> heroDatas = SoDataManager.instance.GetAllHeroScriptableData();
+        List<HeroScriptable> heroDatas = GameResourceManager.instance.GetAllHeroScriptableData();
 
         foreach (var data in heroDatas)
         {

@@ -50,6 +50,7 @@ public class HeroScriptable : ScriptableObject
 
     [Header("Extra")]
     public HeroTribe heroTribe;
+    public HeroClass heroClass;
     public Sprite heroMainImage;
     public RuntimeAnimatorController runtimeAnimatorController;
 

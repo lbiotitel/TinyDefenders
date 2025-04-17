@@ -116,7 +116,7 @@ public class CardManager : MonoBehaviour
 
     public void DrawCard(string cardName)
     {
-        CardSO cardSo = SoDataManager.instance.GetSpellCardScirptableObject(cardName);
+        CardSO cardSo = GameResourceManager.instance.GetSpellCardScirptableObject(cardName);
 
         InitSpellCard(cardSo);
     }
@@ -159,7 +159,7 @@ public class CardManager : MonoBehaviour
     private void GetRandomCardSO()
     {
         CardRarity randomRarity = (CardRarity)Random.Range(0,(int)CardRarity.Rare);
-        List<CardSO> cardList = SoDataManager.instance.GetAllSpellCardScirptableObjectByRarity(CardRarity.Normal);
+        List<CardSO> cardList = GameResourceManager.instance.GetAllSpellCardScirptableObjectByRarity(CardRarity.Normal);
 
         int randomCard = Random.Range(0, cardList.Count);
 
@@ -168,7 +168,7 @@ public class CardManager : MonoBehaviour
 
     private void GetSummonCardSO()
     {
-        HeroScriptable heroData = SoDataManager.instance.GetRandomHeroScriptiableData();
+        HeroScriptable heroData = GameResourceManager.instance.GetRandomHeroScriptiableData();
         HeroCard cardSO = ScriptableObject.CreateInstance<HeroCard>();
         cardSO.cardType = CardType.SUMMON;
         cardSO.InitSummonCard(heroData);

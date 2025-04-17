@@ -99,7 +99,7 @@ public class GameFinishUI : MonoBehaviour
 
         while (true)
         {
-            int requireExp = SoDataManager.instance.GetUserRequireExp(userData.userLevel);
+            int requireExp = GameResourceManager.instance.GetUserRequireExp(userData.userLevel);
             if (currentUserExp >= requireExp)
             {
                 userData.userLevel++;
