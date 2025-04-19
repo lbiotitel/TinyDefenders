@@ -19,10 +19,6 @@ public class InGameUpgrade : MonoBehaviour
 {
     [SerializeField] private HeroUpgradeNode[] heroUpgrades;
     [SerializeField] private int heroUpgradeCostIncrease; 
-    [SerializeField] private DrawCardUpgradeNode drawCardUpgrade;
-    [SerializeField] private int drawCardUpgradeCostIncrease = 0; 
-    [SerializeField] private int drawCardUpgradeProbabilityAmount = 5;
-
 
     public void Upgrade(HeroTribe heroTribe)
     {
@@ -37,23 +33,7 @@ public class InGameUpgrade : MonoBehaviour
         }
     }
 
-    public void UpgradeCardDrawLevel()
-    {
-        drawCardUpgrade.upgradeLevel++;
-        drawCardUpgrade.upgradeCost += drawCardUpgradeCostIncrease;
-        GameResourceManager.instance.UpgradeIngameSummonRarity(drawCardUpgradeProbabilityAmount);
-        InGameUI.instance.RedrawUpgradeUI();
-    }
 
-    public int GetDrawCardUpgradeLevel()
-    {
-        return drawCardUpgrade.upgradeLevel;
-    }
-
-    public int GetDrawCardUpgradeCost()
-    {
-        return drawCardUpgrade.upgradeCost;
-    }
 
     public void SetHeroUpgradeLevel(HeroTribe heroTribe, int level)
     {

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: ElfSwordMan
   rarity: 0
-  heroCost: 20
+  heroCost: 2
   atk:
     <baseValue>k__BackingField: 80
     modifiers: []
@@ -38,6 +38,7 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 4
+  heroClass: 0
   heroMainImage: {fileID: 689403788, guid: f26fb15d49be42748b371f0d82a63c29, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: eaac45d36ee26c14d8dbaa4fde29d974, type: 2}
   projectile: {fileID: 2786315958115145823, guid: 0007f95e1db5c6e4ba43e80bbf4871f3, type: 3}

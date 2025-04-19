@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: UndeadSkeletonArcher
   rarity: 0
-  heroCost: 20
+  heroCost: 2
   atk:
     <baseValue>k__BackingField: 45
     modifiers: []
@@ -38,6 +38,7 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 2
+  heroClass: 0
   heroMainImage: {fileID: -1136837285, guid: dbbec1fe18594d046859a78417a32952, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 57dcf7bd9e66cf040b412582fea87c5b, type: 2}
   projectile: {fileID: 7009818753606986678, guid: c9924c71734752a4f9a049b16320ea8d, type: 3}

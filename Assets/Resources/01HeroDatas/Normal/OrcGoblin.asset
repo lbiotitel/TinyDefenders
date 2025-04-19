@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: OrcGoblin
   rarity: 0
-  heroCost: 20
+  heroCost: 2
   atk:
     <baseValue>k__BackingField: 77
     modifiers: []
@@ -38,6 +38,7 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 5
+  heroClass: 0
   heroMainImage: {fileID: 748437418, guid: 119d89010fa22da4d8a9d50bf4580c2c, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: bbafb7479743eca428669ddf565a191a, type: 2}
   projectile: {fileID: 2786315958115145823, guid: 394f68957adc97a419a7d8643d08ea82, type: 3}

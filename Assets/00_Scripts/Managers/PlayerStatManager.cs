@@ -18,6 +18,10 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
+    [Header("Player Stat")]
+    [SerializeField] private int ingameLevel = 1;
+    [SerializeField] private int ingameExp = 0;
+    [SerializeField] private int giveExpAmount;
 
     [Header("Hero Upgrade")]
     [field: SerializeField] public InGameUpgrade clientUpgrade { get; private set; }
@@ -59,6 +63,35 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
+
+    #region
+
+    public void AddIngameExp()
+    {
+        ingameExp += giveExpAmount;
+        CheckLevelUp();
+    }
+
+    private void CheckLevelUp()
+    {
+        int requireExp = GameResourceManager.instance.GetRequireExp(ingameLevel);
+        if (requireExp <= ingameExp)
+        { 
+            ingameExp -= requireExp;
+            LevelUp();
+        }
+        EventManager.instance.onExpLevelChangedAction?.Invoke(ingameExp, GameResourceManager.instance.GetRequireExp(ingameLevel));
+    }
+
+    private void LevelUp()
+    {
+        ingameLevel++;
+        EventManager.instance.onLevelChagendAction?.Invoke(ingameLevel);
+    }
+
+
+
+    #endregion
 
 
     #region Hero Synergy
@@ -562,36 +595,5 @@ public class PlayerStatManager : MonoBehaviour
     #endregion
 
 
-    #region Card Draw Rate Upgrade
-
-    public int GetcCardDrawRateUpgradeLevel(PlayerNetworkType playerNetworkType)
-    {
-        return playerNetworkType == PlayerNetworkType.HOST ?
-            serverUpgrade.GetDrawCardUpgradeLevel() : clientUpgrade.GetDrawCardUpgradeLevel();
-    }
-
-    public int GetCardDrawRateUpgradeCost(PlayerNetworkType playerNetworkType)
-    { 
-        return playerNetworkType == PlayerNetworkType.HOST ?
-            serverUpgrade.GetDrawCardUpgradeCost() : clientUpgrade.GetDrawCardUpgradeCost();
-    }
-
-
-    public void UpgradeCardDrawRate(PlayerNetworkType playerNetworkType)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverUpgrade.UpgradeCardDrawLevel();
-                break;
-
-            case PlayerNetworkType.CLIENT:
-                clientUpgrade.UpgradeCardDrawLevel();
-                break;
-        }
-    }
-
-
-    #endregion
 
 }

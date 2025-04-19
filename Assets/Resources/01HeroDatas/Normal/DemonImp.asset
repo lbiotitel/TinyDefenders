@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: DemonImp
   rarity: 0
-  heroCost: 30
+  heroCost: 3
   atk:
     <baseValue>k__BackingField: 130
     modifiers: []
@@ -38,6 +38,7 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 3
+  heroClass: 0
   heroMainImage: {fileID: 1191374277, guid: 432d180cf8acc3f44968d35619fa751c, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: f0108050ff0e778459a83339e32906d7, type: 2}
   projectile: {fileID: 3241479529911869568, guid: a84cbbb54404c3d499340f02e684aab0, type: 3}

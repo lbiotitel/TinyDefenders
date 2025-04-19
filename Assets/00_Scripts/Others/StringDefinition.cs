@@ -50,6 +50,8 @@ public struct LayerName
 
 public struct Path { 
     public static string inGameProbabilitySettingPath = "09SettingData/InGameProbabilitySettingData";
+    public static string inGameRequireExpPath = "09SettingData/IngameRequireExpSO";
+
     public static string heroSynergyDataPath = "03HeroSynergyDatas";
     public static string questDataPath = "07QuestDatas";
     public static string userExpDataPath = "09SettingData/UserExpData";

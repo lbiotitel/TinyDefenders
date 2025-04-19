@@ -8,14 +8,6 @@ using static UserData;
 
 public class Utils : MonoBehaviour
 {
-    private static ProbabilitySetting shopProbabilitySetting = Resources.Load<ProbabilitySetting>("SettingData/ShopProbabilitySettingData");
-
-    public static HeroRarity GetShopSummonRarity()
-    {
-        return shopProbabilitySetting.GetRarity();
-    }
-
-
     public static Color GetRarityColor(HeroRarity rarity) 
     {
         switch (rarity)

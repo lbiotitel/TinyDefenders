@@ -26,6 +26,9 @@ public class EventManager : MonoBehaviour
     public UnityAction onWaveNotClearAction;
     public UnityAction onWaveClearAction;
 
+    public UnityAction<int,int> onExpLevelChangedAction;
+    public UnityAction<int> onLevelChagendAction;
+
     public UnityAction<Hero> onHeroDespawnAction;
     public UnityAction<Hero,Monster> onHeroAttackToMonsterAction;
     public UnityAction onDrawCardAction;
@@ -86,7 +89,9 @@ public class EventManager : MonoBehaviour
         ReleaseAction(ref onTimerTickAction);
         ReleaseAction(ref onWaveNotClearAction);
         ReleaseAction(ref onWaveClearAction);
-        onHeroUseSkillAction = null;
+        ReleaseAction(ref onExpLevelChangedAction);
+        ReleaseAction(ref onLevelChagendAction);
+
         instance = null;
     }
 }

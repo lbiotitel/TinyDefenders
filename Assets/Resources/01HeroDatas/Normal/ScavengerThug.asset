@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: ScavengerThug
   rarity: 0
-  heroCost: 15
+  heroCost: 1
   atk:
     <baseValue>k__BackingField: 85
     modifiers: []
@@ -38,6 +38,7 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 6
+  heroClass: 0
   heroMainImage: {fileID: 1563941236, guid: 342167fcc3354c44ea25e11c997478ab, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 929d9a5b8fe272d4cb9c39dbb431b4fd, type: 2}
   projectile: {fileID: 2786315958115145823, guid: cf677e431a119ae4ca154e82b3ec123b, type: 3}

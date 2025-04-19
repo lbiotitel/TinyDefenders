@@ -54,12 +54,13 @@ public class LoadingScene : NetworkBehaviour
         loadIndex += await GameResourceManager.instance.InitAllHeroSynergyData() == true ? 1 : 0;
         loadIndex += await GameResourceManager.instance.InitInGameQuestData() == true ? 1 : 0;
         loadIndex += await GameResourceManager.instance.InitAllMonsterData(mapName) == true ? 1 : 0;
+        loadIndex += await GameResourceManager.instance.InitIngameRequireExpSO() == true ? 1 : 0;
     }
 
 
     private void Update()
     {
-        loadingSlider.value = loadIndex * (1f / 4f);
+        loadingSlider.value = loadIndex * (1f / 5f);
         LoadingTextLogic();
         CheckAllPlayerReady();
     }
@@ -86,7 +87,7 @@ public class LoadingScene : NetworkBehaviour
             case 0:
                 loadingText.text = "리소스 로드중...";
                 break;
-            case 4:
+            case 5:
                 loadingText.text = "리소스 로드 완료...";
                 loadIndex++;
                 LoadCompleteServerRpc((int)NetUtils.GetPlayerNetworkType());

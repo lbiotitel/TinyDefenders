@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: HumanSpearMan
   rarity: 0
-  heroCost: 20
+  heroCost: 2
   atk:
     <baseValue>k__BackingField: 100
     modifiers: []
@@ -38,6 +38,7 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 0
+  heroClass: 0
   heroMainImage: {fileID: 2162766994774161030, guid: b6a140c528394cd44a08e6e369cb1d3d, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 04f802bff40c85a4b9a3b4911cb77cc3, type: 2}
   projectile: {fileID: 2786315958115145823, guid: f4b6ad505e91acc43b8887421df248e6, type: 3}

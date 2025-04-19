@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroName: UndeadSkeleton
   rarity: 0
-  heroCost: 20
+  heroCost: 2
   atk:
     <baseValue>k__BackingField: 100
     modifiers: []
@@ -38,6 +38,7 @@ MonoBehaviour:
     modifiers: []
   heroDesc: "\uD574\uACE8\uC774\uB2E4!"
   heroTribe: 2
+  heroClass: 0
   heroMainImage: {fileID: 60813948, guid: bda064f12a6e9824dbe70f1f80314ae3, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 91e2d1c3b74a8534696e009119392626, type: 2}
   projectile: {fileID: 2786315958115145823, guid: 19594b60bc6b4964c81f7f3111ea3352, type: 3}

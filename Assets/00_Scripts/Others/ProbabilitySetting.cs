@@ -1,71 +1,65 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+
+[System.Serializable]
+public class ProbabilityLevel
+{
+    public List<ProbabilitySetting.ProbabilityNode> nodes = new List<ProbabilitySetting.ProbabilityNode>();
+}
 
 [CreateAssetMenu(fileName = "ProbabilitySetting", menuName = "Scriptable Objects/ProbabilitySetting")]
 public class ProbabilitySetting : ScriptableObject
 {
     [System.Serializable]
-    public class ProbabilityNode {
+    public class ProbabilityNode
+    {
         public float probability;
         public HeroRarity rarity;
     }
 
-    public ProbabilityNode[] probabilityNode;
+    [SerializeField] private List<ProbabilityLevel> probabilityNode = new List<ProbabilityLevel>();
+
+    // 기존 메서드는 그대로 유지
     private float totalWeight;
 
-    private void OnEnable()
-    {
-        SumWeight();
-    }
-
-    private void SumWeight()
+    private void SumWeight(int level)
     {
         totalWeight = 0;
-        for (int i = 0; i < probabilityNode.Length; i++)
+        for (int i = 0; i < probabilityNode[level].nodes.Count; i++)
         {
-            totalWeight += probabilityNode[i].probability;
+            totalWeight += probabilityNode[level].nodes[i].probability;
         }
     }
 
-    public void AddProbability(float amount)
+    public List<float> GetDrawHeroCardProbability(int level)
     {
-        for (int i = 0; i < probabilityNode.Length; i++)
+        SumWeight(level);
+
+        List<float> heroRarityProbabilityList = new List<float>();
+
+        for (int i = 0; i < probabilityNode[level].nodes.Count; i++)
         {
-            probabilityNode[i].probability += (float)(amount / (i + 1));
-        }
-    }
-
-    public List<float> GetDrawHeroCardProbability()
-    {
-        SumWeight();
-
-        List <float> heroRarityProbabilityList = new List<float>();
-
-        for (int i = 0; i < probabilityNode.Length; i++)
-        {
-            heroRarityProbabilityList.Add(probabilityNode[i].probability / totalWeight);
+            heroRarityProbabilityList.Add(probabilityNode[level].nodes[i].probability / totalWeight);
         }
 
         return heroRarityProbabilityList;
     }
 
-
-    public HeroRarity GetRarity()
+    public HeroRarity GetRarity(int level)
     {
-        SumWeight();
+        SumWeight(level);
 
         float random = Random.Range(0, totalWeight);
-
-        for (int i = 0; i < probabilityNode.Length; i++)
+        Debug.Log(random);
+        for (int i = 0; i < probabilityNode[level].nodes.Count; i++)
         {
-            if (random < probabilityNode[i].probability)
+            if (random < probabilityNode[level].nodes[i].probability)
             {
-                return probabilityNode[i].rarity;
+                return probabilityNode[level].nodes[i].rarity;
             }
             else
             {
-                random -= probabilityNode[i].probability;
+                random -= probabilityNode[level].nodes[i].probability;
             }
         }
 

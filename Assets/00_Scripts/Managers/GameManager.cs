@@ -202,7 +202,6 @@ public class GameManager : NetworkBehaviour
         {
             timer -= Time.deltaTime;
             NotifyTimerClientRpc(timer, currentWave);
-            if (timer <= warningTime) ShowWarningAlarm();
 
             yield return null;
         }
@@ -227,6 +226,7 @@ public class GameManager : NetworkBehaviour
             }
             else {
                 ShowClearAlaram();
+                GetGold(currentWaveData.waveClearGold,PlayerNetworkType.ALL);
                 WaveClearEventCalledClientRpc();
             }
         }

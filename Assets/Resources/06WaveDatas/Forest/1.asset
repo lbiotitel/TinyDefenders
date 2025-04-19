@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wave: 1
   waveTime: 30
+  timeRate: 0.6
   waveMonsterCount: 30
-  spawnInterval: 1
-  waveClearGold: 0
+  spawnInterval: 0.6
+  waveClearGold: 10
   bossWave: 0
   spawnMonsterData: {fileID: 11400000, guid: ddbc2bdb79ba8584d97db0b09e9f8602, type: 2}

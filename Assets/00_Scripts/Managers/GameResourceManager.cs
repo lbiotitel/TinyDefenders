@@ -49,8 +49,32 @@ public class GameResourceManager : MonoBehaviour
     private Dictionary<string, MonsterScriptable> monsterDataDic;
     private Dictionary<string, RelicSO> relicDataDic;
     private ProbabilitySetting inGameDrawHeroCardRarityProbabilitySetting;
+    private IngameRequireExpSO inGameRequireExpSO;
     private UserRequireExpSO userExpData;
 
+
+    #region
+
+    public async Task<bool> InitIngameRequireExpSO()
+    {
+        if(inGameRequireExpSO != null)Resources.UnloadAsset(inGameRequireExpSO);
+        ResourceRequest result = Resources.LoadAsync<IngameRequireExpSO>(Path.inGameRequireExpPath);
+        await result;
+
+        if (result.asset != null)
+        {
+            inGameRequireExpSO = result.asset as IngameRequireExpSO;
+            return true;
+        }
+        return false;
+    }
+
+    public int GetRequireExp(int level)
+    { 
+        return inGameRequireExpSO.GetRequireExp(level - 1);
+    }
+
+    #endregion
 
 
     #region About Icon Image Data
@@ -182,20 +206,16 @@ public class GameResourceManager : MonoBehaviour
         return true;
     }
 
-    public HeroRarity GetIngameSummonRarity()
+    public HeroRarity GetIngameSummonRarity(int level)
     {
-        return inGameDrawHeroCardRarityProbabilitySetting.GetRarity();
+        return inGameDrawHeroCardRarityProbabilitySetting.GetRarity(level);
     }
 
-    public List<float> GetDrawHeroCardProbability()
+    public List<float> GetDrawHeroCardProbability(int level)
     {
-        return inGameDrawHeroCardRarityProbabilitySetting.GetDrawHeroCardProbability();
+        return inGameDrawHeroCardRarityProbabilitySetting.GetDrawHeroCardProbability(level);
     }
 
-    public void UpgradeIngameSummonRarity(float amount)
-    {
-        inGameDrawHeroCardRarityProbabilitySetting.AddProbability(amount);
-    }
 
     #endregion
 
@@ -407,7 +427,7 @@ public class GameResourceManager : MonoBehaviour
     //테스트를 위해 normal로 고정
     public HeroScriptable GetRandomHeroScriptiableData()
     {
-        HeroRarity heroRarity = GetIngameSummonRarity();
+        HeroRarity heroRarity = GetIngameSummonRarity(0);
 
         List<HeroScriptable> heroDatas = GetAllHeroScriptableData();
         List<HeroScriptable> heroDatasByRarity = new List<HeroScriptable>();

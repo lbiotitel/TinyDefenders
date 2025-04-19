@@ -16,12 +16,24 @@ public class InGameUI : NetworkBehaviour
         if (instance == null) instance = this;
     }
 
+    [Header("Game Stat")]
     [SerializeField] private TextMeshProUGUI currentGoldText;
     [SerializeField] private TextMeshProUGUI waveText;
     [SerializeField] private TextMeshProUGUI timerText;
-
-    [Header("Game Life")]
     [SerializeField] private InGameLifeContainer lifeContainer;
+
+
+    [Header("Player Stat UI")]
+    [SerializeField] private TMP_Text ingameLevelText;
+    [SerializeField] private TMP_Text ingameExpText;
+    [SerializeField] private Slider ingameExpSlider;
+
+
+    [Header("Reroll Button")]
+    [SerializeField] private Button rerollButton;
+
+    [Header("Exp Button")]
+    [SerializeField] private Button expButton;
 
     [Header("Game Start UI")]
     [SerializeField] private Animator profileAnimator;
@@ -77,6 +89,17 @@ public class InGameUI : NetworkBehaviour
             profileAnimator.gameObject.SetActive(true);
         heroInfoUI.HideHeroInfoUI();
         RedrawUpgradeUI();
+
+        rerollButton.onClick.AddListener(() => CardManager.instance.RerollCard(false));
+        expButton.onClick.AddListener(() => PlayerStatManager.instance.AddIngameExp());
+
+        EventManager.instance.onLevelChagendAction += (int level) => { ingameLevelText.text = string.Format("LV.{0}", level); };
+        EventManager.instance.onExpLevelChangedAction += (int exp,int requireExp) => 
+        {
+            ingameExpText.text = string.Format("{0}/{1}",exp, requireExp);
+            ingameExpSlider.value = exp;
+            ingameExpSlider.maxValue = requireExp;
+        };
     }
 
 
