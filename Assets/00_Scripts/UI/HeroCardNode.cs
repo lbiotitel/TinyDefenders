@@ -1,3 +1,4 @@
+using Coffee.UIExtensions;
 using System.Threading;
 using TMPro;
 using UnityEngine;
@@ -36,6 +37,10 @@ public class HeroCardNode : CardNodeBase
 
         tribeImage.sprite = GameResourceManager.instance.GetTribeImage(heroData.heroTribe);
         classImage.sprite = GameResourceManager.instance.GetClassImage(heroData.heroClass);
+
+        var particle = cardRarityParticle.main;
+        particle.startColor = Utils.GetRarityColor(heroData.rarity);
+        originParticleScale = cardRarityParticle.GetComponent<UIParticle>().scale;
 
         InitCardRarityBackgroundImage((CardRarity)((int)heroData.rarity));
     }

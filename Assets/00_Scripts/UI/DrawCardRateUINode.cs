@@ -9,14 +9,15 @@ public class DrawCardRateUINode : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI[] probabilityText;
 
-    public void InitUpgradeUI()
+    private void Start()
     {
-        InitDrawCardProbability();
+        InitDrawCardProbability(1);
+        EventManager.instance.onLevelChagendAction += InitDrawCardProbability;
     }
 
-    private void InitDrawCardProbability()
+    private void InitDrawCardProbability(int level)
     {
-        List<float> probabilityList = GameResourceManager.instance.GetDrawHeroCardProbability(0);
+        List<float> probabilityList = GameResourceManager.instance.GetDrawHeroCardProbability(level);
 
         for(int i = 0; i < probabilityText.Length; i++)
         {

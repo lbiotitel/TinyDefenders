@@ -20,6 +20,7 @@ public class CardManager : MonoBehaviour
     [SerializeField] private Button rerollButton;
     [SerializeField] private Image rerollButtonImage;
     [SerializeField] private float rerollCoolTime;
+    [SerializeField] private int rerollGold;
     private bool canReroll = true;
 
     [SerializeField] private GameObject cardDropZone;
@@ -60,6 +61,7 @@ public class CardManager : MonoBehaviour
     private void Start()
     {
         OffCardDropZone();
+        EventManager.instance.onWaveFinishAction += () => RerollCard(true);
     }
 
 
@@ -68,10 +70,13 @@ public class CardManager : MonoBehaviour
         if (!cardEmpty)
         {
             if (!canReroll) return;
-            //check gold
-            DrawCardLogic();
-            canReroll = false;
-            StartCoroutine(CardRerollCoolTimeCoroutine());
+            if (GameManager.instance.IsEnoughGold(rerollGold))
+            {
+                canReroll = false;
+                DrawCardLogic();
+                StartCoroutine(CardRerollCoolTimeCoroutine());
+                GameManager.instance.SpendGold(rerollGold);
+            }
         }
         else {
             DrawCardLogic();
@@ -167,7 +172,8 @@ public class CardManager : MonoBehaviour
 
     private void GetSummonCardSO()
     {
-        HeroScriptable heroData = GameResourceManager.instance.GetRandomHeroScriptiableData();
+        HeroScriptable heroData = GameResourceManager.instance.GetRandomHeroScriptiableData(PlayerStatManager.instance.ingameLevel);
+
         HeroCard cardSO = ScriptableObject.CreateInstance<HeroCard>();
         cardSO.cardType = CardType.SUMMON;
         cardSO.InitSummonCard(heroData);

@@ -54,7 +54,6 @@ public class SpawnManager : NetworkBehaviour
 
     private List<Hero> clientHeroList = new List<Hero>();
     private List<Hero> serverHeroList = new List<Hero>();
-    private int maxHeroCount;
 
     private List<Monster> monsterList = new List<Monster>();
 
@@ -116,7 +115,8 @@ public class SpawnManager : NetworkBehaviour
             }
         }
 
-        maxHeroCount = spawnList.Count;
+        int maxHeroCount = spawnList.Count;
+        PlayerStatManager.instance.maxHeroCount = maxHeroCount;
 
         if (id == "CLIENT") spawnList.Reverse();
 
@@ -355,10 +355,6 @@ public class SpawnManager : NetworkBehaviour
             findHeroHolder.SpawnHero(heroName);
             return;
         }
-
-     /*   NetworkObject networkObject = heroHolders[heroHolderId].GetComponent<NetworkObject>();
-
-        HeroSpawnClientRpc(networkObject.NetworkObjectId, heroName, value);*/
     }
 
     public Vector3 GetHolderPosition()
@@ -374,7 +370,7 @@ public class SpawnManager : NetworkBehaviour
             return findHeroHolder.transform.position;
         }
 
-        return heroHolders[heroHolderId].transform.position;
+        return Vector3.zero;
     }
 
     private HeroHolder GetRemainHeroHolder(PlayerNetworkType playerNetworkType)
@@ -477,6 +473,7 @@ public class SpawnManager : NetworkBehaviour
                 clientHeroList.Add(hero);
                 break;
         }
+
         EventManager.instance.onHeroSummonAction?.Invoke(hero);
     }
 
@@ -493,6 +490,7 @@ public class SpawnManager : NetworkBehaviour
                 clientHeroList.Remove(hero);
                 break;
         }
+
         EventManager.instance.onHeroDespawnAction?.Invoke(hero);
     }
 
@@ -500,7 +498,7 @@ public class SpawnManager : NetworkBehaviour
     {
         int currentHeroCount = GetHeroList(playerNetworkType).Count;
 
-        if (currentHeroCount >= maxHeroCount) return false;
+        if (currentHeroCount >= PlayerStatManager.instance.currentMaxHeroCount) return false;
         return true;
     }
 

@@ -19,9 +19,12 @@ public class PlayerStatManager : MonoBehaviour
     }
 
     [Header("Player Stat")]
-    [SerializeField] private int ingameLevel = 1;
-    [SerializeField] private int ingameExp = 0;
+    [field: SerializeField] public int ingameLevel { get; private set; } = 1;
+    [field: SerializeField] public int ingameExp { get; private set; } = 0;
+    [field: SerializeField] public int currentMaxHeroCount { get; private set; } = 3;
+    [SerializeField] public int maxHeroCount { get; set; }
     [SerializeField] private int giveExpAmount;
+    [SerializeField] private int expGold;
 
     [Header("Hero Upgrade")]
     [field: SerializeField] public InGameUpgrade clientUpgrade { get; private set; }
@@ -68,8 +71,12 @@ public class PlayerStatManager : MonoBehaviour
 
     public void AddIngameExp()
     {
-        ingameExp += giveExpAmount;
-        CheckLevelUp();
+        if (GameManager.instance.IsEnoughGold(expGold))
+        {
+            GameManager.instance.SpendGold(expGold);
+            ingameExp += giveExpAmount;
+            CheckLevelUp();
+        }
     }
 
     private void CheckLevelUp()
@@ -86,10 +93,9 @@ public class PlayerStatManager : MonoBehaviour
     private void LevelUp()
     {
         ingameLevel++;
+        currentMaxHeroCount = Mathf.Min(++currentMaxHeroCount,maxHeroCount);
         EventManager.instance.onLevelChagendAction?.Invoke(ingameLevel);
     }
-
-
 
     #endregion
 

@@ -238,6 +238,5 @@ public class Hero : Entity
         if (GameManager.instance.isGameOver) return;
         EventManager.instance.onUpgradeAction -= PlayUpgradeParticle;
         SpawnManager.instance.RemoveHero(this);
-        Destroy(heroData);
     }
 }

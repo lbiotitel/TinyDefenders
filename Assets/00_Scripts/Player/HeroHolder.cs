@@ -77,26 +77,26 @@ public class HeroHolder : NetworkBehaviour
     public void Sell()
     {
         SoundManager.instance.PlaySfxSound(heroSellSFX,SFXTYPE.EXTRA);
-
+        GameManager.instance.GetGold((int)(ownHero.GetHeroData().heroCost / 2f), ownHero.heroOwnerNetworkType);
         NetUtils.HostAndClientMethod(
-            () => SellServerRpc(),
-            () => SellHero()
+            () => DespawnHeroServerRpc(),
+            () => DespawnHero()
          );
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void SellServerRpc()
+    public void DespawnHeroServerRpc()
     {
-        SellHero();
+        DespawnHero();
     }
 
-    private void SellHero()
+    private void DespawnHero()
     {
         if (ownHero == null) return;
         ulong heroId = ownHero.NetworkObjectId;
-        GameManager.instance.GetGold((int)(ownHero.GetHeroData().heroCost / 2f), ownHero.heroOwnerNetworkType);
         NetworkObject obj = NetworkManager.SpawnManager.SpawnedObjects[heroId];
         obj.Despawn();
+
         ClearHeroHolderClientRpc();
     }
 

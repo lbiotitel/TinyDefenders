@@ -20,10 +20,8 @@ public class HeroClassSynergySO : HeroSynergySOBase
 
     public override void IncreaseHeroCount(HeroScriptable heroData)
     {
-        Debug.Log("호출1");
         if (heroData.heroClass == syneryClass)
         {
-        Debug.Log("호출2");
             currentHeroCount++;
         }
     }

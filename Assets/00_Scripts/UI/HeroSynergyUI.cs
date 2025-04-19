@@ -50,6 +50,7 @@ public class HeroSynergyUI : MonoBehaviour
 
         foreach (var data in heroSynergySOs)
         {
+            Debug.Log(data.synergyName + " : " + data.GetCurrentSynergyLevel());
             ShowHeroSynergyUI(data.synergyName, data.GetCurrentSynergyLevel());
         }
     }
@@ -57,7 +58,6 @@ public class HeroSynergyUI : MonoBehaviour
 
     private void ShowHeroSynergyUI(string synergyName, int synergyLevel)
     {
-
         for (int i = 0; i < synergyUINodes.Count; i++)
         {
             if (synergyUINodes[i].heroSynergySO.synergyName == synergyName)
@@ -78,14 +78,10 @@ public class HeroSynergyUI : MonoBehaviour
 
     public void ShowSynergyInfo(Transform transform, string synergyName, string synergyDesc)
     {
-        transform.localScale = new Vector3(0,1f,1f);
-
         Utils.ModifyTransform(transform,ref rectTransform);
         synergyNameText.text = synergyName;
         synergyDescText.text = synergyDesc;
         LayoutRebuilder.ForceRebuildLayoutImmediate(synergyInfoObject.GetComponent<RectTransform>());
-
-        transform.DOScaleX(1f,1f);
     }
 
     public void HideSynergyInfo()

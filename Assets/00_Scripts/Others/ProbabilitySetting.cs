@@ -50,11 +50,12 @@ public class ProbabilitySetting : ScriptableObject
         SumWeight(level);
 
         float random = Random.Range(0, totalWeight);
-        Debug.Log(random);
+
         for (int i = 0; i < probabilityNode[level].nodes.Count; i++)
         {
             if (random < probabilityNode[level].nodes[i].probability)
             {
+                Debug.Log(probabilityNode[level].nodes[i].rarity);
                 return probabilityNode[level].nodes[i].rarity;
             }
             else

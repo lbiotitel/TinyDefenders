@@ -135,7 +135,7 @@ public class GameManager : NetworkBehaviour
 
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         {
-            if (NetUtils.IsHost()) StartCoroutine(CountDown(3));
+            if (NetUtils.IsHost()) StartCoroutine(CountDown(prepareTime));
         }
     }
 
@@ -221,21 +221,26 @@ public class GameManager : NetworkBehaviour
                 else
                 {
                     InGameUI.instance.RedrawLifeContainerClientRpc(gameLife);
+                    ShowFailedAlram();
                     WaveFailEventCalledClientRpc();
                 }
             }
             else {
-                ShowClearAlaram();
-                GetGold(currentWaveData.waveClearGold,PlayerNetworkType.ALL);
+                ShowClearAlram();
                 WaveClearEventCalledClientRpc();
             }
         }
+
+        GetGold(currentWaveData.waveClearGold, PlayerNetworkType.ALL);
+        WaveFinishEventCalledClientRpc();
     }
 
     [ClientRpc]
     private void WaveFailEventCalledClientRpc() => EventManager.instance.onWaveNotClearAction?.Invoke();
     [ClientRpc]
     private void WaveClearEventCalledClientRpc() => EventManager.instance.onWaveClearAction?.Invoke();
+    [ClientRpc]
+    private void WaveFinishEventCalledClientRpc() => EventManager.instance.onWaveFinishAction?.Invoke();
 
 
     [ClientRpc]
@@ -310,7 +315,19 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    private void ShowClearAlaram()
+    private void ShowFailedAlram()
+    {
+        NetUtils.HostAndClientMethod(() =>
+        {
+            InGameUI.instance.ShowAlarmServerRpc("클리어 실패!", 2f, AlarmType.BAD.ToString());
+        }, () =>
+        {
+            InGameUI.instance.ShowAlarmClientRpc("클리어 실패!", 2f, AlarmType.BAD.ToString());
+        });
+
+    }
+
+    private void ShowClearAlram()
     {
         NetUtils.HostAndClientMethod(() =>
         {

@@ -25,6 +25,7 @@ public class EventManager : MonoBehaviour
     public UnityAction<float,bool> onTimerTickAction;
     public UnityAction onWaveNotClearAction;
     public UnityAction onWaveClearAction;
+    public UnityAction onWaveFinishAction;
 
     public UnityAction<int,int> onExpLevelChangedAction;
     public UnityAction<int> onLevelChagendAction;
@@ -91,6 +92,7 @@ public class EventManager : MonoBehaviour
         ReleaseAction(ref onWaveClearAction);
         ReleaseAction(ref onExpLevelChangedAction);
         ReleaseAction(ref onLevelChagendAction);
+        ReleaseAction(ref onWaveFinishAction);
 
         instance = null;
     }

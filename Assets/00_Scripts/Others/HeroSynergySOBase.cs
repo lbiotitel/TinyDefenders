@@ -21,7 +21,7 @@ public abstract class HeroSynergySOBase : ScriptableObject
 
     public int CheckSynergyLevel()
     {
-        for (int i = 1; i < synergyRequireCount.Length; i++)
+        for (int i = 0; i < synergyRequireCount.Length; i++)
         {
             if (currentHeroCount < synergyRequireCount[i]) break;
             currentSynergyLevel = i;

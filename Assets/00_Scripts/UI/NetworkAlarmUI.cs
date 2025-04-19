@@ -90,6 +90,7 @@ public class NetworkAlarmUI : MonoBehaviour
                 //SoundManager.instance.PlaySfxSound("GoodAlarmSFX");
                 break;
             case AlarmType.BAD:
+
                 break;
             case AlarmType.WARNING:
                 alarmImage.sprite = alarmSprites[(int)AlarmType.WARNING].alarmImage;

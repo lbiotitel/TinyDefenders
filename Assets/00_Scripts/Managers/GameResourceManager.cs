@@ -213,7 +213,7 @@ public class GameResourceManager : MonoBehaviour
 
     public List<float> GetDrawHeroCardProbability(int level)
     {
-        return inGameDrawHeroCardRarityProbabilitySetting.GetDrawHeroCardProbability(level);
+        return inGameDrawHeroCardRarityProbabilitySetting.GetDrawHeroCardProbability(level - 1);
     }
 
 
@@ -425,9 +425,9 @@ public class GameResourceManager : MonoBehaviour
 
 
     //테스트를 위해 normal로 고정
-    public HeroScriptable GetRandomHeroScriptiableData()
+    public HeroScriptable GetRandomHeroScriptiableData(int level)
     {
-        HeroRarity heroRarity = GetIngameSummonRarity(0);
+        HeroRarity heroRarity = GetIngameSummonRarity(level);
 
         List<HeroScriptable> heroDatas = GetAllHeroScriptableData();
         List<HeroScriptable> heroDatasByRarity = new List<HeroScriptable>();
