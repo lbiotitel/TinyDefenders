@@ -16,20 +16,22 @@ public class InGameUI : NetworkBehaviour
         if (instance == null) instance = this;
     }
 
-    [SerializeField] private TextMeshProUGUI monsterCountText;
     [SerializeField] private TextMeshProUGUI currentGoldText;
-
-    [SerializeField] private Image monsterCountSliderImage;
-
     [SerializeField] private TextMeshProUGUI waveText;
     [SerializeField] private TextMeshProUGUI timerText;
+
+    [Header("Game Life")]
+    [SerializeField] private InGameLifeContainer lifeContainer;
 
     [Header("Game Start UI")]
     [SerializeField] private Animator profileAnimator;
     [SerializeField] private TextMeshProUGUI playerProfileNameText;
-    [SerializeField] private TextMeshProUGUI friendProfileNameText;
+    [SerializeField] private TMP_Text playerLevelText;
+    [SerializeField] private TextMeshProUGUI clientProfileNameText;
+    [SerializeField] private TextMeshProUGUI clientLevelText;
+
     [SerializeField] private TextMeshProUGUI playerProfileAnimNameText;
-    [SerializeField] private TextMeshProUGUI friendProfileAnimNameText;
+    [SerializeField] private TextMeshProUGUI clientProfileAnimNameText;
     [SerializeField] private TextMeshProUGUI countDownText;
     public bool profileAnimationReady = false;
 
@@ -82,8 +84,8 @@ public class InGameUI : NetworkBehaviour
     {
         playerProfileNameText.text = hostName;
         playerProfileAnimNameText.text = hostName;
-        friendProfileNameText.text = clientName;
-        friendProfileAnimNameText.text = clientName;
+        clientProfileNameText.text = clientName;
+        clientProfileAnimNameText.text = clientName;
     }
 
     public void ShowCountDownText(int count)
@@ -100,7 +102,7 @@ public class InGameUI : NetworkBehaviour
 
     private void InitEvent()
     {
-        EventManager.instance.onTimerTickAction+= DrawWaveAndTime;
+        EventManager.instance.onTimerTickAction += DrawWaveAndTime;
         EventManager.instance.onBossWaveClear += ShowSelectRelicUI;
     }
 
@@ -116,6 +118,12 @@ public class InGameUI : NetworkBehaviour
         waveUI.GetComponent<Animator>().SetTrigger("BOSS");
         waveUIText.text = string.Format("Wave {0}", GameManager.instance.GetCurrentWave().ToString());
         bossNameText.text = bossName;
+    }
+
+    [ClientRpc]
+    public void RedrawLifeContainerClientRpc(int life)
+    { 
+        lifeContainer.ShowLifeNode(life);
     }
 
 
@@ -190,17 +198,19 @@ public class InGameUI : NetworkBehaviour
 
     private void DrawMainUI()
     {
-        monsterCountText.text =
-            GameManager.instance.currentMonsterCount.ToString() + "/" + GameManager.instance.maxMonsterCount.ToString();
-        monsterCountSliderImage.fillAmount = GameManager.instance.currentMonsterCount / 100f;
         currentGoldText.text = string.Format("{0}G", GameManager.instance.gold);
-
     }
 
-    private void DrawWaveAndTime(float time)
+    private void DrawWaveAndTime(float time, bool prepare = false)
     {
         timerText.text = GetTimeString(time);
-        waveText.text = "WAVE " + GameManager.instance.GetCurrentWave().ToString();
+        if (!prepare)
+        {
+            waveText.text = "WAVE " + GameManager.instance.GetCurrentWave().ToString();
+        }
+        else {
+            waveText.text = "¡ÿ∫Ò";
+        }
     }
 
     private string GetTimeString(float time)
@@ -249,7 +259,7 @@ public class InGameUI : NetworkBehaviour
 
     public void ClickCardRateUpgradeButton()
     {
-        upgradeUI.ClickDrawCardRateUpgrade();
+      
     }
 
     #endregion

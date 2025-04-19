@@ -11,8 +11,8 @@ public class LoadingScene : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI loadingText;
     private bool hostReady = false;
     private bool clientReady = false;
-    private bool hostNameReady = false;
-    private bool clientNameReady = false;
+    private bool hostInfoReady = false;
+    private bool clientInfoReady = false;
 
     private bool gameStart = false;
     private int loadIndex = 0;
@@ -20,6 +20,7 @@ public class LoadingScene : NetworkBehaviour
     private string hostName;
     private int hostLevel;
     private int hostProfileImageIndex;
+
     private string clientName;
     private int clientLevel;
     private int clientProfileImageIndex;
@@ -35,7 +36,11 @@ public class LoadingScene : NetworkBehaviour
     public void StartLoadingScene(string mapName)
     {
         this.mapName = mapName;
-        if (!NetUtils.IsHost()) SendUserNameServerRpc(CloudManager.instance.GetUserData().userName);
+        if (NetUtils.GetPlayerNetworkType() == PlayerNetworkType.CLIENT)
+        {
+            UserData userData = CloudManager.instance.GetUserData();
+            SendUserNameServerRpc(userData.userName,userData.userLevel,userData.userProfileImageIndex);
+        }
         NetworkManager.Singleton.SceneManager.OnLoadComplete += OnInGameSceneLoaded;
         LoadResource();
     }
@@ -61,7 +66,7 @@ public class LoadingScene : NetworkBehaviour
 
     private void CheckAllPlayerReady()
     {
-        if (hostReady && clientReady && hostNameReady && clientNameReady)
+        if (hostReady && clientReady && hostInfoReady && clientInfoReady)
         {
             if (NetUtils.GetPlayerNetworkType() == PlayerNetworkType.HOST)
             {
@@ -105,21 +110,30 @@ public class LoadingScene : NetworkBehaviour
     }
 
 
-    #region Send Name
+    #region Set Players Info
     //send users name
     [ServerRpc(RequireOwnership = false)]
-    private void SendUserNameServerRpc(string userName)
+    private void SendUserNameServerRpc(string clientUserName,int clientUserLevel,int clientProfilImageIndex)
     {
-        if (NetUtils.IsHost()) SendUserNameClientRpc(CloudManager.instance.GetUserData().userName, userName);
+        if (NetUtils.IsHost())
+        {
+            UserData userData = CloudManager.instance.GetUserData();    
+            SendUserNameClientRpc(userData.userName, clientUserName,userData.userLevel,clientUserLevel,userData.userProfileImageIndex,clientProfilImageIndex);
+        }
     }
 
     [ClientRpc]
-    private void SendUserNameClientRpc(string hostName, string clientName)
+    private void SendUserNameClientRpc(string hostName, string clientName,int hostLevel, int clientLevel, int hostProfileImageIndex,int clientProfileImageIndex)
     {
         this.hostName = hostName;
         this.clientName = clientName;
-        hostNameReady = true;
-        clientNameReady = true;
+        this.hostLevel= hostLevel;
+        this.clientLevel = clientLevel;
+        this.hostProfileImageIndex = hostProfileImageIndex;
+        this.clientProfileImageIndex = clientProfileImageIndex;
+
+        hostInfoReady = true;
+        clientInfoReady = true;
     }
 
 
@@ -132,7 +146,7 @@ public class LoadingScene : NetworkBehaviour
         {
             GameManager.instance.SetSpawner();
             GameManager.instance.InitMap(mapName);
-            GameManager.instance.InitAllUserName(hostName, clientName);
+            GameManager.instance.InitAllUserInfo(hostName, clientName);
             GameManager.instance.InitRelicDatas(ownRelicSODic);
             NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnInGameSceneLoaded;
         }

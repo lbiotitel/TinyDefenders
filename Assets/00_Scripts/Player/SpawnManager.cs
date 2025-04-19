@@ -56,18 +56,22 @@ public class SpawnManager : NetworkBehaviour
     private List<Hero> serverHeroList = new List<Hero>();
     private int maxHeroCount;
 
+    private List<Monster> monsterList = new List<Monster>();
+
 
     public Dictionary<string, HeroHolder> heroHolders = new Dictionary<string, HeroHolder>();
     private int[] heroHolderValue = new int[2];
 
     private int serverClientHolderReadyValue = 0;
 
-    public void SetSpawner()
+    public void SetSpawnManager()
     {
         DrawGrid(hostTileMap, ref hostSpawnPositionList, "HOST", 0);
         DrawGrid(clientTimeMap, ref clientSpawnPositionList, "CLIENT", 1);
 
         InitMonsterSpawnPosition();
+
+        EventManager.instance.onWaveNotClearAction += ClearMonster;
     }
 
 
@@ -289,7 +293,7 @@ public class SpawnManager : NetworkBehaviour
         {
             NetworkObject monster = NetworkPoolingManager.instance.GetObject(monsterSpawnPos.position, Quaternion.identity);
 
-            GameManager.instance.AddMonster(monster.GetComponent<Monster>());
+            AddMonster(monster.GetComponent<Monster>());
 
             MonsterSpawnClientRpc(monster.NetworkObjectId, isServer, monsterName);
         }
@@ -310,6 +314,29 @@ public class SpawnManager : NetworkBehaviour
             monsterNetworkObject.GetComponent<Monster>().InitData(monsterData,movePoints);
         }
     }
+
+    public int GetMonsterCount() { return monsterList.Count; }
+
+    private void ClearMonster()
+    {
+        foreach (var monster in monsterList)
+        {
+            monster.DeadClientRpc();
+        }
+    }
+
+    public void AddMonster(Monster monster)
+    {
+        monsterList.Add(monster);
+    }
+    public void RemoveMonster(Monster monster)
+    {
+        monsterList.Remove(monster);
+    }
+
+
+
+
     #endregion
 
 

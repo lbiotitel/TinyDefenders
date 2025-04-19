@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -77,10 +78,14 @@ public class HeroSynergyUI : MonoBehaviour
 
     public void ShowSynergyInfo(Transform transform, string synergyName, string synergyDesc)
     {
+        transform.localScale = new Vector3(0,1f,1f);
+
         Utils.ModifyTransform(transform,ref rectTransform);
         synergyNameText.text = synergyName;
         synergyDescText.text = synergyDesc;
         LayoutRebuilder.ForceRebuildLayoutImmediate(synergyInfoObject.GetComponent<RectTransform>());
+
+        transform.DOScaleX(1f,1f);
     }
 
     public void HideSynergyInfo()

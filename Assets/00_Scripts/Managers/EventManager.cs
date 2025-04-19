@@ -22,7 +22,9 @@ public class EventManager : MonoBehaviour
     public UnityAction<Hero> onHeroStartSummonAction;
     public UnityAction onHeroEndSummonAction;
 
-    public UnityAction<float> onTimerTickAction;
+    public UnityAction<float,bool> onTimerTickAction;
+    public UnityAction onWaveNotClearAction;
+    public UnityAction onWaveClearAction;
 
     public UnityAction<Hero> onHeroDespawnAction;
     public UnityAction<Hero,Monster> onHeroAttackToMonsterAction;
@@ -82,6 +84,8 @@ public class EventManager : MonoBehaviour
         ReleaseAction(ref onHeroEndSummonAction);
         ReleaseAction(ref onBossWaveClear);
         ReleaseAction(ref onTimerTickAction);
+        ReleaseAction(ref onWaveNotClearAction);
+        ReleaseAction(ref onWaveClearAction);
         onHeroUseSkillAction = null;
         instance = null;
     }

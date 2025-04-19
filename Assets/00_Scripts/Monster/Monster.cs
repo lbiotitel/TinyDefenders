@@ -190,19 +190,11 @@ public partial class Monster : Entity
         hpImage.fillAmount = ((float)hp / (float)maxHp);
         DamageText damageText = PoolingManager.instance.GetObject<DamageText>(damageTextPrefab, transform.position);
         damageText.InitDamageText(damage, isCri);
-        Dead();
+        DeadClientRpc();
     }
 
     #endregion
 
-
-    private void GetReward()
-    {
-        if (monsterType == MonsterType.NORMAL)
-        {
-            GameManager.instance.GetGold(1, PlayerNetworkType.ALL);
-        }
-    }
 
     private void Update()
     {
@@ -221,14 +213,12 @@ public partial class Monster : Entity
 
 
     #region Monster Dead Logic
-    private void Dead()
+    private void CheckDead()
     {
         if (hp <= 0)
         {
             if (!isDead)
             {
-                if (IsServer) GetReward();
-
                 SoundManager.instance.PlaySfxSound(monsterDeathSFX, SFXTYPE.EXTRA);
                 isDead = true;
                 StopAllDebuff();
@@ -262,11 +252,17 @@ public partial class Monster : Entity
             if (monsterType == MonsterType.BOSS)
                 GameManager.instance.BossMonsterDead();
             GetComponent<NetworkObject>().Despawn();
-            GameManager.instance.RemoveMonster(this);
+            SpawnManager.instance.RemoveMonster(this);
         }
     }
 
     public bool IsDead() { return isDead; }
+
+    [ClientRpc]
+    public void DeadClientRpc() {
+        hp = 0;
+        CheckDead();
+    }
 
     #endregion
 

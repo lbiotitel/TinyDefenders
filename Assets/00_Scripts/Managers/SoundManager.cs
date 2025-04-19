@@ -26,6 +26,7 @@ public class SoundManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            InitAudioSources();
         }
         else
         {
@@ -42,6 +43,24 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private List<Sound> uiSfxSoundList = new List<Sound>();
     [SerializeField] private List<Sound> extraSfxSoundList = new List<Sound>();
     [SerializeField] private float fadeOutTime;
+
+
+    private void InitAudioSources()
+    {
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        backgroundAudioSource = audioSources[0];
+
+        sfxAudioSource = new AudioSource[audioSources.Length - 1];
+
+        int sfxAudioSourceIndex = 0;
+        for (int i = 0; i < audioSources.Length; i++)
+        {
+            if (audioSources[i] != backgroundAudioSource)
+            {
+                sfxAudioSource[sfxAudioSourceIndex++] = audioSources[i];
+            }
+        }
+    }
 
     public void StopAllMusicSound()
     {

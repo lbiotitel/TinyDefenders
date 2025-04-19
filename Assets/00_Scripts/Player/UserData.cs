@@ -31,6 +31,7 @@ public class UserData
 
     public string userName;
     public int userLevel;
+    public int userProfileImageIndex;   
     public int rankingPoint;
     public int userExp;
     public int totalPlayCount;
@@ -44,12 +45,12 @@ public class UserData
     {
         this.userName = userName;
         this.userLevel = userLevel;
+        this.userProfileImageIndex = 0;
         this.rankingPoint = rakingPoint;
         this.userExp = 0;
         this.totalPlayCount = 0;
         this.stopPlayCount = 0;
         this.relicPoint = 0;
-
         this.heroDataDic = new Dictionary<string, HeroStoreData>();
         this.spellCardDataDic = new Dictionary<string, SpellCardStoreData>();
         this.relicDataDic = new Dictionary<string, bool>();

@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,12 +11,15 @@ public class GameCamera : MonoBehaviour
     private HeroHolder heroHolder = null;
     private HeroHolder moveHolder = null;
     private string hostOrClient = string.Empty;
+    [SerializeField] private float screenShakeTime;
+    [SerializeField] private float screenShakeForce;
 
 
     private void Start()
     {
         cam = GetComponent<Camera>();
         hostOrClient = NetUtils.IsHost() ? "HOST" : "CLIENT";
+        EventManager.instance.onWaveNotClearAction += ScreenShake;
     }
     //ray cast
     private void Update()
@@ -53,6 +57,30 @@ public class GameCamera : MonoBehaviour
         }
 #endif
     }
+
+    private void ScreenShake()
+    {
+        StartCoroutine(ScreenShakeCouroutine());
+    }
+
+    private IEnumerator ScreenShakeCouroutine()
+    {
+        float shakeTime = 0f;
+        float shakeForce = screenShakeForce;
+        Vector3 originPos = transform.position;
+        while (shakeTime < screenShakeTime)
+        { 
+            shakeTime += Time.deltaTime;
+            shakeForce -= Time.deltaTime;
+            transform.position = originPos + Random.insideUnitSphere * shakeForce;
+
+            yield return null;
+        }
+
+        transform.position = originPos;
+    }
+
+
 
     private RaycastHit2D GetRayObject()
     {

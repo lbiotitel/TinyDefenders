@@ -20,15 +20,15 @@ public class GameManager : NetworkBehaviour
     }
 
     //config
-    [field: SerializeField] public int maxMonsterCount { get; private set; }
     [field: SerializeField] public int gold { get; set; }
 
     private int currentWave = 0;
     public float timer = 100000;
     public float selectRelicTime = 20f;
-    public int currentMonsterCount = 0;
+    public int prepareTime = 20;
+    public int gameLife;
 
-    public int warningMonsterCount;
+    public int warningTime;
     public float warningAlarmDelayTime = 30f;
     private bool warningAlarmDelay = false;
 
@@ -40,9 +40,6 @@ public class GameManager : NetworkBehaviour
     public double playerDamage = 0f;
     public double friendDamage = 0f;
 
-    //event
-
-    private List<Monster> monsterList = new List<Monster>();
 
     private WaveScriptable[] waveData = null;
     private WaveScriptable currentWaveData = null;
@@ -83,7 +80,7 @@ public class GameManager : NetworkBehaviour
 
     public void SetSpawner()
     {
-        SpawnManager.instance.SetSpawner();
+        SpawnManager.instance.SetSpawnManager();
     }
 
     public void StartGame()
@@ -94,7 +91,7 @@ public class GameManager : NetworkBehaviour
         EventManager.instance.onGameStartAction?.Invoke();
     }
 
-    public void InitAllUserName(string hostName, string clientName)
+    public void InitAllUserInfo(string hostName, string clientName)
     {
         playerName = hostName;
         friendName = clientName;
@@ -138,19 +135,25 @@ public class GameManager : NetworkBehaviour
 
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         {
-            if (NetUtils.IsHost()) StartCoroutine(ShowCountDown());
+            if (NetUtils.IsHost()) StartCoroutine(CountDown(3));
         }
     }
 
-    private IEnumerator ShowCountDown()
+    private IEnumerator CountDown(int time)
     {
+        NotifyTimerClientRpc(0, currentWave, true);
+     
         yield return new WaitForSeconds(1f);
 
-        for (int i = 3; i >= 1; i--)
+        for (int i = time; i >= 1; i--)
         {
-            ShowCountDownClientRpc(i);
-            if (i == 1) yield return new WaitForSeconds(0.8f);
-            else yield return new WaitForSeconds(1f);
+            NotifyTimerClientRpc(i,currentWave,true);
+            if (i <= 3)
+            {
+                ShowCountDownClientRpc(i);
+                if (i == 1) yield return new WaitForSeconds(0.8f);
+            }
+            yield return new WaitForSeconds(1f);
         }
 
         ShowCountDownClientRpc(0);
@@ -199,20 +202,49 @@ public class GameManager : NetworkBehaviour
         {
             timer -= Time.deltaTime;
             NotifyTimerClientRpc(timer, currentWave);
+            if (timer <= warningTime) ShowWarningAlarm();
 
             yield return null;
         }
 
-        StartWave();
+        CheckClearWave();
+        StartCoroutine(CountDown(prepareTime));
     }
+
+    private void CheckClearWave()
+    {
+        if (NetUtils.IsHost())
+        {
+            if (SpawnManager.instance.GetMonsterCount() > 0)
+            {
+                gameLife--;
+                if (gameLife <= 0) GameOver();
+                else
+                {
+                    InGameUI.instance.RedrawLifeContainerClientRpc(gameLife);
+                    WaveFailEventCalledClientRpc();
+                }
+            }
+            else {
+                ShowClearAlaram();
+                WaveClearEventCalledClientRpc();
+            }
+        }
+    }
+
+    [ClientRpc]
+    private void WaveFailEventCalledClientRpc() => EventManager.instance.onWaveNotClearAction?.Invoke();
+    [ClientRpc]
+    private void WaveClearEventCalledClientRpc() => EventManager.instance.onWaveClearAction?.Invoke();
 
 
     [ClientRpc]
-    private void NotifyTimerClientRpc(float time, int wave)
+    private void NotifyTimerClientRpc(float time, int wave, bool prepare = false)
     {
+        time = Mathf.Max(0,time);
         this.timer = time;
         this.currentWave = wave;
-        EventManager.instance.onTimerTickAction?.Invoke(time);
+        EventManager.instance.onTimerTickAction?.Invoke(time,prepare);
     }
 
     [ClientRpc]
@@ -258,50 +290,36 @@ public class GameManager : NetworkBehaviour
 
     #region Monster Count Method
 
-    private void UpdateClientMonsterCount()
-    {
-        NotifyClientMonsterCountClientRpc(currentMonsterCount);
-    }
-
-    public void AddMonster(Monster monster)
-    {
-        monsterList.Add(monster);
-        currentMonsterCount++;
-        CheckMonsterCount();
-        UpdateClientMonsterCount();
-    }
-    public void RemoveMonster(Monster monster)
-    {
-        monsterList.Remove(monster);
-        currentMonsterCount--;
-        UpdateClientMonsterCount();
-    }
-
-    private void CheckMonsterCount()
-    {
-        if (NetUtils.IsHost())
-        {
-            if (warningMonsterCount <= currentMonsterCount) ShowWarningAlarm();
-            if (currentMonsterCount >= maxMonsterCount) GameOver();
-        }
-    }
 
     private void ShowWarningAlarm()
     {
         if (!warningAlarmDelay)
         {
+            Debug.Log("호출");
             warningAlarmDelay = true;
 
             NetUtils.HostAndClientMethod(() =>
             {
-                InGameUI.instance.ShowAlarmServerRpc("몬수터 수 위험!", 2f, AlarmType.WARNING.ToString());
+                InGameUI.instance.ShowAlarmServerRpc("남은 시간 10초!", 2f, AlarmType.WARNING.ToString());
             }, () =>
             {
-                InGameUI.instance.ShowAlarmClientRpc("몬수터 수 위험!", 2f, AlarmType.WARNING.ToString());
+                InGameUI.instance.ShowAlarmClientRpc("남은 시간 10초", 2f, AlarmType.WARNING.ToString());
             });
 
             StartCoroutine(WarningAlramCoroutine());
         }
+    }
+
+    private void ShowClearAlaram()
+    {
+        NetUtils.HostAndClientMethod(() =>
+        {
+            InGameUI.instance.ShowAlarmServerRpc("웨이브 클리어!", 2f, AlarmType.GOOD.ToString());
+        }, () =>
+        {
+            InGameUI.instance.ShowAlarmClientRpc("웨이브 클리어!", 2f, AlarmType.GOOD.ToString());
+        });
+
     }
 
     private IEnumerator WarningAlramCoroutine()
@@ -310,13 +328,6 @@ public class GameManager : NetworkBehaviour
         warningAlarmDelay = false;
     }
 
-
-
-    [ClientRpc]
-    private void NotifyClientMonsterCountClientRpc(int count)
-    {
-        currentMonsterCount = count;
-    }
 
 
 
