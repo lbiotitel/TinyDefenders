@@ -4,6 +4,12 @@ public class SelectRelicCardUI : MonoBehaviour
 {
     [SerializeField] private SelectRelicCardNodeUI[] selectRelicCardNodeUIs;
 
+    private void Start()
+    {
+        EventManager.instance.onRelicSelectAction += RelicSelected;
+    }
+
+
     public void ShowSelectRelicCardUI()
     {
         gameObject.SetActive(true);
@@ -32,5 +38,12 @@ public class SelectRelicCardUI : MonoBehaviour
         {
             selectRelicCardNodeUIs[i].StopRarityParticle();
         }
+    }
+
+
+    private void RelicSelected(RelicSO relicSO)
+    {
+        relicSO.InitRelicSO(NetUtils.GetPlayerNetworkType());
+        HideSelectRelicUI();
     }
 }

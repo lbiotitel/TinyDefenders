@@ -56,7 +56,13 @@ public struct Path {
     public static string questDataPath = "07QuestDatas";
     public static string userExpDataPath = "09SettingData/UserExpData";
     public static string relicDataPath = "08RelicDatas";
-    public static string gameSettingDataPath = "09SettingData/GameSettingSO";   
+    public static string gameSettingDataPath = "09SettingData/GameSettingSO";
+
+    public static string bgmSoundPath = "10Sound/BGM";
+    public static string uiSFXPath = "10Sound/UI";
+    public static string projectilSFXPath = "10Sound/PROJECTILE";
+    public static string extraSFXPath = "10Sound/EXTRA";
+
 
     public static string wavePath = "06WaveDatas/";
     public static string monsterPath = "05MonsterDatas/";

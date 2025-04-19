@@ -53,9 +53,8 @@ public class ProbabilitySetting : ScriptableObject
 
         for (int i = 0; i < probabilityNode[level].nodes.Count; i++)
         {
-            if (random < probabilityNode[level].nodes[i].probability)
+            if (random <= probabilityNode[level].nodes[i].probability)
             {
-                Debug.Log(probabilityNode[level].nodes[i].rarity);
                 return probabilityNode[level].nodes[i].rarity;
             }
             else

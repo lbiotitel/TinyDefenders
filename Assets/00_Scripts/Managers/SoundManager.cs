@@ -12,8 +12,8 @@ public struct Sound
 
 public enum SFXTYPE
 {
-    PROJECTILESOUND,
-    UISOUND,
+    PROJECTILE,
+    UI,
     EXTRA
 }
 
@@ -38,7 +38,7 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private AudioSource backgroundAudioSource;
     [SerializeField] private AudioSource[] sfxAudioSource;
-    [SerializeField] private List<Sound> musicSoundList = new List<Sound>();
+    [SerializeField] private List<Sound> backgroundSoundList = new List<Sound>();
     [SerializeField] private List<Sound> projectileSfxSoundList = new List<Sound>();
     [SerializeField] private List<Sound> uiSfxSoundList = new List<Sound>();
     [SerializeField] private List<Sound> extraSfxSoundList = new List<Sound>();
@@ -60,6 +60,30 @@ public class SoundManager : MonoBehaviour
                 sfxAudioSource[sfxAudioSourceIndex++] = audioSources[i];
             }
         }
+
+        LoadAudioClips();
+    }
+
+    private void LoadAudioClips()
+    {
+        LoadAudioClip(backgroundSoundList, Path.bgmSoundPath);
+        LoadAudioClip(projectileSfxSoundList, Path.projectilSFXPath);
+        LoadAudioClip(uiSfxSoundList, Path.uiSFXPath);
+        LoadAudioClip(extraSfxSoundList, Path.extraSFXPath);
+    }
+
+    private void LoadAudioClip(List<Sound> audioClipList,string path)
+    {
+        AudioClip[] audioClips = Resources.LoadAll<AudioClip>(path);
+
+        foreach (var audioClip in audioClips)
+        {
+            Sound sound = new Sound();
+            sound.audioClip = audioClip;
+            sound.soundName = audioClip.name;
+
+            audioClipList.Add(sound);
+        } 
     }
 
     public void StopAllMusicSound()
@@ -88,10 +112,10 @@ public class SoundManager : MonoBehaviour
 
         switch (sfxType)
         {
-            case SFXTYPE.PROJECTILESOUND:
+            case SFXTYPE.PROJECTILE:
                 soundList = projectileSfxSoundList;
                 break;
-            case SFXTYPE.UISOUND:
+            case SFXTYPE.UI:
                 soundList = uiSfxSoundList;
                 break;
             case SFXTYPE.EXTRA:
@@ -123,12 +147,12 @@ public class SoundManager : MonoBehaviour
 
     public void PlayMusicSound(string soundName, bool loop = false)
     {
-        for (int i = 0; i < musicSoundList.Count; i++)
+        for (int i = 0; i < backgroundSoundList.Count; i++)
         {
-            if (musicSoundList[i].soundName == soundName)
+            if (backgroundSoundList[i].soundName == soundName)
             {
                 backgroundAudioSource.Stop();
-                backgroundAudioSource.resource = musicSoundList[i].audioClip;
+                backgroundAudioSource.resource = backgroundSoundList[i].audioClip;
                 backgroundAudioSource.loop = loop;
                 backgroundAudioSource.Play();
             }

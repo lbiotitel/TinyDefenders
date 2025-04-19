@@ -38,7 +38,7 @@ public partial class Monster : Entity
 
     public void InitData(MonsterScriptable data, List<Transform> movePointList)
     {
-        StartCoroutine(ResetObject());
+        ResetObject();
         CalcMonsterHp(data);
         defense = data.defense;
         speed = originalSpeed = data.monsterSpeed;
@@ -54,6 +54,8 @@ public partial class Monster : Entity
         maxHp = data.monsterHp;
         maxHp = maxHp + (maxHp * (result * 1.3f));
         hp = maxHp;
+
+        Debug.Log(hp);
     }
 
     private void SyncMonsterPosition()
@@ -64,10 +66,8 @@ public partial class Monster : Entity
         }
     }
 
-    private IEnumerator ResetObject()
+    private void ResetObject()
     {
-        yield return new WaitForSeconds(0.2f);
-
         if (!gameObject.activeSelf) gameObject.SetActive(true);
         isDead = false;
         gameObject.layer = LayerMask.NameToLayer(LayerName.Monster);
@@ -190,7 +190,7 @@ public partial class Monster : Entity
         hpImage.fillAmount = ((float)hp / (float)maxHp);
         DamageText damageText = PoolingManager.instance.GetObject<DamageText>(damageTextPrefab, transform.position);
         damageText.InitDamageText(damage, isCri);
-        DeadClientRpc();
+        CheckDead();
     }
 
     #endregion
@@ -198,8 +198,8 @@ public partial class Monster : Entity
 
     private void Update()
     {
-        if (isDead) return;
         HpSlideAnimation();
+        if (isDead) return;
         if (isStun) return;
         SyncMonsterPosition();
     }
@@ -219,8 +219,8 @@ public partial class Monster : Entity
         {
             if (!isDead)
             {
-                SoundManager.instance.PlaySfxSound(monsterDeathSFX, SFXTYPE.EXTRA);
                 isDead = true;
+                SoundManager.instance.PlaySfxSound(monsterDeathSFX, SFXTYPE.EXTRA);
                 StopAllDebuff();
                 gameObject.layer = LayerMask.NameToLayer(LayerName.Defulat);
                 StartCoroutine(DeadCoroutine());

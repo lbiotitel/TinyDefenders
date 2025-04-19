@@ -37,7 +37,7 @@ public class ArrowOptionUI : MonoBehaviour
         currentIndex = (currentIndex + 1) % options.Count;
         ShowOptionText();
         onValueChanged?.Invoke(GetCurrentIndex());
-        SoundManager.instance.PlaySfxSound("OptionButtonSFX",SFXTYPE.UISOUND);
+        SoundManager.instance.PlaySfxSound("OptionButtonSFX",SFXTYPE.UI);
     }
 
     private void PrevOptions()
@@ -46,7 +46,7 @@ public class ArrowOptionUI : MonoBehaviour
         if (currentIndex < 0) currentIndex = options.Count - 1;
         ShowOptionText();
         onValueChanged?.Invoke(GetCurrentIndex());
-        SoundManager.instance.PlaySfxSound("OptionButtonSFX", SFXTYPE.UISOUND);
+        SoundManager.instance.PlaySfxSound("OptionButtonSFX", SFXTYPE.UI);
     }
 
     private void ShowOptionText()

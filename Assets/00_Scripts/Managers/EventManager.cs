@@ -30,6 +30,7 @@ public class EventManager : MonoBehaviour
     public UnityAction<int,int> onExpLevelChangedAction;
     public UnityAction<int> onLevelChagendAction;
 
+    public UnityAction<RelicSO> onRelicSelectAction;
     public UnityAction<Hero> onHeroDespawnAction;
     public UnityAction<Hero,Monster> onHeroAttackToMonsterAction;
     public UnityAction onDrawCardAction;
@@ -93,6 +94,7 @@ public class EventManager : MonoBehaviour
         ReleaseAction(ref onExpLevelChangedAction);
         ReleaseAction(ref onLevelChagendAction);
         ReleaseAction(ref onWaveFinishAction);
+        ReleaseAction(ref onRelicSelectAction);
 
         instance = null;
     }

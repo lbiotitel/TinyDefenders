@@ -68,7 +68,7 @@ public class MainSceneUI : MonoBehaviour
     {
         button.onClick.AddListener(() => {
             if (buttonUI.activeSelf) return;
-            SoundManager.instance.PlaySfxSound(menuButtonSFX,SFXTYPE.UISOUND);
+            SoundManager.instance.PlaySfxSound(menuButtonSFX,SFXTYPE.UI);
             HideAllMenu();
             buttonUI.SetActive(true);
             button.GetComponent<Image>().color = activeButtonColor;

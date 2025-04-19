@@ -208,7 +208,7 @@ public class GameResourceManager : MonoBehaviour
 
     public HeroRarity GetIngameSummonRarity(int level)
     {
-        return inGameDrawHeroCardRarityProbabilitySetting.GetRarity(level);
+        return inGameDrawHeroCardRarityProbabilitySetting.GetRarity(level - 1);
     }
 
     public List<float> GetDrawHeroCardProbability(int level)

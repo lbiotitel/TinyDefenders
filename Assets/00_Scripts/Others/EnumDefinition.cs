@@ -49,8 +49,10 @@ public enum HeroClass {
     MAGE,
     ROGUE,
     TANKER,
-    SUPPROTER,
-    RANGER
+    ARCHER,
+    HUNTER,
+    RIDER,
+    SPEAR
 }
 
 public enum SynergyType { 

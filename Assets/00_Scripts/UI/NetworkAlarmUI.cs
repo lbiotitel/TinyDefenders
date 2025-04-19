@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,15 +24,16 @@ public class NetworkAlarmUI : MonoBehaviour
     }
 
     [System.Serializable]
-    public class AlarmSprite {
+    public class AlarmNode {
         public AlarmType alarmType;
         public Sprite alarmImage;
+        public string sfxName;
     }
 
     [SerializeField] private RectTransform horizontalRectTransform;
     [SerializeField] private TextMeshProUGUI alarmText;
     [SerializeField] private Image alarmImage;
-    [SerializeField] private List<AlarmSprite> alarmSprites;
+    [SerializeField] private List<AlarmNode> alarmNodes;
 
     private Queue<AlarmData> alarmDatas = new Queue<AlarmData>();
     private Animator animator;
@@ -87,17 +89,17 @@ public class NetworkAlarmUI : MonoBehaviour
                 
                 break;
             case AlarmType.GOOD:
-                //SoundManager.instance.PlaySfxSound("GoodAlarmSFX");
+                SoundManager.instance.PlaySfxSound(alarmNodes[(int)AlarmType.WARNING].sfxName,SFXTYPE.UI);
                 break;
             case AlarmType.BAD:
 
                 break;
             case AlarmType.WARNING:
-                alarmImage.sprite = alarmSprites[(int)AlarmType.WARNING].alarmImage;
+                alarmImage.sprite = alarmNodes[(int)AlarmType.WARNING].alarmImage;
                 alarmImage.gameObject.SetActive(true);
                 break;
             case AlarmType.QUEST:
-                alarmImage.sprite = alarmSprites[(int)AlarmType.QUEST].alarmImage;
+                alarmImage.sprite = alarmNodes[(int)AlarmType.QUEST].alarmImage;
                 alarmImage.gameObject.SetActive(true);
                 break;
         }

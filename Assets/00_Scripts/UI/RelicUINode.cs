@@ -44,7 +44,7 @@ public class RelicUINode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandle
         {
             if (relicSO.IsEnoughPoint(relicPoint))
             {
-                SoundManager.instance.PlaySfxSound(relicOnSFX, SFXTYPE.UISOUND);
+                SoundManager.instance.PlaySfxSound(relicOnSFX, SFXTYPE.UI);
                 relicPoint -= relicSO.requirePoint;
                 RelicOn();
             }

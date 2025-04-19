@@ -30,7 +30,7 @@ public class UpgradeUINode : MonoBehaviour
     {
         if (GameManager.instance.IsEnoughGold(cost))
         {
-            SoundManager.instance.PlaySfxSound(upgradeSFX,SFXTYPE.UISOUND);
+            SoundManager.instance.PlaySfxSound(upgradeSFX,SFXTYPE.UI);
             GameManager.instance.SpendGold(cost);
             InGameUI.instance.ClickUpgradeButton(upgradeTribe);
         }

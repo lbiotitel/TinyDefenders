@@ -154,7 +154,7 @@ public class BattleUI : MonoBehaviour
 
     private async void StartRandomMathcing()
     {
-        SoundManager.instance.PlaySfxSound(startMactchingSFX,SFXTYPE.UISOUND);
+        SoundManager.instance.PlaySfxSound(startMactchingSFX,SFXTYPE.UI);
 
         ShowMathcingUI();
         matchingTime = 0f;

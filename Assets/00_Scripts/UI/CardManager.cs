@@ -148,7 +148,7 @@ public class CardManager : MonoBehaviour
 
     public void DrawCard(CardType cardType)
     {
-        SoundManager.instance.PlaySfxSound(cardDrawSFX, SFXTYPE.UISOUND);
+        SoundManager.instance.PlaySfxSound(cardDrawSFX, SFXTYPE.UI);
         switch (cardType)
         {
             case CardType.SUMMON:

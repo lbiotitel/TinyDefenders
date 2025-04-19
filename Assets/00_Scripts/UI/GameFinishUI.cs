@@ -46,7 +46,7 @@ public class GameFinishUI : MonoBehaviour
 
     public void SetGameFinishUI() 
     {
-        SoundManager.instance.PlaySfxSound(showGameResultSFX,SFXTYPE.UISOUND);  
+        SoundManager.instance.PlaySfxSound(showGameResultSFX,SFXTYPE.UI);  
 
         playerNameText.text = gameFinishStatGameObject.playerName;
         friendNameText.text= gameFinishStatGameObject.friendName;

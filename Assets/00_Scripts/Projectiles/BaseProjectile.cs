@@ -25,7 +25,7 @@ public class BaseProjectile : MonoBehaviour
 
     public virtual void Init(Transform target, Hero referenceHero,double damage,List<DebuffEffect> debuffEffects = null)
     {
-        SoundManager.instance.PlaySfxSound(projectileSFX,SFXTYPE.PROJECTILESOUND);
+        SoundManager.instance.PlaySfxSound(projectileSFX,SFXTYPE.PROJECTILE);
 
         this.referenceHero = referenceHero;
         this.target = target;
