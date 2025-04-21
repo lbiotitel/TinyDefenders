@@ -420,7 +420,7 @@ GameObject:
   - component: {fileID: 4046672439042829149}
   - component: {fileID: 860972043160866581}
   - component: {fileID: 5699632463434534283}
-  - component: {fileID: 425514562363419179}
+  - component: {fileID: 3975052571075241719}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -437,7 +437,7 @@ Transform:
   m_GameObject: {fileID: 7380748454083490264}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.4, y: -2, z: 0}
+  m_LocalPosition: {x: 3.009, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -487,7 +487,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   spawnParticle: {fileID: 5626245795935178412, guid: fd1add2b7de660f498cb90d16f9f8561, type: 3}
   rarityParticle: {fileID: 5773783186465888369}
-  heroRangeCollider: {fileID: 425514562363419179}
+  heroRangeCollider: {fileID: 3975052571075241719}
   upgradeParticle: {fileID: 7363878967741635985}
   <monsterLayer>k__BackingField:
     serializedVersion: 2
@@ -508,8 +508,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   skillFillImage: {fileID: 3056056647807907859}
   skillCanvas: {fileID: 2762832127224288746}
---- !u!58 &425514562363419179
-CircleCollider2D:
+--- !u!61 &3975052571075241719
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -538,12 +538,22 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
 --- !u!1001 &3145851062911400378
 PrefabInstance:
   m_ObjectHideFlags: 0

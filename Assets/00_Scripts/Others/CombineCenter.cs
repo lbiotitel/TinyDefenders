@@ -23,7 +23,7 @@ public class CombineCenter : MonoBehaviour
         foreach (var ownHero in ownHeroList)
         {
             if (hero == ownHero) continue;
-            if (hero.heroName == ownHero.heroName)
+            if (hero.heroName == ownHero.heroName && hero.heroOwnerNetworkType == ownHero.heroOwnerNetworkType)
             { 
                 requireHeroList.Add(ownHero);
             }

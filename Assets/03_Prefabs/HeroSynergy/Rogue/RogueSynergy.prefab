@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7026918769585805991}
-  - component: {fileID: 4594024895870057039}
+  - component: {fileID: 7687827378124039385}
   m_Layer: 0
-  m_Name: DwarfSynergy
+  m_Name: RogueSynergy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4594024895870057039
+--- !u!114 &7687827378124039385
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,10 +41,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 534082329518073874}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f446025f1f8b464cb3a281efe9d7b28, type: 3}
+  m_Script: {fileID: 11500000, guid: d3353db0791e2b44294c12c60dae2af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroAtkRange:
-  - 0.3
-  - 0.5
-  - 1
+  synergyParticle: {fileID: 9039825399239159426, guid: 965fd7c1cdc8c8e428bfb4731988540a, type: 3}
+  criModifireValue:
+  - 0
+  - 20
+  - 30
+  - 30
+  excutionHpPercent: 5

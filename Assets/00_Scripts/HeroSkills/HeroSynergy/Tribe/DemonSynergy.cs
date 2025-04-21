@@ -37,7 +37,7 @@ public class DemonSynergy : HeroSynergyBase
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(monster.transform.position, demonExplosionRange, LayerMask.GetMask(LayerName.Monster));
 
-        NetworkRpcManager.instance.SpawnDemonExplosionClientRpc(monster.transform.position);
+        NetworkRpcManager.instance.SpawnSynergyParticleClientRpc(synergyName,monster.transform.position);
 
         foreach (var collider in colliders)
         {
@@ -50,5 +50,4 @@ public class DemonSynergy : HeroSynergyBase
         }
     }
 
-    public GameObject GetExplosionPrefab() { return demonExplosionPrefab; }
 }

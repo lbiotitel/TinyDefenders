@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7026918769585805991}
-  - component: {fileID: -734110458939488126}
+  - component: {fileID: 4030937690386223967}
   m_Layer: 0
-  m_Name: OrcSynergy
+  m_Name: ArcherSynergy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-734110458939488126
+--- !u!114 &4030937690386223967
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,11 +41,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 534082329518073874}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d0a00621d1bd05489e899a9ed1a5e91, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ab00e596a0addb4a880e14f6c2ea1fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  criticalRate:
-  - 10
-  - 15
-  - 30
-  excutionHpPercent: 5
+  synergyParticle: {fileID: 0}
+  multiTargetValue: 000000000100000002000000

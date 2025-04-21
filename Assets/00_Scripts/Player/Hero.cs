@@ -9,7 +9,7 @@ public class Hero : Entity
 {
     [SerializeField] private GameObject spawnParticle;
     [SerializeField] private ParticleSystem rarityParticle;
-    [SerializeField] private CircleCollider2D heroRangeCollider;
+    [SerializeField] private BoxCollider2D heroRangeCollider;
     [SerializeField] private ParticleSystem upgradeParticle;
 
     private HeroScriptable heroData;
@@ -19,7 +19,8 @@ public class Hero : Entity
     private bool attackDelay = false;
 
     private List<Monster> monsterInRangeList = new List<Monster>();
-    private double damageStack = 0;
+    private NetworkVariable<double> damageStack = new NetworkVariable<double>(0);
+    private double damageStackValue = 0;
 
     [field: SerializeField] public LayerMask monsterLayer { get; private set; }
     public string heroName { get; set; }
@@ -54,6 +55,7 @@ public class Hero : Entity
 
         heroData.InitHeroNetworkType(heroOwnerNetworkType);
 
+        damageStack.OnValueChanged += OnDamageStackValueChagned;
         SpawnManager.instance.AddHero(this);
         EventManager.instance.onUpgradeAction += PlayUpgradeParticle;
     }
@@ -61,8 +63,8 @@ public class Hero : Entity
 
     private void InitHeroRangeCollider()
     {
-        float rad = heroRangeCollider.radius;
-        heroRangeCollider.radius = heroData.GetHeroAtkRange();
+        Vector2 boxSize = heroRangeCollider.size;
+        heroRangeCollider.size = boxSize * heroData.GetHeroAtkRange();
     }
 
     private void InitRarityCircleColor()
@@ -178,6 +180,7 @@ public class Hero : Entity
             BaseProjectile go =
                 PoolingManager.instance.GetObject<BaseProjectile>(heroData.projectile.gameObject, transform.position);
             go.Init(targetObject.transform,this, heroData.GetHeroAtk());
+            EventManager.instance.onBeforeAttackMonsterAction?.Invoke(this,targetObject.GetComponent<Monster>());
             LooKTarget(targetObject.gameObject);
         }
     }
@@ -223,12 +226,18 @@ public class Hero : Entity
     #endregion
 
 
-  
+
+    private void OnDamageStackValueChagned(double oldValue, double newValue) => damageStackValue = newValue;
+
     public HeroScriptable GetHeroData() { return heroData; }
     public HeroHolder GetHeroHolder() { return heroHolder; }
-    public void IncreaseDamageStack(double damage) { damageStack += damage; }
-    public double GetDamageStack() { return damageStack; }
-    public void SetMonsterKillCount(double damageStack) { this.damageStack = damageStack; }
+    public void IncreaseDamageStack(double damage)
+    { 
+        if(NetUtils.IsHost())
+            damageStack.Value += damage;
+    }
+
+    public double GetDamageStack() { return damageStackValue; }
     public List<Monster> GetMonsterList() { return monsterInRangeList; }
 
 
@@ -236,6 +245,7 @@ public class Hero : Entity
     {
         base.OnNetworkDespawn();
         if (GameManager.instance.isGameOver) return;
+        damageStack.OnValueChanged -= OnDamageStackValueChagned;
         EventManager.instance.onUpgradeAction -= PlayUpgradeParticle;
         SpawnManager.instance.RemoveHero(this);
     }

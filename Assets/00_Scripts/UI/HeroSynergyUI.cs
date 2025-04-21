@@ -51,20 +51,20 @@ public class HeroSynergyUI : MonoBehaviour
         foreach (var data in heroSynergySOs)
         {
             Debug.Log(data.synergyName + " : " + data.GetCurrentSynergyLevel());
-            ShowHeroSynergyUI(data.synergyName, data.GetCurrentSynergyLevel());
+            ShowHeroSynergyUI(data);
         }
     }
 
 
-    private void ShowHeroSynergyUI(string synergyName, int synergyLevel)
+    private void ShowHeroSynergyUI(HeroSynergySOBase heroSynergySOBase)
     {
         for (int i = 0; i < synergyUINodes.Count; i++)
         {
-            if (synergyUINodes[i].heroSynergySO.synergyName == synergyName)
+            if (synergyUINodes[i].heroSynergySO.synergyName == heroSynergySOBase.synergyName)
             {
-                if (synergyLevel > 0)
+                if (heroSynergySOBase.GetHeroCount() > 0)
                 {
-                    synergyUINodes[i].ShowSynergyUINode(synergyLevel);
+                    synergyUINodes[i].ShowSynergyUINode(heroSynergySOBase.GetCurrentSynergyLevel());
                 }
                 else
                 {

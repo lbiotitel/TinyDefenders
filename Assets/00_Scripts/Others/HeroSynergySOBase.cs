@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class HeroSynergySOBase : ScriptableObject
 {
     public string synergyName;
-    [TextArea] public string[] synergyDescription;
+    public string synergyDescription;
 
     public int[] synergyRequireCount;
     public HeroSynergyBase synergyBase;
@@ -16,7 +16,7 @@ public abstract class HeroSynergySOBase : ScriptableObject
     {
         HeroSynergyBase heroSynergyBase = Instantiate(synergyBase);
         synergyBase = heroSynergyBase;
-        synergyBase.InitNetworkType(playerNetworkType);
+        synergyBase.InitNetworkType(playerNetworkType,synergyName);
     }
 
     public int CheckSynergyLevel()
@@ -43,13 +43,15 @@ public abstract class HeroSynergySOBase : ScriptableObject
 
     public string GetCurrentSynergyDescription()
     {
-        return synergyDescription[currentSynergyLevel - 1];
+        return synergyDescription;
     }
 
 
     public abstract Sprite GetSynergyImage();
+    public int GetHeroCount() { return currentHeroCount; }
     public abstract void IncreaseHeroCount(HeroScriptable heroData);
     public abstract void DecreaseHeroCount(HeroScriptable heroData);
-    public void SetCurrentHeroSynergyLevel(int level) { currentSynergyLevel = level; }
+    public void SetCurrentHeroSynergyLevel(int level) => currentSynergyLevel = level;
+    public void SetCurrentHeroCount(int count) => currentHeroCount = count;
     public int GetCurrentSynergyLevel() { return currentSynergyLevel; }
 }

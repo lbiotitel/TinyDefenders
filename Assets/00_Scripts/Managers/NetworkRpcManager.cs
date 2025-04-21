@@ -113,36 +113,6 @@ public class NetworkRpcManager : NetworkBehaviour
     #endregion
 
 
-    #region About Hero Data
-
-
-    [ServerRpc(RequireOwnership = false)]
-    public void GetServerHeroDamageStackServerRpc(ulong heroNetworkId)
-    {
-        if (NetUtils.TryGetSpawnedObject(heroNetworkId, out NetworkObject heroNetWorkObject))
-        {
-            Hero hero = heroNetWorkObject.GetComponent<Hero>();
-            GetServerHeroKillCountClientRpc(heroNetworkId, hero.GetDamageStack());
-        }
-    }
-
-    [ClientRpc]
-    public void GetServerHeroKillCountClientRpc(ulong heroNetworkId, double damageStack)
-    {
-        if (IsClient)
-        {
-            if (NetUtils.TryGetSpawnedObject(heroNetworkId, out NetworkObject heroNetWorkObject))
-            {
-                Hero hero = heroNetWorkObject.GetComponent<Hero>();
-                hero.SetMonsterKillCount(damageStack);
-            }
-        }
-    }
-
-
-    #endregion
-
-
     #region About Upgrade
 
 
@@ -195,25 +165,25 @@ public class NetworkRpcManager : NetworkBehaviour
     #region About Hero Synergy 
 
     [ClientRpc]
-    public void GetHeroSynergyDatasClientRpc(FixedString32Bytes[] synergyName, int[] synergyLevel)
+    public void GetHeroSynergyDatasClientRpc(FixedString32Bytes[] synergyName, int[] heroCount, int[] synergyLevel)
     {
         for (int i = 0; i < synergyName.Length; i++)
         {
             string synergyNameString = synergyName[i].ToString();   
-            PlayerStatManager.instance.SetClientHeroSynergyData(NetUtils.GetPlayerNetworkType(), synergyNameString, synergyLevel[i]);
+            PlayerStatManager.instance.SetClientHeroSynergyData(NetUtils.GetPlayerNetworkType(), synergyNameString, heroCount[i], synergyLevel[i]);
         }
     }
 
 
     [ClientRpc]
-    public void SpawnDemonExplosionClientRpc(Vector3 targetPos)
+    public void SpawnSynergyParticleClientRpc(string synergyName,Vector3 targetPos)
     {
-        HeroSynergySOBase heroSynergySO = GameResourceManager.instance.GetHeroSynergySO(HeroTribe.DEMON.ToString());
-        DemonSynergy demonSynergy = heroSynergySO.synergyBase as DemonSynergy;
-        GameObject demonExplosionPrefab = demonSynergy.GetExplosionPrefab();
+        HeroSynergySOBase heroSynergySO = GameResourceManager.instance.GetHeroSynergySO(synergyName);
+        GameObject particlePrefab = heroSynergySO.synergyBase.GetSynergyParticle();
 
-        GameObject go = PoolingManager.instance.GetObject(demonExplosionPrefab,targetPos);
+        GameObject go = PoolingManager.instance.GetObject(particlePrefab, targetPos);
     }
+
 
     #endregion
 

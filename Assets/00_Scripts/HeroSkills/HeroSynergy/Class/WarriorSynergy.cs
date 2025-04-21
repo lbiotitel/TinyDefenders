@@ -6,15 +6,15 @@ public class WarriorSynergy : HeroSynergyBase
 
     public override void HeroSynergyActive(int level)
     {
-        if (level < 1) return;
-        PlayerStatManager.instance.AddAtkModifire(playerNetworkType, atkModifireValue[level - 1]);
+        CheckSynergyLevel(level);
+        PlayerStatManager.instance.AddAtkModifire(playerNetworkType, atkModifireValue[currentSynergyLevel]);
 
     }
 
     public override void HeroSynergyDeactive(int level)
     {
-        if (level < 1) return;
-        PlayerStatManager.instance.RemoveAtkModifire(playerNetworkType, atkModifireValue[level - 1]);
+        CheckSynergyLevel(level);
+        PlayerStatManager.instance.RemoveAtkModifire(playerNetworkType, atkModifireValue[currentSynergyLevel]);
 
     }
 }

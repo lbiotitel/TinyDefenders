@@ -190,26 +190,29 @@ public class PlayerStatManager : MonoBehaviour
         if (NetUtils.IsHost())
         {
             FixedString32Bytes[] synergyName = new FixedString32Bytes[clientHeroSynergyDic.Count];
+            int[] heroCount = new int[(int)HeroTribe.LAST];
             int[] heroSynergyLevel = new int[(int)HeroTribe.LAST];
 
             int index = 0;
             foreach (var data in clientHeroSynergyDic)
             {
                 synergyName[index] = data.Key;
+                heroCount[index] = data.Value.GetHeroCount();
                 heroSynergyLevel[index] = data.Value.GetCurrentSynergyLevel();
                 index++;
             }
 
-            NetworkRpcManager.instance.GetHeroSynergyDatasClientRpc(synergyName, heroSynergyLevel);
+            NetworkRpcManager.instance.GetHeroSynergyDatasClientRpc(synergyName,heroCount, heroSynergyLevel);
         }
     }
 
 
-    public void SetClientHeroSynergyData(PlayerNetworkType playerNetworkType, string synergyName, int synergyLevel)
+    public void SetClientHeroSynergyData(PlayerNetworkType playerNetworkType, string synergyName,int heroCount, int synergyLevel)
     {
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         {
             clientHeroSynergyDic[synergyName].SetCurrentHeroSynergyLevel(synergyLevel);
+            clientHeroSynergyDic[synergyName].SetCurrentHeroCount(heroCount);
 
             foreach (var data in clientHeroSynergyDic)
             {

@@ -387,7 +387,11 @@ public class GameManager : NetworkBehaviour
 
     public bool IsEnoughGold(int gold)
     {
-        if (this.gold < gold) return false;
+        if (this.gold < gold)
+        {
+            AdviceUIManager.instance.AddAdvice("골드가 부족합니다.");
+            return false;
+        }
         return true;
     }
 

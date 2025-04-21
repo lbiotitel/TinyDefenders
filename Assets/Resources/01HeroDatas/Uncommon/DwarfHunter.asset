@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: DwarfHunter
   m_EditorClassIdentifier: 
   heroName: DwarfHunter
-  rarity: 1
-  heroCost: 50
+  rarity: 0
+  heroCost: 4
   atk:
     <baseValue>k__BackingField: 150
     modifiers: []
@@ -38,6 +38,7 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 1
+  heroClass: 5
   heroMainImage: {fileID: -220383299, guid: b1b05f2edbeb45d4b9dc8c9ee506ea4f, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: dcd251b0764ab2f48a059edf65432962, type: 2}
   projectile: {fileID: 2534457697127531987, guid: e88d2e0819496784d9f426998e4cc9d4, type: 3}

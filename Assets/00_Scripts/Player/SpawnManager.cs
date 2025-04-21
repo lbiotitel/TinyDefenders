@@ -104,7 +104,7 @@ public class SpawnManager : NetworkBehaviour
 
         for (int row = bounds.yMax; row >= bounds.yMin; row--)
         {
-            for (int col = bounds.xMax; col >= bounds.xMin; col--)
+            for (int col = bounds.xMin; col <= bounds.xMax; col++)
             {
                 Vector3Int tilePosition = new Vector3Int(col, row, 0);
                 if (!tileMap.HasTile(tilePosition)) continue;  

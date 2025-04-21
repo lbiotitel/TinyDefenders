@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ScavengerCannon
   m_EditorClassIdentifier: 
   heroName: ScavengerCannon
-  rarity: 1
-  heroCost: 25
+  rarity: 0
+  heroCost: 3
   atk:
     <baseValue>k__BackingField: 128
     modifiers: []
@@ -38,6 +38,7 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 6
+  heroClass: 5
   heroMainImage: {fileID: 1105075747, guid: 0f3b3841079f94147834564e181d1ac0, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 307d5fdf1519a1c42aa378369fb32544, type: 2}
   projectile: {fileID: 3779872334095663822, guid: d17d0f76552146643bc305fa46576781, type: 3}

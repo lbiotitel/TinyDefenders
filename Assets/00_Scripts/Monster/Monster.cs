@@ -5,6 +5,21 @@ using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.UI;
 
+public class DamageEvent { 
+    public double originDamage;
+    public double finalDamage;
+    public Monster monster;
+    public Hero hero;
+
+    public DamageEvent(double originDamage,double finalDamage,Monster monster,Hero hero)
+    { 
+        this.finalDamage = finalDamage;
+        this.originDamage = originDamage;
+        this.monster = monster;
+        this.hero = hero;
+    }
+}
+
 public partial class Monster : Entity
 {
     [Header("Monster Basic Property")]
@@ -54,8 +69,6 @@ public partial class Monster : Entity
         maxHp = data.monsterHp;
         maxHp = maxHp + (maxHp * (result * 1.3f));
         hp = maxHp;
-
-        Debug.Log(hp);
     }
 
     private void SyncMonsterPosition()
@@ -105,8 +118,7 @@ public partial class Monster : Entity
 
     private void MonsterGetDamage(double damage, PlayerNetworkType playerNetworkType)
     {
-        GetDamage(ref damage, null);
-        hpImage.fillAmount = ((float)hp / (float)maxHp);
+        hp -= CalcDamage(damage);
         UpdateClientRpc(hp, damage, false);
     }
 
@@ -117,20 +129,25 @@ public partial class Monster : Entity
         {
             Hero hero = heroObject.GetComponent<Hero>();
 
-            bool isCri = GetDamage(ref damage, hero);
+            bool isCri = false;
+            double finalDamage = CalcDamage(damage, hero, ref isCri);
 
-            StackDamage(damage, playerNetworkType, hero);
+            DamageEvent damageEvent = new DamageEvent(damage, finalDamage, this, hero);
+            if (eventCall) EventManager.instance.onMonsterBeforeTakeDamageAction?.Invoke(damageEvent);
+            finalDamage = Mathf.RoundToInt((float)damageEvent.finalDamage);
+            
+            hp -= finalDamage;
 
-            hpImage.fillAmount = ((float)hp / (float)maxHp);
-            UpdateClientRpc(hp, damage, isCri);
+            StackDamage(finalDamage, playerNetworkType, hero);
+            UpdateClientRpc(hp, finalDamage, isCri);
 
             if (eventCall) EventManager.instance.onHeroAttackToMonsterAction?.Invoke(hero, this);
         }
     }
 
-    private bool GetDamage(ref double damage, Hero hero)
+    private double CalcDamage(double damage, Hero hero, ref bool isCri)
     {
-        bool isCri = false;
+        isCri = false;
         if (hero != null)
         {
             isCri = IsCri(hero);
@@ -138,9 +155,16 @@ public partial class Monster : Entity
         }
 
         damage -= defense;
-        hp -= Mathf.RoundToInt((float)damage);
-        return isCri;
+        return Mathf.RoundToInt((float)damage); ;
+
     }
+
+    private double CalcDamage(double damage)
+    {
+        damage -= defense;
+        return Mathf.RoundToInt((float)damage); 
+    }
+
 
     private bool IsCri(Hero hero)
     {
