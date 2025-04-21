@@ -18,21 +18,10 @@ public class AdviceUIManager : MonoBehaviour
         }
     }
 
-    [System.Serializable]
-    public class AdviceQueueNode
-    {
-        public string advice;
-        public float lifeTime;
-
-        public AdviceQueueNode(string advice, float lifeTime)
-        {
-            this.advice = advice;
-            this.lifeTime = lifeTime;
-        }
-    }
-
     [SerializeField] private TMP_Text adviceText;
-    [SerializeField] private List<AdviceQueueNode> adviceList = new List<AdviceQueueNode>();
+    [SerializeField] private float adviceTextCoolTime;
+    [SerializeField] private List<string> adviceList = new List<string>();
+    private bool canShowAdvice = true;
     private Animator adviceAnimator;
 
     private void Start()
@@ -41,29 +30,44 @@ public class AdviceUIManager : MonoBehaviour
         adviceAnimator = adviceText.gameObject.GetComponent<Animator>();
     }
 
-
-    public void AddAdvice(string advice, float lifeTime = 1f)
+    private void Update()
     {
-        adviceList.Add(new AdviceQueueNode(advice,lifeTime));
-        ShowAdvice();
+        CheckAdviceInList();
+    }
+
+    private void CheckAdviceInList()
+    {
+        if (canShowAdvice)
+        {
+            if (adviceList.Count > 0)
+            {
+                ShowAdvice();
+                canShowAdvice = false;
+            }
+        }
+    }
+
+    public void AddAdvice(string advice)
+    {
+        adviceList.Add(advice);
     }
 
     private void ShowAdvice()
     {
-        AdviceQueueNode node = adviceList[0];
+        string node = adviceList[0];
+        adviceText.text = node;
         adviceList.Remove(node);
-        adviceText.text = node.advice;
         adviceText.gameObject.SetActive(true);
 
-        StartCoroutine(AdviceLifeCoroutine(node.lifeTime));
+        StartCoroutine(AdviceTextCoolTimeCouroutine());
     }
 
-    private IEnumerator AdviceLifeCoroutine(float lifeTime)
+    private IEnumerator AdviceTextCoolTimeCouroutine()
     { 
-        yield return new WaitForSeconds(lifeTime);
+        yield return new WaitForSeconds(adviceTextCoolTime);
 
         HideAdviceText();
-        if (adviceList.Count > 0) ShowAdvice();
+        canShowAdvice = true;
     }
 
 

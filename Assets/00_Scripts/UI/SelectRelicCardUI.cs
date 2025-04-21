@@ -43,7 +43,8 @@ public class SelectRelicCardUI : MonoBehaviour
 
     private void RelicSelected(RelicSO relicSO)
     {
-        relicSO.InitRelicSO(NetUtils.GetPlayerNetworkType());
         HideSelectRelicUI();
+        relicSO.InitRelicSO(NetUtils.GetPlayerNetworkType());
+        EventManager.instance.onRelicSelectFinishAction?.Invoke(NetUtils.GetPlayerNetworkType());
     }
 }

@@ -42,6 +42,7 @@ public partial class Monster : Entity
     List<Transform> movePointList;
     private double defense = 0;
     private bool isDead = false;
+    private bool isHostPosition = false;
     private MonsterType monsterType = MonsterType.NORMAL;
 
     public override void Awake()
@@ -51,14 +52,15 @@ public partial class Monster : Entity
 
     #region Monster Init Logic
 
-    public void InitData(MonsterScriptable data, List<Transform> movePointList)
+    public void InitData(MonsterScriptable data, List<Transform> movePointList,bool isHostPosition)
     {
-        ResetObject();
+        StartCoroutine(ResetObject());
         CalcMonsterHp(data);
         defense = data.defense;
         speed = originalSpeed = data.monsterSpeed;
         animator.runtimeAnimatorController = data.animatorController;
         monsterType = data.monsterType;
+        this.isHostPosition = isHostPosition;
         this.movePointList = movePointList;
     }
 
@@ -79,8 +81,10 @@ public partial class Monster : Entity
         }
     }
 
-    private void ResetObject()
+    private IEnumerator ResetObject()
     {
+        yield return new WaitForSeconds(0.2f);
+
         if (!gameObject.activeSelf) gameObject.SetActive(true);
         isDead = false;
         gameObject.layer = LayerMask.NameToLayer(LayerName.Monster);
@@ -88,10 +92,9 @@ public partial class Monster : Entity
         Color originColor = spriteRenderer.color;
         originColor.a = 1f;
         spriteRenderer.color = originColor;
-        spriteRenderer.flipX = false;
+        spriteRenderer.flipX = isHostPosition ? false : true;
 
         animator.Rebind();
-        spriteRenderer.flipX = true;
         currentMoveTarget = 1;
         hpImage.fillAmount = 1f;
     }

@@ -17,9 +17,11 @@ public class InGameUI : NetworkBehaviour
     }
 
     [Header("Game Stat")]
-    [SerializeField] private TextMeshProUGUI currentGoldText;
-    [SerializeField] private TextMeshProUGUI waveText;
-    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TMP_Text currentGoldText;
+    [SerializeField] private TMP_Text waveText;
+    [SerializeField] private TMP_Text timerText;
+    [SerializeField] private TMP_Text currentHeroCountText;
+    [SerializeField] private TMP_Text maxHeroCountText;
     [SerializeField] private InGameLifeContainer lifeContainer;
 
 
@@ -37,14 +39,14 @@ public class InGameUI : NetworkBehaviour
 
     [Header("Game Start UI")]
     [SerializeField] private Animator profileAnimator;
-    [SerializeField] private TextMeshProUGUI playerProfileNameText;
+    [SerializeField] private TMP_Text playerProfileNameText;
     [SerializeField] private TMP_Text playerLevelText;
-    [SerializeField] private TextMeshProUGUI clientProfileNameText;
-    [SerializeField] private TextMeshProUGUI clientLevelText;
+    [SerializeField] private TMP_Text clientProfileNameText;
+    [SerializeField] private TMP_Text clientLevelText;
 
-    [SerializeField] private TextMeshProUGUI playerProfileAnimNameText;
-    [SerializeField] private TextMeshProUGUI clientProfileAnimNameText;
-    [SerializeField] private TextMeshProUGUI countDownText;
+    [SerializeField] private TMP_Text playerProfileAnimNameText;
+    [SerializeField] private TMP_Text clientProfileAnimNameText;
+    [SerializeField] private TMP_Text countDownText;
     public bool profileAnimationReady = false;
 
     [Header("Upgarde UI")]
@@ -58,8 +60,8 @@ public class InGameUI : NetworkBehaviour
 
     [Header("Wave UI")]
     [SerializeField] private GameObject waveUI;
-    [SerializeField] private TextMeshProUGUI waveUIText;
-    [SerializeField] private TextMeshProUGUI bossNameText;
+    [SerializeField] private TMP_Text waveUIText;
+    [SerializeField] private TMP_Text bossNameText;
 
     [Header("Game Over UI")]
     [SerializeField] GameObject gameOverUI;
@@ -100,6 +102,9 @@ public class InGameUI : NetworkBehaviour
             ingameExpSlider.value = exp;
             ingameExpSlider.maxValue = requireExp;
         };
+
+        EventManager.instance.onHeroSummonAction += ShowCurrentHeroCount;
+        EventManager.instance.onMaxHeroCountChangedAction += ShowMaxHeroCount;
     }
 
 
@@ -207,6 +212,17 @@ public class InGameUI : NetworkBehaviour
             if (!upgradeUI.gameObject.activeSelf) upgradeUI.ShowUpgradeUI();
             else upgradeUI.HideUpgradeUI();
         }
+    }
+
+    private void ShowCurrentHeroCount(Hero hero)
+    {
+        int heroCount = SpawnManager.instance.GetHeroCount(NetUtils.GetPlayerNetworkType());
+        currentHeroCountText.text = string.Format("{0:D2}", heroCount);
+    }
+
+    private void ShowMaxHeroCount(int maxHeroCount)
+    {
+        maxHeroCountText.text = string.Format("/{0:D2}", maxHeroCount);
     }
 
     public void ShowHeroInfoUI(Hero hero)

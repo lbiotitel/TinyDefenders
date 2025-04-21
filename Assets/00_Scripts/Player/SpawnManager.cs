@@ -311,7 +311,7 @@ public class SpawnManager : NetworkBehaviour
             monsterNetworkObject.transform.position = movePoints[0].position;
 
             monsterNetworkObject.GetComponent<NetworkTransform>().Interpolate = true;
-            monsterNetworkObject.GetComponent<Monster>().InitData(monsterData,movePoints);
+            monsterNetworkObject.GetComponent<Monster>().InitData(monsterData,movePoints,isServer);
         }
     }
 
@@ -504,7 +504,11 @@ public class SpawnManager : NetworkBehaviour
     {
         int currentHeroCount = GetHeroList(playerNetworkType).Count;
 
-        if (currentHeroCount >= PlayerStatManager.instance.currentMaxHeroCount) return false;
+        if (currentHeroCount >= PlayerStatManager.instance.currentMaxHeroCount)
+        {
+            AdviceUIManager.instance.AddAdvice("ÀÎ¿ø¼ö°¡ ²Ë Ã¡½À´Ï´Ù.");
+            return false;
+        }
         return true;
     }
 
@@ -520,6 +524,12 @@ public class SpawnManager : NetworkBehaviour
         }
 
         return null;
+    }
+
+
+    public int GetHeroCount(PlayerNetworkType playerNetworkType)
+    {
+        return GetHeroList(playerNetworkType).Count;
     }
 
     #endregion

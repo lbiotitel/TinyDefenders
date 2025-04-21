@@ -122,7 +122,7 @@ public class GameFinishUI : MonoBehaviour
 
     private void Exit()
     {
-        Time.timeScale = 1f;
+        TimeManager.instance.SetTimeMode(TimeMode.X1);
         Destroy(gameFinishStatGameObject.gameObject);
         SceneManager.LoadScene(SceneName.MainScene);
     }

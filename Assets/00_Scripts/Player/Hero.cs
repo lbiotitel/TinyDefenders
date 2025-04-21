@@ -221,8 +221,7 @@ public class Hero : Entity
         }
     }
 
-    public void PlayUpgradeParticle(HeroTribe heroTribe,PlayerNetworkType playerNetworkType)
-    {
+    public void PlayUpgradeParticle(HeroTribe heroTribe,PlayerNetworkType playerNetworkType)    {
         if(heroTribe == heroData.heroTribe && playerNetworkType == heroOwnerNetworkType)
             upgradeParticle.Play();
     }

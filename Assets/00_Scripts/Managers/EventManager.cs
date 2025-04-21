@@ -31,12 +31,15 @@ public class EventManager : MonoBehaviour
     public UnityAction<int> onLevelChagendAction;
 
     public UnityAction<RelicSO> onRelicSelectAction;
+    public UnityAction<PlayerNetworkType> onRelicSelectFinishAction;
     public UnityAction<Hero> onHeroDespawnAction;
 
     public UnityAction<Hero,Monster> onHeroAttackToMonsterAction;
     public UnityAction<Monster> onMonsterDeadAction;
     public UnityAction<DamageEvent> onMonsterBeforeTakeDamageAction;
     public UnityAction<Hero,Monster> onBeforeAttackMonsterAction;
+
+    public UnityAction<int> onMaxHeroCountChangedAction;
 
     public UnityAction onDrawCardAction;
     public UnityAction onGameStartAction;
@@ -99,6 +102,7 @@ public class EventManager : MonoBehaviour
         ReleaseAction(ref onLevelChagendAction);
         ReleaseAction(ref onWaveFinishAction);
         ReleaseAction(ref onRelicSelectAction);
+        ReleaseAction(ref onRelicSelectFinishAction);
         ReleaseAction(ref onMonsterBeforeTakeDamageAction);
         ReleaseAction(ref onBeforeAttackMonsterAction);
 

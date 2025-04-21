@@ -1,7 +1,9 @@
+using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -30,6 +32,9 @@ public class GameManager : NetworkBehaviour
     public int prepareTime = 20;
     public int gameLife;
 
+    private bool hostRelicSelect = false;
+    private bool clientRelicSelect = false;
+
     public int warningTime;
     public float warningAlarmDelayTime = 30f;
     private bool warningAlarmDelay = false;
@@ -53,6 +58,7 @@ public class GameManager : NetworkBehaviour
     private void Start()
     {
         InitGameManager();
+        EventManager.instance.onRelicSelectFinishAction += FinishRelicSelectServerRpc;
     }
 
 
@@ -68,7 +74,6 @@ public class GameManager : NetworkBehaviour
         {
             waveData = Resources.LoadAll<WaveScriptable>(Path.wavePath + mapName);
             waveData = waveData.OrderBy(wave => int.Parse(wave.name)).ToArray();
-
         }
     }
 
@@ -137,12 +142,22 @@ public class GameManager : NetworkBehaviour
 
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         {
-            if (NetUtils.IsHost()) StartCoroutine(CountDown(prepareTime));
+            if (NetUtils.IsHost())
+            {
+                StartCoroutine(CountDown(prepareTime));
+                GameStartEventClientRpc();
+            }
         }
+
     }
+
+    [ClientRpc]
+    private void GameStartEventClientRpc() => EventManager.instance.onGameStartAction?.Invoke();
 
     private IEnumerator CountDown(int time)
     {
+        yield return new WaitForSeconds(2f);
+
         NotifyTimerClientRpc(0, currentWave, true);
      
         yield return new WaitForSeconds(1f);
@@ -273,21 +288,15 @@ public class GameManager : NetworkBehaviour
         currentbossKillCount++;
         if (currentbossKillCount == bossKillCount)
         {
-            NetworkRpcManager.instance.BossClearEventClientRpc();
-            StartCoroutine(SelectRelicCoroutine());
+            currentbossKillCount = 0;
+            BossClearEventClientRpc();
+            TimeManager.instance.SetTimeMode(TimeMode.FREEZE);
         }
     }
 
+    [ClientRpc]
+    public void BossClearEventClientRpc() => EventManager.instance.onBossWaveClear?.Invoke();
 
-    private IEnumerator SelectRelicCoroutine()
-    {
-        yield return new WaitForSeconds(selectRelicTime);
-
-        StartWave();
-        NotifyTimerClientRpc(timer, currentWave);
-
-        currentbossKillCount = 0;
-    }
 
 
     public int GetCurrentWave()
@@ -295,6 +304,34 @@ public class GameManager : NetworkBehaviour
         return currentWave;
     }
 
+
+    #endregion
+
+    #region Relic Select Logic
+
+    [ServerRpc(RequireOwnership = false)]
+    private void FinishRelicSelectServerRpc(PlayerNetworkType playerNetworkType)
+    {
+        if(playerNetworkType == PlayerNetworkType.HOST) hostRelicSelect = true;
+        if(playerNetworkType == PlayerNetworkType.CLIENT) clientRelicSelect = true;
+
+        if (hostRelicSelect && clientRelicSelect)
+        {
+            if (NetUtils.IsHost())
+            {
+                FinishRelicSelect();
+            }
+        }
+    }
+
+    private void FinishRelicSelect()
+    {
+        TimeManager.instance.SetTimeMode(TimeMode.X1);
+        hostRelicSelect = false;
+        clientRelicSelect = false;
+        StopAllCoroutines();
+        StartCoroutine(CountDown(prepareTime));
+    }
 
     #endregion
 
@@ -420,7 +457,8 @@ public class GameManager : NetworkBehaviour
             isGameOver = true;
             if (NetUtils.IsHost())
             {
-                GameStopClientRpc();
+                GameSoundFadeOutClientRpc();
+                TimeManager.instance.SetTimeMode(TimeMode.FREEZE);
                 //³ªÁß¿¡ playerstatemanager·Î »­
                 NetworkRpcManager.instance.GameFinishClientRpc(playerName, friendName, playerDamage, friendDamage, currentWave);
             }
@@ -428,25 +466,8 @@ public class GameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void GameStopClientRpc()
-    {
-        SoundManager.instance.FadeOutSound();
-        StartCoroutine(GameStopCoroutine());
-    }
+    private void GameSoundFadeOutClientRpc() => SoundManager.instance.FadeOutSound();
 
-    private IEnumerator GameStopCoroutine()
-    {
-        float elapsedTime = 0f;
-        float gameStopTime = 2f;
-        float percent = 0f;
-        while (percent < 1f)
-        {
-            elapsedTime -= Time.deltaTime;
-            percent = elapsedTime / gameStopTime;
-            Time.timeScale = Mathf.Lerp(Time.timeScale, 0, percent);
-            yield return null;
-        }
-    }
 
     public void ChangeAllPlayerToResultScene()
     {

@@ -94,6 +94,7 @@ public class PlayerStatManager : MonoBehaviour
     {
         ingameLevel++;
         currentMaxHeroCount = Mathf.Min(++currentMaxHeroCount,maxHeroCount);
+        EventManager.instance.onMaxHeroCountChangedAction?.Invoke(currentMaxHeroCount);
         EventManager.instance.onLevelChagendAction?.Invoke(ingameLevel);
     }
 
