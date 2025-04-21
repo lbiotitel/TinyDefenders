@@ -20,7 +20,7 @@ public class RelicGoldenTrumpet : RelicBase
 
         MathUtils.RandomChanceAction(summonChance, () =>
         {
-            SpawnManager.instance.Summon(hero.heroName);
+            SpawnManager.instance.Spawn(hero.heroName);
         });
     }
 }

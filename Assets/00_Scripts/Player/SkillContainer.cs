@@ -9,7 +9,7 @@ public class SkillContainer : NetworkBehaviour
     protected Hero hero;
     protected HeroScriptable heroData;
     [SerializeField] protected Image skillFillImage;
-    [SerializeField] protected GameObject skillCanvas;
+    [SerializeField] protected GameObject skillObject;
 
     protected bool skillDelay = true;
     private NetworkVariable<float> skillGage = new NetworkVariable<float>(0f);
@@ -39,14 +39,14 @@ public class SkillContainer : NetworkBehaviour
         if (classType != null)
         {
             gameObject.AddComponent(classType);
-            skillCanvas.SetActive(true);
+            skillObject.SetActive(true);
             skillDelayCoroutine = StartCoroutine(SkillDelayCoroutine());
             heroSkill = GetComponent<SkillBase>();
             heroSkill.InitHeroSkill(hero);
         }
         else
         {
-            skillCanvas.SetActive(false);
+            skillObject.SetActive(false);
             this.enabled = false;
         }
     }

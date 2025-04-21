@@ -11,6 +11,8 @@ public class Hero : Entity
     [SerializeField] private ParticleSystem rarityParticle;
     [SerializeField] private BoxCollider2D heroRangeCollider;
     [SerializeField] private ParticleSystem upgradeParticle;
+    [SerializeField] private GameObject[] heroLevelIcon;
+    [SerializeField] private float statMultiplierByLevel = 15f;
 
     private HeroScriptable heroData;
     private HeroHolder heroHolder;
@@ -34,7 +36,7 @@ public class Hero : Entity
         base.Awake();
     }
 
-    public void InitHeroData(HeroScriptable data, HeroHolder heroHolder)
+    public void InitHeroData(HeroScriptable data, HeroHolder heroHolder,int heroLevel = 1)
     {
         if (GameManager.instance.isGameOver) return;
 
@@ -42,11 +44,14 @@ public class Hero : Entity
 
         heroName = heroData.heroName;
         heroRarity = heroData.rarity;
+        heroData.heroLevel = heroLevel;
         this.heroHolder = heroHolder;
         animator.runtimeAnimatorController = data.runtimeAnimatorController;
 
         InitHeroRangeCollider();
         InitRarityCircleColor();
+        InitHeroLevelIcon(heroLevel);
+        InitHeroLevelStat(heroLevel);
 
         Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
 
@@ -60,6 +65,24 @@ public class Hero : Entity
         EventManager.instance.onUpgradeAction += PlayUpgradeParticle;
     }
 
+
+    private void InitHeroLevelStat(int level)
+    {
+        heroData.AddAtkModifire(level * statMultiplierByLevel);
+    }
+
+    private void InitHeroLevelIcon(int level)
+    {
+        DisableHeroLevelIcon();
+        for (int i = 0; i < level; i++)
+            heroLevelIcon[i].SetActive(true);
+    }
+
+    private void DisableHeroLevelIcon()
+    {
+        for (int i = 0; i < heroLevelIcon.Length; i++)
+            heroLevelIcon[i].SetActive(false);
+    }
 
     private void InitHeroRangeCollider()
     {

@@ -33,6 +33,7 @@ public class SkillData
 public class HeroScriptable : ScriptableObject
 {
     [Header("Stat")]
+    public int heroLevel = 1;
     public string heroName;
     public HeroRarity rarity;
     public int heroCost;

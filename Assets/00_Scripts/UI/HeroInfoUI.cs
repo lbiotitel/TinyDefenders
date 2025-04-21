@@ -18,6 +18,9 @@ public class HeroInfoUI : MonoBehaviour
     [SerializeField] private TMP_Text criRateBounusText;
     [SerializeField] private TMP_Text monsterDamageStack;
     [SerializeField] private TMP_Text sellCostText;
+
+    [SerializeField] private GameObject[] heroLevelIcon;
+
     [SerializeField] private Button sellButton;
 
     [SerializeField] private GameObject parentObject;
@@ -66,6 +69,8 @@ public class HeroInfoUI : MonoBehaviour
         this.heroDesc.text = heroData.GetLocalizationDesc();
         this.heroRarity.text = heroData.rarity.ToString();
 
+        InitHeroLevelIcon(heroData.heroLevel);
+
         this.attackText.text = string.Format("{0:N0}", heroData.GetHeroBaseAtk());
         if (heroData.GetHeroBonusAtk() != 0) this.attkackBounusText.text = string.Format("<color=#00FF00>(+{0:N0})", heroData.GetHeroBonusAtk());
         else this.attkackBounusText.text = string.Empty;
@@ -84,6 +89,23 @@ public class HeroInfoUI : MonoBehaviour
 
         this.monsterDamageStack.text = string.Format("가한 데미지 : {0:N0}", hero.GetDamageStack());
         this.sellCostText.text = string.Format("판매 가격 : {0:N0}", heroData.heroCost / 2);
+    }
+
+
+    private void InitHeroLevelIcon(int level)
+    {
+        DiableHeroLevelIcon();
+        for (int i = 0; i < level; i++)
+        {
+            heroLevelIcon[i].SetActive(true);
+        }
+    }
+
+
+    private void DiableHeroLevelIcon()
+    {
+        for (int i = 0; i < heroLevelIcon.Length; i++)
+            heroLevelIcon[i].SetActive(false);
     }
 
     public void HideHeroInfoUI()

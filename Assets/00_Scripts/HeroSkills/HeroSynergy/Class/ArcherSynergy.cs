@@ -9,7 +9,7 @@ public class ArcherSynergy : HeroSynergyBase
     public override void HeroSynergyActive(int level)
     {
         if (!CheckSynergyLevel(level)) return;
-        if (level == 1)
+        if (currentSynergyLevel == 1 || currentSynergyLevel == 2)
         {
             EventManager.instance.onBeforeAttackMonsterAction += ArcherSynergyLogic;
         }
@@ -18,7 +18,7 @@ public class ArcherSynergy : HeroSynergyBase
     public override void HeroSynergyDeactive(int level)
     {
         if (!CheckSynergyLevel(level)) return;
-        if (level == 1)
+        if (currentSynergyLevel == 1 || currentSynergyLevel == 2)
         {
             EventManager.instance.onBeforeAttackMonsterAction -= ArcherSynergyLogic;
         }

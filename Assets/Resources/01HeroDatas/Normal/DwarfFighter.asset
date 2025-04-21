@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: DwarfFighter
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: DwarfFighter
   rarity: 0
   heroCost: 2
@@ -25,7 +26,7 @@ MonoBehaviour:
     <baseValue>k__BackingField: 1.3
     modifiers: []
   atkRange:
-    <baseValue>k__BackingField: 2.5
+    <baseValue>k__BackingField: 1.5
     modifiers: []
   skillAcc:
     <baseValue>k__BackingField: 0

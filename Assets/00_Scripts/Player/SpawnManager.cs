@@ -315,7 +315,13 @@ public class SpawnManager : NetworkBehaviour
         }
     }
 
-    public int GetMonsterCount() { return monsterList.Count; }
+    public int GetAliveMonsterCount() 
+    {
+        int count = 0;
+        monsterList.ForEach(m => count += m.IsDead() ? 0 : 1);
+        return count;
+    
+    }
 
     private void ClearMonster()
     {
@@ -343,7 +349,7 @@ public class SpawnManager : NetworkBehaviour
     #region Hero spawn
 
 
-    private void HeroSpawn(PlayerNetworkType playerNetworkType, string heroName)
+    private void HeroSpawn(PlayerNetworkType playerNetworkType, string heroName, int heroLevel = 1)
     {
         int value = playerNetworkType == PlayerNetworkType.HOST ? 0 : 1;
         string heroHolderId = playerNetworkType + heroHolderValue[value].ToString();
@@ -352,7 +358,7 @@ public class SpawnManager : NetworkBehaviour
 
         if (findHeroHolder != null)
         {
-            findHeroHolder.SpawnHero(heroName);
+            findHeroHolder.SpawnHero(heroName,heroLevel);
             return;
         }
     }
@@ -389,37 +395,37 @@ public class SpawnManager : NetworkBehaviour
 
 
     [ClientRpc]
-    private void HeroSpawnClientRpc(ulong networkObjectId, string heroName, int value)
+    private void HeroSpawnClientRpc(ulong networkObjectId, string heroName,int heroLevel ,int value)
     {
         if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject networkObject))
         {
             HeroHolder heroHolder = networkObject.GetComponent<HeroHolder>();
             heroHolderValue[value]++;
-            heroHolder.SpawnHero(heroName);
+            heroHolder.SpawnHero(heroName, heroLevel);
         }
     }
 
 
     [ServerRpc(RequireOwnership = false)]
-    private void HeroSpawnServerRpc(PlayerNetworkType playerNetworkType, string dataName)
+    private void HeroSpawnServerRpc(PlayerNetworkType playerNetworkType, string dataName,int heroLevel = 1)
     {
-        HeroSpawn(playerNetworkType, dataName);
+        HeroSpawn(playerNetworkType, dataName, heroLevel);
     }
 
     //캐릭터 소환
-    public void Summon(string heroName)
+    public void Spawn(string heroName,int heroLevel = 1)
     {
         SoundManager.instance.PlaySfxSound(summonHeroSFX, SFXTYPE.EXTRA);
 
         NetUtils.HostAndClientMethod(
-            () => HeroSpawnServerRpc(NetUtils.GetPlayerNetworkType(), heroName),
-            () => HeroSpawn(NetUtils.GetPlayerNetworkType(), heroName)
+            () => HeroSpawnServerRpc(NetUtils.GetPlayerNetworkType(), heroName,heroLevel),
+            () => HeroSpawn(NetUtils.GetPlayerNetworkType(), heroName, heroLevel)
             );
     }
 
     #endregion
 
-    public void Summon(string heroName, Transform cardTransform)
+    public void Spawn(string heroName, Transform cardTransform)
     {
         StartCoroutine(SummonCoroutine(heroName, cardTransform));
     }
@@ -453,7 +459,7 @@ public class SpawnManager : NetworkBehaviour
         }
 
         Destroy(effect);
-        Summon(heroName);
+        Spawn(heroName);
     }
 
 

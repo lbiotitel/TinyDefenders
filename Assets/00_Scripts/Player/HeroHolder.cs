@@ -63,11 +63,11 @@ public class HeroHolder : NetworkBehaviour
         heroRange.localScale = Vector2.zero;
     }
 
-    public void SpawnHero(string heroName)
+    public void SpawnHero(string heroName, int heroLevel)
     {
         if (IsServer)
         {
-            HeroSpawn(NetUtils.GetLocalD(), heroName);
+            HeroSpawn(NetUtils.GetLocalD(), heroName,heroLevel);
         }
     }
 
@@ -124,7 +124,7 @@ public class HeroHolder : NetworkBehaviour
         ownHero.SwapPosition(newHeroHolder, newHeroHolder.transform.TransformPoint(Vector2.zero));
     }
 
-    private void HeroSpawn(ulong clientId, string heroName)
+    private void HeroSpawn(ulong clientId, string heroName, int heroLevel)
     {
         Hero hero = Instantiate(heroPrefab);
 
@@ -132,7 +132,7 @@ public class HeroHolder : NetworkBehaviour
         networkObject.Spawn();
         hero.transform.parent = this.transform;
 
-        UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId, heroName);
+        UpdateHeroSpawnPositionClientRpc(networkObject.NetworkObjectId, clientId, heroName,heroLevel);
     }
 
 
@@ -150,7 +150,7 @@ public class HeroHolder : NetworkBehaviour
 
 
     [ClientRpc]
-    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId, ulong clientId, string heroName)
+    private void UpdateHeroSpawnPositionClientRpc(ulong networkObjectId, ulong clientId, string heroName,int heroLevel)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject networkObject))
         {
@@ -161,7 +161,7 @@ public class HeroHolder : NetworkBehaviour
             this.ownHero = hero;
             this.holderName = heroData.heroName;
             this.heroData = heroData;
-            hero.InitHeroData(heroData, this);
+            hero.InitHeroData(heroData, this, heroLevel);
             ClientSetPosition();
         }
     }

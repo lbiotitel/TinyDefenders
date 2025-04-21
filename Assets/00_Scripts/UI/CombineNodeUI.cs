@@ -46,7 +46,7 @@ public class CombineNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 combineHeroHolderList[i].Sell();
             }
 
-            SpawnManager.instance.Summon(mainHero.heroName);
+            SpawnManager.instance.Spawn(mainHero.heroName);
 
             CanCombineHero(null);
         }
