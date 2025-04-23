@@ -5,6 +5,15 @@ using Unity.Services.Multiplayer;
 using UnityEngine;
 
 
+public enum PlayerStatType 
+{
+    Atk,
+    AtkSpeed,
+    AtkRange,
+    CriticalRate,
+    CriticalDamage,
+    SkillAcc,
+}
 
 public class PlayerStatManager : MonoBehaviour
 {
@@ -59,6 +68,9 @@ public class PlayerStatManager : MonoBehaviour
             EventManager.instance.onHeroSummonAction += AddHero;
             EventManager.instance.onHeroDespawnAction += RemoveHero;
         }
+
+        EventManager.instance.onPlayerAddStatModifireAction += AddStatModifire;
+        EventManager.instance.onPlayerRemoveStatModifireAction += RemoveStatModifire;
     }
 
 
@@ -209,11 +221,6 @@ public class PlayerStatManager : MonoBehaviour
         {
             clientHeroSynergyDic[synergyName].SetCurrentHeroSynergyLevel(synergyLevel);
             clientHeroSynergyDic[synergyName].SetCurrentHeroCount(heroCount);
-
-            foreach (var data in clientHeroSynergyDic)
-            {
-                data.Value.ActiveSynegy();
-            }
         }
         EventManager.instance.onHeroSynergyChangedAction?.Invoke();
     }
@@ -246,7 +253,68 @@ public class PlayerStatManager : MonoBehaviour
     #endregion
 
     #region About Player Stat Modifier
-    public void AddAtkModifire(PlayerNetworkType playerNetworkType, float value)
+
+    public void AddStatModifire(PlayerNetworkType playerNetworkType, PlayerStatType statType, float value) => NetworkRpcManager.instance.AddPlayerStatModifireServerRpc((int)playerNetworkType, (int)statType, value);
+
+    private void AddStatModifire(int networkType, int statType, float value)
+    {
+        PlayerStatType type = (PlayerStatType)statType;
+        PlayerNetworkType playerNetworkType = (PlayerNetworkType)networkType;
+
+        switch (type)
+        {
+            case PlayerStatType.Atk:
+                AddAtkModifire(playerNetworkType, value);
+                break;
+            case PlayerStatType.AtkSpeed:
+                AddAtkSpeedModifire(playerNetworkType, value);
+                break;
+            case PlayerStatType.AtkRange:
+                AddAtkRangeModifire(playerNetworkType, value);
+                break;
+            case PlayerStatType.CriticalRate:
+                AddCriticalRateModifire(playerNetworkType, value);
+                break;
+            case PlayerStatType.CriticalDamage:
+                AddCriDamageModifire(playerNetworkType, value);
+                break;
+            case PlayerStatType.SkillAcc:
+                AddSkillAccModifire(playerNetworkType, value);
+                break;
+        }
+    }
+
+    public void RemoveStatModifire(PlayerNetworkType playerNetworkType, PlayerStatType statType, float value) => NetworkRpcManager.instance.RemovePlayerStatModifireServerRpc((int)playerNetworkType, (int)statType, value);
+
+    private void RemoveStatModifire(int networkType, int statType, float value)
+    {
+        PlayerStatType type = (PlayerStatType)statType;
+        PlayerNetworkType playerNetworkType = (PlayerNetworkType)networkType;
+
+        switch (type)
+        {
+            case PlayerStatType.Atk:
+                RemoveAtkModifire(playerNetworkType, value);
+                break;
+            case PlayerStatType.AtkSpeed:
+                RemoveAtkSpeedModifire(playerNetworkType, value);
+                break;
+            case PlayerStatType.AtkRange:
+                RemoveAtkRangeModifire(playerNetworkType, value);
+                break;
+            case PlayerStatType.CriticalRate:
+                RemoveCriticalRateModifire(playerNetworkType, value);
+                break;
+            case PlayerStatType.CriticalDamage:
+                RemoveCriDamageModifire(playerNetworkType, value);
+                break;
+            case PlayerStatType.SkillAcc:
+                RemoveSkillAccModifire(playerNetworkType, value);
+                break;
+        }
+    }
+
+    private void AddAtkModifire(PlayerNetworkType playerNetworkType, float value)
     {
 
         switch (playerNetworkType)
@@ -260,7 +328,7 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public void RemoveAtkModifire(PlayerNetworkType playerNetworkType, float value)
+    private void RemoveAtkModifire(PlayerNetworkType playerNetworkType, float value)
     {
         switch (playerNetworkType)
         {
@@ -274,7 +342,7 @@ public class PlayerStatManager : MonoBehaviour
     }
 
 
-    public void AddAtkSpeedModifire(PlayerNetworkType playerNetworkType, float value)
+    private void AddAtkSpeedModifire(PlayerNetworkType playerNetworkType, float value)
     {
 
         switch (playerNetworkType)
@@ -287,7 +355,7 @@ public class PlayerStatManager : MonoBehaviour
                 break;
         }
     }
-    public void RemoveAtkSpeedModifire(PlayerNetworkType playerNetworkType, float value)
+    private void RemoveAtkSpeedModifire(PlayerNetworkType playerNetworkType, float value)
     {
         switch (playerNetworkType)
         {
@@ -300,7 +368,7 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public void AddSkillAccModifire(PlayerNetworkType playerNetworkType, float value)
+    private void AddSkillAccModifire(PlayerNetworkType playerNetworkType, float value)
     {
         switch (playerNetworkType)
         {
@@ -313,7 +381,7 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public void RemoveSkillAccModifire(PlayerNetworkType playerNetworkType, float value)
+    private void RemoveSkillAccModifire(PlayerNetworkType playerNetworkType, float value)
     {
         switch (playerNetworkType)
         {
@@ -326,7 +394,7 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public void AddCriticalRateModifire(PlayerNetworkType playerNetworkType, float value)
+    private void AddCriticalRateModifire(PlayerNetworkType playerNetworkType, float value)
     {
         switch (playerNetworkType)
         {
@@ -339,7 +407,7 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public void RemoveCriticalRateModifire(PlayerNetworkType playerNetworkType, float value)
+    private void RemoveCriticalRateModifire(PlayerNetworkType playerNetworkType, float value)
     {
         switch (playerNetworkType)
         {
@@ -352,7 +420,7 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public void AddCriDamageModifire(PlayerNetworkType playerNetworkType, float value)
+    private void AddCriDamageModifire(PlayerNetworkType playerNetworkType, float value)
     {
         switch (playerNetworkType)
         {
@@ -365,7 +433,7 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public void RemoveCriDamageModifire(PlayerNetworkType playerNetworkType, float value)
+    private void RemoveCriDamageModifire(PlayerNetworkType playerNetworkType, float value)
     {
         switch (playerNetworkType)
         {
@@ -379,7 +447,7 @@ public class PlayerStatManager : MonoBehaviour
     }
 
 
-    public void AddAtkRangeModifire(PlayerNetworkType playerNetworkType, float value)
+    private void AddAtkRangeModifire(PlayerNetworkType playerNetworkType, float value)
     {
         switch (playerNetworkType)
         {
@@ -392,7 +460,7 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public void RemoveAtkRangeModifire(PlayerNetworkType playerNetworkType, float value)
+    private void RemoveAtkRangeModifire(PlayerNetworkType playerNetworkType, float value)
     {
         switch (playerNetworkType)
         {
@@ -405,7 +473,7 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public void AddGoudBonusModifire(PlayerNetworkType playerNetworkType, float value)
+    private void AddGoudBonusModifire(PlayerNetworkType playerNetworkType, float value)
     {
         switch (playerNetworkType)
         {
@@ -418,7 +486,7 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public void RemoveGoldBonusModifire(PlayerNetworkType playerNetworkType, float value)
+    private void RemoveGoldBonusModifire(PlayerNetworkType playerNetworkType, float value)
     {
         switch (playerNetworkType)
         {

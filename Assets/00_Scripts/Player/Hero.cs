@@ -262,6 +262,7 @@ public class Hero : Entity
         base.OnNetworkDespawn();
         if (GameManager.instance.isGameOver) return;
         damageStack.OnValueChanged -= OnDamageStackValueChagned;
+        Destroy(heroData);
         SpawnManager.instance.RemoveHero(this);
     }
 }

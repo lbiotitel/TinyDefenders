@@ -26,6 +26,7 @@ public class WarriorSynergy : HeroSynergyBase
     private void WarriorSynergyLogic(Hero hero, Monster monster)
     {
         if (hero.GetHeroData().heroClass != HeroClass.WARRIOR) return;
+        if (hero.heroOwnerNetworkType != synergyNetworkType) return;
 
         MathUtils.RandomChanceAction(extraHitProbability[currentSynergyLevel],() => {
             

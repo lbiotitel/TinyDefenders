@@ -21,8 +21,12 @@ public class EventManager : MonoBehaviour
     public UnityAction<Hero> onHeroSummonAction;
     public UnityAction<Hero> onHeroStartSummonAction;
     public UnityAction onHeroEndSummonAction;
-    public UnityAction<Hero,StatType, float> onHeroAddStatModifireAction;
-    public UnityAction<Hero,StatType, float> onHeroRemoveStatModifireAction;
+
+    public UnityAction<Hero, StatType, float> onHeroAddStatModifireAction;
+    public UnityAction<Hero, StatType, float> onHeroRemoveStatModifireAction;
+
+    public UnityAction<int, int, float> onPlayerAddStatModifireAction;
+    public UnityAction<int, int, float> onPlayerRemoveStatModifireAction;
 
     public UnityAction<float,bool> onTimerTickAction;
     public UnityAction onWaveNotClearAction;
@@ -118,6 +122,8 @@ public class EventManager : MonoBehaviour
         ReleaseAction(ref onBeforeAttackMonsterAction);
         ReleaseAction(ref onHeroAddStatModifireAction);
         ReleaseAction(ref onHeroRemoveStatModifireAction);
+        ReleaseAction(ref onPlayerAddStatModifireAction);
+        ReleaseAction(ref onPlayerRemoveStatModifireAction);
 
         instance = null;
     }

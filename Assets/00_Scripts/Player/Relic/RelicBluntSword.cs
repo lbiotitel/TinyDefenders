@@ -6,10 +6,6 @@ public class RelicBluntSword : RelicBase
 
     public override void ActiveRelic()
     {
-        if (playerNetworkType == PlayerNetworkType.CLIENT)
-        { 
-            NetworkRpcManager.instance.AddPlayerAtkModifireServerRpc((int)playerNetworkType, increaseAmount);
-        }
-        PlayerStatManager.instance.AddAtkModifire(playerNetworkType, increaseAmount);
+        PlayerStatManager.instance.AddStatModifire(playerNetworkType, PlayerStatType.Atk, increaseAmount);
     }
 }

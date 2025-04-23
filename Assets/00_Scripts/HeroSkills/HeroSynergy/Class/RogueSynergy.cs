@@ -9,7 +9,7 @@ public class RogueSynergy : HeroSynergyBase
     public override void HeroSynergyActive(int level)
     {
         if (!CheckSynergyLevel(level)) return;
-        PlayerStatManager.instance.AddCriticalRateModifire(synergyNetworkType, criModifireValue[currentSynergyLevel]);
+        PlayerStatManager.instance.AddStatModifire(synergyNetworkType, PlayerStatType.CriticalRate, criModifireValue[currentSynergyLevel]);
         if (level == 3)
         {
             EventManager.instance.onHeroAttackToMonsterAction += RogueSynergyLogic;
@@ -19,7 +19,7 @@ public class RogueSynergy : HeroSynergyBase
     public override void HeroSynergyDeactive(int level)
     {
         if (!CheckSynergyLevel(level)) return;
-        PlayerStatManager.instance.RemoveCriticalRateModifire(synergyNetworkType, criModifireValue[currentSynergyLevel]);
+        PlayerStatManager.instance.RemoveStatModifire(synergyNetworkType, PlayerStatType.CriticalRate, criModifireValue[currentSynergyLevel]);
         if (level == 3)
         {
             EventManager.instance.onHeroAttackToMonsterAction -= RogueSynergyLogic;

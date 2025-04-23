@@ -8,7 +8,7 @@ public class OrcSynergy : HeroSynergyBase
     public override void HeroSynergyActive(int level)
     {
         if (level < 1) return;
-        PlayerStatManager.instance.AddCriticalRateModifire(synergyNetworkType, criticalRate[level - 1]);
+        PlayerStatManager.instance.AddStatModifire(synergyNetworkType, PlayerStatType.SkillAcc, criticalRate[level - 1]);
         if (level == 3)
         {
             EventManager.instance.onHeroAttackToMonsterAction += OrcExcution;
@@ -18,7 +18,7 @@ public class OrcSynergy : HeroSynergyBase
     public override void HeroSynergyDeactive(int level)
     {
         if (level < 1) return;
-        PlayerStatManager.instance.RemoveCriticalRateModifire(synergyNetworkType, criticalRate[level - 1]);
+        PlayerStatManager.instance.AddStatModifire(synergyNetworkType, PlayerStatType.SkillAcc, criticalRate[level - 1]);
         if (level == 3)
         {
             EventManager.instance.onHeroAttackToMonsterAction -= OrcExcution;

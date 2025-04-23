@@ -8,7 +8,7 @@ public class ScavengerSynergy : HeroSynergyBase
     public override void HeroSynergyActive(int level)
     {
         if (level < 1) return;
-        PlayerStatManager.instance.AddGoudBonusModifire(synergyNetworkType,goldBonus[level - 1]);
+        PlayerStatManager.instance.AddStatModifire(synergyNetworkType, PlayerStatType.SkillAcc, goldBonus[level - 1]);
         if (level == 3)
         { 
             EventManager.instance.onDrawCardAction += ScavengerDrawGoldCard;
@@ -18,7 +18,7 @@ public class ScavengerSynergy : HeroSynergyBase
     public override void HeroSynergyDeactive(int level)
     {
         if(level < 1)return;
-        PlayerStatManager.instance.RemoveGoldBonusModifire(synergyNetworkType, goldBonus[level - 1]);
+        PlayerStatManager.instance.AddStatModifire(synergyNetworkType, PlayerStatType.SkillAcc, goldBonus[level - 1]);
         if (level == 3)
         {
             EventManager.instance.onDrawCardAction -= ScavengerDrawGoldCard;

@@ -6,10 +6,6 @@ public class RelicGlasses : RelicBase
 
     public override void ActiveRelic()
     {
-        if (playerNetworkType == PlayerNetworkType.CLIENT)
-        {
-            NetworkRpcManager.instance.AddPlayerAtkRangeServerRpc((int)playerNetworkType, increaseAmount);
-        }
-        PlayerStatManager.instance.AddAtkRangeModifire(playerNetworkType, increaseAmount);
+        PlayerStatManager.instance.AddStatModifire(playerNetworkType, PlayerStatType.AtkRange, increaseAmount);
     }
 }

@@ -167,37 +167,16 @@ public class NetworkRpcManager : NetworkBehaviour
     #region About Player Stat Data
 
     [ServerRpc(RequireOwnership = false)]
-    public void AddPlayerAtkModifireServerRpc(int playerNetworkType, float value)
-    { 
-        PlayerStatManager.instance.AddAtkModifire((PlayerNetworkType)playerNetworkType, value);
-    }
+    public void AddPlayerStatModifireServerRpc(int networkType, int statType ,float value) => AddPlayerStatModifireClientRpc(networkType, statType, value);
+
+    [ClientRpc]
+    private void AddPlayerStatModifireClientRpc(int networkType, int statType ,float value) => EventManager.instance.onPlayerAddStatModifireAction?.Invoke(networkType, statType, value);
 
     [ServerRpc(RequireOwnership = false)]
-    public void AddPlayerAtkSpeedModifireServerRpc(int playerNetworkType, float value)
-    {
-        PlayerStatManager.instance.AddAtkSpeedModifire((PlayerNetworkType)playerNetworkType, value);
-    }
+    public void RemovePlayerStatModifireServerRpc(int networkType, int statType, float value) => RemovePlayerStatModifireClientRpc(networkType, statType, value);
 
-    [ServerRpc(RequireOwnership = false)]
-    public void AddPlayerAtkRangeServerRpc(int playerNetworkType, float value)
-    {
-        PlayerStatManager.instance.AddAtkRangeModifire((PlayerNetworkType)playerNetworkType, value);
-    }
-
-
-    [ServerRpc(RequireOwnership = false)]
-    public void AddPlayerCriticalRateModifireServerRpc(int playerNetworkType, float value)
-    {
-        PlayerStatManager.instance.AddCriticalRateModifire((PlayerNetworkType)playerNetworkType, value);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void AddPlayerCriDamageModifireServerRpc(int playerNetworkType, float value)
-    {
-        PlayerStatManager.instance.AddCriDamageModifire((PlayerNetworkType)playerNetworkType, value);
-    }
-
-
+    [ClientRpc]
+    private void RemovePlayerStatModifireClientRpc(int networkType, int statType, float value) => EventManager.instance.onPlayerRemoveStatModifireAction?.Invoke(networkType, statType, value);
 
     #endregion
 

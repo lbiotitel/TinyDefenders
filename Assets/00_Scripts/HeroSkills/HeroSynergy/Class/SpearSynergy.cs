@@ -11,7 +11,7 @@ public class SpearSynergy : HeroSynergyBase
     public override void HeroSynergyActive(int level)
     {
         if (!CheckSynergyLevel(level)) return;
-        PlayerStatManager.instance.AddAtkRangeModifire(synergyNetworkType, atkRangeModifireValue[currentSynergyLevel]);
+        PlayerStatManager.instance.AddStatModifire(synergyNetworkType,PlayerStatType.AtkRange, atkRangeModifireValue[currentSynergyLevel]);
         if (currentSynergyLevel == 2)
         {
             EventManager.instance.onHeroAttackToMonsterAction += SpearSynergyLogic;
@@ -22,7 +22,7 @@ public class SpearSynergy : HeroSynergyBase
     public override void HeroSynergyDeactive(int level)
     {
         if (!CheckSynergyLevel(level)) return;
-        PlayerStatManager.instance.RemoveAtkRangeModifire(synergyNetworkType, atkRangeModifireValue[currentSynergyLevel]);
+        PlayerStatManager.instance.RemoveStatModifire(synergyNetworkType, PlayerStatType.AtkRange, atkRangeModifireValue[currentSynergyLevel]);
         if (currentSynergyLevel == 2)
         {
             ReleaseAllStack();
