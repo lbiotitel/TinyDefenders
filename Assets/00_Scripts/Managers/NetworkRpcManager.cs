@@ -193,7 +193,7 @@ public class NetworkRpcManager : NetworkBehaviour
         if (NetUtils.TryGetSpawnedObject(heroNetworkId, out NetworkObject networkObject))
         {
             Hero hero = networkObject.GetComponent<Hero>();
-            EventManager.instance.onHeroAddStatModifireAction?.Invoke(hero,(StatType)statType,value);
+            EventManager.instance.onHeroAddStatModifireAction?.Invoke(hero,(HeroStatType)statType,value);
         }
     }
 
@@ -207,7 +207,7 @@ public class NetworkRpcManager : NetworkBehaviour
         if (NetUtils.TryGetSpawnedObject(heroNetworkId, out NetworkObject networkObject))
         {
             Hero hero = networkObject.GetComponent<Hero>();
-            EventManager.instance.onHeroRemoveStatModifireAction?.Invoke(hero, (StatType)statType, value);
+            EventManager.instance.onHeroRemoveStatModifireAction?.Invoke(hero, (HeroStatType)statType, value);
         }
     }
     #endregion

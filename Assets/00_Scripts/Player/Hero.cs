@@ -67,7 +67,7 @@ public class Hero : Entity
 
     private void InitHeroLevelStat(int level)
     {
-        heroData.AddStatModifire(StatType.Atk,level * statMultiplierByLevel);
+        heroData.AddStatModifire(HeroStatType.Atk,level * statMultiplierByLevel);
     }
 
     private void InitHeroLevelIcon(int level)

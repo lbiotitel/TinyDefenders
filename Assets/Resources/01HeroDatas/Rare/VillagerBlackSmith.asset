@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: VillagerBlackSmith
+  m_EditorClassIdentifier: 
+  heroLevel: 1
+  heroName: VillagerBlackSmith
+  rarity: 0
+  heroCost: 4
+  atk:
+    <baseValue>k__BackingField: 80
+    modifiers: []
+  damage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  atkSpeed:
+    <baseValue>k__BackingField: 1
+    modifiers: []
+  atkRange:
+    <baseValue>k__BackingField: 1.5
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  heroDesc: 
+  heroTribe: 8
+  heroClass: 3
+  heroMainImage: {fileID: 1377040145, guid: 599a3992c7877a24d8ab9b2cedcc86e0, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: c1c28b758df80a24cb066df4afede104, type: 2}
+  projectile: {fileID: 6421302283477907579, guid: f3fe47b66c750e442b37ef4e8e074014, type: 3}
+  debuffEffects: []
+  skillDebuffEffects: []
+  skillData:
+    coolTime: 20
+    skillPrefab: {fileID: 2317299645365547581, guid: 05bc992c29959a2439fd819d7a6d3891, type: 3}
+    skillDamage: 0
+    targetCount: 0
+    skillDuration: 0
+    buffTime: 8
+    buffAmount: 30
+    buffRange: 1

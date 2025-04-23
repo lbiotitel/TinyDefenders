@@ -43,7 +43,7 @@ public class SpearSynergy : HeroSynergyBase
 
         if (currentStack < atkSpeedMaxStack)
         {
-            hero.GetHeroData().AddStatModifire(StatType.AtkSpeed,atkSpeedStackValue);
+            hero.GetHeroData().AddStatModifire(HeroStatType.AtkSpeed,atkSpeedStackValue);
 
             heroAtkSpeedStackDic[hero]++;
         }
@@ -59,7 +59,7 @@ public class SpearSynergy : HeroSynergyBase
 
             for (int i = 0; i < stack; i++)
             {
-                hero.GetHeroData().RemoveStatModifire(StatType.AtkSpeed,atkSpeedStackValue);
+                hero.GetHeroData().RemoveStatModifire(HeroStatType.AtkSpeed,atkSpeedStackValue);
             }
         }
 

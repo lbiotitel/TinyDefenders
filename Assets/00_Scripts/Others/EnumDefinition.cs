@@ -41,6 +41,7 @@ public enum HeroTribe {
     ORC,
     SCAVENGER,
     FIVEHERO,
+    VILLAGER,
     LAST
 }
 

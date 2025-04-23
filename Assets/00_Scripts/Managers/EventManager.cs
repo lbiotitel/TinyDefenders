@@ -22,8 +22,8 @@ public class EventManager : MonoBehaviour
     public UnityAction<Hero> onHeroStartSummonAction;
     public UnityAction onHeroEndSummonAction;
 
-    public UnityAction<Hero, StatType, float> onHeroAddStatModifireAction;
-    public UnityAction<Hero, StatType, float> onHeroRemoveStatModifireAction;
+    public UnityAction<Hero, HeroStatType, float> onHeroAddStatModifireAction;
+    public UnityAction<Hero, HeroStatType, float> onHeroRemoveStatModifireAction;
 
     public UnityAction<int, int, float> onPlayerAddStatModifireAction;
     public UnityAction<int, int, float> onPlayerRemoveStatModifireAction;

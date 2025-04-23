@@ -154,7 +154,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -168,7 +168,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -192,7 +192,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -217,881 +217,661 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MiniBlacksmith_0
+      name: VillagerBlacksmith_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 224
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 11e977bb0720b9fb0800000000000000
-      internalID: -4640112307870392815
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_1
-      rect:
-        serializedVersion: 2
-        x: 39
-        y: 224
-        width: 15
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ea27b7bb2cdb54840800000000000000
-      internalID: 5207777188190581422
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_2
-      rect:
-        serializedVersion: 2
-        x: 71
-        y: 224
-        width: 15
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 21df13b9330e7aaf0800000000000000
-      internalID: -385092730865189614
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_3
-      rect:
-        serializedVersion: 2
-        x: 103
-        y: 224
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: db533dd0a6a631c50800000000000000
-      internalID: 6634763679777895869
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_4
-      rect:
-        serializedVersion: 2
-        x: 8
-        y: 192
-        width: 16
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e4fe34ff464e9b970800000000000000
-      internalID: 8771292871711256398
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_5
-      rect:
-        serializedVersion: 2
-        x: 40
-        y: 192
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3d3fde35cffc11550800000000000000
-      internalID: 6129909250474767315
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_6
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 192
-        width: 18
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a7fc6bdf60a3040f0800000000000000
-      internalID: -1134843304396533894
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_7
-      rect:
-        serializedVersion: 2
-        x: 104
-        y: 192
-        width: 16
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e5b142691ac540fb0800000000000000
-      internalID: -4682515863480034466
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_8
-      rect:
-        serializedVersion: 2
-        x: 136
-        y: 192
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6ed911460b7211040800000000000000
-      internalID: 4616514731578072550
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_9
-      rect:
-        serializedVersion: 2
-        x: 169
-        y: 192
-        width: 14
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5e21d376b089c7030800000000000000
-      internalID: 3493834585676780261
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_10
-      rect:
-        serializedVersion: 2
-        x: 201
-        y: 192
-        width: 14
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 89f3ee49d8acab750800000000000000
-      internalID: 6321587736405753752
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_11
-      rect:
-        serializedVersion: 2
-        x: 233
-        y: 192
-        width: 14
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 656063069ae1d2cd0800000000000000
-      internalID: -2581373298600966570
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_12
-      rect:
-        serializedVersion: 2
-        x: 264
-        y: 192
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0e89583e46f1c9210800000000000000
-      internalID: 1340981307223939296
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_13
-      rect:
-        serializedVersion: 2
-        x: 296
-        y: 192
-        width: 18
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 02e687c47d94e8710800000000000000
-      internalID: 1697375298615012896
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_14
-      rect:
-        serializedVersion: 2
-        x: 8
-        y: 160
-        width: 16
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 04377770cf9d90170800000000000000
-      internalID: 8145281077556507456
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_15
-      rect:
-        serializedVersion: 2
-        x: 40
-        y: 160
-        width: 17
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b98df2640402cffe0800000000000000
-      internalID: -1154011944086153061
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_16
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 160
-        width: 18
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f2bef2c51a8e463e0800000000000000
-      internalID: -2061266949694821585
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_17
-      rect:
-        serializedVersion: 2
-        x: 104
-        y: 160
-        width: 16
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 92c37618f27d49540800000000000000
-      internalID: 5013868884204665897
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_18
-      rect:
-        serializedVersion: 2
-        x: 9
+        x: 0
         y: 128
-        width: 13
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8ea33bbddb2c696f0800000000000000
-      internalID: -678140573182117144
+      spriteID: e0aa91a41b90e1f4e9484888018f68cd
+      internalID: 1377040145
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_19
+      name: VillagerBlacksmith_1
       rect:
         serializedVersion: 2
-        x: 41
+        x: 32
         y: 128
-        width: 13
-        height: 14
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6b1be93faec13fdf0800000000000000
-      internalID: -147742567337905738
+      spriteID: be6a518eb7413344b98ecd66f0b3c24f
+      internalID: 1808135324
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_20
+      name: VillagerBlacksmith_2
       rect:
         serializedVersion: 2
-        x: 71
+        x: 64
         y: 128
-        width: 15
-        height: 15
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f0c824d8fc9f049b0800000000000000
-      internalID: -5097800108359906289
+      spriteID: 48cc13ba9a05c0e459e59562450579f7
+      internalID: -1262311128
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_21
+      name: VillagerBlacksmith_3
       rect:
         serializedVersion: 2
-        x: 102
+        x: 96
         y: 128
-        width: 17
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f26e04fc5db88d860800000000000000
-      internalID: 7554942125335438895
+      spriteID: 33cbd901ff524454784a8eb0fb71a24a
+      internalID: -1586309060
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_22
+      name: VillagerBlacksmith_4
       rect:
         serializedVersion: 2
-        x: 134
-        y: 128
-        width: 17
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2ecf19c9313e9dc70800000000000000
-      internalID: 8996471404019973346
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_23
-      rect:
-        serializedVersion: 2
-        x: 167
-        y: 128
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1f392f42ddad12f90800000000000000
-      internalID: -6980057304105053199
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_24
-      rect:
-        serializedVersion: 2
-        x: 6
+        x: 0
         y: 96
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f7b4eaa814090f310800000000000000
-      internalID: 1436806892305140607
+      spriteID: 79526c0be4f66c94faeeb12124185ab4
+      internalID: -1178363148
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_25
+      name: VillagerBlacksmith_5
       rect:
         serializedVersion: 2
-        x: 41
+        x: 32
         y: 96
-        width: 15
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5f0edc61047451fe0800000000000000
-      internalID: -1218989783547780875
+      spriteID: 15466850cf252ff4da9edada1f0d46d5
+      internalID: 1587871025
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_26
+      name: VillagerBlacksmith_6
       rect:
         serializedVersion: 2
-        x: 70
+        x: 64
         y: 96
-        width: 17
-        height: 13
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5bd97b4c5955ddc10800000000000000
-      internalID: 2079912704653893045
+      spriteID: 69201789110d7144fbfa86741e41716a
+      internalID: -1735533395
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_27
+      name: VillagerBlacksmith_7
       rect:
         serializedVersion: 2
-        x: 8
+        x: 96
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 783b6ff5aa1413e4d87387e754c0655c
+      internalID: -777588939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerBlacksmith_8
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93072fe3de8f38041a8db2e125a85bf3
+      internalID: -741340825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerBlacksmith_9
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32f69bd61a5288749b9579063d32d551
+      internalID: 681270136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerBlacksmith_10
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cef6a03df950d154489b76f48bc8dbd2
+      internalID: -1333332193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerBlacksmith_11
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b1499eabf29d304ba2ab2bddbeee4e3
+      internalID: 1334736674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerBlacksmith_12
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f324d98d0c32ef24e805aa6d9fc6695d
+      internalID: 2103717500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerBlacksmith_13
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f27fd50cc75cb564daeb9b756c1ef2b6
+      internalID: 1985569760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerBlacksmith_14
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 64
-        width: 15
-        height: 15
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b6fde9f3a682cc4e0800000000000000
-      internalID: -1960147301013987477
+      spriteID: 9da8376574d42524793aa0800256409d
+      internalID: 1970865737
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_28
+      name: VillagerBlacksmith_15
       rect:
         serializedVersion: 2
-        x: 39
+        x: 32
         y: 64
-        width: 17
-        height: 15
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bb8e3ab98e5dc8da0800000000000000
-      internalID: -5941138613388187461
+      spriteID: c0a6062575d94bc4aaa6db1129cf47dd
+      internalID: 1701462323
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_29
+      name: VillagerBlacksmith_16
       rect:
         serializedVersion: 2
-        x: 74
+        x: 64
         y: 64
-        width: 15
-        height: 15
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d8dd11353a15eb740800000000000000
-      internalID: 5169659184183106957
+      spriteID: 1d9b3890e123f4045a5887a2145fcf90
+      internalID: -1995455397
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_30
+      name: VillagerBlacksmith_17
       rect:
         serializedVersion: 2
-        x: 106
+        x: 96
         y: 64
-        width: 14
-        height: 15
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 047a16d99694620c0800000000000000
-      internalID: -4600909251351566528
+      spriteID: fb0cefa7dccd0884f8b3a0a377a93291
+      internalID: -7775582
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_31
+      name: VillagerBlacksmith_18
       rect:
         serializedVersion: 2
-        x: 138
-        y: 64
-        width: 14
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7ec2b4e858005bdb0800000000000000
-      internalID: -4776911256138601241
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_32
-      rect:
-        serializedVersion: 2
-        x: 170
-        y: 64
-        width: 12
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: dfea82d63dff70790800000000000000
-      internalID: -7563795765610893571
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniBlacksmith_33
-      rect:
-        serializedVersion: 2
-        x: 5
+        x: 0
         y: 32
-        width: 18
-        height: 15
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d205da1aac59b0aa0800000000000000
-      internalID: -6193692164989562835
+      spriteID: eed75c4515b29eb40b288623913ff23d
+      internalID: -1803944650
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_34
+      name: VillagerBlacksmith_19
       rect:
         serializedVersion: 2
-        x: 38
+        x: 32
         y: 32
-        width: 17
-        height: 15
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b07e368b13bbda0f0800000000000000
-      internalID: -1104020511414556917
+      spriteID: f85488845c7ce1a448acc6a0d20d85e5
+      internalID: -1739145873
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_35
+      name: VillagerBlacksmith_20
       rect:
         serializedVersion: 2
-        x: 7
-        y: 0
-        width: 16
-        height: 15
+        x: 64
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d674cba5e6c3754e0800000000000000
-      internalID: -1993057865421797523
+      spriteID: 0cd9f118c34d8e344a4bccac6e51c1ee
+      internalID: 1449788590
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_36
+      name: VillagerBlacksmith_21
       rect:
         serializedVersion: 2
-        x: 39
-        y: 0
-        width: 18
-        height: 12
+        x: 96
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c78095321ebde55f0800000000000000
-      internalID: -765933126599243652
+      spriteID: 0905de548575c6e49aded4d15e088922
+      internalID: 1519394984
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_37
+      name: VillagerBlacksmith_22
       rect:
         serializedVersion: 2
-        x: 71
-        y: 0
-        width: 20
-        height: 9
+        x: 128
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b7e267ef04949fd90800000000000000
-      internalID: -7063533997058019717
+      spriteID: f4c7d10109167d14691cfbad154439b0
+      internalID: -827546180
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_38
+      name: VillagerBlacksmith_23
       rect:
         serializedVersion: 2
-        x: 103
-        y: 0
-        width: 20
-        height: 10
+        x: 160
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cf09b0807acb51c60800000000000000
-      internalID: 7788338556187676924
+      spriteID: b8b0e8d48ca3f17419c3485adaa3ba7e
+      internalID: 664567471
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniBlacksmith_39
+      name: VillagerBlacksmith_24
       rect:
         serializedVersion: 2
-        x: 135
+        x: 0
         y: 0
-        width: 20
-        height: 9
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ddeb54fec4516ef20800000000000000
-      internalID: 3451469584602087133
+      spriteID: ee4ff09961532a84491369c8b69c933c
+      internalID: -1205711889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerBlacksmith_25
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c16b8faedb378e3448017d4ad8cf5c3f
+      internalID: -1735833656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerBlacksmith_26
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f85f5a51ae55774db3d71f6986897a0
+      internalID: -1574324838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerBlacksmith_27
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 306c23e63bbaa9a4493b356bdc853553
+      internalID: 746779293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerBlacksmith_28
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4edb31da85183d240836404f1a0c38b8
+      internalID: 381504909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerBlacksmith_29
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 827478f9f8283aa4b85609e649165044
+      internalID: 134918660
       vertices: []
       indices: 
       edges: []
@@ -1100,7 +880,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: b31380ca68cb45e4ca273ae04ea479e4
     internalID: 0
     vertices: []
     indices: 
@@ -1109,7 +889,37 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      VillagerBlacksmith_0: 1377040145
+      VillagerBlacksmith_1: 1808135324
+      VillagerBlacksmith_10: -1333332193
+      VillagerBlacksmith_11: 1334736674
+      VillagerBlacksmith_12: 2103717500
+      VillagerBlacksmith_13: 1985569760
+      VillagerBlacksmith_14: 1970865737
+      VillagerBlacksmith_15: 1701462323
+      VillagerBlacksmith_16: -1995455397
+      VillagerBlacksmith_17: -7775582
+      VillagerBlacksmith_18: -1803944650
+      VillagerBlacksmith_19: -1739145873
+      VillagerBlacksmith_2: -1262311128
+      VillagerBlacksmith_20: 1449788590
+      VillagerBlacksmith_21: 1519394984
+      VillagerBlacksmith_22: -827546180
+      VillagerBlacksmith_23: 664567471
+      VillagerBlacksmith_24: -1205711889
+      VillagerBlacksmith_25: -1735833656
+      VillagerBlacksmith_26: -1574324838
+      VillagerBlacksmith_27: 746779293
+      VillagerBlacksmith_28: 381504909
+      VillagerBlacksmith_29: 134918660
+      VillagerBlacksmith_3: -1586309060
+      VillagerBlacksmith_4: -1178363148
+      VillagerBlacksmith_5: 1587871025
+      VillagerBlacksmith_6: -1735533395
+      VillagerBlacksmith_7: -777588939
+      VillagerBlacksmith_8: -741340825
+      VillagerBlacksmith_9: 681270136
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

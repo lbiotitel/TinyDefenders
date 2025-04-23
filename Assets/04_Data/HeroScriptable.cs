@@ -8,7 +8,7 @@ public class DebuffEffect
     public float[] values;
 }
 
-public enum StatType 
+public enum HeroStatType 
 {
     Atk,
     AtkSpeed,
@@ -118,58 +118,58 @@ public class HeroScriptable : ScriptableObject
 
     #region Stat Modify
 
-    public void AddStatModifire(StatType statType, float value) => NetworkRpcManager.instance.AddHeroStatModifireServerRpc((int)statType, hero.NetworkObjectId, value);
+    public void AddStatModifire(HeroStatType statType, float value) => NetworkRpcManager.instance.AddHeroStatModifireServerRpc((int)statType, hero.NetworkObjectId, value);
 
-    private void AddStatModifire(Hero targetHero, StatType statType, float value)
+    private void AddStatModifire(Hero targetHero, HeroStatType statType, float value)
     {
         if (hero != targetHero) return;
 
         switch (statType)
         {
-            case StatType.Atk:
+            case HeroStatType.Atk:
                 atk.AddModifire(value);
                 break;
-            case StatType.AtkSpeed:
+            case HeroStatType.AtkSpeed:
                 atkSpeed.AddModifire(value);
                 break;
-            case StatType.AtkRange:
+            case HeroStatType.AtkRange:
                 atkRange.AddModifire(value);
                 break;
-            case StatType.CriticalRate:
+            case HeroStatType.CriticalRate:
                 criticalRate.AddModifire(value);
                 break;
-            case StatType.CriticalDamage:
+            case HeroStatType.CriticalDamage:
                 criticalDamage.AddModifire(value);
                 break;
-            case StatType.SkillAcc:
+            case HeroStatType.SkillAcc:
                 skillAcc.AddModifire(value);
                 break;
         }
     }
-    public void RemoveStatModifire(StatType statType, float value) => NetworkRpcManager.instance.RemoveHeroStatModifireServerRpc((int)statType, hero.NetworkObjectId, value);
+    public void RemoveStatModifire(HeroStatType statType, float value) => NetworkRpcManager.instance.RemoveHeroStatModifireServerRpc((int)statType, hero.NetworkObjectId, value);
 
-    private void RemoveStatModifire(Hero targetHero, StatType statType, float value)
+    private void RemoveStatModifire(Hero targetHero, HeroStatType statType, float value)
     {
         if (hero != targetHero) return;
 
         switch (statType)
         {
-            case StatType.Atk:
+            case HeroStatType.Atk:
                 atk.RemoveModifire(value);
                 break;
-            case StatType.AtkSpeed:
+            case HeroStatType.AtkSpeed:
                 atkSpeed.RemoveModifire(value);
                 break;
-            case StatType.AtkRange:
+            case HeroStatType.AtkRange:
                 atkRange.RemoveModifire(value);
                 break;
-            case StatType.CriticalRate:
+            case HeroStatType.CriticalRate:
                 criticalRate.RemoveModifire(value);
                 break;
-            case StatType.CriticalDamage:
+            case HeroStatType.CriticalDamage:
                 criticalDamage.RemoveModifire(value);
                 break;
-            case StatType.SkillAcc:
+            case HeroStatType.SkillAcc:
                 skillAcc.RemoveModifire(value);
                 break;
         }

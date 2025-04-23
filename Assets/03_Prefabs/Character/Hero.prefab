@@ -515,7 +515,7 @@ Animator:
   m_GameObject: {fileID: 5249462860078115409}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c15ea83d9da75bf4f93e72891e169f68, type: 2}
+  m_Controller: {fileID: 9100000, guid: c1c28b758df80a24cb066df4afede104, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -803,11 +803,11 @@ MonoBehaviour:
   spawnParticle: {fileID: 5626245795935178412, guid: fd1add2b7de660f498cb90d16f9f8561, type: 3}
   rarityParticle: {fileID: 5773783186465888369}
   heroRangeCollider: {fileID: 3975052571075241719}
-  upgradeParticle: {fileID: 7363878967741635985}
   heroLevelIcon:
   - {fileID: 5309411159149924721}
   - {fileID: 3108074565432028766}
   - {fileID: 6176482655946547460}
+  statMultiplierByLevel: 15
   <monsterLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
@@ -1009,11 +1009,6 @@ PrefabInstance:
 --- !u!4 &6617657477832951813 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8106174446088139199, guid: 7cc322088ebba22499ab79571c5a5e00, type: 3}
-  m_PrefabInstance: {fileID: 3145851062911400378}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &7363878967741635985 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5591656783663572011, guid: 7cc322088ebba22499ab79571c5a5e00, type: 3}
   m_PrefabInstance: {fileID: 3145851062911400378}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5459179785711751962
