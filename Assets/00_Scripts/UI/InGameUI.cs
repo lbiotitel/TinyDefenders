@@ -49,9 +49,6 @@ public class InGameUI : NetworkBehaviour
     [SerializeField] private TMP_Text countDownText;
     public bool profileAnimationReady = false;
 
-    [Header("Upgarde UI")]
-    [SerializeField] private UpgradeUI upgradeUI;
-
     [Header("Select Relic UI")]
     [SerializeField] private SelectRelicCardUI selectRelicCardUI;
 
@@ -90,7 +87,6 @@ public class InGameUI : NetworkBehaviour
         if (profileAnimator.gameObject.activeSelf == false)
             profileAnimator.gameObject.SetActive(true);
         heroInfoUI.HideHeroInfoUI();
-        RedrawUpgradeUI();
 
         rerollButton.onClick.AddListener(() => CardManager.instance.RerollCard(false));
         expButton.onClick.AddListener(() => PlayerStatManager.instance.AddIngameExp());
@@ -192,8 +188,8 @@ public class InGameUI : NetworkBehaviour
     private void Update()
     {
         DrawMainUI();
+        CheckQuestkey();
         CheckOptionKey();
-        CheckHeroUpgradeKey();
     }
 
     private void CheckOptionKey()
@@ -205,14 +201,15 @@ public class InGameUI : NetworkBehaviour
         }
     }
 
-    private void CheckHeroUpgradeKey()
+    private void CheckQuestkey()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (!upgradeUI.gameObject.activeSelf) upgradeUI.ShowUpgradeUI();
-            else upgradeUI.HideUpgradeUI();
+            if (!inGameQuestUI.gameObject.activeSelf) inGameQuestUI.ShowInGameQuestUI();
+            else inGameQuestUI.HideInGameQuestUI();
         }
     }
+
 
     private void ShowCurrentHeroCount(Hero hero)
     {
@@ -284,24 +281,6 @@ public class InGameUI : NetworkBehaviour
 
     #endregion
 
-    #region About Upgrade UI
-
-    public void RedrawUpgradeUI()
-    {
-        upgradeUI.RedrawUpgradeUINodes();
-    }
-
-    public void ClickUpgradeButton(HeroTribe heroTribe)
-    {
-        upgradeUI.ClickHeroUpgradeButton(heroTribe);
-    }
-
-    public void ClickCardRateUpgradeButton()
-    {
-      
-    }
-
-    #endregion
 
 
     #region Select Relic Card UI

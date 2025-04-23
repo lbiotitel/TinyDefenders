@@ -10,7 +10,7 @@ public class HumanSynergy : HeroSynergyBase
     public override void HeroSynergyActive(int level)
     {
         if (level < 1) return;
-        PlayerStatManager.instance.AddSkillAccModifire(playerNetworkType, skillAcc[level - 1]);
+        PlayerStatManager.instance.AddSkillAccModifire(synergyNetworkType, skillAcc[level - 1]);
         if (level == 3)
         {
             EventManager.instance.onHeroUseSkillAction += HeroUseTwiceSkill;
@@ -20,7 +20,7 @@ public class HumanSynergy : HeroSynergyBase
     public override void HeroSynergyDeactive(int level)
     {
         if (level < 1) return;
-        PlayerStatManager.instance.RemoveSkillAccModifire(playerNetworkType, skillAcc[level - 1]);
+        PlayerStatManager.instance.RemoveSkillAccModifire(synergyNetworkType, skillAcc[level - 1]);
         if (level == 3)
         {
             EventManager.instance.onHeroUseSkillAction -= HeroUseTwiceSkill;

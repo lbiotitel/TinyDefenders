@@ -8,7 +8,7 @@ public class RelicBluntSword : RelicBase
     {
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         { 
-            NetworkRpcManager.instance.AddAtkModifireServerRpc((int)playerNetworkType, increaseAmount);
+            NetworkRpcManager.instance.AddPlayerAtkModifireServerRpc((int)playerNetworkType, increaseAmount);
         }
         PlayerStatManager.instance.AddAtkModifire(playerNetworkType, increaseAmount);
     }

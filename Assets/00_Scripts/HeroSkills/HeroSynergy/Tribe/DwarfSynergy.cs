@@ -7,7 +7,7 @@ public class DwarfSynergy : HeroSynergyBase
     public override void HeroSynergyActive(int level)
     {
         if (level < 1) return;
-        PlayerStatManager.instance.AddAtkRangeModifire(playerNetworkType,heroAtkRange[level - 1]);
+        PlayerStatManager.instance.AddAtkRangeModifire(synergyNetworkType,heroAtkRange[level - 1]);
         if (level == 3)
         {
             EventManager.instance.onHeroSummonAction += DwarfDrawCard;
@@ -17,7 +17,7 @@ public class DwarfSynergy : HeroSynergyBase
     public override void HeroSynergyDeactive(int level)
     {
         if(level < 1)return;
-        PlayerStatManager.instance.RemoveAtkRangeModifire(playerNetworkType, heroAtkRange[level - 1]);
+        PlayerStatManager.instance.RemoveAtkRangeModifire(synergyNetworkType, heroAtkRange[level - 1]);
         if (level == 3)
         { 
             EventManager.instance.onHeroSummonAction -= DwarfDrawCard;

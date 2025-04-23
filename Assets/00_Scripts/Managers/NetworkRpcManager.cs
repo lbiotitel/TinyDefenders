@@ -113,54 +113,6 @@ public class NetworkRpcManager : NetworkBehaviour
     #endregion
 
 
-    #region About Upgrade
-
-
-    [ServerRpc(RequireOwnership = false)]
-    public void UpgradeHeroServerRpc(int heroTribe, bool isServer)
-    {
-        HeroTribe tribe = (HeroTribe)heroTribe;
-
-        if (NetUtils.IsHost())
-        {
-            if (isServer)
-            {
-                PlayerStatManager.instance.serverUpgrade.Upgrade(tribe);
-                InGameUI.instance.RedrawUpgradeUI();
-            }
-            else
-            {
-
-                PlayerStatManager.instance.clientUpgrade.Upgrade(tribe);
-
-                int[] upgradeCosts = new int[(int)HeroTribe.SCAVENGER + 1];
-                int[] upgradeLevels = new int[(int)HeroTribe.SCAVENGER + 1];
-
-                for (int tribeIndex = (int)HeroTribe.HUMAN; tribeIndex <= (int)HeroTribe.SCAVENGER; tribeIndex++)
-                {
-                    upgradeCosts[tribeIndex] = PlayerStatManager.instance.clientUpgrade.GetHeroUpgradeCost((HeroTribe)tribeIndex);
-                    upgradeLevels[tribeIndex] = PlayerStatManager.instance.clientUpgrade.GetHeroUpgradeLevel((HeroTribe)tribeIndex);
-                }
-
-                SetUpgradeHeroClientRpc(upgradeLevels, upgradeCosts);
-            }
-        }
-    }
-
-    [ClientRpc]
-    public void SetUpgradeHeroClientRpc(int[] upgradeLevels, int[] upgradeCosts)
-    {
-        for (int tribeIndex = (int)HeroTribe.HUMAN; tribeIndex <= (int)HeroTribe.SCAVENGER; tribeIndex++)
-        {
-            PlayerStatManager.instance.clientUpgrade.SetHeroUpgradeLevel((HeroTribe)tribeIndex, upgradeLevels[tribeIndex]);
-            PlayerStatManager.instance.clientUpgrade.SetHeroUpgradeCost((HeroTribe)tribeIndex, upgradeCosts[tribeIndex]);
-        }
-        InGameUI.instance.RedrawUpgradeUI();
-    }
-
-
-    #endregion
-
 
     #region About Hero Synergy 
 
@@ -215,32 +167,32 @@ public class NetworkRpcManager : NetworkBehaviour
     #region About Player Stat Data
 
     [ServerRpc(RequireOwnership = false)]
-    public void AddAtkModifireServerRpc(int playerNetworkType, float value)
+    public void AddPlayerAtkModifireServerRpc(int playerNetworkType, float value)
     { 
         PlayerStatManager.instance.AddAtkModifire((PlayerNetworkType)playerNetworkType, value);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void AddAtkSpeedModifireServerRpc(int playerNetworkType, float value)
+    public void AddPlayerAtkSpeedModifireServerRpc(int playerNetworkType, float value)
     {
         PlayerStatManager.instance.AddAtkSpeedModifire((PlayerNetworkType)playerNetworkType, value);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void AddAtkRangeServerRpc(int playerNetworkType, float value)
+    public void AddPlayerAtkRangeServerRpc(int playerNetworkType, float value)
     {
         PlayerStatManager.instance.AddAtkRangeModifire((PlayerNetworkType)playerNetworkType, value);
     }
 
 
     [ServerRpc(RequireOwnership = false)]
-    public void AddCriticalRateModifireServerRpc(int playerNetworkType, float value)
+    public void AddPlayerCriticalRateModifireServerRpc(int playerNetworkType, float value)
     {
         PlayerStatManager.instance.AddCriticalRateModifire((PlayerNetworkType)playerNetworkType, value);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void AddCriDamageModifireServerRpc(int playerNetworkType, float value)
+    public void AddPlayerCriDamageModifireServerRpc(int playerNetworkType, float value)
     {
         PlayerStatManager.instance.AddCriDamageModifire((PlayerNetworkType)playerNetworkType, value);
     }
@@ -250,4 +202,34 @@ public class NetworkRpcManager : NetworkBehaviour
     #endregion
 
 
+    #region Hero Stat Data
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddHeroStatModifireServerRpc(int statType, ulong heroNetworkId, float value) => AddHeroStatModifireClientRpc(statType,heroNetworkId, value);
+    
+    
+    [ClientRpc]
+    private void AddHeroStatModifireClientRpc(int statType,ulong heroNetworkId, float value)
+    {
+        if (NetUtils.TryGetSpawnedObject(heroNetworkId, out NetworkObject networkObject))
+        {
+            Hero hero = networkObject.GetComponent<Hero>();
+            EventManager.instance.onHeroAddStatModifireAction?.Invoke(hero,(StatType)statType,value);
+        }
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RemoveHeroStatModifireServerRpc(int statType,ulong heroNetworkId, float value) => RemoveHeroStatModifireClientRpc(statType,heroNetworkId, value);
+
+    [ClientRpc]
+    private void RemoveHeroStatModifireClientRpc(int statType,ulong heroNetworkId, float value)
+    {
+        if (NetUtils.TryGetSpawnedObject(heroNetworkId, out NetworkObject networkObject))
+        {
+            Hero hero = networkObject.GetComponent<Hero>();
+            EventManager.instance.onHeroRemoveStatModifireAction?.Invoke(hero, (StatType)statType, value);
+        }
+    }
+    #endregion
 }

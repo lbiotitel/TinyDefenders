@@ -9,7 +9,7 @@ public class DemonSynergy : HeroSynergyBase
     public override void HeroSynergyActive(int level)
     {
         if (level < 1) return;
-        PlayerStatManager.instance.AddAtkModifire(playerNetworkType, heroAtk[level - 1]);
+        PlayerStatManager.instance.AddAtkModifire(synergyNetworkType, heroAtk[level - 1]);
         if (level == 4)
         {
             EventManager.instance.onHeroAttackToMonsterAction += DemonExplosion;
@@ -19,7 +19,7 @@ public class DemonSynergy : HeroSynergyBase
     public override void HeroSynergyDeactive(int level)
     {
         if (level < 1) return;
-        PlayerStatManager.instance.RemoveAtkModifire(playerNetworkType, heroAtk[level - 1]);
+        PlayerStatManager.instance.RemoveAtkModifire(synergyNetworkType, heroAtk[level - 1]);
         if (level == 4)
         {
             EventManager.instance.onHeroAttackToMonsterAction -= DemonExplosion;
@@ -45,7 +45,7 @@ public class DemonSynergy : HeroSynergyBase
             {
                 if (targetMonster == monster) continue;
                 if (targetMonster.IsDead()) continue;
-                targetMonster.GetDamage(heroAtk, playerNetworkType,hero.NetworkObjectId,false);
+                targetMonster.GetDamage(heroAtk, synergyNetworkType,hero.NetworkObjectId,false);
             }
         }
     }

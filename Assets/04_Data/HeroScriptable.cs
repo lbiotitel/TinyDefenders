@@ -8,6 +8,16 @@ public class DebuffEffect
     public float[] values;
 }
 
+public enum StatType 
+{
+    Atk,
+    AtkSpeed,
+    AtkRange,
+    CriticalRate,
+    CriticalDamage,
+    SkillAcc
+}
+
 
 [System.Serializable]
 public class SkillData
@@ -68,15 +78,21 @@ public class HeroScriptable : ScriptableObject
     [Header("Skill")]
     public SkillData skillData;
 
+    private Hero hero;
+
     private void OnValidate()
     {
         heroName = this.name;
     }
 
-    public void InitHeroNetworkType(PlayerNetworkType playerNetworkType)
+    public void InitHeroNetworkType(PlayerNetworkType playerNetworkType, Hero hero)
     {
         heroNetworkType = playerNetworkType;
+        this.hero = hero;
         criticalDamage.AddModifire(baseCriticalDamage);
+
+        EventManager.instance.onHeroAddStatModifireAction += AddStatModifire;
+        EventManager.instance.onHeroRemoveStatModifireAction += RemoveStatModifire;
     }
 
     public string GetLocalizationName()
@@ -100,12 +116,73 @@ public class HeroScriptable : ScriptableObject
 
     #region Hero Stat
 
+    #region Stat Modify
+
+    public void AddStatModifire(StatType statType, float value) => NetworkRpcManager.instance.AddHeroStatModifireServerRpc((int)statType, hero.NetworkObjectId, value);
+
+    private void AddStatModifire(Hero targetHero, StatType statType, float value)
+    {
+        if (hero != targetHero) return;
+
+        switch (statType)
+        {
+            case StatType.Atk:
+                atk.AddModifire(value);
+                break;
+            case StatType.AtkSpeed:
+                atkSpeed.AddModifire(value);
+                break;
+            case StatType.AtkRange:
+                atkRange.AddModifire(value);
+                break;
+            case StatType.CriticalRate:
+                criticalRate.AddModifire(value);
+                break;
+            case StatType.CriticalDamage:
+                criticalDamage.AddModifire(value);
+                break;
+            case StatType.SkillAcc:
+                skillAcc.AddModifire(value);
+                break;
+        }
+    }
+    public void RemoveStatModifire(StatType statType, float value) => NetworkRpcManager.instance.RemoveHeroStatModifireServerRpc((int)statType, hero.NetworkObjectId, value);
+
+    private void RemoveStatModifire(Hero targetHero, StatType statType, float value)
+    {
+        if (hero != targetHero) return;
+
+        switch (statType)
+        {
+            case StatType.Atk:
+                atk.RemoveModifire(value);
+                break;
+            case StatType.AtkSpeed:
+                atkSpeed.RemoveModifire(value);
+                break;
+            case StatType.AtkRange:
+                atkRange.RemoveModifire(value);
+                break;
+            case StatType.CriticalRate:
+                criticalRate.RemoveModifire(value);
+                break;
+            case StatType.CriticalDamage:
+                criticalDamage.RemoveModifire(value);
+                break;
+            case StatType.SkillAcc:
+                skillAcc.RemoveModifire(value);
+                break;
+        }
+    }
+
+    #endregion
+
+
     #region About Hero Atk
     public double GetHeroAtk()
     {
         double atk = this.atk.GetValue();
         atk = atk + (atk * (PlayerStatManager.instance.GetBonusAtk(heroNetworkType) / 100f));
-        atk += atk * (PlayerStatManager.instance.GetHeroUpgradeLevel(heroTribe, heroNetworkType) * 0.05f);
         return atk;
     }
 
@@ -123,10 +200,11 @@ public class HeroScriptable : ScriptableObject
 
     #region About Hero AtkSpeed
 
+
     public float GetHeroAtkSpeed()
     {
-        float synergyStat = PlayerStatManager.instance.GetBonusAtkSpeed(heroNetworkType) + this.atkSpeed.GetModifireValue();
-        float atkSpeed = GetHeroBaseAtkSpeed() + (GetHeroBaseAtkSpeed() * (synergyStat / 100f));
+        float modifire = PlayerStatManager.instance.GetBonusAtkSpeed(heroNetworkType) + this.atkSpeed.GetModifireValue();
+        float atkSpeed = GetHeroBaseAtkSpeed() + (GetHeroBaseAtkSpeed() * (modifire / 100f));
         return atkSpeed;
     }
 
@@ -200,16 +278,12 @@ public class HeroScriptable : ScriptableObject
         return skillAcc.GetModifireValue() + PlayerStatManager.instance.GetBonusSkillAcc(heroNetworkType);
     }
 
-    public void AddAtkModifire(float value)
-    {
-        atk.AddModifire(value);
-    }
-
-    public void RemovAtkModifire(float value)
-    {
-        atk.RemoveModifire(value);
-    }
-
-
     #endregion
+
+
+    private void OnDestroy()
+    {
+        EventManager.instance.onHeroAddStatModifireAction -= AddStatModifire;
+        EventManager.instance.onHeroRemoveStatModifireAction -= RemoveStatModifire;
+    }
 }

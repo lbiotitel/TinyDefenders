@@ -44,7 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba95dd56d1735145af38d9df1d4850d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkModifireValue:
-  - 10
+  synergyParticle: {fileID: 0}
+  extraHitValue:
+  - 0
+  - 20
   - 30
+  - 40
   - 50
+  extraHitProbability:
+  - 0
+  - 20
+  - 40
+  - 60
+  - 100

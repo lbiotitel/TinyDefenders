@@ -9,7 +9,7 @@ public class RogueSynergy : HeroSynergyBase
     public override void HeroSynergyActive(int level)
     {
         if (!CheckSynergyLevel(level)) return;
-        PlayerStatManager.instance.AddCriticalRateModifire(playerNetworkType, criModifireValue[currentSynergyLevel]);
+        PlayerStatManager.instance.AddCriticalRateModifire(synergyNetworkType, criModifireValue[currentSynergyLevel]);
         if (level == 3)
         {
             EventManager.instance.onHeroAttackToMonsterAction += RogueSynergyLogic;
@@ -19,7 +19,7 @@ public class RogueSynergy : HeroSynergyBase
     public override void HeroSynergyDeactive(int level)
     {
         if (!CheckSynergyLevel(level)) return;
-        PlayerStatManager.instance.RemoveCriticalRateModifire(playerNetworkType, criModifireValue[currentSynergyLevel]);
+        PlayerStatManager.instance.RemoveCriticalRateModifire(synergyNetworkType, criModifireValue[currentSynergyLevel]);
         if (level == 3)
         {
             EventManager.instance.onHeroAttackToMonsterAction -= RogueSynergyLogic;
@@ -28,7 +28,7 @@ public class RogueSynergy : HeroSynergyBase
 
     private void RogueSynergyLogic(Hero hero, Monster monster)
     {
-        if (playerNetworkType != PlayerNetworkType.HOST) return;
+        if (synergyNetworkType != PlayerNetworkType.HOST) return;
 
         double hpPercent = monster.hp / monster.maxHp;
 

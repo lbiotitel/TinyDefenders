@@ -7,7 +7,7 @@ public class RelicMaskOfRage : RelicBase
     {
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         {
-            NetworkRpcManager.instance.AddCriDamageModifireServerRpc((int)playerNetworkType, increaseAmount);
+            NetworkRpcManager.instance.AddPlayerCriDamageModifireServerRpc((int)playerNetworkType, increaseAmount);
         }
 
         PlayerStatManager.instance.AddCriDamageModifire(playerNetworkType, increaseAmount);

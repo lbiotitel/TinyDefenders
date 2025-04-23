@@ -7,7 +7,7 @@ public class RelicBluntBow : RelicBase
     {
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         {
-            NetworkRpcManager.instance.AddAtkSpeedModifireServerRpc((int)playerNetworkType, increaseAmount);
+            NetworkRpcManager.instance.AddPlayerAtkSpeedModifireServerRpc((int)playerNetworkType, increaseAmount);
         }
         PlayerStatManager.instance.AddAtkSpeedModifire(playerNetworkType, increaseAmount);
     }

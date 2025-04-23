@@ -21,6 +21,8 @@ public class EventManager : MonoBehaviour
     public UnityAction<Hero> onHeroSummonAction;
     public UnityAction<Hero> onHeroStartSummonAction;
     public UnityAction onHeroEndSummonAction;
+    public UnityAction<Hero,StatType, float> onHeroAddStatModifireAction;
+    public UnityAction<Hero,StatType, float> onHeroRemoveStatModifireAction;
 
     public UnityAction<float,bool> onTimerTickAction;
     public UnityAction onWaveNotClearAction;
@@ -44,7 +46,6 @@ public class EventManager : MonoBehaviour
     public UnityAction onDrawCardAction;
     public UnityAction onGameStartAction;
     public UnityAction onBossWaveClear;
-    public UnityAction<HeroTribe, PlayerNetworkType> onUpgradeAction;
 
 
     private void ReleaseAction<T>(ref UnityAction<T> unityAction) 
@@ -70,6 +71,17 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    private void ReleaseAction<T1, T2, T3>(ref UnityAction<T1, T2, T3> unityAction)
+    {
+        if (unityAction != null)
+        {
+            foreach (var d in unityAction.GetInvocationList())
+            {
+                unityAction -= (UnityAction<T1, T2, T3>)d;
+            }
+        }
+    }
+
     private void ReleaseAction(ref UnityAction unityAction)
     {
         if (unityAction != null)
@@ -90,7 +102,6 @@ public class EventManager : MonoBehaviour
         ReleaseAction(ref onDrawCardAction);
         ReleaseAction(ref onGameStartAction);
         ReleaseAction(ref onHeroAttackToMonsterAction);
-        ReleaseAction(ref onUpgradeAction);
         ReleaseAction(ref onMonsterDeadAction);
         ReleaseAction(ref onHeroStartSummonAction);
         ReleaseAction(ref onHeroEndSummonAction);
@@ -105,6 +116,8 @@ public class EventManager : MonoBehaviour
         ReleaseAction(ref onRelicSelectFinishAction);
         ReleaseAction(ref onMonsterBeforeTakeDamageAction);
         ReleaseAction(ref onBeforeAttackMonsterAction);
+        ReleaseAction(ref onHeroAddStatModifireAction);
+        ReleaseAction(ref onHeroRemoveStatModifireAction);
 
         instance = null;
     }

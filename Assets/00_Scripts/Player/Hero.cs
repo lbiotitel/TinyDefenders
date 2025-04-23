@@ -10,7 +10,6 @@ public class Hero : Entity
     [SerializeField] private GameObject spawnParticle;
     [SerializeField] private ParticleSystem rarityParticle;
     [SerializeField] private BoxCollider2D heroRangeCollider;
-    [SerializeField] private ParticleSystem upgradeParticle;
     [SerializeField] private GameObject[] heroLevelIcon;
     [SerializeField] private float statMultiplierByLevel = 15f;
 
@@ -48,27 +47,27 @@ public class Hero : Entity
         this.heroHolder = heroHolder;
         animator.runtimeAnimatorController = data.runtimeAnimatorController;
 
+        Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
+
+        heroOwnerNetworkType =
+            heroHolder.holderId.Contains("CLIENT") ? PlayerNetworkType.CLIENT : PlayerNetworkType.HOST;
+
+        heroData.InitHeroNetworkType(heroOwnerNetworkType, this);
+
         InitHeroRangeCollider();
         InitRarityCircleColor();
         InitHeroLevelIcon(heroLevel);
         InitHeroLevelStat(heroLevel);
 
-        Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
-
-        heroOwnerNetworkType = 
-            heroHolder.holderId.Contains("CLIENT") ? PlayerNetworkType.CLIENT : PlayerNetworkType.HOST;
-
-        heroData.InitHeroNetworkType(heroOwnerNetworkType);
 
         damageStack.OnValueChanged += OnDamageStackValueChagned;
         SpawnManager.instance.AddHero(this);
-        EventManager.instance.onUpgradeAction += PlayUpgradeParticle;
     }
 
 
     private void InitHeroLevelStat(int level)
     {
-        heroData.AddAtkModifire(level * statMultiplierByLevel);
+        heroData.AddStatModifire(StatType.Atk,level * statMultiplierByLevel);
     }
 
     private void InitHeroLevelIcon(int level)
@@ -221,11 +220,6 @@ public class Hero : Entity
         }
     }
 
-    public void PlayUpgradeParticle(HeroTribe heroTribe,PlayerNetworkType playerNetworkType)    {
-        if(heroTribe == heroData.heroTribe && playerNetworkType == heroOwnerNetworkType)
-            upgradeParticle.Play();
-    }
-
 
     #region Collision Check
 
@@ -268,7 +262,6 @@ public class Hero : Entity
         base.OnNetworkDespawn();
         if (GameManager.instance.isGameOver) return;
         damageStack.OnValueChanged -= OnDamageStackValueChagned;
-        EventManager.instance.onUpgradeAction -= PlayUpgradeParticle;
         SpawnManager.instance.RemoveHero(this);
     }
 }

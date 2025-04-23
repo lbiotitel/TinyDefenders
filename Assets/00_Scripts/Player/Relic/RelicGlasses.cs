@@ -8,7 +8,7 @@ public class RelicGlasses : RelicBase
     {
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         {
-            NetworkRpcManager.instance.AddAtkRangeServerRpc((int)playerNetworkType, increaseAmount);
+            NetworkRpcManager.instance.AddPlayerAtkRangeServerRpc((int)playerNetworkType, increaseAmount);
         }
         PlayerStatManager.instance.AddAtkRangeModifire(playerNetworkType, increaseAmount);
     }

@@ -7,7 +7,7 @@ public class RelicRedAxe : RelicBase
     {
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         {
-            NetworkRpcManager.instance.AddCriticalRateModifireServerRpc((int)playerNetworkType, increaseAmount);
+            NetworkRpcManager.instance.AddPlayerCriticalRateModifireServerRpc((int)playerNetworkType, increaseAmount);
         }
         PlayerStatManager.instance.AddCriticalRateModifire(playerNetworkType, increaseAmount);
     }

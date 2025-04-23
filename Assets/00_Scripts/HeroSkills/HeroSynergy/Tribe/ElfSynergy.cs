@@ -7,12 +7,12 @@ public class ElfSynergy : HeroSynergyBase
     public override void HeroSynergyActive(int level)
     {
         if (level < 1) return;
-        PlayerStatManager.instance.AddAtkSpeedModifire(playerNetworkType, atkSpeed[level - 1]);
+        PlayerStatManager.instance.AddAtkSpeedModifire(synergyNetworkType, atkSpeed[level - 1]);
     }
 
     public override void HeroSynergyDeactive(int level)
     {
         if (level < 1) return;
-        PlayerStatManager.instance.RemoveAtkSpeedModifire(playerNetworkType, atkSpeed[level - 1]);
+        PlayerStatManager.instance.RemoveAtkSpeedModifire(synergyNetworkType, atkSpeed[level - 1]);
     }
 }

@@ -26,11 +26,6 @@ public class PlayerStatManager : MonoBehaviour
     [SerializeField] private int giveExpAmount;
     [SerializeField] private int expGold;
 
-    [Header("Hero Upgrade")]
-    [field: SerializeField] public InGameUpgrade clientUpgrade { get; private set; }
-    [field: SerializeField] public InGameUpgrade serverUpgrade { get; private set; }
-
-
     [Header("Server Bonus Stat")]
     [field: SerializeField] public Stat serverAtk;
     [field: SerializeField] public Stat serverAtkSpeed;
@@ -572,35 +567,6 @@ public class PlayerStatManager : MonoBehaviour
         return 0;
     }
 
-
-    #endregion
-
-
-    #region Hero Upgrade
-
-
-    public int GetHeroUpgradeLevel(HeroTribe heroTribe)
-    {
-        return NetUtils.IsHost() == true ?
-            serverUpgrade.GetHeroUpgradeLevel(heroTribe) : clientUpgrade.GetHeroUpgradeLevel(heroTribe);
-    }
-
-    public int GetHeroUpgradeLevel(HeroTribe heroTribe, PlayerNetworkType heroOwner)
-    {
-        return heroOwner == PlayerNetworkType.HOST ?
-            serverUpgrade.GetHeroUpgradeLevel(heroTribe) : clientUpgrade.GetHeroUpgradeLevel(heroTribe);
-    }
-
-    public int GetHeroUpgradeCost(HeroTribe heroTribe)
-    {
-        return NetUtils.IsHost() == true ?
-            serverUpgrade.GetHeroUpgradeCost(heroTribe) : clientUpgrade.GetHeroUpgradeCost(heroTribe);
-    }
-    public int GetHeroUpgradeCost(HeroTribe heroTribe, PlayerNetworkType heroOwner)
-    {
-        return heroOwner == PlayerNetworkType.HOST ?
-            serverUpgrade.GetHeroUpgradeCost(heroTribe) : clientUpgrade.GetHeroUpgradeCost(heroTribe);
-    }
 
     #endregion
 

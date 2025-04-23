@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class HeroSynergyBase : MonoBehaviour
 {
-    protected PlayerNetworkType playerNetworkType;
+    protected PlayerNetworkType synergyNetworkType;
     protected string synergyName;
     protected int currentSynergyLevel;
     [SerializeField] private GameObject synergyParticle;
@@ -15,7 +15,7 @@ public abstract class HeroSynergyBase : MonoBehaviour
 
     public void InitNetworkType(PlayerNetworkType playerNetworkType,string synergyName)
     { 
-        this.playerNetworkType = playerNetworkType;
+        this.synergyNetworkType = playerNetworkType;
         this.synergyName = synergyName;
     }
 
