@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HeroTribeSynergySO", menuName = "Scriptable Objects/HeroTribeSynergySO")]
 public class HeroTribeSynergySO : HeroSynergySOBase
 {
-    HeroTribe synergyTribe;
+    [SerializeField] private HeroTribe synergyTribe;
 
     public override void DecreaseHeroCount(HeroScriptable heroData)
     {
@@ -23,7 +23,6 @@ public class HeroTribeSynergySO : HeroSynergySOBase
         if (heroData.heroTribe == synergyTribe)
         {
             currentHeroCount++;
-            Debug.Log("»£√‚");
         }
     }
 }

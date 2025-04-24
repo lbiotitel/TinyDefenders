@@ -24,7 +24,7 @@ public class CombineNodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private void Start()
     {
         combineButton.onClick.AddListener(() => { Combine(); });
-        EventManager.instance.onHeroSummonAction += CanCombineHero;
+        EventManager.instance.onHeroSpawnAction += CanCombineHero;
     }
 
     public void SetHeroData(HeroScriptable mainHero, List<HeroScriptable> subHero, CombineUI combineUI)

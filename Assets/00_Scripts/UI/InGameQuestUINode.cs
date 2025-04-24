@@ -23,7 +23,7 @@ public class InGameQuestUINode : MonoBehaviour
             image.sprite = heroImage.heroMainImage;
         }
 
-        EventManager.instance.onHeroSummonAction += CheckQuest;
+        EventManager.instance.onHeroSpawnAction += CheckQuest;
         EventManager.instance.onHeroDespawnAction += CheckQuest;
     }
 
@@ -41,7 +41,7 @@ public class InGameQuestUINode : MonoBehaviour
 
             InGameUI.instance.ShowAlarm(string.Format("{0} Clear",inGameQuestSO.questName),1f,AlarmType.QUEST);
 
-            EventManager.instance.onHeroSummonAction -= CheckQuest;
+            EventManager.instance.onHeroSpawnAction -= CheckQuest;
             EventManager.instance.onHeroDespawnAction -= CheckQuest;
 
         }

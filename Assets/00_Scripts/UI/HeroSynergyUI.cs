@@ -50,7 +50,6 @@ public class HeroSynergyUI : MonoBehaviour
 
         foreach (var data in heroSynergySOs)
         {
-            Debug.Log(data.synergyName + " : " + data.GetCurrentSynergyLevel());
             ShowHeroSynergyUI(data);
         }
     }

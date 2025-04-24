@@ -99,7 +99,7 @@ public class InGameUI : NetworkBehaviour
             ingameExpSlider.maxValue = requireExp;
         };
 
-        EventManager.instance.onHeroSummonAction += ShowCurrentHeroCount;
+        EventManager.instance.onHeroSpawnAction += ShowCurrentHeroCount;
         EventManager.instance.onMaxHeroCountChangedAction += ShowMaxHeroCount;
     }
 

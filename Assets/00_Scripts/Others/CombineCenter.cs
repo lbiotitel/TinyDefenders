@@ -7,13 +7,13 @@ public class CombineCenter : MonoBehaviour
 
     private void Start()
     {
-        EventManager.instance.onHeroSummonAction += CheckCanCombineHero;
+        EventManager.instance.onHeroSpawnAction += CheckCanCombineHero;
     }
 
 
     private void CheckCanCombineHero(Hero hero)
     {
-        if(hero.GetHeroData().heroLevel >= GameManager.instance.maxHeroLevel)return;
+        if(hero.GetHeroData().heroLevel >= PlayerStatManager.instance.maxHeroLevel)return;
 
         List<Hero> ownHeroList = SpawnManager.instance.GetHeroList(NetUtils.GetPlayerNetworkType());
 
@@ -31,7 +31,7 @@ public class CombineCenter : MonoBehaviour
             }
         }
 
-        if (requireHeroList.Count >= GameManager.instance.requireCombineHeroCount)
+        if (requireHeroList.Count >= PlayerStatManager.instance.requireCombineHeroCount)
         {
             CombineHero(requireHeroList);
         }

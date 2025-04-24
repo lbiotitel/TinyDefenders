@@ -10,7 +10,7 @@ public class DwarfSynergy : HeroSynergyBase
         PlayerStatManager.instance.AddStatModifire(synergyNetworkType, PlayerStatType.AtkRange, heroAtkRange[level - 1]);
         if (level == 3)
         {
-            EventManager.instance.onHeroSummonAction += DwarfDrawCard;
+            EventManager.instance.onHeroSpawnAction += DwarfDrawCard;
         }
     }
 
@@ -20,7 +20,7 @@ public class DwarfSynergy : HeroSynergyBase
         PlayerStatManager.instance.AddStatModifire(synergyNetworkType, PlayerStatType.AtkRange, heroAtkRange[level - 1]);
         if (level == 3)
         { 
-            EventManager.instance.onHeroSummonAction -= DwarfDrawCard;
+            EventManager.instance.onHeroSpawnAction -= DwarfDrawCard;
         }
     }
 

@@ -148,7 +148,6 @@ public class LoadingScene : NetworkBehaviour
             GameManager.instance.SetSpawner();
             GameManager.instance.InitMap(mapName);
             GameManager.instance.InitAllUserInfo(hostName, clientName);
-            GameManager.instance.InitRelicDatas(ownRelicSODic);
             NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnInGameSceneLoaded;
         }
     }

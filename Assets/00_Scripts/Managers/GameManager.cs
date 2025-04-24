@@ -23,8 +23,6 @@ public class GameManager : NetworkBehaviour
 
     //config
     [field: SerializeField] public int gold { get; set; }
-    [field: SerializeField] public int maxHeroLevel { get; private set; }
-    [field: SerializeField] public int requireCombineHeroCount{ get; private set; }
 
     private int currentWave = 0;
     public float timer = 100000;
@@ -103,23 +101,6 @@ public class GameManager : NetworkBehaviour
         playerName = hostName;
         friendName = clientName;
         InGameUI.instance.InitAllUserName(hostName, clientName);
-    }
-
-    public void InitRelicDatas(Dictionary<string, bool> ownRelicData)
-    {
-        List<RelicSO> relicList = GameResourceManager.instance.GetAllRelicData();
-
-        foreach (var relic in relicList)
-        {
-            if (ownRelicData.ContainsKey(relic.relicName))
-            {
-                bool isActive = ownRelicData[relic.relicName];
-                if (isActive)
-                {
-                    relic.InitRelicSO(NetUtils.GetPlayerNetworkType());
-                }
-            }
-        }
     }
 
 

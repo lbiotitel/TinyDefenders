@@ -31,7 +31,10 @@ public class PlayerStatManager : MonoBehaviour
     [field: SerializeField] public int ingameLevel { get; private set; } = 1;
     [field: SerializeField] public int ingameExp { get; private set; } = 0;
     [field: SerializeField] public int currentMaxHeroCount { get; private set; } = 3;
-    [SerializeField] public int maxHeroCount { get; set; }
+    [field: SerializeField] public int maxHeroCount { get;  set; }
+    [field: SerializeField] public int maxHeroLevel { get; private set; }
+    [field: SerializeField] public int requireCombineHeroCount { get; set; }
+
     [SerializeField] private int giveExpAmount;
     [SerializeField] private int expGold;
 
@@ -65,7 +68,7 @@ public class PlayerStatManager : MonoBehaviour
         InitHeroSynergy();
         if (NetUtils.IsHost())
         {
-            EventManager.instance.onHeroSummonAction += AddHero;
+            EventManager.instance.onHeroSpawnAction += AddHero;
             EventManager.instance.onHeroDespawnAction += RemoveHero;
         }
 

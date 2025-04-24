@@ -178,6 +178,13 @@ public class NetworkRpcManager : NetworkBehaviour
     [ClientRpc]
     private void RemovePlayerStatModifireClientRpc(int networkType, int statType, float value) => EventManager.instance.onPlayerRemoveStatModifireAction?.Invoke(networkType, statType, value);
 
+
+    [ClientRpc]
+    public void ModifyHeroLevelUpRequireCountClientRpc(int value)
+    {
+        if (NetUtils.GetPlayerNetworkType() == PlayerNetworkType.CLIENT)
+            PlayerStatManager.instance.requireCombineHeroCount += value;
+    }
     #endregion
 
 

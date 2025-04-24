@@ -6,7 +6,7 @@ public class RelicGoldenTrumpet : RelicBase
 
     public override void ActiveRelic()
     {
-        EventManager.instance.onHeroSummonAction += SummonHero;
+        EventManager.instance.onHeroSpawnAction += SummonHero;
     }
 
 

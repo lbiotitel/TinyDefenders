@@ -22,7 +22,6 @@ public abstract class HeroSynergyBase : MonoBehaviour
     protected bool CheckSynergyLevel(int level)
     {
         if (level < 1) return false;
-
         currentSynergyLevel = level;
         return true;
     }

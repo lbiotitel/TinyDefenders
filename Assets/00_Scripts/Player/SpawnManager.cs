@@ -480,7 +480,7 @@ public class SpawnManager : NetworkBehaviour
                 break;
         }
 
-        EventManager.instance.onHeroSummonAction?.Invoke(hero);
+        EventManager.instance.onHeroSpawnAction?.Invoke(hero);
     }
 
     public void RemoveHero(Hero hero)

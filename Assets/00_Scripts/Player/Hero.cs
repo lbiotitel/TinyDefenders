@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Unity.Netcode;
 using UnityEngine;
 using WebSocketSharp;
@@ -11,7 +12,7 @@ public class Hero : Entity
     [SerializeField] private ParticleSystem rarityParticle;
     [SerializeField] private BoxCollider2D heroRangeCollider;
     [SerializeField] private GameObject[] heroLevelIcon;
-    [SerializeField] private float statMultiplierByLevel = 15f;
+    [SerializeField] private float statMultiplierByLevel = 20f;
 
     private HeroScriptable heroData;
     private HeroHolder heroHolder;
@@ -67,7 +68,8 @@ public class Hero : Entity
 
     private void InitHeroLevelStat(int level)
     {
-        heroData.AddStatModifire(HeroStatType.Atk,level * statMultiplierByLevel);
+        if(NetUtils.IsHost())
+            heroData.AddStatModifire(HeroStatType.Atk,(level - 1) * statMultiplierByLevel);
     }
 
     private void InitHeroLevelIcon(int level)
@@ -256,6 +258,22 @@ public class Hero : Entity
     public double GetDamageStack() { return damageStackValue; }
     public List<Monster> GetMonsterList() { return monsterInRangeList; }
 
+    public void SetHeroLevel(int level)
+    {
+        if (NetUtils.IsHost())
+        {
+            heroData.RemoveStatModifire(HeroStatType.Atk, heroData.heroLevel * statMultiplierByLevel);
+            SetHeroLevelClientRpc(level);
+        }
+    }
+
+    [ClientRpc]
+    private void SetHeroLevelClientRpc(int level)
+    {
+        heroData.heroLevel = level;
+        InitHeroLevelIcon(level);
+        InitHeroLevelStat(level);
+    }
 
     public override void OnNetworkDespawn()
     {
