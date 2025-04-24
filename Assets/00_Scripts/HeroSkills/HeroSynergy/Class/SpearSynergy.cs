@@ -6,44 +6,53 @@ public class SpearSynergy : HeroSynergyBase
     [SerializeField] private float[] atkRangeModifireValue;
     [SerializeField] private float atkSpeedMaxStack;
     [SerializeField] private float atkSpeedStackValue;
-    private Dictionary<Hero,int> heroAtkSpeedStackDic = new Dictionary<Hero,int>();
+    private Dictionary<Hero, int> heroAtkSpeedStackDic = new Dictionary<Hero, int>();
 
     public override void HeroSynergyActive(int level)
     {
         if (!CheckSynergyLevel(level)) return;
-        PlayerStatManager.instance.AddStatModifire(synergyNetworkType,PlayerStatType.AtkRange, atkRangeModifireValue[currentSynergyLevel]);
-        if (currentSynergyLevel == 2)
+        if (currentSynergyLevel == 3)
         {
             EventManager.instance.onHeroAttackToMonsterAction += SpearSynergyLogic;
             EventManager.instance.onWaveFinishAction += ReleaseAllStack;
+        }
+        else
+        {
+            PlayerStatManager.instance.
+                AddStatModifire(synergyNetworkType, PlayerStatType.AtkRange, atkRangeModifireValue[currentSynergyLevel]);
         }
     }
 
     public override void HeroSynergyDeactive(int level)
     {
         if (!CheckSynergyLevel(level)) return;
-        PlayerStatManager.instance.RemoveStatModifire(synergyNetworkType, PlayerStatType.AtkRange, atkRangeModifireValue[currentSynergyLevel]);
-        if (currentSynergyLevel == 2)
+
+        if (currentSynergyLevel == 3)
         {
             ReleaseAllStack();
             EventManager.instance.onHeroAttackToMonsterAction -= SpearSynergyLogic;
             EventManager.instance.onWaveFinishAction -= ReleaseAllStack;
         }
+        else
+        {
+            PlayerStatManager.instance.
+                RemoveStatModifire(synergyNetworkType, PlayerStatType.AtkRange, atkRangeModifireValue[currentSynergyLevel]);
+        }
     }
 
-    private void SpearSynergyLogic(Hero hero,Monster monster)
+    private void SpearSynergyLogic(Hero hero, Monster monster)
     {
         if (hero.GetHeroData().heroClass != HeroClass.SPEAR) return;
         if (hero.heroOwnerNetworkType != synergyNetworkType) return;
         if (hero == null) return;
 
-        if (!heroAtkSpeedStackDic.ContainsKey(hero)) heroAtkSpeedStackDic.Add(hero,0);
+        if (!heroAtkSpeedStackDic.ContainsKey(hero)) heroAtkSpeedStackDic.Add(hero, 0);
 
         int currentStack = heroAtkSpeedStackDic[hero];
 
         if (currentStack < atkSpeedMaxStack)
         {
-            hero.GetHeroData().AddStatModifire(HeroStatType.AtkSpeed,atkSpeedStackValue);
+            hero.GetHeroData().AddStatModifire(HeroStatType.AtkSpeed, atkSpeedStackValue);
 
             heroAtkSpeedStackDic[hero]++;
         }
@@ -59,7 +68,7 @@ public class SpearSynergy : HeroSynergyBase
 
             for (int i = 0; i < stack; i++)
             {
-                hero.GetHeroData().RemoveStatModifire(HeroStatType.AtkSpeed,atkSpeedStackValue);
+                hero.GetHeroData().RemoveStatModifire(HeroStatType.AtkSpeed, atkSpeedStackValue);
             }
         }
 

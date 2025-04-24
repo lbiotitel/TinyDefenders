@@ -77,10 +77,10 @@ public class HeroSynergyUI : MonoBehaviour
 
     public void ShowSynergyInfo(Transform transform, string synergyName, string synergyDesc)
     {
-        Utils.ModifyTransform(transform,ref rectTransform);
         synergyNameText.text = synergyName;
         synergyDescText.text = synergyDesc;
         LayoutRebuilder.ForceRebuildLayoutImmediate(synergyInfoObject.GetComponent<RectTransform>());
+        Utils.ModifyTransform(transform,ref rectTransform);
     }
 
     public void HideSynergyInfo()

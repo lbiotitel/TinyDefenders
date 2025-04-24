@@ -3,7 +3,6 @@ using UnityEngine;
 public abstract class HeroSynergySOBase : ScriptableObject
 {
     public string synergyName;
-    public string synergyDescription;
 
     public int[] synergyRequireCount;
     public HeroSynergyBase synergyBase;
@@ -41,11 +40,6 @@ public abstract class HeroSynergySOBase : ScriptableObject
         }
     }
 
-    public string GetCurrentSynergyDescription()
-    {
-        return synergyDescription;
-    }
-
 
     public abstract Sprite GetSynergyImage();
     public int GetHeroCount() { return currentHeroCount; }
@@ -54,4 +48,6 @@ public abstract class HeroSynergySOBase : ScriptableObject
     public void SetCurrentHeroSynergyLevel(int level) => currentSynergyLevel = level;
     public void SetCurrentHeroCount(int count) => currentHeroCount = count;
     public int GetCurrentSynergyLevel() { return currentSynergyLevel; }
+    public string GetSynergyName() { return Utils.Localization_Text(Localize.Synergy,synergyName); }
+    public string GetSynergyDescription() { return Utils.Localization_Text(Localize.Synergy, synergyName + " Desc"); }
 }

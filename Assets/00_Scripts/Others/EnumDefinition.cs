@@ -100,7 +100,8 @@ public enum Localize
 {
     UI,
     Hero,
-    HeroDesc
+    HeroDesc,
+    Synergy
 }
 public enum ProjectileType { 
     NORMAL,

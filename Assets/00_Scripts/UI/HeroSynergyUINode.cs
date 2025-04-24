@@ -50,7 +50,27 @@ public class HeroSynergyUINode : MonoBehaviour,IPointerEnterHandler,IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        heroSynergyUI.ShowSynergyInfo(transform, heroSynergySO.synergyName, heroSynergySO.GetCurrentSynergyDescription()); 
+        string resultDesc = ModifySynergyDescription();
+        heroSynergyUI.ShowSynergyInfo(transform, heroSynergySO.GetSynergyName(), resultDesc);
+    }
+
+    private string ModifySynergyDescription()
+    {
+        string resultDesc = string.Empty;
+        string synergyDesc = heroSynergySO.GetSynergyDescription();
+
+        string[] splitString = synergyDesc.Split('\n');
+
+        int synergyLevel = heroSynergySO.GetCurrentSynergyLevel();
+
+        for (int i = 0; i < splitString.Length; i++)
+        {
+            if (synergyLevel == (i + 1))
+                resultDesc += "<color=green>" + splitString[i] + "</color>\n";
+            resultDesc += splitString[i];
+        }
+
+        return resultDesc;
     }
 
     public void OnPointerExit(PointerEventData eventData)
