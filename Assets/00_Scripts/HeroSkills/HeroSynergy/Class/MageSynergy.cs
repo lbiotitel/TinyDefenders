@@ -29,6 +29,7 @@ public class MageSynergy : HeroSynergyBase
     private void MageSynergyLogic(Hero hero)
     {
         if (hero.GetHeroData().heroClass != HeroClass.MAGE) return;
+        if (hero.heroOwnerNetworkType != synergyNetworkType) return;
 
         MathUtils.RandomChanceAction(extraSkillProbability, () =>
         {

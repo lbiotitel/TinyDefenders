@@ -185,6 +185,14 @@ public class NetworkRpcManager : NetworkBehaviour
         if (NetUtils.GetPlayerNetworkType() == PlayerNetworkType.CLIENT)
             PlayerStatManager.instance.requireCombineHeroCount += value;
     }
+
+
+    [ClientRpc]
+    public void AddPlayerExpClientRpc(int value)
+    {
+        if (NetUtils.GetPlayerNetworkType() == PlayerNetworkType.CLIENT)
+            PlayerStatManager.instance.AddIngameExp(value);
+    }
     #endregion
 
 
@@ -218,4 +226,7 @@ public class NetworkRpcManager : NetworkBehaviour
         }
     }
     #endregion
+
+
+  
 }

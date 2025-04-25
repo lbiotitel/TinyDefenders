@@ -53,7 +53,8 @@ public enum HeroClass {
     ARCHER,
     HUNTER,
     RIDER,
-    SPEAR
+    SPEAR,
+    SUPPORTER
 }
 
 public enum SynergyType { 

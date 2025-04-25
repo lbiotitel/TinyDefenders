@@ -8,7 +8,7 @@ public class DebuffEffect
     public float[] values;
 }
 
-public enum HeroStatType 
+public enum HeroStatType
 {
     Atk,
     AtkSpeed,
@@ -31,9 +31,27 @@ public class SkillData
     public float skillDuration;
 
     [Header("Buff Skill")]
-    public float buffTime;
-    public float buffAmount;
-    public float buffRange;
+    [SerializeField] private float buffTime;
+    [SerializeField] private float buffAmount;
+    [SerializeField] private float buffRange;
+
+
+    public float GetBuffTime(PlayerNetworkType playerNetworkType)
+    {
+        float result = buffTime + (buffTime * PlayerStatManager.instance.GetBuffBonus(playerNetworkType));
+        return result;
+    }
+
+    public float GetBuffAmount(PlayerNetworkType playerNetworkType)
+    {
+        float result = buffAmount + (buffAmount * PlayerStatManager.instance.GetBuffBonus(playerNetworkType));
+        return result;
+    }
+
+    public float GetBuffRange(PlayerNetworkType playerNetworkType)
+    {
+        return buffRange + PlayerStatManager.instance.GetBuffRangeBonus(playerNetworkType);
+    }
 
 }
 
@@ -283,7 +301,10 @@ public class HeroScriptable : ScriptableObject
 
     private void OnDestroy()
     {
-        EventManager.instance.onHeroAddStatModifireAction -= AddStatModifire;
-        EventManager.instance.onHeroRemoveStatModifireAction -= RemoveStatModifire;
+        if (EventManager.instance != null)
+        {
+            EventManager.instance.onHeroAddStatModifireAction -= AddStatModifire;
+            EventManager.instance.onHeroRemoveStatModifireAction -= RemoveStatModifire;
+        }
     }
 }

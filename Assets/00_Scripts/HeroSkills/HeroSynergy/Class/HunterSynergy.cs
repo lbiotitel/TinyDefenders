@@ -26,6 +26,7 @@ public class HunterSynergy : HeroSynergyBase
     private void HunterSynergyLogic(DamageEvent damageEvent)
     {
         if (damageEvent.hero.GetHeroData().heroClass != HeroClass.HUNTER) return;
+        if (damageEvent.hero.heroOwnerNetworkType != synergyNetworkType) return;
 
         double finalDamage = damageEvent.finalDamage;
 

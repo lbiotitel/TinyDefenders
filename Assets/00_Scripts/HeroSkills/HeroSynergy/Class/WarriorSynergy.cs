@@ -31,7 +31,7 @@ public class WarriorSynergy : HeroSynergyBase
         MathUtils.RandomChanceAction(extraHitProbability[currentSynergyLevel],() => {
             
             double damage = hero.GetHeroData().GetHeroAtk() * (extraHitValue[currentSynergyLevel] / 100f);
-            NetworkRpcManager.instance.AttackMonster(NetUtils.GetPlayerNetworkType(), damage, hero, monster, null, false);
+            NetworkRpcManager.instance.AttackMonster(synergyNetworkType, damage, hero, monster, null, false);
         });
     }
 }

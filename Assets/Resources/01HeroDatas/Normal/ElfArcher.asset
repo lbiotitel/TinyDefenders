@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: ElfArcher
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: ElfArcher
   rarity: 0
   heroCost: 2
@@ -38,7 +39,7 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 4
-  heroClass: 0
+  heroClass: 4
   heroMainImage: {fileID: -1122966732, guid: 4aba780b643b3184ab692c898b006761, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: f3bce8ead3dfe7f4c9126a632accdcd0, type: 2}
   projectile: {fileID: 7009818753606986678, guid: 696ebd6706cb35e4eb9f0427a92e369d, type: 3}

@@ -2,41 +2,33 @@ using UnityEngine;
 
 public class HumanSynergy : HeroSynergyBase
 {
-    [SerializeField] private float[] skillAcc;
-    [SerializeField] private float skillResetRate;
-
-    //2 4 레벨은 스킬포인트 회복속도만 증가 3렙은 스킬포인트 회복하고 스킬 초기화 확률 20%
+    [SerializeField] private int[] expAmount;
 
     public override void HeroSynergyActive(int level)
     {
-        if (level < 1) return;
-        PlayerStatManager.instance.AddStatModifire(synergyNetworkType, PlayerStatType.SkillAcc, skillAcc[level - 1]);
-        if (level == 3)
-        {
-            EventManager.instance.onHeroUseSkillAction += HeroUseTwiceSkill;
-        }
+        if (!CheckSynergyLevel(level)) return;
+
+        EventManager.instance.onWaveFinishAction += HumanSynergyLogic;
     }
 
     public override void HeroSynergyDeactive(int level)
     {
-        if (level < 1) return;
-        PlayerStatManager.instance.AddStatModifire(synergyNetworkType, PlayerStatType.SkillAcc, skillAcc[level - 1]);
-        if (level == 3)
-        {
-            EventManager.instance.onHeroUseSkillAction -= HeroUseTwiceSkill;
-        }
+        if (!CheckSynergyLevel(level)) return;
+
+        EventManager.instance.onWaveFinishAction -= HumanSynergyLogic;
     }
 
 
-    private void HeroUseTwiceSkill(Hero hero)
+    private void HumanSynergyLogic()
     {
-        float randomValue = Random.Range(0, 100f);
-        if (randomValue > skillResetRate) return;
-
-        if (hero.TryGetComponent(out SkillContainer skillContainer))
+        switch (synergyNetworkType)
         {
-            skillContainer.ResetSkill();
+            case PlayerNetworkType.HOST:
+                PlayerStatManager.instance.AddIngameExp(expAmount[currentSynergyLevel]);
+                break;
+            case PlayerNetworkType.CLIENT:
+                NetworkRpcManager.instance.AddPlayerExpClientRpc(expAmount[currentSynergyLevel]);
+                break;
         }
     }
-
 }

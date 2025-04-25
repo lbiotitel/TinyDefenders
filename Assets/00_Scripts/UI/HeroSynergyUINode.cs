@@ -3,15 +3,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class HeroSynergyUINode : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
+public class HeroSynergyUINode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Image synergyImage;
     public TMP_Text synergyLevelText;
-    [HideInInspector]public HeroSynergySOBase heroSynergySO;
+    [HideInInspector] public HeroSynergySOBase heroSynergySO;
     private HeroSynergyUI heroSynergyUI;
     private int synergyLevel;
 
-    public void InitSynergyUINode(HeroSynergySOBase heroSynergySO,HeroSynergyUI heroSynergyUI)
+    public void InitSynergyUINode(HeroSynergySOBase heroSynergySO, HeroSynergyUI heroSynergyUI)
     {
         this.heroSynergySO = heroSynergySO;
         this.heroSynergyUI = heroSynergyUI;
@@ -27,9 +27,9 @@ public class HeroSynergyUINode : MonoBehaviour,IPointerEnterHandler,IPointerExit
         synergyLevelText.text = string.Empty;
         string synergyLevelString = string.Empty;
 
-        for (int i = 1; i < heroSynergySO.synergyRequireCount.Length; i++) 
+        for (int i = 1; i < heroSynergySO.synergyRequireCount.Length; i++)
         {
-            if(synergyLevel == i) synergyLevelString += string.Format("<color=#00FF00>{0}", heroSynergySO.synergyRequireCount[i]);
+            if (synergyLevel == i) synergyLevelString += string.Format("<color=#00FF00>{0}", heroSynergySO.synergyRequireCount[i]);
             else synergyLevelString += string.Format("<color=#FFFFFF>{0}", heroSynergySO.synergyRequireCount[i]);
             synergyLevelString += string.Format("<color=#FFFFFF>/"); ;
         }
@@ -65,9 +65,7 @@ public class HeroSynergyUINode : MonoBehaviour,IPointerEnterHandler,IPointerExit
 
         for (int i = 0; i < splitString.Length; i++)
         {
-            if (synergyLevel == (i + 1))
-                resultDesc += "<color=green>" + splitString[i] + "</color>\n";
-            resultDesc += splitString[i];
+            resultDesc += (synergyLevel == i + 1) ? "<color=green>" + splitString[i] + "</color>" : splitString[i];
         }
 
         return resultDesc;
@@ -75,6 +73,6 @@ public class HeroSynergyUINode : MonoBehaviour,IPointerEnterHandler,IPointerExit
 
     public void OnPointerExit(PointerEventData eventData)
     {
-      heroSynergyUI.HideSynergyInfo();
+        heroSynergyUI.HideSynergyInfo();
     }
 }

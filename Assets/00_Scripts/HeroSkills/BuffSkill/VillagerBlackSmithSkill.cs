@@ -10,16 +10,17 @@ public class VillagerBlackSmithSkill : BuffSkillBase
     public override void SkillLogic()
     {
         base.SkillLogic();
+        PlayerNetworkType heroNetworkType = hero.heroOwnerNetworkType;
 
-        float buffRange = heroData.skillData.buffRange;
-        float buffTime = heroData.skillData.buffTime;
-        float buffAmount = heroData.skillData.buffAmount;
+
+        float buffRange = heroData.skillData.GetBuffRange(heroNetworkType);
+        float buffTime = heroData.skillData.GetBuffTime(heroNetworkType);
+        float buffAmount = heroData.skillData.GetBuffAmount(heroNetworkType);
 
         GameObject particle = heroData.skillData.skillPrefab;
 
         List<Hero> targetHeroList = FindHeroInRange(buffRange);
 
-        PlayerNetworkType heroNetworkType = hero.heroOwnerNetworkType;
 
         foreach (var hero in targetHeroList)
         {

@@ -16,8 +16,8 @@ public class BuffSkillBase : SkillBase
 
     protected List<Hero> FindHeroInRange(float range)
     {
-        PlayerNetworkType playerNetworkType = hero.heroOwnerNetworkType;
-        List<Hero> heroList = SpawnManager.instance.GetHeroList(playerNetworkType);
+        PlayerNetworkType heroNetworkType = hero.heroOwnerNetworkType;
+        List<Hero> heroList = SpawnManager.instance.GetHeroList(heroNetworkType);
 
         List<Hero> targetHeroList = new List<Hero>();
 

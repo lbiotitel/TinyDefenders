@@ -13,6 +13,8 @@ public enum PlayerStatType
     CriticalRate,
     CriticalDamage,
     SkillAcc,
+    BuffBonus,
+    BuffRangeBonus
 }
 
 public class PlayerStatManager : MonoBehaviour
@@ -47,6 +49,9 @@ public class PlayerStatManager : MonoBehaviour
     [field: SerializeField] public Stat serverCriticalRate;
     [field: SerializeField] public Stat serverCriDamage;
     [field: SerializeField] public Stat serverDebuffDuration;
+    [field:SerializeField]  public Stat serverBuffBonus;
+    [field: SerializeField] public float serverBuffRangeBounus;
+
 
 
 
@@ -59,6 +64,8 @@ public class PlayerStatManager : MonoBehaviour
     [field: SerializeField] public Stat clientCriticalRate;
     [field: SerializeField] public Stat clientCriDamage;
     [field: SerializeField] public Stat clientDebuffDuration;
+    [field: SerializeField] public Stat clientBuffBonus; 
+    [field: SerializeField] public float clientBuffRangeBounus;
 
     private Dictionary<string, HeroSynergySOBase> clientHeroSynergyDic = new Dictionary<string, HeroSynergySOBase>();
     private Dictionary<string, HeroSynergySOBase> serverHeroSynergyDic = new Dictionary<string, HeroSynergySOBase>();
@@ -87,6 +94,12 @@ public class PlayerStatManager : MonoBehaviour
             ingameExp += giveExpAmount;
             CheckLevelUp();
         }
+    }
+
+    public void AddIngameExp(int exp)
+    {
+        ingameExp += exp;
+        CheckLevelUp();
     }
 
     private void CheckLevelUp()
@@ -201,8 +214,8 @@ public class PlayerStatManager : MonoBehaviour
         if (NetUtils.IsHost())
         {
             FixedString32Bytes[] synergyName = new FixedString32Bytes[clientHeroSynergyDic.Count];
-            int[] heroCount = new int[(int)HeroTribe.LAST];
-            int[] heroSynergyLevel = new int[(int)HeroTribe.LAST];
+            int[] heroCount = new int[serverHeroSynergyDic.Count];
+            int[] heroSynergyLevel = new int[serverHeroSynergyDic.Count];
 
             int index = 0;
             foreach (var data in clientHeroSynergyDic)
@@ -284,6 +297,12 @@ public class PlayerStatManager : MonoBehaviour
             case PlayerStatType.SkillAcc:
                 AddSkillAccModifire(playerNetworkType, value);
                 break;
+            case PlayerStatType.BuffBonus:
+                AddBuffBonusModifire(playerNetworkType,value);
+                break;
+            case PlayerStatType.BuffRangeBonus:
+                AddBuffRangeBonusModifire(playerNetworkType,value);
+                break;
         }
     }
 
@@ -313,6 +332,12 @@ public class PlayerStatManager : MonoBehaviour
                 break;
             case PlayerStatType.SkillAcc:
                 RemoveSkillAccModifire(playerNetworkType, value);
+                break;
+            case PlayerStatType.BuffBonus:
+                RemoveBuffBonusModifire(playerNetworkType, value);
+                break;
+            case PlayerStatType.BuffRangeBonus:
+                RemoveBuffRangeBonusModifire(playerNetworkType, value);
                 break;
         }
     }
@@ -502,6 +527,63 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
+    private void AddBuffBonusModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverBuffBonus.AddModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientBuffBonus.AddModifire(value);
+                break;
+        }
+    }
+
+
+
+    private void RemoveBuffBonusModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverBuffBonus.RemoveModifire(value);
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientBuffBonus.RemoveModifire(value);
+                break;
+        }
+    }
+
+
+    private void AddBuffRangeBonusModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverBuffRangeBounus += value;
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientBuffRangeBounus += value;
+                break;
+        }
+    }
+
+
+
+    private void RemoveBuffRangeBonusModifire(PlayerNetworkType playerNetworkType, float value)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                serverBuffRangeBounus -= value;
+                break;
+            case PlayerNetworkType.CLIENT:
+                clientBuffRangeBounus -= value;
+                break;
+        }
+    }
+
     #endregion
 
     #region About Get Player Stat
@@ -634,6 +716,31 @@ public class PlayerStatManager : MonoBehaviour
                 return serverGoldBonus.GetModifireValue();
             case PlayerNetworkType.CLIENT:
                 return clientGoldBouns.GetModifireValue();
+        }
+        return 0;
+    }
+
+
+    public float GetBuffBonus(PlayerNetworkType playerNetworkType)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                return serverBuffBonus.GetModifireValue();
+            case PlayerNetworkType.CLIENT:
+                return clientBuffBonus.GetModifireValue();
+        }
+        return 0;
+    }
+
+    public float GetBuffRangeBonus(PlayerNetworkType playerNetworkType)
+    {
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                return serverBuffRangeBounus;
+            case PlayerNetworkType.CLIENT:
+                return clientBuffRangeBounus;
         }
         return 0;
     }
