@@ -10,11 +10,13 @@ public class DamageEvent {
     public double finalDamage;
     public Monster monster;
     public Hero hero;
+    public bool isCri = false;
 
-    public DamageEvent(double originDamage,double finalDamage,Monster monster,Hero hero)
+    public DamageEvent(double originDamage,double finalDamage,bool isCri,Monster monster,Hero hero)
     { 
         this.finalDamage = finalDamage;
         this.originDamage = originDamage;
+        this.isCri = isCri;
         this.monster = monster;
         this.hero = hero;
     }
@@ -135,9 +137,10 @@ public partial class Monster : Entity
             bool isCri = false;
             double finalDamage = CalcDamage(damage, hero, ref isCri);
 
-            DamageEvent damageEvent = new DamageEvent(damage, finalDamage, this, hero);
+            DamageEvent damageEvent = new DamageEvent(damage,finalDamage,isCri,this, hero);
             if (eventCall) EventManager.instance.onMonsterBeforeTakeDamageAction?.Invoke(damageEvent);
             finalDamage = Mathf.RoundToInt((float)damageEvent.finalDamage);
+            isCri = damageEvent.isCri;
             
             hp -= finalDamage;
 
@@ -174,20 +177,6 @@ public partial class Monster : Entity
         float cri = Random.Range(0, 100f);
         if (cri < hero.GetHeroData().GetHeroCriticalRate()) return true;
         return false;
-    }
-
-    public void ExcutionMonster(PlayerNetworkType playerNetworkType, Hero hero)
-    {
-        if (isDead) return;
-
-        double damage = hp < 0 ? 0 : hp;
-        hp = 0;
-
-        if (damage == 0) return;
-
-        StackDamage(damage, playerNetworkType, hero);
-        StackPlayerDamage(damage, playerNetworkType);
-        UpdateClientRpc(hp, damage, false);
     }
 
     private void StackDamage(double damage, PlayerNetworkType playerNetworkType, Hero hero)

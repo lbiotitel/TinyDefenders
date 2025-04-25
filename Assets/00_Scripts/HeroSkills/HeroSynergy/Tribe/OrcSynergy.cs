@@ -1,39 +1,58 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class OrcSynergy : HeroSynergyBase
 {
-    [SerializeField] private float[] criticalRate;
-    [SerializeField] private float excutionHpPercent;
+    [SerializeField] private int[] criStackCount;
+    private Dictionary<Hero,int> orcStackDic = new Dictionary<Hero,int>();
 
     public override void HeroSynergyActive(int level)
     {
-        if (level < 1) return;
-        PlayerStatManager.instance.AddStatModifire(synergyNetworkType, PlayerStatType.SkillAcc, criticalRate[level - 1]);
-        if (level == 3)
-        {
-            EventManager.instance.onHeroAttackToMonsterAction += OrcExcution;
-        }
+        if (!CheckSynergyLevel(level)) return;
+
+        EventManager.instance.onMonsterBeforeTakeDamageAction += OrcSynergyLogic;
+        EventManager.instance.onWaveFinishAction += ReleaseAllStack;
     }
 
     public override void HeroSynergyDeactive(int level)
     {
-        if (level < 1) return;
-        PlayerStatManager.instance.AddStatModifire(synergyNetworkType, PlayerStatType.SkillAcc, criticalRate[level - 1]);
-        if (level == 3)
+        if(!CheckSynergyLevel(level)) return;
+
+        ReleaseAllStack();
+        EventManager.instance.onMonsterBeforeTakeDamageAction -= OrcSynergyLogic;
+        EventManager.instance.onWaveFinishAction -= ReleaseAllStack;
+    }
+
+    private void OrcSynergyLogic(DamageEvent damageEvent)
+    {
+        Hero hero = damageEvent.hero;
+
+        if (hero.GetHeroData().heroTribe != HeroTribe.ORC) return;
+        if (hero.heroOwnerNetworkType != synergyNetworkType) return;
+
+        if (!orcStackDic.ContainsKey(hero))
+            orcStackDic.Add(hero, 1);
+        else
+            orcStackDic[hero]++;
+
+        int currentStack = orcStackDic[hero];
+
+        if (currentStack >= criStackCount[currentSynergyLevel])
         {
-            EventManager.instance.onHeroAttackToMonsterAction -= OrcExcution;
+            if (!damageEvent.isCri)
+            {
+                Debug.Log("È£Ãâ");
+                damageEvent.isCri = true;
+                damageEvent.finalDamage *= hero.GetHeroData().GetHeroCriDamage();
+            }
+
+            orcStackDic[hero] = 0;
         }
     }
 
-    private void OrcExcution(Hero hero, Monster monster)
+    private void ReleaseAllStack()
     {
-        if (monster.IsDead()) return;
-        double hpPercent = (monster.hp / monster.maxHp) * 100f;
-        Debug.Log(hpPercent);
-        if (excutionHpPercent >= hpPercent)
-        {
-            double damage = monster.hp;
-            monster.ExcutionMonster(synergyNetworkType,hero);
-        }
+        orcStackDic.Clear();
     }
+
 }

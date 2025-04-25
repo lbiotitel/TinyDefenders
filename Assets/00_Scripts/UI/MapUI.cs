@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class MapNode {
     public MapType mapType;
     public Sprite mapImage;
+    public GameObject mapTile;
 }
 
 public class MapUI : MonoBehaviour
@@ -43,6 +44,15 @@ public class MapUI : MonoBehaviour
         string mapName = SceneName.GetMapName(mapNodes[currentMapIndex].mapType);
         mapNameText.text = mapName;
         mapImage.sprite = mapNodes[currentMapIndex].mapImage;
+        ShowCurrentMapTile();
+    }
+
+    private void ShowCurrentMapTile()
+    {
+        for (int i = 0; i < mapNodes.Length; i++)
+            mapNodes[i].mapTile.SetActive(false);
+
+        mapNodes[currentMapIndex].mapTile.SetActive(true);
     }
 
     public MapType GetMapType()
