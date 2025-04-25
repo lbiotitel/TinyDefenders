@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
+  m_Name: VillagerGraveDigger
+  m_EditorClassIdentifier: 
+  heroLevel: 1
+  heroName: VillagerGraveDigger
+  rarity: 0
+  heroCost: 4
+  atk:
+    <baseValue>k__BackingField: 70
+    modifiers: []
+  damage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  atkSpeed:
+    <baseValue>k__BackingField: 1.5
+    modifiers: []
+  atkRange:
+    <baseValue>k__BackingField: 1.5
+    modifiers: []
+  skillAcc:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalRate:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  criticalDamage:
+    <baseValue>k__BackingField: 0
+    modifiers: []
+  heroDesc: 
+  heroTribe: 8
+  heroClass: 7
+  heroMainImage: {fileID: 670927696, guid: 8733f5893e8bc60479ca6112972ebb6e, type: 3}
+  runtimeAnimatorController: {fileID: 9100000, guid: 8cc7943bee77c6c479dc3a5720b68440, type: 2}
+  projectile: {fileID: 5109794800317528025, guid: e4fb40ff46103e24f922e200397b209c, type: 3}
+  debuffEffects: []
+  skillDebuffEffects:
+  - debuffType: 0
+    values:
+    - 100
+    - 1
+    - 30
+    - 6
+  skillData:
+    coolTime: 8
+    skillPrefab: {fileID: 2317299645365547581, guid: 0856c7f51c686f04da68070427e3b92c, type: 3}
+    skillDamage: 150
+    targetCount: 4
+    skillDuration: 0
+    buffTime: 0
+    buffAmount: 0
+    buffRange: 0

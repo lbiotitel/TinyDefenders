@@ -58,6 +58,8 @@ public class BaseProjectile : MonoBehaviour
     {
         switch (projectileType)
         {
+            case ProjectileType.NONE:
+                break;
             case ProjectileType.NORMAL:
                 RotateToForwardDirection();
                 break;

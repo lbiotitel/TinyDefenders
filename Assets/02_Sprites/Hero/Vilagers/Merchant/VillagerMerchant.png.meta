@@ -139,7 +139,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -153,7 +153,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -177,7 +177,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -202,771 +202,573 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MiniMerchant_0
+      name: VillagerMerchant_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 192
-        width: 14
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: be14e3c43290c3a30800000000000000
-      internalID: 4196239000010113515
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_1
-      rect:
-        serializedVersion: 2
-        x: 41
-        y: 192
-        width: 14
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5c0e8f6f7a6246370800000000000000
-      internalID: 8314813314877677765
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_2
-      rect:
-        serializedVersion: 2
-        x: 73
-        y: 192
-        width: 14
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e8f7d6f4ee13e46a0800000000000000
-      internalID: -6463173515625529458
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_3
-      rect:
-        serializedVersion: 2
-        x: 105
-        y: 192
-        width: 14
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d5ca0c805472433b0800000000000000
-      internalID: -5533754864678425507
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_4
-      rect:
-        serializedVersion: 2
-        x: 9
-        y: 160
-        width: 15
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b2182673b84ace330800000000000000
-      internalID: 3741546308274651435
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_5
-      rect:
-        serializedVersion: 2
-        x: 41
-        y: 160
-        width: 18
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d8127dbe31600f150800000000000000
-      internalID: 5904225794113610125
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_6
-      rect:
-        serializedVersion: 2
-        x: 73
-        y: 160
-        width: 18
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2e25d1c4ec132da40800000000000000
-      internalID: 5391426466025919202
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_7
-      rect:
-        serializedVersion: 2
-        x: 105
-        y: 160
-        width: 18
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a00d1373a6db17ae0800000000000000
-      internalID: -1553252132575916022
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_8
-      rect:
-        serializedVersion: 2
-        x: 137
-        y: 160
-        width: 18
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8f616cc9c9ab49680800000000000000
-      internalID: -8749162994266138888
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_9
-      rect:
-        serializedVersion: 2
-        x: 169
-        y: 160
-        width: 18
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5b64c864494fbdd30800000000000000
-      internalID: 4457425173889173173
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_10
-      rect:
-        serializedVersion: 2
-        x: 201
-        y: 160
-        width: 18
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e27ce709b1b00e9e0800000000000000
-      internalID: -1594262055072905426
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_11
-      rect:
-        serializedVersion: 2
-        x: 233
-        y: 160
-        width: 18
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1b96ce85486c202a0800000000000000
-      internalID: -6772632617881933391
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_12
-      rect:
-        serializedVersion: 2
-        x: 265
-        y: 160
-        width: 15
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1bcde1fdae45fa000800000000000000
-      internalID: 49351488666786993
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_13
-      rect:
-        serializedVersion: 2
-        x: 9
-        y: 128
-        width: 19
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9a5cf6a510422e830800000000000000
-      internalID: 4098878199091414441
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_14
-      rect:
-        serializedVersion: 2
-        x: 41
-        y: 128
-        width: 17
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7d8a1eec597601cf0800000000000000
-      internalID: -283612883405657897
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_15
-      rect:
-        serializedVersion: 2
-        x: 73
-        y: 128
-        width: 14
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e01f23af4f3bdea80800000000000000
-      internalID: -8435888662244036338
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_16
-      rect:
-        serializedVersion: 2
-        x: 105
-        y: 128
-        width: 14
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a055528bebb278170800000000000000
-      internalID: 8180555346275030282
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_17
-      rect:
-        serializedVersion: 2
-        x: 132
-        y: 128
-        width: 19
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5b68fa8c5a863ac50800000000000000
-      internalID: 6675294133939046069
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_18
-      rect:
-        serializedVersion: 2
-        x: 166
-        y: 128
-        width: 17
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d1a31e50ac96cddd0800000000000000
-      internalID: -2459974980048176611
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_19
-      rect:
-        serializedVersion: 2
-        x: 201
-        y: 128
-        width: 14
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d0860cae4a6e14180800000000000000
-      internalID: -9132764973343152115
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_20
-      rect:
-        serializedVersion: 2
-        x: 10
+        x: 0
         y: 96
-        width: 13
-        height: 17
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 755676fadc9116510800000000000000
-      internalID: 1540540918739199319
+      spriteID: aa6ce652e8d180f4ab539bc881721e76
+      internalID: 1084240854
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniMerchant_21
+      name: VillagerMerchant_1
       rect:
         serializedVersion: 2
-        x: 42
+        x: 32
         y: 96
-        width: 12
-        height: 15
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 939320e5d273eb010800000000000000
-      internalID: 1206462418172131641
+      spriteID: 7e82698827952204388fad297cc6cb87
+      internalID: 703128313
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniMerchant_22
+      name: VillagerMerchant_2
       rect:
         serializedVersion: 2
-        x: 73
+        x: 64
         y: 96
-        width: 14
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8c277e4603170f5d0800000000000000
-      internalID: -3030798096555085112
+      spriteID: f2d15235ae9f9ff4e9a320696a70c337
+      internalID: 1225391945
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniMerchant_23
+      name: VillagerMerchant_3
       rect:
         serializedVersion: 2
-        x: 104
+        x: 96
         y: 96
-        width: 16
-        height: 17
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6341f924b6919d180800000000000000
-      internalID: -9090206424400718794
+      spriteID: 1d7d2930f5491674cb37b8bf8695a035
+      internalID: -741123130
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniMerchant_24
+      name: VillagerMerchant_4
       rect:
         serializedVersion: 2
-        x: 136
-        y: 96
-        width: 16
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b963cffbf9b670830800000000000000
-      internalID: 4037313924825888411
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_25
-      rect:
-        serializedVersion: 2
-        x: 169
-        y: 96
-        width: 14
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 44572c87f2069f130800000000000000
-      internalID: 3601015134065161540
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiniMerchant_26
-      rect:
-        serializedVersion: 2
-        x: 8
+        x: 0
         y: 64
-        width: 16
-        height: 17
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d06f6c05c26530ae0800000000000000
-      internalID: -1584327895570516467
+      spriteID: 78a138f5593129044aeafe99594adf5d
+      internalID: 1320777279
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniMerchant_27
+      name: VillagerMerchant_5
       rect:
         serializedVersion: 2
-        x: 40
+        x: 32
         y: 64
-        width: 16
-        height: 17
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3bf6b72be9c23d970800000000000000
-      internalID: 8778409158786117555
+      spriteID: 679552a6d1ceee045ab1f6eed0f79fec
+      internalID: -1097698249
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniMerchant_28
+      name: VillagerMerchant_6
       rect:
         serializedVersion: 2
-        x: 72
+        x: 64
         y: 64
-        width: 16
-        height: 14
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 72c4ee257cde1be00800000000000000
-      internalID: 1058888827754400807
+      spriteID: 4ae69507dc3cc0044915a1d623ae5c08
+      internalID: 219108143
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniMerchant_29
+      name: VillagerMerchant_7
       rect:
         serializedVersion: 2
-        x: 6
+        x: 96
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2622d7b5a064cc468c2c5314776e1a2
+      internalID: -463151844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerMerchant_8
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20a23a3beeaed9c4986fee7f5a2e4e81
+      internalID: -938140628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerMerchant_9
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea8e3e995d7157b4b80e1a00b1e5fb60
+      internalID: 1653355559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerMerchant_10
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74e7ca90b7b139b4e91e0f977d655cc4
+      internalID: -1788504143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerMerchant_11
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe5fe8508af644d4396cd059c6a47741
+      internalID: 1946266240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerMerchant_12
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ee53f73096fb084894fbc87cf5093f1
+      internalID: -1057777764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerMerchant_13
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 32
-        width: 17
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6fe6f8adeb23115f0800000000000000
-      internalID: -787792664521117962
+      spriteID: dabc3cf04f8197c478c928dc9fac03ee
+      internalID: -1362817025
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniMerchant_30
+      name: VillagerMerchant_14
       rect:
         serializedVersion: 2
-        x: 40
+        x: 32
         y: 32
-        width: 15
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 760df1eb4281647b0800000000000000
-      internalID: -5240474570311348121
+      spriteID: 945a9b0db75bc7043a1756111fbf5b97
+      internalID: -1189698016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniMerchant_31
+      name: VillagerMerchant_15
       rect:
         serializedVersion: 2
-        x: 8
-        y: 0
-        width: 15
-        height: 15
+        x: 64
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4a17c91baa8a12340800000000000000
-      internalID: 4837332925850349988
+      spriteID: ccc3c50ffa369474f86d17bea89c0f5e
+      internalID: 435719410
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniMerchant_32
+      name: VillagerMerchant_16
       rect:
         serializedVersion: 2
-        x: 40
-        y: 0
-        width: 14
-        height: 13
+        x: 96
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bc05cdec751341c30800000000000000
-      internalID: 4329139395012350155
+      spriteID: b2f43e565c1830b468fea2422a6fe987
+      internalID: -1471636938
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniMerchant_33
+      name: VillagerMerchant_17
       rect:
         serializedVersion: 2
-        x: 70
-        y: 0
-        width: 17
-        height: 8
+        x: 128
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a47acead8b1089fa0800000000000000
-      internalID: -5793879027153590454
+      spriteID: 2e293964d54c988478559998ab7215d7
+      internalID: -960690058
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiniMerchant_34
+      name: VillagerMerchant_18
       rect:
         serializedVersion: 2
-        x: 102
-        y: 0
-        width: 17
-        height: 6
+        x: 160
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d41b071cec4e88f10800000000000000
-      internalID: 2272317588668199245
+      spriteID: 80a2e04a419fbad49a6a061e637ae3d4
+      internalID: -997151977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerMerchant_19
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7925d22d266f2a4ba0c72c1a4f735a2
+      internalID: -4111933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerMerchant_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58bd44111d22b214a8b6f9a8208daa9e
+      internalID: 1755488016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerMerchant_21
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fa13376556aaac44b3c67738e8d133e
+      internalID: 956953308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerMerchant_22
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63aa1f4884b803f4b98fa172aee0fab4
+      internalID: -2028319541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerMerchant_23
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1972ebb095c55c41b09d0ae7a48c43c
+      internalID: 472538440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerMerchant_24
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c033efe5def49c4d9d5dc26c10b96d5
+      internalID: 892852716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VillagerMerchant_25
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f158cd1051f7e0244bec6651fc785a85
+      internalID: -1419360387
       vertices: []
       indices: 
       edges: []
@@ -975,7 +777,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 4da7e226622b4854cbd51de0df0c294c
     internalID: 0
     vertices: []
     indices: 
@@ -984,7 +786,33 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      VillagerMerchant_0: 1084240854
+      VillagerMerchant_1: 703128313
+      VillagerMerchant_10: -1788504143
+      VillagerMerchant_11: 1946266240
+      VillagerMerchant_12: -1057777764
+      VillagerMerchant_13: -1362817025
+      VillagerMerchant_14: -1189698016
+      VillagerMerchant_15: 435719410
+      VillagerMerchant_16: -1471636938
+      VillagerMerchant_17: -960690058
+      VillagerMerchant_18: -997151977
+      VillagerMerchant_19: -4111933
+      VillagerMerchant_2: 1225391945
+      VillagerMerchant_20: 1755488016
+      VillagerMerchant_21: 956953308
+      VillagerMerchant_22: -2028319541
+      VillagerMerchant_23: 472538440
+      VillagerMerchant_24: 892852716
+      VillagerMerchant_25: -1419360387
+      VillagerMerchant_3: -741123130
+      VillagerMerchant_4: 1320777279
+      VillagerMerchant_5: -1097698249
+      VillagerMerchant_6: 219108143
+      VillagerMerchant_7: -463151844
+      VillagerMerchant_8: -938140628
+      VillagerMerchant_9: 1653355559
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

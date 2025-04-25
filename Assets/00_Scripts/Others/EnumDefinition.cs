@@ -107,6 +107,7 @@ public enum Localize
 public enum ProjectileType { 
     NORMAL,
     ROTATE,
+    NONE,
 }
 
 public enum CardRarity {

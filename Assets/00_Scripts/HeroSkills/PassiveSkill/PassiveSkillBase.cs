@@ -1,22 +1,14 @@
 using UnityEngine;
 
-public class PassiveSkillBase : SkillContainer
+public class PassiveSkillBase : SkillBase
 {
-    protected override void ActiveSkill()
+    public override bool CheckSkillCanActive()
     {
-        if (!skillDelay)
-        {
-            if (IsServer)
-            {
-                skillDelay = true;
-                StartCoroutine(SkillDelayCoroutine());
-            }
-            SkillLogic();
-        }
+        return true;
     }
 
-    protected virtual void SkillLogic()
+    public override void SkillLogic()
     {
-
+        hero.AnimatorChange("SKILL", true);
     }
 }
