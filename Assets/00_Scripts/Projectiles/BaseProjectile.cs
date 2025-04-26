@@ -45,7 +45,8 @@ public class BaseProjectile : MonoBehaviour
                 DisableObject(0.1f);
             }
         }
-        ProjectileLogic();
+        if(!isAttack)
+            ProjectileLogic();
     }
 
     protected virtual void ProjectileLogic()

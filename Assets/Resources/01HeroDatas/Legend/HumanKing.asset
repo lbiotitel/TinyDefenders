@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: HumanKing
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: HumanKing
-  rarity: 3
+  rarity: 0
   heroCost: 300
   atk:
     <baseValue>k__BackingField: 510
@@ -38,16 +39,18 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 0
+  heroClass: 0
   heroMainImage: {fileID: 2698359267710091724, guid: daf0c972429bc164e8b71481a6899292, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: da49d2ba6f0dfda43b1779de3d700b9b, type: 2}
   projectile: {fileID: 2786315958115145823, guid: b79d0c1a17e961746a38142cd41dfb3d, type: 3}
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
-    coolTime: 0
-    skillPrefab: {fileID: 0}
-    skillDamage: 0
-    targetCount: 0
+    coolTime: 12
+    skillPrefab: {fileID: 1007036860295384550, guid: e7f19814a8c6a0e448d5e98aada332b9, type: 3}
+    particlePrefab: {fileID: 0}
+    skillDamage: 200
+    targetCount: 5
     skillDuration: 0
     buffTime: 0
     buffAmount: 0

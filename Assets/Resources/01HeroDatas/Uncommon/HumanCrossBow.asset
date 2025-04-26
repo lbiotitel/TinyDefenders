@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: HumanCrossBow
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: HumanCrossBow
-  rarity: 1
+  rarity: 0
   heroCost: 0
   atk:
     <baseValue>k__BackingField: 100
@@ -45,10 +46,11 @@ MonoBehaviour:
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
-    coolTime: 0
-    skillPrefab: {fileID: 0}
-    skillDamage: 0
-    targetCount: 0
+    coolTime: 8
+    skillPrefab: {fileID: 5480645021078868391, guid: 0b6645067d42cd14e928e08436a8ebdf, type: 3}
+    particlePrefab: {fileID: 0}
+    skillDamage: 200
+    targetCount: 1
     skillDuration: 0
     buffTime: 0
     buffAmount: 0

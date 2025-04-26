@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: HumanFireMage
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: HumanFireMage
-  rarity: 1
+  rarity: 0
   heroCost: 0
   atk:
     <baseValue>k__BackingField: 115
@@ -45,10 +46,11 @@ MonoBehaviour:
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
-    coolTime: 0
-    skillPrefab: {fileID: 0}
-    skillDamage: 0
-    targetCount: 0
+    coolTime: 10
+    skillPrefab: {fileID: 2367334733768428185, guid: 1c7ab2ed54d88da46840ee752ebdffb0, type: 3}
+    particlePrefab: {fileID: 0}
+    skillDamage: 100
+    targetCount: 3
     skillDuration: 0
     buffTime: 0
     buffAmount: 0

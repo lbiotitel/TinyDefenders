@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4020839330717340083}
   - component: {fileID: 3474855027091943775}
   m_Layer: 0
-  m_Name: IronMan LaserBeam
+  m_Name: HumanKing SkillPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1115819473
-  m_SortingLayer: 6
+  m_SortingLayer: 3
   m_SortingOrder: -1
   m_Positions:
   - {x: 0, y: 0, z: 0}
@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  destroyParticle: {fileID: 3211877774832872067, guid: cb743783234f8e74d9956031b0ceed0f, type: 3}
   projectileType: 0
-  lifeTime: 0.1
+  lifeTime: 0.2
+  destroyParticlePrefab: {fileID: 0}
+  projectileSFX: 

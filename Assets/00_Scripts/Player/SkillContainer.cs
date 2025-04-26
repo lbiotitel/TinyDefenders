@@ -10,8 +10,9 @@ public class SkillContainer : NetworkBehaviour
     protected HeroScriptable heroData;
     [SerializeField] protected Image skillFillImage;
     [SerializeField] protected GameObject skillObject;
+    [SerializeField] protected ParticleSystem useSkillParticle;
 
-    protected bool skillDelay = true;
+    public bool skillDelay { get; private set; } = true;
     private NetworkVariable<float> skillGage = new NetworkVariable<float>(0f);
     private SkillBase heroSkill;
     private Coroutine skillDelayCoroutine = null;
@@ -72,6 +73,7 @@ public class SkillContainer : NetworkBehaviour
     [ClientRpc]
     private void ActiveSkillClientRpc()
     {
+        useSkillParticle.Play();
         heroSkill.SkillLogic();
     }
 

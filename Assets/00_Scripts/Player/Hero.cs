@@ -16,6 +16,7 @@ public class Hero : Entity
 
     private HeroScriptable heroData;
     private HeroHolder heroHolder;
+    private SkillContainer skillContainer;
 
     private bool isMove = false;
     private bool attackDelay = false;
@@ -48,6 +49,8 @@ public class Hero : Entity
         this.heroHolder = heroHolder;
         animator.runtimeAnimatorController = data.runtimeAnimatorController;
 
+        InitSkillContainer();
+
         Instantiate(spawnParticle, heroHolder.transform.position, Quaternion.identity);
 
         heroOwnerNetworkType =
@@ -65,6 +68,14 @@ public class Hero : Entity
         SpawnManager.instance.AddHero(this);
     }
 
+
+    private void InitSkillContainer()
+    {
+        if (TryGetComponent<SkillContainer>(out SkillContainer skillContainer))
+        {
+            this.skillContainer = skillContainer;
+        };
+    }
 
     private void InitHeroLevelStat(int level)
     {
@@ -144,6 +155,7 @@ public class Hero : Entity
         if (heroData.projectile == null) return;
         if (IsServer)
         {
+            if (!skillContainer.skillDelay) return;
             if (attackDelay) return;
 
             target = null;

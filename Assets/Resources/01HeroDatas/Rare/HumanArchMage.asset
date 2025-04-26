@@ -12,19 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: HumanArchMage
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: HumanArchMage
-  rarity: 2
+  rarity: 0
+  heroCost: 0
   atk:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 200
     modifiers: []
   damage:
     <baseValue>k__BackingField: 0
     modifiers: []
   atkSpeed:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 1
     modifiers: []
   atkRange:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 2
     modifiers: []
   skillAcc:
     <baseValue>k__BackingField: 0
@@ -37,16 +39,18 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 0
+  heroClass: 1
   heroMainImage: {fileID: -8958617834977694253, guid: a2cb583620392dd4389fed64e2090263, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 26a9321a60884ce41935d26421390f85, type: 2}
   projectile: {fileID: 5136519477464169634, guid: d4cff8d923ba58547897e7c8f9eb2795, type: 3}
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
-    coolTime: 0
-    skillPrefab: {fileID: 0}
-    skillDamage: 0
-    targetCount: 0
+    coolTime: 15
+    skillPrefab: {fileID: 344632182575518230, guid: 7fe8b9849034cc1408da79e05f109716, type: 3}
+    particlePrefab: {fileID: 0}
+    skillDamage: 50
+    targetCount: 8
     skillDuration: 0
     buffTime: 0
     buffAmount: 0

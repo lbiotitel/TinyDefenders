@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: HumanShield
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: HumanShield
-  rarity: 1
+  rarity: 0
   heroCost: 0
   atk:
     <baseValue>k__BackingField: 150
@@ -36,24 +37,24 @@ MonoBehaviour:
   criticalDamage:
     <baseValue>k__BackingField: 0
     modifiers: []
-  heroDesc: "\uC801\uC744 \uACF5\uACA9\uC2DC 30% \uD655\uB960\uB85C 1.5\uCD08\uAC04
-    \uAE30\uC808 \uC2DC\uD0A8\uB2E4."
+  heroDesc: 
   heroTribe: 0
   heroClass: 3
   heroMainImage: {fileID: 6827581200123067571, guid: ba7db6e1c44e61e408df6b0e53de4f80, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 18dea99f4b2c2e34f8cb80fb9b30d6a7, type: 2}
   projectile: {fileID: 2786315958115145823, guid: 1e8d4a163928ec145a407de77c93de69, type: 3}
-  debuffEffects:
+  debuffEffects: []
+  skillDebuffEffects:
   - debuffType: 1
     values:
-    - 30
+    - 100
     - 1.5
-  skillDebuffEffects: []
   skillData:
-    coolTime: 0
-    skillPrefab: {fileID: 0}
-    skillDamage: 0
-    targetCount: 0
+    coolTime: 10
+    skillPrefab: {fileID: 4086126213069182278, guid: bda43749ea3945e499d4f982c06bebb6, type: 3}
+    particlePrefab: {fileID: 0}
+    skillDamage: 150
+    targetCount: 1
     skillDuration: 0
     buffTime: 0
     buffAmount: 0

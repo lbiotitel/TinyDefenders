@@ -20,19 +20,19 @@ public class BazierProjectile : BaseProjectile
 
 
         float elapsedTime = 0.0f;
-        float divSpeed = speed / 20f;
-        while (elapsedTime < divSpeed)
+
+        while (elapsedTime < 1f)
         {
             if (target == null) break;
 
-            float t = elapsedTime / divSpeed;
+            float t = elapsedTime / 1f;
 
             Vector3 curvePoint = MathUtils.GenerateBezierPoint(t, startPos,
                 midPoint, target.position);
 
             transform.position = new Vector3(curvePoint.x, curvePoint.y, 0);
 
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.deltaTime * speed;
             yield return null;
         }
 

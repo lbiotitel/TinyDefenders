@@ -16,26 +16,9 @@ public class LaserProjectile : BaseProjectile
     {
         lineRenderer.SetPosition(0, referenceHero.transform.position);
         lineRenderer.SetPosition(1, target.transform.position);
-        StartCoroutine(HitMonsterCoroutine(lifeTime));
+        AttackMonster(target.gameObject);
+        DisableObject(lifeTime);
     }
 
-    protected override void HitMonster()
-    {
-        destroyParticle = PoolingManager.instance.GetObject(destroyParticle, transform.position);
-
-        if (NetUtils.IsHost() && target != null && !target.GetComponent<Monster>().IsDead())
-        {
-            NetworkRpcManager.instance.AttackMonster(NetUtils.GetPlayerNetworkType(), damage, referenceHero, target.GetComponent<Monster>(),
-                referenceHero.GetHeroData().debuffEffects);
-        }
-
-        Destroy(this.gameObject);
-    }
-
-    private IEnumerator HitMonsterCoroutine(float lifeTime)
-    {
-        yield return new WaitForSeconds(lifeTime);
-        HitMonster();
-    }
-
+  
 }
