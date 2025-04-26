@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: HumanSwordMaster
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: HumanSwordMaster
-  rarity: 3
-  heroCost: 300
+  rarity: 0
+  heroCost: 10
   atk:
     <baseValue>k__BackingField: 340
     modifiers: []
@@ -38,17 +39,19 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 0
+  heroClass: 0
   heroMainImage: {fileID: -2982154035576548524, guid: fd8645d779e22244da5d66709c058bce, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 34b6d2ac07357af4ba7d6e6cf42f2905, type: 2}
   projectile: {fileID: 1195089578203227832, guid: 3c7aee8139557a14280ff6e2594a5e16, type: 3}
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
-    coolTime: 0
-    skillPrefab: {fileID: 0}
-    skillDamage: 0
-    targetCount: 0
-    skillDuration: 0
+    coolTime: 20
+    skillPrefab: {fileID: 5480645021078868391, guid: 501fae90d68ebe94abdbd706d2ed79f3, type: 3}
+    particlePrefab: {fileID: 4330030965180883940, guid: ba2caca02ee578442bc3d453c8696a1e, type: 3}
+    skillDamage: 130
+    targetCount: 3
+    skillDuration: 10
     buffTime: 0
     buffAmount: 0
     buffRange: 0

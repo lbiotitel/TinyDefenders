@@ -24,6 +24,7 @@ public class SkillData
 {
     public float coolTime;
     public GameObject skillPrefab;
+    public GameObject particlePrefab;
 
     [Header("Attack Skill")]
     public float skillDamage;

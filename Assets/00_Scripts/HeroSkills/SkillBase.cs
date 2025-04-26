@@ -4,12 +4,13 @@ public abstract class SkillBase : MonoBehaviour
 {
     protected Hero hero;
     protected HeroScriptable heroData;
-
+    protected SkillData skillData;
 
     public void InitHeroSkill(Hero hero)
     {
         this.hero = hero;
         this.heroData = hero.GetHeroData();
+        this.skillData = hero.GetHeroData().skillData;
     }
 
     public abstract void SkillLogic();
