@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Threading;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -21,11 +19,11 @@ public class NetworkRpcManager : NetworkBehaviour
 
     #region About Attack and Debuff
 
-    public void AttackMonster(PlayerNetworkType playerNetworkType, double damage,Monster monster,List<DebuffEffect> debuffList = null)
+    public void AttackMonster(PlayerNetworkType playerNetworkType, double damage, Monster monster, List<DebuffEffect> debuffList = null)
     {
         if (monster != null)
         {
-            AttackMonsterServerRpc(playerNetworkType,monster.NetworkObjectId,damage);
+            AttackMonsterServerRpc(playerNetworkType, monster.NetworkObjectId, damage);
             if (debuffList != null) DebuffEffect(playerNetworkType, monster, debuffList);
         }
     }
@@ -34,8 +32,8 @@ public class NetworkRpcManager : NetworkBehaviour
     {
         if (monster != null)
         {
-            AttackMonsterServerRpc(monster.NetworkObjectId,hero.NetworkObjectId, playerNetworkType, damage,eventCall);
-            if(debuffList != null)DebuffEffect(playerNetworkType, monster, debuffList);
+            AttackMonsterServerRpc(monster.NetworkObjectId, hero.NetworkObjectId, playerNetworkType, damage, eventCall);
+            if (debuffList != null) DebuffEffect(playerNetworkType, monster, debuffList);
         }
     }
 
@@ -63,7 +61,7 @@ public class NetworkRpcManager : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void AttackMonsterServerRpc(ulong monsterId,ulong heroId, PlayerNetworkType playerNetworkType, double damage,bool eventCall = true)
+    private void AttackMonsterServerRpc(ulong monsterId, ulong heroId, PlayerNetworkType playerNetworkType, double damage, bool eventCall = true)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(monsterId, out NetworkObject networkObject))
         {
@@ -77,7 +75,7 @@ public class NetworkRpcManager : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void AttackMonsterServerRpc(PlayerNetworkType playerNetworkType,ulong monsterId,double damage)
+    private void AttackMonsterServerRpc(PlayerNetworkType playerNetworkType, ulong monsterId, double damage)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(monsterId, out NetworkObject networkObject))
         {
@@ -99,7 +97,7 @@ public class NetworkRpcManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void SpawnCardAblilityServerRpc(Vector3 targetPos, string cardName)
     {
-        SpawnCardAblilityClientRpc(targetPos,cardName);
+        SpawnCardAblilityClientRpc(targetPos, cardName);
     }
 
     [ClientRpc]
@@ -121,14 +119,14 @@ public class NetworkRpcManager : NetworkBehaviour
     {
         for (int i = 0; i < synergyName.Length; i++)
         {
-            string synergyNameString = synergyName[i].ToString();   
+            string synergyNameString = synergyName[i].ToString();
             PlayerStatManager.instance.SetClientHeroSynergyData(NetUtils.GetPlayerNetworkType(), synergyNameString, heroCount[i], synergyLevel[i]);
         }
     }
 
 
     [ClientRpc]
-    public void SpawnSynergyParticleClientRpc(string synergyName,Vector3 targetPos)
+    public void SpawnSynergyParticleClientRpc(string synergyName, Vector3 targetPos)
     {
         HeroSynergySOBase heroSynergySO = GameResourceManager.instance.GetHeroSynergySO(synergyName);
         GameObject particlePrefab = heroSynergySO.synergyBase.GetSynergyParticle();
@@ -145,9 +143,9 @@ public class NetworkRpcManager : NetworkBehaviour
 
 
     [ClientRpc]
-    public void GameFinishClientRpc(string playerName,string friendName,double playerDamage, double friendDamage,int bestWave)
+    public void GameFinishClientRpc(string playerName, string friendName, double playerDamage, double friendDamage, int bestWave)
     {
-        CreateGameResultStateGameObject(playerName,friendName,playerDamage,friendDamage,bestWave);
+        CreateGameResultStateGameObject(playerName, friendName, playerDamage, friendDamage, bestWave);
         InGameUI.instance.ShowGameOverUI();
     }
 
@@ -167,16 +165,58 @@ public class NetworkRpcManager : NetworkBehaviour
     #region About Player Stat Data
 
     [ServerRpc(RequireOwnership = false)]
-    public void AddPlayerStatModifireServerRpc(int networkType, int statType ,float value) => AddPlayerStatModifireClientRpc(networkType, statType, value);
-
-    [ClientRpc]
-    private void AddPlayerStatModifireClientRpc(int networkType, int statType ,float value) => EventManager.instance.onPlayerAddStatModifireAction?.Invoke(networkType, statType, value);
+    public void AddPlayerStatModifireServerRpc(int networkType, int statType, float value)
+        => AddPlayerStatModifireClientRpc(networkType, statType, value);
 
     [ServerRpc(RequireOwnership = false)]
-    public void RemovePlayerStatModifireServerRpc(int networkType, int statType, float value) => RemovePlayerStatModifireClientRpc(networkType, statType, value);
+    public void AddClassStatModifireServerRpc(int networkType, int heroClass, int statType, float value)
+        => AddClassStatModifireClientRpc(networkType, heroClass, statType, value);
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddTribeStatModifireServerRpc(int networkType, int heroTribe, int statType, float value)
+        => AddTribeStatModifireClientRpc(networkType, heroTribe, statType, value);
+
 
     [ClientRpc]
-    private void RemovePlayerStatModifireClientRpc(int networkType, int statType, float value) => EventManager.instance.onPlayerRemoveStatModifireAction?.Invoke(networkType, statType, value);
+    private void AddPlayerStatModifireClientRpc(int networkType, int statType, float value)
+        => EventManager.instance.onPlayerAddStatModifireAction?.Invoke(networkType, statType, value);
+
+    [ClientRpc]
+    private void AddClassStatModifireClientRpc(int networkType, int heroClass, int statType, float value)
+        => EventManager.instance.onClassAddStatModifireAction?.Invoke(networkType, heroClass, statType, value);
+
+    [ClientRpc]
+    private void AddTribeStatModifireClientRpc(int networkType, int heroTribe, int statType, float value)
+        => EventManager.instance.onTribeAddStatModifireAction?.Invoke(networkType, heroTribe, statType, value);
+
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RemovePlayerStatModifireServerRpc(int networkType, int statType, float value)
+        => RemovePlayerStatModifireClientRpc(networkType, statType, value);
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RemoveClassStatModifireServerRpc(int networkType, int heroClass, int statType, float value)
+    => RemoveClassStatModifireClientRpc(networkType, heroClass, statType, value);
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RemoveTribeStatModifireServerRpc(int networkType, int heroTribe, int statType, float value)
+        => RemoveTribeStatModifireClientRpc(networkType, heroTribe, statType, value);
+
+
+    [ClientRpc]
+    private void RemovePlayerStatModifireClientRpc(int networkType, int statType, float value)
+        => EventManager.instance.onPlayerRemoveStatModifireAction?.Invoke(networkType, statType, value);
+
+    [ClientRpc]
+    private void RemoveClassStatModifireClientRpc(int networkType, int heroClass, int statType, float value)
+    => EventManager.instance.onClassRemoveStatModifireAction?.Invoke(networkType,heroClass ,statType, value);
+        
+    [ClientRpc]
+    private void RemoveTribeStatModifireClientRpc(int networkType, int heroTribe, int statType, float value)
+    => EventManager.instance.onTribeRemoveStatModifireAction?.Invoke(networkType, heroTribe, statType, value);
+
+
 
 
     [ClientRpc]
@@ -199,25 +239,25 @@ public class NetworkRpcManager : NetworkBehaviour
     #region Hero Stat Data
 
     [ServerRpc(RequireOwnership = false)]
-    public void AddHeroStatModifireServerRpc(int statType, ulong heroNetworkId, float value) => AddHeroStatModifireClientRpc(statType,heroNetworkId, value);
-    
-    
+    public void AddHeroStatModifireServerRpc(int statType, ulong heroNetworkId, float value) => AddHeroStatModifireClientRpc(statType, heroNetworkId, value);
+
+
     [ClientRpc]
-    private void AddHeroStatModifireClientRpc(int statType,ulong heroNetworkId, float value)
+    private void AddHeroStatModifireClientRpc(int statType, ulong heroNetworkId, float value)
     {
         if (NetUtils.TryGetSpawnedObject(heroNetworkId, out NetworkObject networkObject))
         {
             Hero hero = networkObject.GetComponent<Hero>();
-            EventManager.instance.onHeroAddStatModifireAction?.Invoke(hero,(HeroStatType)statType,value);
+            EventManager.instance.onHeroAddStatModifireAction?.Invoke(hero, (HeroStatType)statType, value);
         }
     }
 
 
     [ServerRpc(RequireOwnership = false)]
-    public void RemoveHeroStatModifireServerRpc(int statType,ulong heroNetworkId, float value) => RemoveHeroStatModifireClientRpc(statType,heroNetworkId, value);
+    public void RemoveHeroStatModifireServerRpc(int statType, ulong heroNetworkId, float value) => RemoveHeroStatModifireClientRpc(statType, heroNetworkId, value);
 
     [ClientRpc]
-    private void RemoveHeroStatModifireClientRpc(int statType,ulong heroNetworkId, float value)
+    private void RemoveHeroStatModifireClientRpc(int statType, ulong heroNetworkId, float value)
     {
         if (NetUtils.TryGetSpawnedObject(heroNetworkId, out NetworkObject networkObject))
         {
@@ -228,5 +268,5 @@ public class NetworkRpcManager : NetworkBehaviour
     #endregion
 
 
-  
+
 }

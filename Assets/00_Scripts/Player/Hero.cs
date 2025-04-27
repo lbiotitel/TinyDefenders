@@ -12,7 +12,7 @@ public class Hero : Entity
     [SerializeField] private ParticleSystem rarityParticle;
     [SerializeField] private BoxCollider2D heroRangeCollider;
     [SerializeField] private GameObject[] heroLevelIcon;
-    [SerializeField] private float statMultiplierByLevel = 20f;
+    [SerializeField] private float statMultiplierByLevel;
 
     private HeroScriptable heroData;
     private HeroHolder heroHolder;

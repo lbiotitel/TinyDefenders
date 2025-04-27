@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using Unity.Collections;
-using Unity.Netcode;
-using Unity.Services.Multiplayer;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 
-public enum PlayerStatType 
+public enum PlayerStatType
 {
     Atk,
     AtkSpeed,
@@ -14,7 +13,8 @@ public enum PlayerStatType
     CriticalDamage,
     SkillAcc,
     BuffBonus,
-    BuffRangeBonus
+    BuffRangeBonus,
+    Last
 }
 
 public class PlayerStatManager : MonoBehaviour
@@ -33,7 +33,7 @@ public class PlayerStatManager : MonoBehaviour
     [field: SerializeField] public int ingameLevel { get; private set; } = 1;
     [field: SerializeField] public int ingameExp { get; private set; } = 0;
     [field: SerializeField] public int currentMaxHeroCount { get; private set; } = 3;
-    [field: SerializeField] public int maxHeroCount { get;  set; }
+    [field: SerializeField] public int maxHeroCount { get; set; }
     [field: SerializeField] public int maxHeroLevel { get; private set; }
     [field: SerializeField] public int requireCombineHeroCount { get; set; }
 
@@ -41,31 +41,16 @@ public class PlayerStatManager : MonoBehaviour
     [SerializeField] private int expGold;
 
     [Header("Server Bonus Stat")]
-    [field: SerializeField] public Stat serverAtk;
-    [field: SerializeField] public Stat serverAtkSpeed;
-    [field: SerializeField] public Stat serverAtkRange;
-    [field: SerializeField] public Stat serverGoldBonus;
-    [field: SerializeField] public Stat serverSkillAcc;
-    [field: SerializeField] public Stat serverCriticalRate;
-    [field: SerializeField] public Stat serverCriDamage;
-    [field: SerializeField] public Stat serverDebuffDuration;
-    [field:SerializeField]  public Stat serverBuffBonus;
-    [field: SerializeField] public float serverBuffRangeBounus;
-
-
+    private Dictionary<PlayerStatType, Stat> serverStatDic = new Dictionary<PlayerStatType, Stat>();
+    private Dictionary<HeroClass, Dictionary<PlayerStatType, Stat>> serverClassStatDic = new Dictionary<HeroClass, Dictionary<PlayerStatType, Stat>>();
+    private Dictionary<HeroTribe, Dictionary<PlayerStatType, Stat>> serverTribeStatDic = new Dictionary<HeroTribe, Dictionary<PlayerStatType, Stat>>();
 
 
     [Header("Client Bonus Stat")]
-    [field: SerializeField] public Stat clientAtk;
-    [field: SerializeField] public Stat clientAtkSpeed;
-    [field: SerializeField] public Stat clientAtkRange;
-    [field: SerializeField] public Stat clientGoldBouns;
-    [field: SerializeField] public Stat clientSkillAcc;
-    [field: SerializeField] public Stat clientCriticalRate;
-    [field: SerializeField] public Stat clientCriDamage;
-    [field: SerializeField] public Stat clientDebuffDuration;
-    [field: SerializeField] public Stat clientBuffBonus; 
-    [field: SerializeField] public float clientBuffRangeBounus;
+    private Dictionary<PlayerStatType, Stat> clientStatDic = new Dictionary<PlayerStatType, Stat>();
+    private Dictionary<HeroClass, Dictionary<PlayerStatType, Stat>> clientClassStatDic = new Dictionary<HeroClass, Dictionary<PlayerStatType, Stat>>();
+    private Dictionary<HeroTribe, Dictionary<PlayerStatType, Stat>> clientTribeStatDic = new Dictionary<HeroTribe, Dictionary<PlayerStatType, Stat>>();
+
 
     private Dictionary<string, HeroSynergySOBase> clientHeroSynergyDic = new Dictionary<string, HeroSynergySOBase>();
     private Dictionary<string, HeroSynergySOBase> serverHeroSynergyDic = new Dictionary<string, HeroSynergySOBase>();
@@ -73,6 +58,8 @@ public class PlayerStatManager : MonoBehaviour
     private void Start()
     {
         InitHeroSynergy();
+        InitPlayerStatDic();
+
         if (NetUtils.IsHost())
         {
             EventManager.instance.onHeroSpawnAction += AddHero;
@@ -80,11 +67,16 @@ public class PlayerStatManager : MonoBehaviour
         }
 
         EventManager.instance.onPlayerAddStatModifireAction += AddStatModifire;
+        EventManager.instance.onClassAddStatModifireAction += AddClassStatModifire;
+        EventManager.instance.onTribeAddStatModifireAction += AddTribeStatModifire;
+
         EventManager.instance.onPlayerRemoveStatModifireAction += RemoveStatModifire;
+        EventManager.instance.onClassRemoveStatModifireAction += RemoveClassStatModifire;
+        EventManager.instance.onTribeRemoveStatModifireAction += RemoveTribeStatModifire;
     }
 
 
-    #region
+    #region User Stat
 
     public void AddIngameExp()
     {
@@ -106,7 +98,7 @@ public class PlayerStatManager : MonoBehaviour
     {
         int requireExp = GameResourceManager.instance.GetRequireExp(ingameLevel);
         if (requireExp <= ingameExp)
-        { 
+        {
             ingameExp -= requireExp;
             LevelUp();
         }
@@ -116,7 +108,7 @@ public class PlayerStatManager : MonoBehaviour
     private void LevelUp()
     {
         ingameLevel++;
-        currentMaxHeroCount = Mathf.Min(++currentMaxHeroCount,maxHeroCount);
+        currentMaxHeroCount = Mathf.Min(++currentMaxHeroCount, maxHeroCount);
         EventManager.instance.onMaxHeroCountChangedAction?.Invoke(currentMaxHeroCount);
         EventManager.instance.onLevelChagendAction?.Invoke(ingameLevel);
     }
@@ -151,7 +143,7 @@ public class PlayerStatManager : MonoBehaviour
         if (hero.heroOwnerNetworkType == PlayerNetworkType.HOST)
         {
             foreach (var synergy in serverHeroSynergyDic)
-            { 
+            {
                 synergy.Value.IncreaseHeroCount(heroData);
             }
         }
@@ -163,7 +155,7 @@ public class PlayerStatManager : MonoBehaviour
             }
         }
 
-        if(NetUtils.IsHost())
+        if (NetUtils.IsHost())
             CheckSynergy();
     }
 
@@ -188,7 +180,7 @@ public class PlayerStatManager : MonoBehaviour
             }
         }
 
-        if(NetUtils.IsHost())
+        if (NetUtils.IsHost())
             CheckSynergy();
     }
 
@@ -205,7 +197,7 @@ public class PlayerStatManager : MonoBehaviour
             data.Value.CheckSynergyLevel();
             data.Value.ActiveSynegy();
         }
-        
+
         SendSynergyDataToClient();
     }
 
@@ -226,12 +218,12 @@ public class PlayerStatManager : MonoBehaviour
                 index++;
             }
 
-            NetworkRpcManager.instance.GetHeroSynergyDatasClientRpc(synergyName,heroCount, heroSynergyLevel);
+            NetworkRpcManager.instance.GetHeroSynergyDatasClientRpc(synergyName, heroCount, heroSynergyLevel);
         }
     }
 
 
-    public void SetClientHeroSynergyData(PlayerNetworkType playerNetworkType, string synergyName,int heroCount, int synergyLevel)
+    public void SetClientHeroSynergyData(PlayerNetworkType playerNetworkType, string synergyName, int heroCount, int synergyLevel)
     {
         if (playerNetworkType == PlayerNetworkType.CLIENT)
         {
@@ -268,483 +260,397 @@ public class PlayerStatManager : MonoBehaviour
 
     #endregion
 
-    #region About Player Stat Modifier
+    #region About Player Stat 
 
-    public void AddStatModifire(PlayerNetworkType playerNetworkType, PlayerStatType statType, float value) => NetworkRpcManager.instance.AddPlayerStatModifireServerRpc((int)playerNetworkType, (int)statType, value);
+    private void InitPlayerStatDic()
+    {
+        InitClassStatDic(serverClassStatDic);
+        InitClassStatDic(clientClassStatDic);
+
+        InitTribeStatDic(serverTribeStatDic);
+        InitTribeStatDic(clientTribeStatDic);
+
+        InitStatDic(serverStatDic);
+        InitStatDic(clientStatDic);
+    }
+
+    private void InitClassStatDic(Dictionary<HeroClass, Dictionary<PlayerStatType, Stat>> dic)
+    {
+        for (int i = (int)HeroClass.WARRIOR; i < (int)HeroClass.LAST; i++)
+        {
+            dic.Add((HeroClass)i, new Dictionary<PlayerStatType, Stat>());
+            InitStatDic(dic[(HeroClass)i]);
+        }
+    }
+
+    private void InitTribeStatDic(Dictionary<HeroTribe, Dictionary<PlayerStatType, Stat>> dic)
+    {
+        for (int i = (int)HeroTribe.HUMAN; i < (int)HeroTribe.LAST; i++)
+        {
+            dic.Add((HeroTribe)i, new Dictionary<PlayerStatType, Stat>());
+            InitStatDic(dic[(HeroTribe)i]);
+        }
+    }
+
+    private void InitStatDic(Dictionary<PlayerStatType, Stat> dic)
+    {
+        for (int i = (int)PlayerStatType.Atk; i < (int)PlayerStatType.Last; i++)
+            dic.Add((PlayerStatType)i, new Stat());
+    }
+
+
+    public void AddStatModifire(PlayerNetworkType playerNetworkType, PlayerStatType statType, float value) 
+        => NetworkRpcManager.instance.AddPlayerStatModifireServerRpc((int)playerNetworkType, (int)statType, value);
+    public void AddStatModifire(PlayerNetworkType playerNetworkType, HeroClass heroClass, PlayerStatType statType, float value)
+        => NetworkRpcManager.instance.AddClassStatModifireServerRpc((int)playerNetworkType,(int)heroClass,(int)statType,value);
+    
+    public void AddStatModifire(PlayerNetworkType playerNetworkType, HeroTribe heroTribe, PlayerStatType statType, float value)
+        => NetworkRpcManager.instance.AddTribeStatModifireServerRpc((int)playerNetworkType, (int)heroTribe, (int)statType, value);
+
 
     private void AddStatModifire(int networkType, int statType, float value)
     {
         PlayerStatType type = (PlayerStatType)statType;
         PlayerNetworkType playerNetworkType = (PlayerNetworkType)networkType;
 
-        switch (type)
+        switch (playerNetworkType)
         {
-            case PlayerStatType.Atk:
-                AddAtkModifire(playerNetworkType, value);
+            case PlayerNetworkType.HOST:
+                if (serverStatDic.ContainsKey(type))
+                    serverStatDic[type].AddModifire(value);
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
                 break;
-            case PlayerStatType.AtkSpeed:
-                AddAtkSpeedModifire(playerNetworkType, value);
-                break;
-            case PlayerStatType.AtkRange:
-                AddAtkRangeModifire(playerNetworkType, value);
-                break;
-            case PlayerStatType.CriticalRate:
-                AddCriticalRateModifire(playerNetworkType, value);
-                break;
-            case PlayerStatType.CriticalDamage:
-                AddCriDamageModifire(playerNetworkType, value);
-                break;
-            case PlayerStatType.SkillAcc:
-                AddSkillAccModifire(playerNetworkType, value);
-                break;
-            case PlayerStatType.BuffBonus:
-                AddBuffBonusModifire(playerNetworkType,value);
-                break;
-            case PlayerStatType.BuffRangeBonus:
-                AddBuffRangeBonusModifire(playerNetworkType,value);
+
+            case PlayerNetworkType.CLIENT:
+                if (clientStatDic.ContainsKey(type))
+                    clientStatDic[type].AddModifire(value);
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
                 break;
         }
     }
 
-    public void RemoveStatModifire(PlayerNetworkType playerNetworkType, PlayerStatType statType, float value) => NetworkRpcManager.instance.RemovePlayerStatModifireServerRpc((int)playerNetworkType, (int)statType, value);
+    private void AddClassStatModifire(int networkType,int heroClass,int statType, float value)
+    {
+        PlayerStatType type = (PlayerStatType)statType;
+        PlayerNetworkType playerNetworkType = (PlayerNetworkType)networkType;
+        HeroClass hClass = (HeroClass)heroClass;
+
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                if (serverClassStatDic.ContainsKey(hClass))
+                {
+                    if (serverClassStatDic[hClass].ContainsKey(type))
+                    {
+                        serverClassStatDic[hClass][type].AddModifire(value);
+                    }
+                    else {
+                        Debug.LogError("등록되지 않은 스탯타입");
+                    }
+                }
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
+                break;
+
+            case PlayerNetworkType.CLIENT:
+                if (clientClassStatDic.ContainsKey(hClass))
+                {
+                    if (clientClassStatDic[hClass].ContainsKey(type))
+                    {
+                        clientClassStatDic[hClass][type].AddModifire(value);
+                    }
+                    else
+                    {
+                        Debug.LogError("등록되지 않은 스탯타입");
+                    }
+                }
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
+                break;
+        }
+    }
+
+    private void AddTribeStatModifire(int networkType, int heroTribe, int statType, float value)
+    {
+        PlayerStatType type = (PlayerStatType)statType;
+        PlayerNetworkType playerNetworkType = (PlayerNetworkType)networkType;
+        HeroTribe hTribe = (HeroTribe)heroTribe;
+
+        switch (playerNetworkType)
+        {
+            case PlayerNetworkType.HOST:
+                if (serverTribeStatDic.ContainsKey(hTribe))
+                {
+                    if (serverTribeStatDic[hTribe].ContainsKey(type))
+                    {
+                        serverTribeStatDic[hTribe][type].AddModifire(value);
+                    }
+                    else
+                    {
+                        Debug.LogError("등록되지 않은 스탯타입");
+                    }
+                }
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
+                break;
+
+            case PlayerNetworkType.CLIENT:
+                if (clientTribeStatDic.ContainsKey(hTribe))
+                {
+                    if (clientTribeStatDic[hTribe].ContainsKey(type))
+                    {
+                        clientTribeStatDic[hTribe][type].AddModifire(value);
+                    }
+                    else
+                    {
+                        Debug.LogError("등록되지 않은 스탯타입");
+                    }
+                }
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
+                break;
+        }
+    }
+
+
+    public void RemoveStatModifire(PlayerNetworkType playerNetworkType, PlayerStatType statType, float value) 
+        => NetworkRpcManager.instance.RemovePlayerStatModifireServerRpc((int)playerNetworkType, (int)statType, value);
+    public void RemoveStatModifire(PlayerNetworkType playerNetworkType, HeroClass heroClass, PlayerStatType statType, float value)
+    => NetworkRpcManager.instance.RemoveClassStatModifireServerRpc((int)playerNetworkType, (int)heroClass, (int)statType, value);
+
+    public void RemoveStatModifire(PlayerNetworkType playerNetworkType, HeroTribe heroTribe, PlayerStatType statType, float value)
+        => NetworkRpcManager.instance.RemoveTribeStatModifireServerRpc((int)playerNetworkType, (int)heroTribe, (int)statType, value);
+
 
     private void RemoveStatModifire(int networkType, int statType, float value)
     {
         PlayerStatType type = (PlayerStatType)statType;
         PlayerNetworkType playerNetworkType = (PlayerNetworkType)networkType;
 
-        switch (type)
+        switch (playerNetworkType)
         {
-            case PlayerStatType.Atk:
-                RemoveAtkModifire(playerNetworkType, value);
+            case PlayerNetworkType.HOST:
+                if (serverStatDic.ContainsKey(type))
+                    serverStatDic[type].RemoveModifire(value);
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
                 break;
-            case PlayerStatType.AtkSpeed:
-                RemoveAtkSpeedModifire(playerNetworkType, value);
-                break;
-            case PlayerStatType.AtkRange:
-                RemoveAtkRangeModifire(playerNetworkType, value);
-                break;
-            case PlayerStatType.CriticalRate:
-                RemoveCriticalRateModifire(playerNetworkType, value);
-                break;
-            case PlayerStatType.CriticalDamage:
-                RemoveCriDamageModifire(playerNetworkType, value);
-                break;
-            case PlayerStatType.SkillAcc:
-                RemoveSkillAccModifire(playerNetworkType, value);
-                break;
-            case PlayerStatType.BuffBonus:
-                RemoveBuffBonusModifire(playerNetworkType, value);
-                break;
-            case PlayerStatType.BuffRangeBonus:
-                RemoveBuffRangeBonusModifire(playerNetworkType, value);
+
+            case PlayerNetworkType.CLIENT:
+                if (clientStatDic.ContainsKey(type))
+                    clientStatDic[type].RemoveModifire(value);
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
                 break;
         }
     }
 
-    private void AddAtkModifire(PlayerNetworkType playerNetworkType, float value)
+    private void RemoveClassStatModifire(int networkType, int heroClass, int statType, float value)
     {
+        PlayerStatType type = (PlayerStatType)statType;
+        PlayerNetworkType playerNetworkType = (PlayerNetworkType)networkType;
+        HeroClass hClass = (HeroClass)heroClass;
 
         switch (playerNetworkType)
         {
             case PlayerNetworkType.HOST:
-                serverAtk.AddModifire(value);
+                if (serverClassStatDic.ContainsKey(hClass))
+                {
+                    if (serverClassStatDic[hClass].ContainsKey(type))
+                    {
+                        serverClassStatDic[hClass][type].RemoveModifire(value);
+                    }
+                    else
+                    {
+                        Debug.LogError("등록되지 않은 스탯타입");
+                    }
+                }
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
                 break;
+
             case PlayerNetworkType.CLIENT:
-                clientAtk.AddModifire(value);
+                if (clientClassStatDic.ContainsKey(hClass))
+                {
+                    if (clientClassStatDic[hClass].ContainsKey(type))
+                    {
+                        clientClassStatDic[hClass][type].RemoveModifire(value);
+                    }
+                    else
+                    {
+                        Debug.LogError("등록되지 않은 스탯타입");
+                    }
+                }
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
                 break;
         }
     }
 
-    private void RemoveAtkModifire(PlayerNetworkType playerNetworkType, float value)
+
+
+    private void RemoveTribeStatModifire(int networkType, int heroTribe, int statType, float value)
     {
+        PlayerStatType type = (PlayerStatType)statType;
+        PlayerNetworkType playerNetworkType = (PlayerNetworkType)networkType;
+        HeroTribe hTribe = (HeroTribe)heroTribe;
+
         switch (playerNetworkType)
         {
             case PlayerNetworkType.HOST:
-                serverAtk.RemoveModifire(value);
+                if (serverTribeStatDic.ContainsKey(hTribe))
+                {
+                    if (serverTribeStatDic[hTribe].ContainsKey(type))
+                    {
+                        serverTribeStatDic[hTribe][type].RemoveModifire(value);
+                    }
+                    else
+                    {
+                        Debug.LogError("등록되지 않은 스탯타입");
+                    }
+                }
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
                 break;
+
             case PlayerNetworkType.CLIENT:
-                clientAtk.RemoveModifire(value);
-                break;
-        }
-    }
-
-
-    private void AddAtkSpeedModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverAtkSpeed.AddModifire(value);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientAtkSpeed.AddModifire(value);
-                break;
-        }
-    }
-    private void RemoveAtkSpeedModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverAtkSpeed.RemoveModifire(value);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientAtkSpeed.RemoveModifire(value);
-                break;
-        }
-    }
-
-    private void AddSkillAccModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverSkillAcc.AddModifire(value);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientSkillAcc.AddModifire(value);
-                break;
-        }
-    }
-
-    private void RemoveSkillAccModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverSkillAcc.RemoveModifire(value);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientSkillAcc.RemoveModifire(value);
-                break;
-        }
-    }
-
-    private void AddCriticalRateModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverCriticalRate.AddModifire(value);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientCriticalRate.AddModifire(value);
-                break;
-        }
-    }
-
-    private void RemoveCriticalRateModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverCriticalRate.RemoveModifire(value);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientCriticalRate.RemoveModifire(value);
-                break;
-        }
-    }
-
-    private void AddCriDamageModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverCriDamage.AddModifire(value);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientCriDamage.AddModifire(value);
-                break;
-        }
-    }
-
-    private void RemoveCriDamageModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverCriDamage.RemoveModifire(value);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientCriDamage.RemoveModifire(value);
-                break;
-        }
-    }
-
-
-    private void AddAtkRangeModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverAtkRange.AddModifire(value);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientAtkRange.AddModifire(value);
-                break;
-        }
-    }
-
-    private void RemoveAtkRangeModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverAtkRange.RemoveModifire(value);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientAtkRange.RemoveModifire(value);
-                break;
-        }
-    }
-
-    private void AddGoudBonusModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverGoldBonus.AddModifire(value);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientGoldBouns.AddModifire(value);
-                break;
-        }
-    }
-
-    private void RemoveGoldBonusModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverGoldBonus.RemoveModifire(value);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientGoldBouns.RemoveModifire(value);
-                break;
-        }
-    }
-
-    private void AddBuffBonusModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverBuffBonus.AddModifire(value);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientBuffBonus.AddModifire(value);
+                if (clientTribeStatDic.ContainsKey(hTribe))
+                {
+                    if (clientTribeStatDic[hTribe].ContainsKey(type))
+                    {
+                        clientTribeStatDic[hTribe][type].RemoveModifire(value);
+                    }
+                    else
+                    {
+                        Debug.LogError("등록되지 않은 스탯타입");
+                    }
+                }
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
                 break;
         }
     }
 
 
 
-    private void RemoveBuffBonusModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverBuffBonus.RemoveModifire(value);
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientBuffBonus.RemoveModifire(value);
-                break;
-        }
-    }
-
-
-    private void AddBuffRangeBonusModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverBuffRangeBounus += value;
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientBuffRangeBounus += value;
-                break;
-        }
-    }
-
-
-
-    private void RemoveBuffRangeBonusModifire(PlayerNetworkType playerNetworkType, float value)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                serverBuffRangeBounus -= value;
-                break;
-            case PlayerNetworkType.CLIENT:
-                clientBuffRangeBounus -= value;
-                break;
-        }
-    }
 
     #endregion
 
     #region About Get Player Stat
 
-    public double GetBonusAtk(PlayerNetworkType playerNetworkType)
+    public float GetStatModifire(PlayerNetworkType playerNetworkType, PlayerStatType statType)
     {
         switch (playerNetworkType)
         {
             case PlayerNetworkType.HOST:
-                return serverAtk.GetModifireValue();
+                if (serverStatDic.ContainsKey(statType))
+                    return serverStatDic[statType].GetModifireValue();
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
+                break;
+
             case PlayerNetworkType.CLIENT:
-                return clientAtk.GetModifireValue();
+                if (clientStatDic.ContainsKey(statType))
+                    return clientStatDic[statType].GetModifireValue();
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
+                break;
         }
 
         return 0;
     }
 
-
-    public double GetBonusAtk(NetworkObjectType heroNetworkType)
+    public float GetStatModifire(PlayerNetworkType playerNetworkType, HeroClass heroClass, HeroTribe heroTribe ,PlayerStatType statType)
     {
-        switch (heroNetworkType)
-        {
-            case NetworkObjectType.HOST:
-                return serverAtk.GetModifireValue();
-            case NetworkObjectType.CLIENT:
-                return clientAtk.GetModifireValue();
-        }
+        float v1 = GetStatModifire(playerNetworkType,statType);
+        float v2 = GetStatModifire(playerNetworkType,heroClass,statType);
+        float v3 = GetStatModifire(playerNetworkType,heroTribe,statType);
 
-        return 0;
+
+        return v1 + v2 + v3;
     }
 
-    public float GetBonusAtkSpeed(PlayerNetworkType playerNetworkType)
+    public float GetStatModifire(PlayerNetworkType playerNetworkType, HeroClass heroClass ,PlayerStatType statType)
     {
         switch (playerNetworkType)
         {
             case PlayerNetworkType.HOST:
-                return serverAtkSpeed.GetModifireValue();
+                if (serverClassStatDic.ContainsKey(heroClass))
+                {
+                    if (serverClassStatDic[heroClass].ContainsKey(statType))
+                    {
+                        return serverClassStatDic[heroClass][statType].GetModifireValue();
+                    }
+                    else
+                    {
+                        Debug.LogError("등록되지 않은 스탯타입");
+                    }
+                }
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
+                break;
+
             case PlayerNetworkType.CLIENT:
-                return clientAtkSpeed.GetModifireValue();
+                if (clientClassStatDic.ContainsKey(heroClass))
+                {
+                    if (clientClassStatDic[heroClass].ContainsKey(statType))
+                    {
+                        return clientClassStatDic[heroClass][statType].GetModifireValue();
+                    }
+                    else
+                    {
+                        Debug.LogError("등록되지 않은 스탯타입");
+                    }
+                }
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
+                break;
         }
 
         return 0;
     }
 
-
-    public float GetBonusAtkSpeed(NetworkObjectType heroNetworkType)
-    {
-        switch (heroNetworkType)
-        {
-            case NetworkObjectType.HOST:
-                return serverAtkSpeed.GetValue();
-            case NetworkObjectType.CLIENT:
-                return clientAtkSpeed.GetValue();
-        }
-
-        return 0;
-    }
-
-    public float GetBonusAtkRange(PlayerNetworkType playerNetworkType)
+    public float GetStatModifire(PlayerNetworkType playerNetworkType, HeroTribe heroTribe, PlayerStatType statType)
     {
         switch (playerNetworkType)
         {
             case PlayerNetworkType.HOST:
-                return serverAtkRange.GetModifireValue();
+                if (serverTribeStatDic.ContainsKey(heroTribe))
+                {
+                    if (serverTribeStatDic[heroTribe].ContainsKey(statType))
+                    {
+                        return serverTribeStatDic[heroTribe][statType].GetModifireValue();
+                    }
+                    else
+                    {
+                        Debug.LogError("등록되지 않은 스탯타입");
+                    }
+                }
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
+                break;
+
             case PlayerNetworkType.CLIENT:
-                return clientAtkRange.GetModifireValue();
+                if (clientTribeStatDic.ContainsKey(heroTribe))
+                {
+                    if (clientTribeStatDic[heroTribe].ContainsKey(statType))
+                    {
+                        return clientTribeStatDic[heroTribe][statType].GetModifireValue();
+                    }
+                    else
+                    {
+                        Debug.LogError("등록되지 않은 스탯타입");
+                    }
+                }
+                else
+                    Debug.LogError("등록되지 않은 스탯타입");
+                break;
         }
 
         return 0;
     }
-
-    public float GetBonusSkillAcc(PlayerNetworkType playerNetworkType)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                return serverSkillAcc.GetValue();
-            case PlayerNetworkType.CLIENT:
-                return clientSkillAcc.GetValue();
-        }
-
-        return 0;
-    }
-
-    public float GetBonusSkillAcc(NetworkObjectType heroNetworkType)
-    {
-        switch (heroNetworkType)
-        {
-            case NetworkObjectType.HOST:
-                return serverSkillAcc.GetModifireValue();
-            case NetworkObjectType.CLIENT:
-                return clientSkillAcc.GetModifireValue();
-        }
-
-        return 0;
-    }
-
-
-    public float GetBonusCriticalRate(PlayerNetworkType playerNetworkType)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                return serverCriticalRate.GetModifireValue();
-            case PlayerNetworkType.CLIENT:
-                return clientCriticalRate.GetModifireValue();
-        }
-
-        return 0;
-    }
-
-    public float GetBonusCriDamage(PlayerNetworkType playerNetworkType)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                return serverCriDamage.GetModifireValue();
-            case PlayerNetworkType.CLIENT:
-                return clientCriDamage.GetModifireValue();
-        }
-
-        return 0;
-    }
-
-    public float GetBonusGold(PlayerNetworkType playerNetworkType)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                return serverGoldBonus.GetModifireValue();
-            case PlayerNetworkType.CLIENT:
-                return clientGoldBouns.GetModifireValue();
-        }
-        return 0;
-    }
-
-
-    public float GetBuffBonus(PlayerNetworkType playerNetworkType)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                return serverBuffBonus.GetModifireValue();
-            case PlayerNetworkType.CLIENT:
-                return clientBuffBonus.GetModifireValue();
-        }
-        return 0;
-    }
-
-    public float GetBuffRangeBonus(PlayerNetworkType playerNetworkType)
-    {
-        switch (playerNetworkType)
-        {
-            case PlayerNetworkType.HOST:
-                return serverBuffRangeBounus;
-            case PlayerNetworkType.CLIENT:
-                return clientBuffRangeBounus;
-        }
-        return 0;
-    }
-
 
     #endregion
 

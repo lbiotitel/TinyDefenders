@@ -19,7 +19,7 @@ public class SpearSynergy : HeroSynergyBase
         else
         {
             PlayerStatManager.instance.
-                AddStatModifire(synergyNetworkType, PlayerStatType.AtkRange, atkRangeModifireValue[currentSynergyLevel]);
+                AddStatModifire(synergyNetworkType, HeroClass.SPEAR, PlayerStatType.AtkRange, atkRangeModifireValue[currentSynergyLevel]);
         }
     }
 
@@ -36,7 +36,7 @@ public class SpearSynergy : HeroSynergyBase
         else
         {
             PlayerStatManager.instance.
-                RemoveStatModifire(synergyNetworkType, PlayerStatType.AtkRange, atkRangeModifireValue[currentSynergyLevel]);
+                RemoveStatModifire(synergyNetworkType, HeroClass.SPEAR, PlayerStatType.AtkRange, atkRangeModifireValue[currentSynergyLevel]);
         }
     }
 

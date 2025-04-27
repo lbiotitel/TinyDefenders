@@ -15,7 +15,8 @@ public enum HeroStatType
     AtkRange,
     CriticalRate,
     CriticalDamage,
-    SkillAcc
+    SkillAcc,
+    Last
 }
 
 
@@ -39,19 +40,19 @@ public class SkillData
 
     public float GetBuffTime(PlayerNetworkType playerNetworkType)
     {
-        float result = buffTime + (buffTime * PlayerStatManager.instance.GetBuffBonus(playerNetworkType));
+        float result = buffTime + (buffTime * PlayerStatManager.instance.GetStatModifire(playerNetworkType,PlayerStatType.BuffBonus));
         return result;
     }
 
     public float GetBuffAmount(PlayerNetworkType playerNetworkType)
     {
-        float result = buffAmount + (buffAmount * PlayerStatManager.instance.GetBuffBonus(playerNetworkType));
+        float result = buffAmount + (buffAmount * PlayerStatManager.instance.GetStatModifire(playerNetworkType,PlayerStatType.BuffBonus));
         return result;
     }
 
     public float GetBuffRange(PlayerNetworkType playerNetworkType)
     {
-        return buffRange + PlayerStatManager.instance.GetBuffRangeBonus(playerNetworkType);
+        return buffRange + PlayerStatManager.instance.GetStatModifire(playerNetworkType, PlayerStatType.BuffRangeBonus);
     }
 
 }
@@ -137,7 +138,8 @@ public class HeroScriptable : ScriptableObject
 
     #region Stat Modify
 
-    public void AddStatModifire(HeroStatType statType, float value) => NetworkRpcManager.instance.AddHeroStatModifireServerRpc((int)statType, hero.NetworkObjectId, value);
+    public void AddStatModifire(HeroStatType statType, float value)
+        => NetworkRpcManager.instance.AddHeroStatModifireServerRpc((int)statType, hero.NetworkObjectId, value);
 
     private void AddStatModifire(Hero targetHero, HeroStatType statType, float value)
     {
@@ -165,7 +167,8 @@ public class HeroScriptable : ScriptableObject
                 break;
         }
     }
-    public void RemoveStatModifire(HeroStatType statType, float value) => NetworkRpcManager.instance.RemoveHeroStatModifireServerRpc((int)statType, hero.NetworkObjectId, value);
+    public void RemoveStatModifire(HeroStatType statType, float value) 
+        => NetworkRpcManager.instance.RemoveHeroStatModifireServerRpc((int)statType, hero.NetworkObjectId, value);
 
     private void RemoveStatModifire(Hero targetHero, HeroStatType statType, float value)
     {
@@ -201,7 +204,8 @@ public class HeroScriptable : ScriptableObject
     public double GetHeroAtk()
     {
         double atk = this.atk.GetValue();
-        atk = atk + (atk * (PlayerStatManager.instance.GetBonusAtk(heroNetworkType) / 100f));
+        float modifireValue = PlayerStatManager.instance.GetStatModifire(heroNetworkType,heroClass,heroTribe,PlayerStatType.Atk);
+        atk = atk + (atk * (modifireValue / 100f));
         return atk;
     }
 
@@ -222,7 +226,9 @@ public class HeroScriptable : ScriptableObject
 
     public float GetHeroAtkSpeed()
     {
-        float modifire = PlayerStatManager.instance.GetBonusAtkSpeed(heroNetworkType) + this.atkSpeed.GetModifireValue();
+        float modifire = PlayerStatManager.instance.GetStatModifire(heroNetworkType, heroClass, heroTribe, PlayerStatType.AtkSpeed)
+            + this.atkSpeed.GetModifireValue();
+
         float atkSpeed = GetHeroBaseAtkSpeed() + (GetHeroBaseAtkSpeed() * (modifire / 100f));
         return atkSpeed;
     }
@@ -247,7 +253,10 @@ public class HeroScriptable : ScriptableObject
 
     public float GetHeroAtkRange()
     {
-        float atkRange = GetHeroBaseAtkRange() + this.atkRange.GetModifireValue() + PlayerStatManager.instance.GetBonusAtkRange(heroNetworkType);
+        float atkRange = GetHeroBaseAtkRange() 
+            + this.atkRange.GetModifireValue() 
+            + PlayerStatManager.instance.GetStatModifire(heroNetworkType, heroClass, heroTribe, PlayerStatType.AtkRange);
+
         return atkRange;
     }
 
@@ -267,7 +276,9 @@ public class HeroScriptable : ScriptableObject
 
     public float GetHeroCriDamage()
     {
-        float criDamage = criticalDamage.GetModifireValue() + PlayerStatManager.instance.GetBonusCriDamage(heroNetworkType);
+        float criDamage = criticalDamage.GetModifireValue()
+            + PlayerStatManager.instance.GetStatModifire(heroNetworkType, heroClass, heroTribe, PlayerStatType.CriticalDamage);
+
         return criDamage / 100f;
     }
 
@@ -286,7 +297,7 @@ public class HeroScriptable : ScriptableObject
     public float GetHeroCriticalRate()
     {
         return GetHeroBaseCriticalRate() + criticalRate.GetModifireValue() +
-            PlayerStatManager.instance.GetBonusCriticalRate(heroNetworkType);
+            PlayerStatManager.instance.GetStatModifire(heroNetworkType, heroClass, heroTribe, PlayerStatType.CriticalRate);
     }
 
     #endregion
@@ -294,7 +305,8 @@ public class HeroScriptable : ScriptableObject
 
     public float GetHeroSkillAcc()
     {
-        return skillAcc.GetModifireValue() + PlayerStatManager.instance.GetBonusSkillAcc(heroNetworkType);
+        return skillAcc.GetModifireValue() 
+            + PlayerStatManager.instance.GetStatModifire(heroNetworkType, heroClass, heroTribe, PlayerStatType.SkillAcc);
     }
 
     #endregion

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -26,24 +25,30 @@ public class EventManager : MonoBehaviour
     public UnityAction<Hero, HeroStatType, float> onHeroRemoveStatModifireAction;
 
     public UnityAction<int, int, float> onPlayerAddStatModifireAction;
-    public UnityAction<int, int, float> onPlayerRemoveStatModifireAction;
+    public UnityAction<int, int, int, float> onClassAddStatModifireAction;
+    public UnityAction<int, int, int, float> onTribeAddStatModifireAction;
 
-    public UnityAction<float,bool> onTimerTickAction;
+    public UnityAction<int, int, float> onPlayerRemoveStatModifireAction;
+    public UnityAction<int, int, int, float> onClassRemoveStatModifireAction;
+    public UnityAction<int, int, int, float> onTribeRemoveStatModifireAction;
+
+
+    public UnityAction<float, bool> onTimerTickAction;
     public UnityAction onWaveNotClearAction;
     public UnityAction onWaveClearAction;
     public UnityAction onWaveFinishAction;
 
-    public UnityAction<int,int> onExpLevelChangedAction;
+    public UnityAction<int, int> onExpLevelChangedAction;
     public UnityAction<int> onLevelChagendAction;
 
     public UnityAction<RelicSO> onRelicSelectAction;
     public UnityAction<PlayerNetworkType> onRelicSelectFinishAction;
     public UnityAction<Hero> onHeroDespawnAction;
 
-    public UnityAction<Hero,Monster> onHeroAttackToMonsterAction;
+    public UnityAction<Hero, Monster> onHeroAttackToMonsterAction;
     public UnityAction<Monster> onMonsterDeadAction;
     public UnityAction<DamageEvent> onMonsterBeforeTakeDamageAction;
-    public UnityAction<Hero,Monster> onBeforeAttackMonsterAction;
+    public UnityAction<Hero, Monster> onBeforeAttackMonsterAction;
 
     public UnityAction<int> onMaxHeroCountChangedAction;
 
@@ -52,25 +57,25 @@ public class EventManager : MonoBehaviour
     public UnityAction onBossWaveClear;
 
 
-    private void ReleaseAction<T>(ref UnityAction<T> unityAction) 
+    private void ReleaseAction<T>(ref UnityAction<T> unityAction)
     {
         if (unityAction != null)
         {
             foreach (var d in unityAction.GetInvocationList())
-            { 
+            {
                 unityAction -= (UnityAction<T>)d;
             }
         }
     }
 
 
-    private void ReleaseAction<T1,T2>(ref UnityAction<T1, T2> unityAction)
+    private void ReleaseAction<T1, T2>(ref UnityAction<T1, T2> unityAction)
     {
         if (unityAction != null)
         {
             foreach (var d in unityAction.GetInvocationList())
             {
-                unityAction -= (UnityAction<T1,T2>)d;
+                unityAction -= (UnityAction<T1, T2>)d;
             }
         }
     }
@@ -82,6 +87,17 @@ public class EventManager : MonoBehaviour
             foreach (var d in unityAction.GetInvocationList())
             {
                 unityAction -= (UnityAction<T1, T2, T3>)d;
+            }
+        }
+    }
+
+    private void ReleaseAction<T1, T2, T3, T4>(ref UnityAction<T1, T2, T3, T4> unityAction)
+    {
+        if (unityAction != null)
+        {
+            foreach (var d in unityAction.GetInvocationList())
+            {
+                unityAction -= (UnityAction<T1, T2, T3, T4>)d;
             }
         }
     }
@@ -124,6 +140,10 @@ public class EventManager : MonoBehaviour
         ReleaseAction(ref onHeroRemoveStatModifireAction);
         ReleaseAction(ref onPlayerAddStatModifireAction);
         ReleaseAction(ref onPlayerRemoveStatModifireAction);
+        ReleaseAction(ref onClassAddStatModifireAction);
+        ReleaseAction(ref onClassRemoveStatModifireAction);
+        ReleaseAction(ref onTribeAddStatModifireAction);
+        ReleaseAction(ref onTribeRemoveStatModifireAction);
 
         instance = null;
     }
