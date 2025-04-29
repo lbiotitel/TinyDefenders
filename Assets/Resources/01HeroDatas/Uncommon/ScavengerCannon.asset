@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: ScavengerCannon
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: ScavengerCannon
   rarity: 0
   heroCost: 3
@@ -31,7 +32,7 @@ MonoBehaviour:
     <baseValue>k__BackingField: 0
     modifiers: []
   criticalRate:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 15
     modifiers: []
   criticalDamage:
     <baseValue>k__BackingField: 0
@@ -47,6 +48,7 @@ MonoBehaviour:
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
+    particlePrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
     skillDuration: 0

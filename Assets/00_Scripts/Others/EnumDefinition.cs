@@ -111,6 +111,12 @@ public enum ProjectileType {
     NONE,
 }
 
+public enum ProjectileMoveType
+{
+    NORMAL,
+    BAZIER
+}
+
 public enum CardRarity {
     Normal,
     Uncommon,

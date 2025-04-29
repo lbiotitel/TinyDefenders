@@ -18,7 +18,7 @@ public class HumanCrossBowSkill : AttackSkillBase
             Monster monster = monsterList[0];
 
             GameObject go = PoolingManager.instance.GetObject(skillData.skillPrefab, transform.position);
-            go.GetComponent<BaseProjectile>().Init(monster.transform, hero, heroData.GetHeroSkillDamage());
+            go.GetComponent<BaseProjectile>().Init(monster, hero, heroData.GetHeroSkillDamage());
         }
     }
 }

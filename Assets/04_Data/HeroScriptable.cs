@@ -76,7 +76,7 @@ public class HeroScriptable : ScriptableObject
     public Stat criticalDamage;
     private const float baseCriticalDamage = 120;
 
-    [TextArea] public string heroDesc;
+    public string heroDesc;
     private PlayerNetworkType heroNetworkType;
 
     [Header("Extra")]

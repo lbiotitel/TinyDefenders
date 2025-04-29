@@ -10,20 +10,21 @@ public class BaseProjectile : MonoBehaviour
     [Header("Base Projectile Value")]
     [SerializeField] protected float speed;
     [SerializeField] protected ProjectileType projectileType = ProjectileType.NORMAL;
+    [SerializeField ] protected ProjectileMoveType moveType = ProjectileMoveType.NORMAL;
     [SerializeField][Range(0f,10f)] protected float lifeTime = 0.2f;
     [SerializeField] protected GameObject destroyParticlePrefab;
     [SerializeField] protected string projectileSFX;
     
     protected GameObject destroyParticle;
     protected Hero referenceHero;
-    protected Transform target;
+    protected Monster target;
     protected bool isAttack = false;
     protected double damage;
     protected bool isReferenceHeroExist = true;    
 
     private List<DebuffEffect> debuffEffects = new List<DebuffEffect>();
 
-    public virtual void Init(Transform target, Hero referenceHero,double damage,List<DebuffEffect> debuffEffects = null)
+    public virtual void Init(Monster target, Hero referenceHero,double damage,List<DebuffEffect> debuffEffects = null)
     {
         SoundManager.instance.PlaySfxSound(projectileSFX,SFXTYPE.PROJECTILE);
 
@@ -77,24 +78,71 @@ public class BaseProjectile : MonoBehaviour
 
     private void RotateToForwardDirection()
     {
-        Vector2 direction = target.position - transform.position;
+        Vector2 direction = target.transform.position - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
     protected virtual void ProjectileMoveLogic()
     {
-        float distance = Vector2.Distance(transform.position, target.position);
-        if (distance > 0.1f)
+        switch (moveType)
         {
-            transform.position = Vector2.MoveTowards(transform.position,
-                target.position, speed * Time.deltaTime);
-        }
-        else
-        {
-            HitMonster();
+            case ProjectileMoveType.NORMAL:
+                StartCoroutine(ProjectileStraightMoveLogic());
+                break;
+            case ProjectileMoveType.BAZIER:
+                StartCoroutine(ProjectileBazierMoveLogic());
+                break;
         }
     }
+
+    private IEnumerator ProjectileStraightMoveLogic()
+    {
+        while (true)
+        {
+            float distance = Vector2.Distance(transform.position, target.transform.position);
+            if (distance > 0.1f)
+            {
+                transform.position = Vector2.MoveTowards(transform.position,
+                    target.transform.position, speed * Time.deltaTime);
+            }
+            else
+                break;
+
+            yield return null;  
+        }
+
+        HitMonster();
+    }
+
+    private IEnumerator ProjectileBazierMoveLogic()
+    {
+        Vector3 startPos = transform.position;
+
+        Vector3 midPoint = (startPos + target.transform.position) / 2f;
+        midPoint.y += Random.Range(-1f, 1f);
+
+
+        float elapsedTime = 0.0f;
+
+        while (elapsedTime < 1f)
+        {
+            if (target == null) break;
+
+            float t = elapsedTime / 1f;
+
+            Vector3 curvePoint = MathUtils.GenerateBezierPoint(t, startPos,
+                midPoint, target.transform.position);
+
+            transform.position = new Vector3(curvePoint.x, curvePoint.y, 0);
+
+            elapsedTime += Time.deltaTime * speed;
+            yield return null;
+        }
+
+        HitMonster();
+    }
+
 
     protected virtual void HitMonster()
     {

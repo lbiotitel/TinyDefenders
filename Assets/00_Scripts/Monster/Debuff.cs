@@ -33,6 +33,14 @@ public partial class Monster : Entity
     [SerializeField] private GameObject igniteEffect;
     private Coroutine igniteCoroutine;
 
+    public bool IsStun => isStun;
+    public bool IsIgnite => igniteCoroutine != null;
+    public bool IsBleed => bleedCoroutine != null;
+    public bool IsPoision => poisionCoroutine != null;
+    public bool IsSlow => slowCoroutine != null;
+
+
+
 
 
     [ServerRpc(RequireOwnership = false)]
@@ -145,7 +153,7 @@ public partial class Monster : Entity
         while (true)
         {
             float bleedHp = Mathf.Max((float)(hp / 100f) * bleedPercent, 1f);
-            //GetDamage(bleedHp, isServer);
+            NetworkRpcManager.instance.AttackMonster(playerNetworkType,bleedHp,this);
             yield return new WaitForSeconds(1f);
         }
     }
@@ -193,7 +201,7 @@ public partial class Monster : Entity
               {
                   poisionEffect.gameObject.SetActive(true);
                   double damage = poisionStack * poisionTickDamage;
-                  //GetDamage(damage, isServer);
+                  NetworkRpcManager.instance.AttackMonster(playerNetworkType, damage, this);
               },
               () =>
               {
@@ -251,6 +259,8 @@ public partial class Monster : Entity
         yield return new WaitForSeconds(debuffDuration);
         secondAction?.Invoke();
     }
+
+
 
 
     public override void OnDestroy()

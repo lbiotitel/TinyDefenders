@@ -2,52 +2,77 @@ using UnityEngine;
 
 public class DemonSynergy : HeroSynergyBase
 {
-    [SerializeField] private float[] heroAtk;
-    [SerializeField] private float demonExplosionRange;
-    [SerializeField] private GameObject demonExplosionPrefab;
+    [SerializeField] private float[] atkModifireValue;
+    [SerializeField] private float extraDamage;
+    private const int maxSynergyLevelForEvent = 4; 
 
     public override void HeroSynergyActive(int level)
     {
-        if (level < 1) return;
-        PlayerStatManager.instance.AddStatModifire(synergyNetworkType, PlayerStatType.Atk, heroAtk[level - 1]);
-        if (level == 4)
+        if (!CheckSynergyLevel(level)) return;
+
+        ModifyStat(true);
+
+        if (currentSynergyLevel == maxSynergyLevelForEvent)
         {
-            EventManager.instance.onHeroAttackToMonsterAction += DemonExplosion;
+            EventManager.instance.onHeroAttackToMonsterAction += DemonSynergyLogic;
         }
     }
 
     public override void HeroSynergyDeactive(int level)
     {
-        if (level < 1) return;
-        PlayerStatManager.instance.AddStatModifire(synergyNetworkType, PlayerStatType.Atk, heroAtk[level - 1]);
-        if (level == 4)
+        if (!CheckSynergyLevel(level)) return;
+
+        ModifyStat(false);
+
+        if (currentSynergyLevel == maxSynergyLevelForEvent)
         {
-            EventManager.instance.onHeroAttackToMonsterAction -= DemonExplosion;
+            EventManager.instance.onHeroAttackToMonsterAction -= DemonSynergyLogic;
         }
     }
 
-    private void DemonExplosion(Hero hero, Monster monster)
+    private void ModifyStat(bool isAdding)
     {
-
-        if (NetUtils.GetPlayerNetworkType() != PlayerNetworkType.HOST) return;
-        HeroScriptable heroData = hero.GetHeroData();
-        if (heroData.heroTribe != HeroTribe.DEMON) return;
-
-        double heroAtk = heroData.GetHeroAtk() / 2f;
-
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(monster.transform.position, demonExplosionRange, LayerMask.GetMask(LayerName.Monster));
-
-        NetworkRpcManager.instance.SpawnSynergyParticleClientRpc(synergyName,monster.transform.position);
-
-        foreach (var collider in colliders)
+        float modifierValue = GetCurrentModifierValue();
+        if (isAdding)
         {
-            if (collider.TryGetComponent(out Monster targetMonster))
-            {
-                if (targetMonster == monster) continue;
-                if (targetMonster.IsDead()) continue;
-                targetMonster.GetDamage(heroAtk, synergyNetworkType,hero.NetworkObjectId,false);
-            }
+            PlayerStatManager.instance.AddStatModifire(
+                synergyNetworkType,
+                HeroTribe.DEMON,
+                PlayerStatType.Atk,
+                modifierValue
+            );
+        }
+        else
+        {
+            PlayerStatManager.instance.RemoveStatModifire(
+                synergyNetworkType,
+                HeroTribe.DEMON,
+                PlayerStatType.Atk,
+                modifierValue
+            );
         }
     }
 
+    private float GetCurrentModifierValue()
+    {
+        return atkModifireValue[Mathf.Clamp(currentSynergyLevel, 0, atkModifireValue.Length - 1)];
+    }
+
+
+    private void DemonSynergyLogic(Hero hero, Monster monster)
+    {
+        if (!IsValidDemonSynergy(hero, monster)) return;
+
+        double heroAtk = hero.GetHeroData().GetHeroAtk();
+        double damage = heroAtk + (heroAtk * extraDamage);
+
+        NetworkRpcManager.instance.AttackMonster(synergyNetworkType,damage,hero,monster,null,false);
+    }
+
+    private bool IsValidDemonSynergy(Hero hero, Monster monster)
+    {
+        return hero.GetHeroData().heroTribe == HeroTribe.DEMON &&
+               hero.heroOwnerNetworkType == synergyNetworkType &&
+               !monster.IsIgnite;
+    }
 }

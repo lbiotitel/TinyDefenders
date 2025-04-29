@@ -16,7 +16,7 @@ public class HumanKingSkill : AttackSkillBase
         {
             if (monster.IsDead()) continue;
             GameObject go = PoolingManager.instance.GetObject(skillData.skillPrefab,transform.position);
-            go.GetComponent<BaseProjectile>().Init(monster.transform,hero,heroData.GetHeroSkillDamage());
+            go.GetComponent<BaseProjectile>().Init(monster,hero,heroData.GetHeroSkillDamage());
         }
     }
 }

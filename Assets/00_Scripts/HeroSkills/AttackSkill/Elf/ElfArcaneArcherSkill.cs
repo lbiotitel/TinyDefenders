@@ -9,16 +9,16 @@ public class ElfArcaneArcherSkill : AttackSkillBase
         base.SkillLogic();
         List<Monster> monsterList = FindCloseMonster(heroData.skillData.targetCount);
 
-        Transform monsterTransform = null;
+        Monster targetMonster = null;
         foreach (var monster in monsterList)
         {
             if (monster.IsDead()) continue;
-            monsterTransform = monster.transform;
+            targetMonster = monster;
             break;
         }
 
-        GameObject go = PoolingManager.instance.GetObject(heroData.skillData.skillPrefab, monsterTransform.position);
-        go.GetComponent<BaseProjectile>().Init(monsterTransform, hero, heroData.GetHeroSkillDamage());
+        GameObject go = PoolingManager.instance.GetObject(heroData.skillData.skillPrefab, targetMonster.transform.position);
+        go.GetComponent<BaseProjectile>().Init(targetMonster, hero, heroData.GetHeroSkillDamage());
 
     }
 }

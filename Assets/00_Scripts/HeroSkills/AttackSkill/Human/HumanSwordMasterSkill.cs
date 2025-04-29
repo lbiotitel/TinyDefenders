@@ -37,7 +37,7 @@ public class HumanSwordMasterSkill : AttackSkillBase
         foreach (var monster in monsterList)
         {
             GameObject go = PoolingManager.instance.GetObject(skillData.skillPrefab, transform.position);
-            go.GetComponent<BaseProjectile>().Init(monster.transform,hero,heroData.GetHeroSkillDamage());
+            go.GetComponent<BaseProjectile>().Init(monster,hero,heroData.GetHeroSkillDamage());
         }
     }
 

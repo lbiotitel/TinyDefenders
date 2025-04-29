@@ -215,7 +215,7 @@ public class Hero : Entity
             AnimatorChange("ATTACK", true);
             BaseProjectile go =
                 PoolingManager.instance.GetObject<BaseProjectile>(heroData.projectile.gameObject, transform.position);
-            go.Init(targetObject.transform,this, heroData.GetHeroAtk());
+            go.Init(targetObject.GetComponent<Monster>(),this, heroData.GetHeroAtk());
             EventManager.instance.onBeforeAttackMonsterAction?.Invoke(this,targetObject.GetComponent<Monster>());
             LooKTarget(targetObject.gameObject);
         }

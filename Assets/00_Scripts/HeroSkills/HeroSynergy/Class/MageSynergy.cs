@@ -9,7 +9,7 @@ public class MageSynergy : HeroSynergyBase
     public override void HeroSynergyActive(int level)
     {
         if (!CheckSynergyLevel(level)) return;
-        PlayerStatManager.instance.AddStatModifire(NetUtils.GetPlayerNetworkType(),PlayerStatType.SkillAcc ,skillAcc[currentSynergyLevel]);
+        PlayerStatManager.instance.AddStatModifire(NetUtils.GetPlayerNetworkType(), HeroClass.MAGE, PlayerStatType.SkillAcc, skillAcc[currentSynergyLevel]);
         if (currentSynergyLevel == 3)
         {
             EventManager.instance.onHeroUseSkillAction += MageSynergyLogic;
@@ -19,7 +19,7 @@ public class MageSynergy : HeroSynergyBase
     public override void HeroSynergyDeactive(int level)
     {
         if (!CheckSynergyLevel(level)) return;
-        PlayerStatManager.instance.RemoveStatModifire(NetUtils.GetPlayerNetworkType(), PlayerStatType.SkillAcc, skillAcc[currentSynergyLevel]);
+        PlayerStatManager.instance.RemoveStatModifire(NetUtils.GetPlayerNetworkType(), HeroClass.MAGE, PlayerStatType.SkillAcc, skillAcc[currentSynergyLevel]);
         if (currentSynergyLevel == 3)
         {
             EventManager.instance.onHeroUseSkillAction -= MageSynergyLogic;

@@ -20,7 +20,6 @@ public class CardManager : MonoBehaviour
     [SerializeField] private Button rerollButton;
     [SerializeField] private Image rerollButtonImage;
     [SerializeField] private float rerollCoolTime;
-    [SerializeField] private int rerollGold;
     private bool canReroll = true;
 
     [SerializeField] private GameObject cardDropZone;
@@ -70,12 +69,13 @@ public class CardManager : MonoBehaviour
         if (!cardEmpty)
         {
             if (!canReroll) return;
-            if (GameManager.instance.IsEnoughGold(rerollGold))
+            int rerollCost = PlayerStatManager.instance.rerollCost;
+            if (GameManager.instance.IsEnoughGold(rerollCost))
             {
                 canReroll = false;
                 DrawCardLogic();
                 StartCoroutine(CardRerollCoolTimeCoroutine());
-                GameManager.instance.SpendGold(rerollGold);
+                GameManager.instance.SpendGold(rerollCost);
             }
         }
         else {

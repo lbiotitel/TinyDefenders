@@ -12,7 +12,7 @@ public class DemonLordSkill : AttackSkillBase
         {
             if (monster.IsDead()) continue;
             GameObject go = PoolingManager.instance.GetObject(heroData.skillData.skillPrefab, monster.transform.position);
-            go.GetComponent<BaseProjectile>().Init(monster.transform, hero, heroData.GetHeroSkillDamage());
+            go.GetComponent<BaseProjectile>().Init(monster, hero, heroData.GetHeroSkillDamage());
         }
     }
 }

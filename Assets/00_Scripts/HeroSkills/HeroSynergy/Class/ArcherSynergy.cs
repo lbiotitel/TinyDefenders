@@ -51,7 +51,7 @@ public class ArcherSynergy : HeroSynergyBase
                 GameObject go = PoolingManager.instance.GetObject(projectileRrefab.gameObject, hero.transform.position);
 
                 BaseProjectile projectile = go.GetComponent<BaseProjectile>();
-                projectile.Init(m.transform, hero, heroData.GetHeroAtk(), heroData.debuffEffects);
+                projectile.Init(m, hero, heroData.GetHeroAtk(), heroData.debuffEffects);
             }
         });
     }

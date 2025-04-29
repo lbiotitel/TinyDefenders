@@ -75,7 +75,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1115819473
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: -1
   m_Time: 0.2
   m_PreviewTimeScale: 1
@@ -158,7 +158,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4942644700727625915}
   - component: {fileID: 3468047050803340193}
-  - component: {fileID: 7009818753606986678}
+  - component: {fileID: 2300370003135635110}
   m_Layer: 0
   m_Name: UndeadSkeletonArcher Projectile
   m_TagString: Untagged
@@ -224,7 +224,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1115819473
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 2128217827, guid: dbbec1fe18594d046859a78417a32952, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -237,7 +237,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7009818753606986678
+--- !u!114 &2300370003135635110
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,11 +246,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5480645021078868391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc884d34467c98b4b807c502c95f4d2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 55899e51aacb02b4abe47f261cff8f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 3
   projectileType: 0
+  moveType: 1
   lifeTime: 0.2
-  destroyParticlePrefab: {fileID: 3211877774832872067, guid: cb743783234f8e74d9956031b0ceed0f, type: 3}
-  waitForTrail: 0
+  destroyParticlePrefab: {fileID: 0}
+  projectileSFX: 

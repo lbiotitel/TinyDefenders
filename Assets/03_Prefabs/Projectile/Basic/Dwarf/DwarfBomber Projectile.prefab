@@ -100,9 +100,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: defb125df42fd2c41a499f77dc17ac46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  projectileType: 0
+  speed: 1
+  projectileType: 1
+  moveType: 1
   lifeTime: 0.4
   destroyParticlePrefab: {fileID: 3272001268993385073, guid: faf462e19bb572d489c00cda9b8066d6, type: 3}
-  range: 1.5
-  targetCount: 3
+  projectileSFX: 
+  _range: 1.5
+  _targetCount: 3

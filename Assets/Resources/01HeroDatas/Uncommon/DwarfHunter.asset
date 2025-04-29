@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: DwarfHunter
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: DwarfHunter
   rarity: 0
-  heroCost: 4
+  heroCost: 5
   atk:
     <baseValue>k__BackingField: 150
     modifiers: []
@@ -25,13 +26,13 @@ MonoBehaviour:
     <baseValue>k__BackingField: 1
     modifiers: []
   atkRange:
-    <baseValue>k__BackingField: 4
+    <baseValue>k__BackingField: 2
     modifiers: []
   skillAcc:
     <baseValue>k__BackingField: 0
     modifiers: []
   criticalRate:
-    <baseValue>k__BackingField: 0
+    <baseValue>k__BackingField: 15
     modifiers: []
   criticalDamage:
     <baseValue>k__BackingField: 0
@@ -45,10 +46,11 @@ MonoBehaviour:
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
-    coolTime: 0
-    skillPrefab: {fileID: 0}
-    skillDamage: 0
-    targetCount: 0
+    coolTime: 10
+    skillPrefab: {fileID: 5480645021078868391, guid: 04e731aaa31d6fd468d9f3101069ff6a, type: 3}
+    particlePrefab: {fileID: 0}
+    skillDamage: 80
+    targetCount: 3
     skillDuration: 0
     buffTime: 0
     buffAmount: 0

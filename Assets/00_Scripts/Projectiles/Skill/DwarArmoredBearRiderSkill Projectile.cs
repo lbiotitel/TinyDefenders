@@ -7,7 +7,7 @@ public class DwarArmoredBearRiderSkillProjectile : BaseProjectile
     [SerializeField] private float damageCount;
     [SerializeField] private float atkRange;
 
-    public override void Init(Transform target, Hero referenceHero,double damage, List<DebuffEffect> debuffEffects = null)
+    public override void Init(Monster target, Hero referenceHero,double damage, List<DebuffEffect> debuffEffects = null)
     {
         base.Init(target, referenceHero,damage, debuffEffects);
         StartCoroutine(AttackMonsterCoroutine());

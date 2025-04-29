@@ -11,15 +11,17 @@ public class SpearSynergy : HeroSynergyBase
     public override void HeroSynergyActive(int level)
     {
         if (!CheckSynergyLevel(level)) return;
+
+        PlayerStatManager.instance.
+                AddStatModifire(synergyNetworkType,
+                HeroClass.SPEAR, 
+                PlayerStatType.AtkRange,
+                atkRangeModifireValue[Mathf.Clamp(currentSynergyLevel,0,atkRangeModifireValue.Length - 1)]);
+
         if (currentSynergyLevel == 3)
         {
             EventManager.instance.onHeroAttackToMonsterAction += SpearSynergyLogic;
             EventManager.instance.onWaveFinishAction += ReleaseAllStack;
-        }
-        else
-        {
-            PlayerStatManager.instance.
-                AddStatModifire(synergyNetworkType, HeroClass.SPEAR, PlayerStatType.AtkRange, atkRangeModifireValue[currentSynergyLevel]);
         }
     }
 
@@ -27,16 +29,17 @@ public class SpearSynergy : HeroSynergyBase
     {
         if (!CheckSynergyLevel(level)) return;
 
+        PlayerStatManager.instance.
+               RemoveStatModifire(synergyNetworkType,
+               HeroClass.SPEAR,
+               PlayerStatType.AtkRange,
+               atkRangeModifireValue[Mathf.Clamp(currentSynergyLevel, 0, atkRangeModifireValue.Length - 1)]);
+
         if (currentSynergyLevel == 3)
         {
             ReleaseAllStack();
             EventManager.instance.onHeroAttackToMonsterAction -= SpearSynergyLogic;
             EventManager.instance.onWaveFinishAction -= ReleaseAllStack;
-        }
-        else
-        {
-            PlayerStatManager.instance.
-                RemoveStatModifire(synergyNetworkType, HeroClass.SPEAR, PlayerStatType.AtkRange, atkRangeModifireValue[currentSynergyLevel]);
         }
     }
 

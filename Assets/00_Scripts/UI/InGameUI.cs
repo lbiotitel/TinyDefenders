@@ -79,7 +79,8 @@ public class InGameUI : NetworkBehaviour
     [SerializeField] private Transform getGoldTextTransform;
     [SerializeField] private GameObject getGoldPrefab;
 
-
+    [Header("Reroll Cost Text")]
+    [SerializeField] private TMP_Text rerollCostText;
   
     private void Start()
     {
@@ -235,6 +236,7 @@ public class InGameUI : NetworkBehaviour
     private void DrawMainUI()
     {
         currentGoldText.text = string.Format("{0}G", GameManager.instance.gold);
+        rerollCostText.text = string.Format("+{0}",PlayerStatManager.instance.rerollCost);
     }
 
     private void DrawWaveAndTime(float time, bool prepare = false)

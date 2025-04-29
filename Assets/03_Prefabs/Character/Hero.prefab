@@ -261,7 +261,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: -584884777
-  m_SortingOrder: 0
+  m_SortingOrder: 294
   m_TargetDisplay: 0
 --- !u!114 &3942019187847127481
 MonoBehaviour:
@@ -551,7 +551,7 @@ Animator:
   m_GameObject: {fileID: 5249462860078115409}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 26a9321a60884ce41935d26421390f85, type: 2}
+  m_Controller: {fileID: 9100000, guid: 873f7f10e2b8f224185ada1a31010534, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -980,11 +980,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2817617208276490177, guid: c4aff0c4503fb3b4194f853aca66d213, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817617208276490177, guid: c4aff0c4503fb3b4194f853aca66d213, type: 3}
+      propertyPath: m_SortingOrder
+      value: -43
       objectReference: {fileID: 0}
     - target: {fileID: 2817617208276490177, guid: c4aff0c4503fb3b4194f853aca66d213, type: 3}
       propertyPath: m_SortingLayerID
-      value: -1115819473
+      value: 1411689015
       objectReference: {fileID: 0}
     - target: {fileID: 7376904370167067959, guid: c4aff0c4503fb3b4194f853aca66d213, type: 3}
       propertyPath: m_LocalScale.x

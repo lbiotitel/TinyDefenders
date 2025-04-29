@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2301014332850734231}
   - component: {fileID: 433920220021296092}
   - component: {fileID: -8702471136178063078}
-  - component: {fileID: 7047840311217393306}
+  - component: {fileID: 8796112523825722882}
   m_Layer: 0
   m_Name: UndeadLichKing Projectile
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.004, y: 0.079, z: -0.08}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5341729597794643655}
@@ -4997,7 +4997,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7047840311217393306
+--- !u!114 &8796112523825722882
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5006,13 +5006,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 472125691533808783}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc884d34467c98b4b807c502c95f4d2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 55899e51aacb02b4abe47f261cff8f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 3
   projectileType: 0
+  moveType: 1
   lifeTime: 0.2
-  destroyParticlePrefab: {fileID: 962637631272231507, guid: 0c506ffd7c995cb4daee9084c8499b43, type: 3}
+  destroyParticlePrefab: {fileID: 0}
   projectileSFX: 
 --- !u!1 &1212961120143565581
 GameObject:

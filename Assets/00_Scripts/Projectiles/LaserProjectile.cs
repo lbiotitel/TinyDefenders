@@ -6,7 +6,7 @@ public class LaserProjectile : BaseProjectile
 {
     private LineRenderer lineRenderer;
 
-    public override void Init(Transform target, Hero referenceHero, double damage, List<DebuffEffect> debuffEffects = null)
+    public override void Init(Monster target, Hero referenceHero, double damage, List<DebuffEffect> debuffEffects = null)
     {
         base.Init(target, referenceHero, damage, debuffEffects);
         lineRenderer = GetComponent<LineRenderer>();

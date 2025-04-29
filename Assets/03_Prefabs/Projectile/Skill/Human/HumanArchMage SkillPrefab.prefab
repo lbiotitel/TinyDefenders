@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 344632182575518228}
   - component: {fileID: 344632182575518231}
   - component: {fileID: 2559811901416417958}
-  - component: {fileID: 1695301292085785538}
+  - component: {fileID: 5542864455571299484}
   m_Layer: 0
   m_Name: HumanArchMage SkillPrefab
   m_TagString: Untagged
@@ -4955,7 +4955,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1695301292085785538
+--- !u!114 &5542864455571299484
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4964,12 +4964,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 344632182575518230}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc884d34467c98b4b807c502c95f4d2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 55899e51aacb02b4abe47f261cff8f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 4
   projectileType: 0
-  lifeTime: 0.1
+  moveType: 1
+  lifeTime: 0.2
   destroyParticlePrefab: {fileID: 0}
   projectileSFX: 
 --- !u!1 &1222536114246581022

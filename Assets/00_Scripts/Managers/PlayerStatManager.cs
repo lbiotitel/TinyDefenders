@@ -36,6 +36,7 @@ public class PlayerStatManager : MonoBehaviour
     [field: SerializeField] public int maxHeroCount { get; set; }
     [field: SerializeField] public int maxHeroLevel { get; private set; }
     [field: SerializeField] public int requireCombineHeroCount { get; set; }
+    [field: SerializeField] public int rerollCost { get; private set; } = 5;
 
     [SerializeField] private int giveExpAmount;
     [SerializeField] private int expGold;

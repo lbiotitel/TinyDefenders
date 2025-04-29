@@ -18,7 +18,7 @@ public class VillagerGraveDiggerSkill : AttackSkillBase
         {
             if (monster.IsDead()) continue;
             GameObject go = PoolingManager.instance.GetObject(skillData.skillPrefab, monster.transform.position + new Vector3(0,5,0));
-            go.GetComponent<BaseProjectile>().Init(monster.transform, hero, heroData.GetHeroSkillDamage(),heroData.skillDebuffEffects);
+            go.GetComponent<BaseProjectile>().Init(monster, hero, heroData.GetHeroSkillDamage(),heroData.skillDebuffEffects);
 
         }
     }
