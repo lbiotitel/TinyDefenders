@@ -24,10 +24,6 @@ public class CardManager : MonoBehaviour
 
     [SerializeField] private GameObject cardDropZone;
 
-    [SerializeField] private int rerollHeroCount;
-    [SerializeField] private int rerollSpellCardCount;
-
-
     private List<CardNodeBase> myCardList = new List<CardNodeBase>();
 
     public static int MostFrontCardOrder = 100;
@@ -97,12 +93,12 @@ public class CardManager : MonoBehaviour
             myCardList.Clear();
         }
 
-        for (int i = 0; i < rerollHeroCount; i++)
+        for (int i = 0; i < PlayerStatManager.instance.drawHeroCardCount; i++)
         {
             DrawCard(CardType.SUMMON);
         }
 
-        for (int i = 0; i < rerollSpellCardCount; i++)
+        for (int i = 0; i < PlayerStatManager.instance.drawSpellCount; i++)
         {
             DrawCard(CardType.ATTACK);
         }
@@ -261,7 +257,7 @@ public class CardManager : MonoBehaviour
     {
         foreach (var card in myCardList)
         {
-            card.InitReadyInteract(interact);
+            card.ReadyInteract(interact);
         }
     }
 

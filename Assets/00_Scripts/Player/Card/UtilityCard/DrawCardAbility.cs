@@ -4,7 +4,6 @@ using UnityEngine;
 public class DrawCardAbility : CardAbilityBase
 {
 
-    [SerializeField] protected GameObject cardParticlePrefab;
     public override void ActiveAbility()
     {
         PoolingManager.instance.GetObject(cardParticlePrefab,transform.position);

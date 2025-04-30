@@ -8,15 +8,15 @@ public class LaserProjectile : BaseProjectile
 
     public override void Init(Monster target, Hero referenceHero, double damage, List<DebuffEffect> debuffEffects = null)
     {
-        base.Init(target, referenceHero, damage, debuffEffects);
         lineRenderer = GetComponent<LineRenderer>();
+        base.Init(target, referenceHero, damage, debuffEffects);
     }
 
-    protected override void ProjectileLogic()
+    protected override void ProjectileMoveLogic()
     {
         lineRenderer.SetPosition(0, referenceHero.transform.position);
         lineRenderer.SetPosition(1, target.transform.position);
-        AttackMonster(target.gameObject);
+        HitMonster();
         DisableObject(lifeTime);
     }
 

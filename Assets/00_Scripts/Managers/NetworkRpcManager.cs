@@ -134,6 +134,26 @@ public class NetworkRpcManager : NetworkBehaviour
         GameObject go = PoolingManager.instance.GetObject(particlePrefab, targetPos);
     }
 
+    [ClientRpc]
+    public void ModifyClientDrawSpellCardCountClientRpc(int playerNetworkType, int value)
+    {
+        PlayerNetworkType networkType = (PlayerNetworkType)playerNetworkType;
+
+        if (networkType == NetUtils.GetPlayerNetworkType())
+        {
+            PlayerStatManager.instance.drawSpellCount += value;
+        }
+    }
+    [ClientRpc]
+    public void ModifyClientDrawHeroCardCountClientRpc(int playerNetworkType,int value)
+    {
+        PlayerNetworkType networkType = (PlayerNetworkType)playerNetworkType;
+
+        if (networkType == NetUtils.GetPlayerNetworkType())
+        {
+            PlayerStatManager.instance.drawHeroCardCount += value;
+        }
+    }
 
     #endregion
 
@@ -210,8 +230,8 @@ public class NetworkRpcManager : NetworkBehaviour
 
     [ClientRpc]
     private void RemoveClassStatModifireClientRpc(int networkType, int heroClass, int statType, float value)
-    => EventManager.instance.onClassRemoveStatModifireAction?.Invoke(networkType,heroClass ,statType, value);
-        
+    => EventManager.instance.onClassRemoveStatModifireAction?.Invoke(networkType, heroClass, statType, value);
+
     [ClientRpc]
     private void RemoveTribeStatModifireClientRpc(int networkType, int heroTribe, int statType, float value)
     => EventManager.instance.onTribeRemoveStatModifireAction?.Invoke(networkType, heroTribe, statType, value);

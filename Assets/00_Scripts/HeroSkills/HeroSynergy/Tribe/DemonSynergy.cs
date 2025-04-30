@@ -4,7 +4,7 @@ public class DemonSynergy : HeroSynergyBase
 {
     [SerializeField] private float[] atkModifireValue;
     [SerializeField] private float extraDamage;
-    private const int maxSynergyLevelForEvent = 4; 
+    [SerializeField] private int demonSynergyLevel = 4; 
 
     public override void HeroSynergyActive(int level)
     {
@@ -12,7 +12,7 @@ public class DemonSynergy : HeroSynergyBase
 
         ModifyStat(true);
 
-        if (currentSynergyLevel == maxSynergyLevelForEvent)
+        if (currentSynergyLevel == demonSynergyLevel)
         {
             EventManager.instance.onHeroAttackToMonsterAction += DemonSynergyLogic;
         }
@@ -24,7 +24,7 @@ public class DemonSynergy : HeroSynergyBase
 
         ModifyStat(false);
 
-        if (currentSynergyLevel == maxSynergyLevelForEvent)
+        if (currentSynergyLevel == demonSynergyLevel)
         {
             EventManager.instance.onHeroAttackToMonsterAction -= DemonSynergyLogic;
         }

@@ -14,6 +14,5 @@ public class MeleeProjectile : BaseProjectile
         HitMonster();
     }
 
-    protected override void ProjectileLogic() { }
 
 }

@@ -29,8 +29,9 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
     [SerializeField] protected CardColorNode[] cardColorNode;
 
     protected Vector2 enlargementOriginalPosition;
-
     protected Vector2 dragOriginalPosition;
+    protected int cardIndex = 0;
+
     protected float yHeight;
     protected Transform parentTransform;
     protected Transform dragParent;
@@ -65,13 +66,12 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
     }
 
 
-
-
-    public void InitReadyInteract(bool interact)
+    public void ReadyInteract(bool interact)
     { 
         readyInteract = interact;
         dragOriginalPosition = transform.position;
         enlargementOriginalPosition = transform.position;
+        cardIndex = transform.GetSiblingIndex();
     }
 
 
@@ -105,15 +105,10 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
         }
         else {
             if (CheckCost())
-            {
                 UseCard();
-            }
             else
-            {
                 ResetCardTransform();
-            }
         }
-
         CardManager.instance.OffCardDropZone();
     }
 
@@ -210,6 +205,7 @@ public class CardNodeBase : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
         transform.DOMove(enlargementOriginalPosition, 0.2f).OnComplete(() => {
             isEnlargement = false;
         });
+        transform.SetSiblingIndex(cardIndex);
     }
 
     #endregion

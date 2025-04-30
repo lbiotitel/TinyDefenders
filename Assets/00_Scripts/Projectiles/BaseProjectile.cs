@@ -32,6 +32,8 @@ public class BaseProjectile : MonoBehaviour
         this.target = target;
         this.debuffEffects = debuffEffects;
         this.damage = damage;
+
+        ProjectileMoveLogic();
     }
 
 
@@ -46,14 +48,6 @@ public class BaseProjectile : MonoBehaviour
                 DisableObject(0.1f);
             }
         }
-        if(!isAttack)
-            ProjectileLogic();
-    }
-
-    protected virtual void ProjectileLogic()
-    {
-        ProjectileMoveLogic();
-        ProjectileTypeLogic();
     }
 
     protected void ProjectileTypeLogic()
@@ -100,6 +94,8 @@ public class BaseProjectile : MonoBehaviour
     {
         while (true)
         {
+            if(target == null) break;
+            ProjectileTypeLogic();
             float distance = Vector2.Distance(transform.position, target.transform.position);
             if (distance > 0.1f)
             {
@@ -128,6 +124,7 @@ public class BaseProjectile : MonoBehaviour
         while (elapsedTime < 1f)
         {
             if (target == null) break;
+            ProjectileTypeLogic();
 
             float t = elapsedTime / 1f;
 
@@ -146,6 +143,8 @@ public class BaseProjectile : MonoBehaviour
 
     protected virtual void HitMonster()
     {
+        if (target == null)
+            return;
         if (!isAttack)
         {
             isAttack = true;
