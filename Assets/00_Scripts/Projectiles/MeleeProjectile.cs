@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeProjectile : BaseProjectile
+public class MeleeProjectile : Projectile
 {
     [SerializeField] private bool currentTransformParticle = false;
 
-    public override void Init(Monster target, Hero referenceHero,double damage, List<DebuffEffect> debuffEffects = null)
+ /*   public override void Init(Monster target, Hero referenceHero,double damage, List<DebuffEffect> debuffEffects = null)
     {
         base.Init(target, referenceHero,damage, debuffEffects);
         transform.position = currentTransformParticle ?  transform.position:
@@ -14,5 +14,5 @@ public class MeleeProjectile : BaseProjectile
         HitMonster();
     }
 
-
+*/
 }

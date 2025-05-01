@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2760612568586380609}
   - component: {fileID: 2760612568586380623}
   - component: {fileID: 2760612568586380622}
-  - component: {fileID: 2786315958115145823}
+  - component: {fileID: 3719193395211847211}
   m_Layer: 0
   m_Name: HumanShield Projectile
   m_TagString: Untagged
@@ -4893,7 +4893,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &2786315958115145823
+--- !u!114 &3719193395211847211
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4902,16 +4902,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2760612568586380608}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe751510a075bc84ebe1f2317384d238, type: 3}
+  m_Script: {fileID: 11500000, guid: c7d058463f2e06d4d8498a943cb36fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  projectileType: 0
-  moveType: 0
-  lifeTime: 0.2
-  destroyParticlePrefab: {fileID: 0}
-  projectileSFX: 
-  currentTransformParticle: 0
+  _projectileSO: {fileID: 11400000, guid: 1bf9225e7233c764f81cd77ea8c982a9, type: 2}
 --- !u!1 &7705889643660730428
 GameObject:
   m_ObjectHideFlags: 0

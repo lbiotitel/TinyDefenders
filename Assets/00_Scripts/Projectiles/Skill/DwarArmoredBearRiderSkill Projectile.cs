@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DwarArmoredBearRiderSkillProjectile : BaseProjectile
+public class DwarArmoredBearRiderSkillProjectile : Projectile
 {
     [SerializeField] private float damageCount;
     [SerializeField] private float atkRange;
-
+/*
     public override void Init(Monster target, Hero referenceHero,double damage, List<DebuffEffect> debuffEffects = null)
     {
         base.Init(target, referenceHero,damage, debuffEffects);
@@ -47,5 +47,5 @@ public class DwarArmoredBearRiderSkillProjectile : BaseProjectile
             yield return new WaitForSeconds(attackInterval);
         }
 
-    }
+    }*/
 }

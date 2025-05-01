@@ -21,7 +21,11 @@ public class HumanArchMageSkill : AttackSkillBase
         foreach (var monster in monsterList)
         {
             GameObject go = PoolingManager.instance.GetObject(skillData.skillPrefab, transform.position + (Random.insideUnitSphere * 1.5f));
-            go.GetComponent<BaseProjectile>().Init(monster, hero, heroData.GetHeroSkillDamage());
+
+            DamageData damageData = GetBasicSkillDamageData();
+            damageData.Target = monster;
+
+            go.GetComponent<Projectile>().Init(damageData);
                 
             yield return new WaitForSeconds(0.05f);
         }

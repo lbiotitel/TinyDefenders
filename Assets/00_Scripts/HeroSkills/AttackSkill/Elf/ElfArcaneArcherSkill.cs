@@ -18,7 +18,7 @@ public class ElfArcaneArcherSkill : AttackSkillBase
         }
 
         GameObject go = PoolingManager.instance.GetObject(heroData.skillData.skillPrefab, targetMonster.transform.position);
-        go.GetComponent<BaseProjectile>().Init(targetMonster, hero, heroData.GetHeroSkillDamage());
+        //go.GetComponent<BaseProjectile>().Init(targetMonster, hero, heroData.GetHeroSkillDamage());
 
     }
 }

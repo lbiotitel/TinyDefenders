@@ -18,7 +18,9 @@ public class DwarfBomberSkill : AttackSkillBase
             WideAreaProjectile projectile =
                 PoolingManager.instance.GetObject<WideAreaProjectile>(skillData.skillPrefab, transform.position);
 
-            projectile.Init(monster, hero, heroData.GetHeroSkillDamage());
+            DamageData damageData = GetBasicSkillDamageData();
+            damageData.Target = monster;
+
             projectile.TargetCount = targetCount;
         }
     }

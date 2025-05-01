@@ -5,7 +5,7 @@ public class SpellCardBaseProjectile : MonoBehaviour
 {
     [Header("Base Card Projectile Value")]
     [SerializeField] protected float speed;
-    [SerializeField] protected ProjectileType projectileType = ProjectileType.NORMAL;
+    [SerializeField] protected ProjectileType projectileType = ProjectileType.LOOKAT;
     [SerializeField][Range(0.2f, 10f)] protected float lifeTime = 0.2f;
 
     protected GameObject destroyParticlePrefab;
@@ -41,7 +41,7 @@ public class SpellCardBaseProjectile : MonoBehaviour
     {
         switch (projectileType)
         {
-            case ProjectileType.NORMAL:
+            case ProjectileType.LOOKAT:
                 RotateToForwardDirection();
                 break;
             case ProjectileType.ROTATE:

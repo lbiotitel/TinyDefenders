@@ -105,16 +105,26 @@ public enum Localize
     HeroDesc,
     Synergy
 }
-public enum ProjectileType { 
-    NORMAL,
-    ROTATE,
+public enum ProjectileType {
     NONE,
+    LOOKAT,
+    ROTATE,
+}
+
+public enum ProjectileDamageType
+{
+    NONE,
+    SINGLE,
+    RANGE,
 }
 
 public enum ProjectileMoveType
 {
-    NORMAL,
-    BAZIER
+    NONE,
+    STRAIGHT,
+    BAZIER,
+    MELEE,
+    LASER
 }
 
 public enum CardRarity {

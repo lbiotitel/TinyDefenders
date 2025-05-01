@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 344632182575518229}
   - component: {fileID: 344632182575518228}
   - component: {fileID: 344632182575518231}
-  - component: {fileID: 5136519477464169634}
+  - component: {fileID: 5286658745833542210}
   m_Layer: 0
   m_Name: HumanArchMage Projectile
   m_TagString: Untagged
@@ -4899,7 +4899,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &5136519477464169634
+--- !u!114 &5286658745833542210
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4908,14 +4908,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 344632182575518230}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55899e51aacb02b4abe47f261cff8f70, type: 3}
+  m_Script: {fileID: 11500000, guid: c7d058463f2e06d4d8498a943cb36fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  projectileType: 0
-  lifeTime: 0.2
-  destroyParticlePrefab: {fileID: 0}
-  projectileSFX: 
+  _projectileSO: {fileID: 11400000, guid: e8382bdb8c8d8704a80baa2158b1ec01, type: 2}
 --- !u!1 &1222536114246581022
 GameObject:
   m_ObjectHideFlags: 0

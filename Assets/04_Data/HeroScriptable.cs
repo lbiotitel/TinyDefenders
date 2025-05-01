@@ -86,7 +86,7 @@ public class HeroScriptable : ScriptableObject
     public RuntimeAnimatorController runtimeAnimatorController;
 
     [Header("Projectile")]
-    public BaseProjectile projectile = null;
+    public Projectile projectile = null;
 
     [Header("Debuff")]
     public List<DebuffEffect> debuffEffects;

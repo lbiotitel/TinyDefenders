@@ -7,7 +7,7 @@ public class ArcaneArcherSkillProjectile : MeleeProjectile
     [SerializeField]private float damageCount;
 
     List<Monster> monsterList = new List<Monster>();
-    public override void Init(Monster target, Hero referenceHero, double damage, List<DebuffEffect> debuffEffects = null)
+    /*public override void Init(Monster target, Hero referenceHero, double damage, List<DebuffEffect> debuffEffects = null)
     {
         double tickDamage = damage / damageCount;
         base.Init(target, referenceHero, tickDamage, debuffEffects);
@@ -50,5 +50,5 @@ public class ArcaneArcherSkillProjectile : MeleeProjectile
             Monster monster = collision.GetComponent<Monster>();
             monsterList.Remove(monster);
         }
-    }
+    }*/
 }

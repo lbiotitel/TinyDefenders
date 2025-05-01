@@ -10,7 +10,7 @@ public class DwarfHunterSkill : AttackSkillBase
 
         List<Monster> monsterList = FindCloseMonster(targetCount);
 
-        if (monsterList.Count > 0)
+        /*if (monsterList.Count > 0)
         {
             Monster monster = monsterList[0];
             WideAreaProjectile projectile =
@@ -18,6 +18,6 @@ public class DwarfHunterSkill : AttackSkillBase
 
             projectile.Init(monster, hero, heroData.GetHeroSkillDamage());
             projectile.TargetCount = targetCount;
-        }
+        }*/
     }
 }

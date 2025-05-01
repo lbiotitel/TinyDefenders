@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 121187220513802997}
   - component: {fileID: 121187220513802998}
   - component: {fileID: -8150836879528747848}
-  - component: {fileID: 3725229338775256773}
+  - component: {fileID: 187817965424203306}
   m_Layer: 0
   m_Name: ElfWarden Projectile
   m_TagString: Untagged
@@ -5021,7 +5021,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3725229338775256773
+--- !u!114 &187817965424203306
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5030,14 +5030,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 121187220513802984}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe751510a075bc84ebe1f2317384d238, type: 3}
+  m_Script: {fileID: 11500000, guid: 55899e51aacb02b4abe47f261cff8f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  projectileType: 0
-  lifeTime: 0.2
-  destroyParticlePrefab: {fileID: 3211877774832872067, guid: cb743783234f8e74d9956031b0ceed0f, type: 3}
-  currentTransformParticle: 0
+  _projectileSO: {fileID: 0}
 --- !u!1 &121187220725764660
 GameObject:
   m_ObjectHideFlags: 0

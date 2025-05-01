@@ -16,9 +16,16 @@ public class DwarfBearRiderSkill : AttackSkillBase
         if (monsterList.Count > 0)
         { 
             Monster monster = monsterList[0];
-            BaseProjectile projectile = 
-                PoolingManager.instance.GetObject<BaseProjectile>(skillData.skillPrefab,transform.position);
-            projectile.Init(monster,hero,heroData.GetHeroSkillDamage(),heroData.skillDebuffEffects);
+            Projectile projectile = 
+                PoolingManager.instance.GetObject<Projectile>(skillData.skillPrefab,transform.position);
+
+            DamageData damageData = new DamageData();
+            damageData.Hero = hero;
+            damageData.Target = monster;
+            damageData.Damage = heroData.GetHeroSkillDamage();
+            damageData.DebuffEffects = heroData.skillDebuffEffects;
+
+            projectile.Init(damageData);
         }
     }
 

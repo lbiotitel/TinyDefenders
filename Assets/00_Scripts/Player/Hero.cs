@@ -213,9 +213,16 @@ public class Hero : Entity
         if (NetUtils.TryGetSpawnedObject(networkObjectId, out NetworkObject targetObject))
         {
             AnimatorChange("ATTACK", true);
-            BaseProjectile go =
-                PoolingManager.instance.GetObject<BaseProjectile>(heroData.projectile.gameObject, transform.position);
-            go.Init(targetObject.GetComponent<Monster>(),this, heroData.GetHeroAtk());
+            Projectile go =
+                PoolingManager.instance.GetObject<Projectile>(heroData.projectile.gameObject, transform.position);
+
+            DamageData damageData = new DamageData();
+            damageData.Hero = this;
+            damageData.Target = targetObject.GetComponent<Monster>();
+            damageData.Damage = heroData.GetHeroAtk();
+            damageData.DebuffEffects = heroData.debuffEffects;  
+
+            go.Init(damageData);
             EventManager.instance.onBeforeAttackMonsterAction?.Invoke(this,targetObject.GetComponent<Monster>());
             LooKTarget(targetObject.gameObject);
         }

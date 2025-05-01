@@ -44,14 +44,20 @@ public class ArcherSynergy : HeroSynergyBase
             }
 
             HeroScriptable heroData = hero.GetHeroData();
-            BaseProjectile projectileRrefab = heroData.projectile;
+            Projectile projectileRrefab = heroData.projectile;
 
             foreach (var m in targetMonsters)
             {
                 GameObject go = PoolingManager.instance.GetObject(projectileRrefab.gameObject, hero.transform.position);
 
-                BaseProjectile projectile = go.GetComponent<BaseProjectile>();
-                projectile.Init(m, hero, heroData.GetHeroAtk(), heroData.debuffEffects);
+                Projectile projectile = go.GetComponent<Projectile>();
+
+                DamageData damageData = new DamageData();
+                damageData.Hero = hero;
+                damageData.Target = m;
+                damageData.Damage = heroData.GetHeroAtk();
+
+                projectile.Init(damageData);
             }
         });
     }

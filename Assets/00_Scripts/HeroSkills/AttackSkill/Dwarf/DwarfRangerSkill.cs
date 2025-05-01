@@ -19,7 +19,11 @@ public class DwarfRangerSkill : AttackSkillBase
         for (int i = 0; i < heroData.skillData.targetCount; i++)
         {
             GameObject go = PoolingManager.instance.GetObject(heroData.skillData.skillPrefab, transform.position);
-            go.GetComponent<BaseProjectile>().Init(monster, hero, heroData.GetHeroSkillDamage());
+
+            DamageData damageData = GetBasicSkillDamageData();
+            damageData.Target = monster;
+
+            go.GetComponent<Projectile>().Init(damageData);
             yield return new WaitForSeconds(0.1f);
         }
     }

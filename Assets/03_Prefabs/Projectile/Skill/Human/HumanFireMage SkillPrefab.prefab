@@ -4906,7 +4906,7 @@ GameObject:
   - component: {fileID: 444773942409020290}
   - component: {fileID: 4159634926396103297}
   - component: {fileID: 2329132389730211274}
-  - component: {fileID: 5181464120952301368}
+  - component: {fileID: 3868326436850327827}
   m_Layer: 0
   m_Name: HumanFireMage SkillPrefab
   m_TagString: Untagged
@@ -9794,7 +9794,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &5181464120952301368
+--- !u!114 &3868326436850327827
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9803,15 +9803,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2367334733768428185}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55899e51aacb02b4abe47f261cff8f70, type: 3}
+  m_Script: {fileID: 11500000, guid: c7d058463f2e06d4d8498a943cb36fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  projectileType: 0
-  moveType: 1
-  lifeTime: 0.2
-  destroyParticlePrefab: {fileID: 0}
-  projectileSFX: 
+  _projectileSO: {fileID: 11400000, guid: e8382bdb8c8d8704a80baa2158b1ec01, type: 2}
 --- !u!1 &4401211344417363866
 GameObject:
   m_ObjectHideFlags: 0

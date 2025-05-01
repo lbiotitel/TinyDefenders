@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -18,6 +19,16 @@ public class AttackSkillBase : SkillBase
         monsters.ForEach(monster => count += monster.IsDead() == true ? 0 : 1);
 
         return count > 0;
+    }
+
+    protected DamageData GetBasicSkillDamageData()
+    {
+        DamageData damageData = new DamageData();
+        damageData.Hero = hero;
+        damageData.Damage = heroData.GetHeroSkillDamage();
+        damageData.DebuffEffects = heroData.skillDebuffEffects;
+
+        return damageData;
     }
 
     protected List<Monster> FindCloseMonster(int count)
