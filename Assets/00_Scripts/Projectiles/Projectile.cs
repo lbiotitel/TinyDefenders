@@ -11,49 +11,59 @@ public class Projectile : MonoBehaviour
     public ProjectileSO _projectileSO;
     protected ProjectileMotionBase _projectileMotionBase { get; private set; }
     public DamageData _damageData { get; protected set; }
+    private bool isInit = false;
 
     public virtual void Init(DamageData damageData)
     {
+
         _damageData = damageData;
 
         Vector3 startPos = damageData.Hero.transform.position;
         Vector3 endPos = damageData.Target.transform.position;
 
-
         switch (_projectileSO.ProjectileMoveType)
         {
             case ProjectileMoveType.STRAIGHT:
                 {
-                    _projectileMotionBase = gameObject.AddComponent<StraightMotion>();
+                    _projectileMotionBase = InitProjectileMotion<StraightMotion>();
                     _projectileMotionBase.Init(startPos, endPos, _projectileSO,
                         () => AttackMonster());
                 }
                 break;
             case ProjectileMoveType.BAZIER:
                 {
-                    _projectileMotionBase = gameObject.AddComponent<BazierMotion>();
+                    _projectileMotionBase = InitProjectileMotion<BazierMotion>();
                     _projectileMotionBase.Init(startPos, endPos, _projectileSO,
                         () => AttackMonster());
                     break;
                 }
             case ProjectileMoveType.MELEE:
                 {
-                    _projectileMotionBase = gameObject.AddComponent<MeleeMotion>();
+                    _projectileMotionBase = InitProjectileMotion<MeleeMotion>();
                     MeleeMotion meleeMotion = _projectileMotionBase as MeleeMotion;
                     meleeMotion.Init(endPos, _projectileSO, () => AttackMonster());
                     break;
                 }
-        }
-
-
-        switch (_projectileSO.ProjectileDamageType)
-        {
-            case ProjectileDamageType.SINGLE:
+            case ProjectileMoveType.LASER:
                 {
-
+                    _projectileMotionBase = InitProjectileMotion<LaserMotion>();
+                    LaserMotion laserMotion = _projectileMotionBase as LaserMotion;
+                    laserMotion.Init(startPos, endPos, _projectileSO,
+                        () => AttackMonster());
                 }
                 break;
         }
+    }
+
+    private T InitProjectileMotion<T>() where T : ProjectileMotionBase
+    {
+        if (!isInit)
+        {
+            gameObject.AddComponent<T>();
+            isInit = true;
+        }
+
+        return GetComponent<T>();
     }
 
     protected void AttackMonster()
@@ -69,24 +79,62 @@ public class Projectile : MonoBehaviour
             { 
                 case ProjectileDamageType.SINGLE:
                     {
-                        NetworkRpcManager.instance.AttackMonster(
-                            hero.heroOwnerNetworkType,
-                            damage,
-                            hero,
-                            monster,
-                            debuffEffects);
+                        SingleDamage(hero, monster, debuffEffects, damage);
                     }
                     break;
 
                 case ProjectileDamageType.RANGE:
-
-
+                    {
+                        RangeDamage(hero, debuffEffects, damage);
+                    }
                     break;
             }
 
         }
     }
 
+
+
+    #region DamageType Logic
+
+
+    private static void SingleDamage(Hero hero, Monster monster, List<DebuffEffect> debuffEffects, double damage)
+    {
+        NetworkRpcManager.instance.AttackMonster(
+            hero.heroOwnerNetworkType,
+            damage,
+            hero,
+            monster,
+            debuffEffects);
+    }
+
+    private void RangeDamage(Hero hero, List<DebuffEffect> debuffEffects, double damage)
+    {
+        int targetCount = _projectileSO.TargetCount;
+
+        List<Monster> monsterList = SpawnManager.instance.GetMonsterList();
+
+        foreach (var m in monsterList)
+        {
+            if (targetCount <= 0) break;
+            if (m.IsDead()) continue;
+            if (Vector3.Distance(m.transform.position, hero.transform.position) <= _projectileSO.Range)
+            {
+                NetworkRpcManager.instance.AttackMonster(
+                    hero.heroOwnerNetworkType,
+                    damage,
+                    hero,
+                    m,
+                    debuffEffects);
+                targetCount--;
+            }
+        }
+    }
+
+
+
+
+    #endregion
 
 
 

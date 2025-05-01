@@ -4919,7 +4919,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4942644700727625915}
   - component: {fileID: 3468047050803340193}
-  - component: {fileID: 1195089578203227832}
+  - component: {fileID: 535987501063017644}
   m_Layer: 0
   m_Name: HumanSwordMaster SkillPrefab
   m_TagString: Untagged
@@ -4998,7 +4998,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1195089578203227832
+--- !u!114 &535987501063017644
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5007,11 +5007,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5480645021078868391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55899e51aacb02b4abe47f261cff8f70, type: 3}
+  m_Script: {fileID: 11500000, guid: c7d058463f2e06d4d8498a943cb36fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
-  projectileType: 0
-  lifeTime: 0.1
-  destroyParticlePrefab: {fileID: 0}
-  projectileSFX: 
+  _projectileSO: {fileID: 11400000, guid: e8382bdb8c8d8704a80baa2158b1ec01, type: 2}

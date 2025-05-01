@@ -5,10 +5,12 @@ using UnityEngine;
 public class LaserMotion : ProjectileMotionBase
 {
 
-    private LineRenderer _trailRenderer;
+    private LineRenderer _lineRenderer;
     public new void Init(Vector3 startPos,Vector3 endPos, ProjectileSO projectileData ,Action endCallback = null)
     {
-        TryGetComponent<LineRenderer>(out _trailRenderer);
+        TryGetComponent<LineRenderer>(out _lineRenderer);
+
+        Debug.Log(_lineRenderer);
 
         StartPos = startPos;
         EndPos = endPos;
@@ -25,11 +27,12 @@ public class LaserMotion : ProjectileMotionBase
 
     protected override IEnumerator CoProjectileMotion()
     {
-        _trailRenderer.SetPosition(0,StartPos);
-        _trailRenderer.SetPosition(1, EndPos);
+        _lineRenderer.SetPosition(0,StartPos);
+        _lineRenderer.SetPosition(1, EndPos);
         
         yield return new WaitForSeconds(_projectileData.LifeTime);
 
+        EndCallback?.Invoke();
         DisableObject(0f);
     }
 }

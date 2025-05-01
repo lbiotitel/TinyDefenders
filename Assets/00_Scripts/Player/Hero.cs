@@ -16,7 +16,7 @@ public class Hero : Entity
 
     private HeroScriptable heroData;
     private HeroHolder heroHolder;
-    private SkillContainer skillContainer;
+    public SkillContainer skillContainer { get; private set; }
 
     private bool isMove = false;
     private bool attackDelay = false;

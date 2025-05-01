@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5790314003821531247}
   - component: {fileID: 4020839330717340083}
-  - component: {fileID: 3474855027091943775}
+  - component: {fileID: 1111506614396041375}
   m_Layer: 0
   m_Name: HumanKing SkillPrefab
   m_TagString: Untagged
@@ -140,7 +140,7 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 0
---- !u!114 &3474855027091943775
+--- !u!114 &1111506614396041375
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,11 +149,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1007036860295384550}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69efe4e0b9d4779479203ad09c294b35, type: 3}
+  m_Script: {fileID: 11500000, guid: c7d058463f2e06d4d8498a943cb36fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  projectileType: 0
-  lifeTime: 0.2
-  destroyParticlePrefab: {fileID: 0}
-  projectileSFX: 
+  _projectileSO: {fileID: 11400000, guid: 45cf492691fea084c8479ee990c19d46, type: 2}

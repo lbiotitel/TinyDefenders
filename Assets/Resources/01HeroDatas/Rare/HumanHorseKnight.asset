@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: HumanHorseKnight
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: HumanHorseKnight
   rarity: 2
+  heroCost: 0
   atk:
     <baseValue>k__BackingField: 0
     modifiers: []
@@ -37,14 +39,16 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 0
+  heroClass: 0
   heroMainImage: {fileID: -893807919, guid: 56f3d939ce84615418d46f4723c7ba33, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 69048f87371ebec468552d93e06ba05c, type: 2}
-  projectile: {fileID: 1195089578203227832, guid: 62c6bf23da567054893722f433e5ba82, type: 3}
+  projectile: {fileID: 4273237509845725279, guid: 62c6bf23da567054893722f433e5ba82, type: 3}
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
+    particlePrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
     skillDuration: 0

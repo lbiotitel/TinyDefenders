@@ -16,7 +16,13 @@ public class SkillContainer : NetworkBehaviour
     private NetworkVariable<float> skillGage = new NetworkVariable<float>(0f);
     private SkillBase heroSkill;
     private Coroutine skillDelayCoroutine = null;
-
+    private float coolTime
+    {
+        get { 
+            return heroData.skillData.coolTime - 
+                (heroData.skillData.coolTime * heroData.GetHeroSkillAcc() / 100f); 
+        }
+    }
 
     protected void Start()
     {
@@ -85,7 +91,6 @@ public class SkillContainer : NetworkBehaviour
         if (IsServer)
         {
             float t = 0f;
-            float coolTime = heroData.skillData.coolTime - (heroData.skillData.coolTime * heroData.GetHeroSkillAcc() / 100f);
 
             while (t < coolTime)
             {
@@ -95,6 +100,21 @@ public class SkillContainer : NetworkBehaviour
             }
 
             skillDelay = false;
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SetSkillGageServerRpc(float gage)
+    {
+        if (NetUtils.GetPlayerNetworkType() == PlayerNetworkType.HOST)
+        {
+            if (skillDelayCoroutine != null)
+            {
+                skillDelay = false;
+                skillGage.Value = gage;
+                StopCoroutine(skillDelayCoroutine);
+                Debug.Log("스킬 풀 차지");
+            }
         }
     }
 

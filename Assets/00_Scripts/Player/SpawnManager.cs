@@ -331,6 +331,11 @@ public class SpawnManager : NetworkBehaviour
         }
     }
 
+    public List<Monster> GetMonsterList()
+    {
+        return monsterList;
+    }
+
     public void AddMonster(Monster monster)
     {
         monsterList.Add(monster);
