@@ -1,0 +1,35 @@
+using System;
+using System.Collections;
+using UnityEngine;
+
+public class LaserMotion : ProjectileMotionBase
+{
+
+    private LineRenderer _trailRenderer;
+    public new void Init(Vector3 startPos,Vector3 endPos, ProjectileSO projectileData ,Action endCallback = null)
+    {
+        TryGetComponent<LineRenderer>(out _trailRenderer);
+
+        StartPos = startPos;
+        EndPos = endPos;
+        _projectileData = projectileData;
+
+        EndCallback -= endCallback;
+        EndCallback += endCallback;
+
+        if (_coProjectileMotion != null)
+            StopCoroutine(_coProjectileMotion);
+
+        _coProjectileMotion = StartCoroutine(CoProjectileMotion());
+    }
+
+    protected override IEnumerator CoProjectileMotion()
+    {
+        _trailRenderer.SetPosition(0,StartPos);
+        _trailRenderer.SetPosition(1, EndPos);
+        
+        yield return new WaitForSeconds(_projectileData.LifeTime);
+
+        DisableObject(0f);
+    }
+}
