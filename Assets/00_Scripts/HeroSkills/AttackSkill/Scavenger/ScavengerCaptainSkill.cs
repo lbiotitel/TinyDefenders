@@ -22,8 +22,7 @@ public class ScavengerCaptainSkill : AttackSkillBase
                 GameObject go = PoolingManager.instance.GetObject(heroData.skillData.skillPrefab, monster.transform.position
                     + new Vector3(0, 3, 0));
 
-                DamageData damageData = GetBasicSkillDamageData();
-                damageData.Target = monster;
+                DamageData damageData = GetBasicSkillDamageData(monster);
 
                 go.GetComponent<Projectile>().Init(damageData);
             }

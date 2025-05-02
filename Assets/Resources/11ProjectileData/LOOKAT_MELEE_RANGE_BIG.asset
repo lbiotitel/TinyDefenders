@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ccb100b0bd0d07f499709f6be8599561, type: 3}
-  m_Name: BazierProjectileSO
+  m_Name: LOOKAT_MELEE_RANGE_BIG
   m_EditorClassIdentifier: 
-  Speed: 10
-  LifeTime: 0.2
+  Speed: 0
+  LifeTime: 0.4
   DestroyParticle: {fileID: 0}
   ProjectileType: 1
-  ProjectileMoveType: 2
-  ProjectileDamageType: 1
-  ProjectileSFX: 
-  Range: 0
-  TargetCount: 0
+  ProjectileMoveType: 3
+  ProjectileDamageType: 2
+  ProjectileRangeSize: 3

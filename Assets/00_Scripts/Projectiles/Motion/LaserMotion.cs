@@ -16,8 +16,8 @@ public class LaserMotion : ProjectileMotionBase
         EndPos = endPos;
         _projectileData = projectileData;
 
-        EndCallback -= endCallback;
-        EndCallback += endCallback;
+        DamageCallback -= endCallback;
+        DamageCallback += endCallback;
 
         if (_coProjectileMotion != null)
             StopCoroutine(_coProjectileMotion);
@@ -32,7 +32,7 @@ public class LaserMotion : ProjectileMotionBase
         
         yield return new WaitForSeconds(_projectileData.LifeTime);
 
-        EndCallback?.Invoke();
+        DamageCallback?.Invoke();
         DisableObject(0f);
     }
 }

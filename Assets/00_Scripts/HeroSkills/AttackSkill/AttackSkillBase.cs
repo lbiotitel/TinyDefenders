@@ -21,10 +21,11 @@ public class AttackSkillBase : SkillBase
         return count > 0;
     }
 
-    protected DamageData GetBasicSkillDamageData()
+    protected DamageData GetBasicSkillDamageData(Monster target = null)
     {
         DamageData damageData = new DamageData();
         damageData.Hero = hero;
+        damageData.Target = target;
         damageData.Damage = heroData.GetHeroSkillDamage();
         damageData.DebuffEffects = heroData.skillDebuffEffects;
 
@@ -50,5 +51,21 @@ public class AttackSkillBase : SkillBase
         return closeMonsterList;
     }
 
+
+    protected List<Monster> FindCloseMonster(float range)
+    {
+        List<Monster> monsterInRangeList = hero.GetMonsterList();
+        List<Monster> closeMonsterList = new List<Monster>();
+
+        foreach (var monster in monsterInRangeList)
+        {
+            if (Vector2.Distance(transform.position, monster.transform.position) <= range)
+            {
+                closeMonsterList.Add(monster);
+            }
+        }
+
+        return closeMonsterList;
+    }
 
 }

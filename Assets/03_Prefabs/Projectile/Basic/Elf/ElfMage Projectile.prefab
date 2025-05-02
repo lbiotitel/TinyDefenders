@@ -4920,7 +4920,7 @@ GameObject:
   - component: {fileID: 7379715367115845528}
   - component: {fileID: 7379715367115845526}
   - component: {fileID: 7379715367115845527}
-  - component: {fileID: 3182549047318513627}
+  - component: {fileID: 1936005171769579687}
   m_Layer: 0
   m_Name: ElfMage Projectile
   m_TagString: Untagged
@@ -9806,7 +9806,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &3182549047318513627
+--- !u!114 &1936005171769579687
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9815,10 +9815,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7379715367115845529}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55899e51aacb02b4abe47f261cff8f70, type: 3}
+  m_Script: {fileID: 11500000, guid: c7d058463f2e06d4d8498a943cb36fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  projectileType: 0
-  lifeTime: 0.3
-  destroyParticlePrefab: {fileID: 3211877774832872067, guid: cb743783234f8e74d9956031b0ceed0f, type: 3}
+  _projectileSO: {fileID: 11400000, guid: f1541966ccb775f44937e6845a94a7b7, type: 2}

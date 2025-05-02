@@ -33,7 +33,7 @@ public class BazierMotion : ProjectileMotionBase
         }
 
         
-        EndCallback?.Invoke();
+        DamageCallback?.Invoke();
         DisableObject(_projectileData.LifeTime);
     }
 }

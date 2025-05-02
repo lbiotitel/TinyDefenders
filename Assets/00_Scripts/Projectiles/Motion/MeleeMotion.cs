@@ -10,8 +10,8 @@ public class MeleeMotion : ProjectileMotionBase
         EndPos = endPos;
         _projectileData = projectileData;
 
-        EndCallback -= endCallback;
-        EndCallback += endCallback;
+        DamageCallback -= endCallback;
+        DamageCallback += endCallback;
 
         if (_coProjectileMotion != null)
             StopCoroutine(_coProjectileMotion);
@@ -22,11 +22,10 @@ public class MeleeMotion : ProjectileMotionBase
 
     protected override IEnumerator CoProjectileMotion()
     {
-        yield return null;
-
         transform.position = EndPos;
 
-        EndCallback?.Invoke();
+        yield return null;
+        DamageCallback?.Invoke();
         DisableObject(_projectileData.LifeTime);
     }
 }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: ElfMage
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: ElfMage
   rarity: 1
   heroCost: 50
@@ -25,7 +26,7 @@ MonoBehaviour:
     <baseValue>k__BackingField: 1.3
     modifiers: []
   atkRange:
-    <baseValue>k__BackingField: 3.5
+    <baseValue>k__BackingField: 2
     modifiers: []
   skillAcc:
     <baseValue>k__BackingField: 0
@@ -41,15 +42,17 @@ MonoBehaviour:
   heroClass: 1
   heroMainImage: {fileID: 1586800823, guid: 11e337b7763ec934ba4c233c7a39c732, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 052f790e97d32f744bc6528982424335, type: 2}
-  projectile: {fileID: 3182549047318513627, guid: b9635610f895cfc4d8d2cffe2b6c89ee, type: 3}
+  projectile: {fileID: 1936005171769579687, guid: b9635610f895cfc4d8d2cffe2b6c89ee, type: 3}
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
     coolTime: 0
     skillPrefab: {fileID: 0}
+    particlePrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
     skillDuration: 0
+    skillDamageInterval: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0

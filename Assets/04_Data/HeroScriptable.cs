@@ -31,6 +31,7 @@ public class SkillData
     public float skillDamage;
     public int targetCount;
     public float skillDuration;
+    public float skillDamageInterval;
 
     [Header("Buff Skill")]
     [SerializeField] private float buffTime;

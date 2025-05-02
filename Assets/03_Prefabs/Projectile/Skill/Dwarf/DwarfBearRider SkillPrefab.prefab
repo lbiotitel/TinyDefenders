@@ -4920,7 +4920,7 @@ GameObject:
   - component: {fileID: 7164147463025880655}
   - component: {fileID: 7164147463025880641}
   - component: {fileID: 7164147463025880640}
-  - component: {fileID: 5265102924946686861}
+  - component: {fileID: 7602001279572678542}
   m_Layer: 0
   m_Name: DwarfBearRider SkillPrefab
   m_TagString: Untagged
@@ -9802,7 +9802,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &5265102924946686861
+--- !u!114 &7602001279572678542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9811,13 +9811,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7164147463025880654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe751510a075bc84ebe1f2317384d238, type: 3}
+  m_Script: {fileID: 11500000, guid: c7d058463f2e06d4d8498a943cb36fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  projectileType: 0
-  moveType: 0
-  lifeTime: 0.4
-  destroyParticlePrefab: {fileID: 3211877774832872067, guid: cb743783234f8e74d9956031b0ceed0f, type: 3}
-  projectileSFX: ScratchSFX
-  currentTransformParticle: 0
+  _projectileSO: {fileID: 11400000, guid: 1bf9225e7233c764f81cd77ea8c982a9, type: 2}

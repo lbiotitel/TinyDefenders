@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: DwarfKing
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: DwarfKing
-  rarity: 3
+  rarity: 0
   heroCost: 0
   atk:
     <baseValue>k__BackingField: 510
@@ -38,14 +39,16 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 1
+  heroClass: 0
   heroMainImage: {fileID: -1884238593, guid: 97331549e0a9fea4298a4b3907f97946, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 4c528c3c39e56184e81f96e3f7637ef8, type: 2}
-  projectile: {fileID: 6567195537066730671, guid: 69db682fcfc28ea4c81ca9c6552580da, type: 3}
+  projectile: {fileID: 5979291741599916532, guid: 69db682fcfc28ea4c81ca9c6552580da, type: 3}
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
     coolTime: 10
     skillPrefab: {fileID: 3107847312669526960, guid: 35541d74fe0df074588f75a6becb6108, type: 3}
+    particlePrefab: {fileID: 0}
     skillDamage: 200
     targetCount: 5
     skillDuration: 0

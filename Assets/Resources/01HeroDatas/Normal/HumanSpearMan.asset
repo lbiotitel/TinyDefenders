@@ -42,7 +42,7 @@ MonoBehaviour:
   heroClass: 7
   heroMainImage: {fileID: 2162766994774161030, guid: b6a140c528394cd44a08e6e369cb1d3d, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 04f802bff40c85a4b9a3b4911cb77cc3, type: 2}
-  projectile: {fileID: 8298726799230924643, guid: f4b6ad505e91acc43b8887421df248e6, type: 3}
+  projectile: {fileID: 3466695810042033369, guid: f4b6ad505e91acc43b8887421df248e6, type: 3}
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
@@ -52,6 +52,7 @@ MonoBehaviour:
     skillDamage: 0
     targetCount: 0
     skillDuration: 0
+    skillDamageInterval: 0
     buffTime: 0
     buffAmount: 0
     buffRange: 0

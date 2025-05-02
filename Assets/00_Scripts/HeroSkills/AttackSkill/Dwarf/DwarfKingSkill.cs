@@ -14,8 +14,7 @@ public class DwarfKingSkill : AttackSkillBase
             if (monster.IsDead()) continue;
             GameObject go = PoolingManager.instance.GetObject(heroData.skillData.skillPrefab, monster.transform.position);
 
-            DamageData damageData = GetBasicSkillDamageData();
-            damageData.Target = monster;
+            DamageData damageData = GetBasicSkillDamageData(monster);
 
             go.GetComponent<Projectile>().Init(damageData);
 

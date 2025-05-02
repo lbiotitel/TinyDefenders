@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3107847312669526957}
   - component: {fileID: 3107847312669526958}
   - component: {fileID: -4468601912703275875}
-  - component: {fileID: 4364805087063603084}
+  - component: {fileID: 1954185661759230532}
   m_Layer: 0
   m_Name: DwarfKing Skill Prefab
   m_TagString: Untagged
@@ -5023,7 +5023,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &4364805087063603084
+--- !u!114 &1954185661759230532
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5032,14 +5032,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3107847312669526960}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe751510a075bc84ebe1f2317384d238, type: 3}
+  m_Script: {fileID: 11500000, guid: c7d058463f2e06d4d8498a943cb36fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  projectileType: 0
-  lifeTime: 0.4
-  destroyParticlePrefab: {fileID: 3211877774832872067, guid: cb743783234f8e74d9956031b0ceed0f, type: 3}
-  currentTransformParticle: 0
+  _projectileSO: {fileID: 11400000, guid: 1bf9225e7233c764f81cd77ea8c982a9, type: 2}
 --- !u!1 &3107847312864842604
 GameObject:
   m_ObjectHideFlags: 0

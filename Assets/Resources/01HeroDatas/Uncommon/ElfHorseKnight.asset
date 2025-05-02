@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: ElfHorseKnight
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: ElfHorseKnight
   rarity: 1
   heroCost: 50
@@ -41,15 +42,17 @@ MonoBehaviour:
   heroClass: 6
   heroMainImage: {fileID: -715261429, guid: 0574c465c125057468de09e8aa680d2c, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 07bad5dd8bbd07449ba9385f1709d44a, type: 2}
-  projectile: {fileID: 2786315958115145823, guid: 4181931218e76f0488355dc358aaafed, type: 3}
+  projectile: {fileID: 6122471642441684439, guid: 4181931218e76f0488355dc358aaafed, type: 3}
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
-    coolTime: 0
-    skillPrefab: {fileID: 0}
+    coolTime: 20
+    skillPrefab: {fileID: 2317299645365547581, guid: 287bca223b28b9748ad8916c1b09af79, type: 3}
+    particlePrefab: {fileID: 0}
     skillDamage: 0
     targetCount: 0
     skillDuration: 0
-    buffTime: 0
-    buffAmount: 0
-    buffRange: 0
+    skillDamageInterval: 0
+    buffTime: 10
+    buffAmount: 30
+    buffRange: 1.5

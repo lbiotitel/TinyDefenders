@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ccb100b0bd0d07f499709f6be8599561, type: 3}
-  m_Name: MeleeProjectileSO
+  m_Name: LOOKAT_MELEE_SINGLE
   m_EditorClassIdentifier: 
   Speed: 0
-  LifeTime: 0.2
+  LifeTime: 0.4
   DestroyParticle: {fileID: 0}
   ProjectileType: 1
   ProjectileMoveType: 3
   ProjectileDamageType: 1
-  ProjectileSFX: 
-  Range: 0
-  TargetCount: 0
+  ProjectileRangeSize: 0
+  damageInterval: 0

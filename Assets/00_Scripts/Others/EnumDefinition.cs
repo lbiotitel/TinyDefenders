@@ -116,6 +116,7 @@ public enum ProjectileDamageType
     NONE,
     SINGLE,
     RANGE,
+    PERSISTENCE,
 }
 
 public enum ProjectileMoveType
@@ -124,7 +125,16 @@ public enum ProjectileMoveType
     STRAIGHT,
     BAZIER,
     MELEE,
-    LASER
+    LASER,
+    SPIN
+}
+
+public enum ProjectileRangeSize
+{ 
+    NONE,
+    SMALL = 1,
+    MEDIUM = 2,
+    BIG = 3
 }
 
 public enum CardRarity {

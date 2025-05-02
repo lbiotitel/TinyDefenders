@@ -8,7 +8,9 @@ using UnityEngine.Rendering;
 
 public class Projectile : MonoBehaviour
 {
-    public ProjectileSO _projectileSO;
+    [SerializeField]private ProjectileSO _projectileSO;
+    public ProjectileSO ProjectileSO { get { return _projectileSO; } }
+
     protected ProjectileMotionBase _projectileMotionBase { get; private set; }
     public DamageData _damageData { get; protected set; }
     private bool isInit = false;
@@ -52,8 +54,15 @@ public class Projectile : MonoBehaviour
                         () => AttackMonster());
                 }
                 break;
+            case ProjectileMoveType.SPIN:
+                _projectileMotionBase = InitProjectileMotion<SpinMotion>();
+                SpinMotion spinMotion = _projectileMotionBase as SpinMotion;
+                spinMotion.Init(startPos, endPos, _projectileSO,
+                    () => AttackMonster());
+                break;
         }
     }
+
 
     private T InitProjectileMotion<T>() where T : ProjectileMotionBase
     {
@@ -110,15 +119,12 @@ public class Projectile : MonoBehaviour
 
     private void RangeDamage(Hero hero, List<DebuffEffect> debuffEffects, double damage)
     {
-        int targetCount = _projectileSO.TargetCount;
-
         List<Monster> monsterList = SpawnManager.instance.GetMonsterList();
 
         foreach (var m in monsterList)
         {
-            if (targetCount <= 0) break;
             if (m.IsDead()) continue;
-            if (Vector3.Distance(m.transform.position, hero.transform.position) <= _projectileSO.Range)
+            if (Vector3.Distance(m.transform.position, transform.position) <= (int)_projectileSO.ProjectileRangeSize)
             {
                 NetworkRpcManager.instance.AttackMonster(
                     hero.heroOwnerNetworkType,
@@ -126,11 +132,9 @@ public class Projectile : MonoBehaviour
                     hero,
                     m,
                     debuffEffects);
-                targetCount--;
             }
         }
     }
-
 
 
 

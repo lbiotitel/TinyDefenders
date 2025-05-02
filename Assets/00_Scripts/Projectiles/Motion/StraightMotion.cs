@@ -23,7 +23,7 @@ public class StraightMotion : ProjectileMotionBase
         }
 
         transform.position = EndPos;
-        EndCallback?.Invoke();  
+        DamageCallback?.Invoke();  
         DisableObject(_projectileData.LifeTime);
     }
 }

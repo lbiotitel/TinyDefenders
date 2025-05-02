@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: DwarfArmoredBearRider
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: DwarfArmoredBearRider
-  rarity: 3
+  rarity: 0
   heroCost: 0
   atk:
     <baseValue>k__BackingField: 340
@@ -25,7 +26,7 @@ MonoBehaviour:
     <baseValue>k__BackingField: 1.5
     modifiers: []
   atkRange:
-    <baseValue>k__BackingField: 3.5
+    <baseValue>k__BackingField: 2
     modifiers: []
   skillAcc:
     <baseValue>k__BackingField: 0
@@ -38,17 +39,20 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 1
+  heroClass: 0
   heroMainImage: {fileID: 2129719844, guid: 9aff58c665d29ad4fbd9532ce4510c03, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 3479278f6e1997c4b9d0e57946bf9280, type: 2}
-  projectile: {fileID: 4354393126220454295, guid: 7e4baf231da91d948803cbef9d03adf9, type: 3}
+  projectile: {fileID: 922686171423084840, guid: 7e4baf231da91d948803cbef9d03adf9, type: 3}
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
     coolTime: 15
     skillPrefab: {fileID: 4205300314302599171, guid: d7330a719e31e1a4f839cd72f9312a14, type: 3}
+    particlePrefab: {fileID: 0}
     skillDamage: 50
-    targetCount: 0
-    skillDuration: 0
+    targetCount: 1
+    skillDuration: 6
+    skillDamageInterval: 0.5
     buffTime: 0
     buffAmount: 0
     buffRange: 0

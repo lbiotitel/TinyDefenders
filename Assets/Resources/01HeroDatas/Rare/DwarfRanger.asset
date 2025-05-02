@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124c05c6c40d5614d902cfe37feec630, type: 3}
   m_Name: DwarfRanger
   m_EditorClassIdentifier: 
+  heroLevel: 1
   heroName: DwarfRanger
   rarity: 2
   heroCost: 150
@@ -38,14 +39,16 @@ MonoBehaviour:
     modifiers: []
   heroDesc: 
   heroTribe: 1
+  heroClass: 0
   heroMainImage: {fileID: -393300875, guid: 47bb36e0de7cf0647af0756e5acb213f, type: 3}
   runtimeAnimatorController: {fileID: 9100000, guid: 95468f14f30f75542bc6856d8dffa24f, type: 2}
-  projectile: {fileID: 2534457697127531987, guid: 3a88ae1451e02e943b78da1dba7ea368, type: 3}
+  projectile: {fileID: 4157452567216151909, guid: 3a88ae1451e02e943b78da1dba7ea368, type: 3}
   debuffEffects: []
   skillDebuffEffects: []
   skillData:
     coolTime: 5
     skillPrefab: {fileID: 7785755858626788334, guid: f47e98230e7fdcf46bac2221c997d63d, type: 3}
+    particlePrefab: {fileID: 0}
     skillDamage: 30
     targetCount: 15
     skillDuration: 0

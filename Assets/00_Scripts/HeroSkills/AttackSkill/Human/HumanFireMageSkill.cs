@@ -24,8 +24,7 @@ public class HumanFireMageSkill : AttackSkillBase
         {
             GameObject go = PoolingManager.instance.GetObject(skillData.skillPrefab, transform.position);
 
-            DamageData damageData = GetBasicSkillDamageData();
-            damageData.Target = monster;
+            DamageData damageData = GetBasicSkillDamageData(monster);
 
             go.GetComponent<Projectile>().Init(damageData);
 

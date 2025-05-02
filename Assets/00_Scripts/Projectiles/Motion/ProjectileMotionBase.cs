@@ -10,7 +10,7 @@ public abstract class ProjectileMotionBase : MonoBehaviour
     protected ProjectileSO _projectileData;
     protected ParticleSystem _particleSystem;
     protected SpriteRenderer _spriteRenderer;
-    public Action EndCallback { get; set; }
+    public Action DamageCallback { get; set; }
     public void Init(Vector3 startPos,Vector3 endPos,ProjectileSO projectileData,Action endCallback = null)
     { 
         
@@ -18,8 +18,8 @@ public abstract class ProjectileMotionBase : MonoBehaviour
         EndPos = endPos;
         _projectileData = projectileData;
 
-        EndCallback -= endCallback; 
-        EndCallback += endCallback;
+        DamageCallback -= endCallback; 
+        DamageCallback += endCallback;
 
         TryGetComponent<ParticleSystem>(out _particleSystem);
         TryGetComponent<SpriteRenderer>(out _spriteRenderer);
@@ -73,7 +73,7 @@ public abstract class ProjectileMotionBase : MonoBehaviour
         if (_coProjectileMotion != null)
             StopCoroutine(_coProjectileMotion);
         _coProjectileMotion = null;
-        EndCallback = null;
+        DamageCallback = null;
     }
 
 

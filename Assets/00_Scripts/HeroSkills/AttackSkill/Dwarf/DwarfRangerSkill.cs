@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class DwarfRangerSkill : AttackSkillBase
 {
-
+    private Coroutine _coSkill;
 
     public override void SkillLogic()
     {
         base.SkillLogic();
         List<Monster> monsterList = FindCloseMonster(1);
-        StartCoroutine(SkillLogicCoroutine(monsterList[0]));
+        _coSkill = StartCoroutine(SkillLogicCoroutine(monsterList[0]));
     }
 
     private IEnumerator SkillLogicCoroutine(Monster monster)
@@ -20,11 +20,19 @@ public class DwarfRangerSkill : AttackSkillBase
         {
             GameObject go = PoolingManager.instance.GetObject(heroData.skillData.skillPrefab, transform.position);
 
-            DamageData damageData = GetBasicSkillDamageData();
-            damageData.Target = monster;
+            DamageData damageData = GetBasicSkillDamageData(monster);
 
             go.GetComponent<Projectile>().Init(damageData);
             yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_coSkill != null)
+        {
+            StopCoroutine(_coSkill);
+            _coSkill = null;
         }
     }
 }
